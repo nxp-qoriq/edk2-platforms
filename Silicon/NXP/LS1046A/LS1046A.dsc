@@ -71,4 +71,6 @@
   gNxpQoriqLsTokenSpaceGuid.PcdRomBaseAddr|0x00000000
   gNxpQoriqLsTokenSpaceGuid.PcdRomSize|0x00100000
 
+  gNxpQoriqLsTokenSpaceGuid.PcdQspiFdtCompatible|"fsl,vf610-qspi"
+
 ##
