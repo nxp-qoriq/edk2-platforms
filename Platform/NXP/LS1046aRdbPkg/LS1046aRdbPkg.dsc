@@ -106,4 +106,9 @@
   }
   MdeModulePkg/Bus/Pci/PciBusDxe/PciBusDxe.inf
 
+  Silicon/NXP/Drivers/QspiDxe/QspiDxe.inf
+  Silicon/NXP/Drivers/SpiBusDxe/SpiBusDxe.inf
+  Silicon/NXP/Drivers/SpiNorFlashDxe/SpiNorFlashDxe.inf
+  Platform/NXP/LS1046aRdbPkg/Drivers/SpiConfigurationDxe/SpiConfigurationDxe.inf
+
  ##

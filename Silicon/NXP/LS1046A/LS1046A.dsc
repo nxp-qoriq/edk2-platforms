@@ -25,6 +25,9 @@
   gArmTokenSpaceGuid.PcdGicDistributorBase|0x01410000
   gArmTokenSpaceGuid.PcdGicInterruptInterfaceBase|0x01420000
 
+[LibraryClasses.common]
+  SocClockLib|Silicon/NXP/LS1046A/Library/SocClockLib/SocClockLib.inf
+
 [PcdsFixedAtBuild.common]
 
   #
@@ -67,5 +70,7 @@
   gNxpQoriqLsTokenSpaceGuid.PcdNumPciController|3
   gNxpQoriqLsTokenSpaceGuid.PcdRomBaseAddr|0x00000000
   gNxpQoriqLsTokenSpaceGuid.PcdRomSize|0x00100000
+
+  gNxpQoriqLsTokenSpaceGuid.PcdQspiFdtCompatible|"fsl,vf610-qspi"
 
 ##
