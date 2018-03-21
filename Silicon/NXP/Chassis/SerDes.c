@@ -229,6 +229,13 @@ SerDesProbeLanes (
                              SerDesLaneProbeCallback,
                              Arg);
   }
+#if RCWSR_SRDS3_PRTCL_MASK
+   SerDesInstanceProbeLanes(SRDS_3,
+                            RCWSR_SRDS3_PRTCL_MASK,
+                            RCWSR_SRDS3_PRTCL_SHIFT,
+                            SerDesLaneProbeCallback,
+                            Arg);
+#endif
 }
 
 /**
@@ -253,6 +260,12 @@ GetSerdesProtocolMaps (
                  RCWSR_SRDS2_PRTCL_SHIFT,
                  SerDesPrtclMap);
   }
+#ifdef RCWSR_SRDS3_PRTCL_MASK
+    LSSerDesMap(SRDS_3,
+                RCWSR_SRDS3_PRTCL_MASK,
+                RCWSR_SRDS3_PRTCL_SHIFT,
+                SerDesPrtclMap);
+#endif
 
 }
 

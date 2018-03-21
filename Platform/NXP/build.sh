@@ -59,7 +59,7 @@ if [[ $1 == "" || $2 == "" || $3 == "" ]]; then
 fi
 
 # Check for input arguments
-if [[ $1 != "LS1043" && $1 != "LS1046" && $1 != "LS2088" ]]; then
+if [[ $1 != "LS1043" && $1 != "LS1046" && $1 != "LS2088" && $1 != "LX2160" ]]; then
   echo "Error ! Incorrect Soc Type specified."
   print_usage_banner
   exit
