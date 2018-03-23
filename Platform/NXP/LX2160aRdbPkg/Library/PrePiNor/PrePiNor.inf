@@ -1,0 +1,58 @@
+#/** @PrePiNor.inf
+#
+#  Copyright 2017 NXP
+#
+#  This program and the accompanying materials
+#  are licensed and made available under the terms and conditions of the BSD License
+#  which accompanies this distribution.  The full text of the license may be found at
+#  http://opensource.org/licenses/bsd-license.php
+#
+#  THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
+#
+#**/
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = PrePiNor
+  FILE_GUID                      = d959e387-7b91-452c-90e1-a1dbac10ddb8
+  MODULE_TYPE                    = SEC
+  VERSION_STRING                 = 1.0
+
+[Sources]
+  PrePiNor.c
+  Ch3V2Errata.c
+
+[Sources.AArch64]
+  AArch64/ModuleEntryPoint.S
+
+[Packages]
+  MdePkg/MdePkg.dec
+  ArmPkg/ArmPkg.dec
+  ArmPlatformPkg/ArmPlatformPkg.dec
+  Silicon/NXP/NxpQoriqLs.dec
+  Platform/NXP/LX2160aRdbPkg/LX2160aRdbPkg.dec
+
+[LibraryClasses]
+  ArmLib
+#  DdrLib
+  PcdLib
+  SocLib
+
+[FixedPcd]
+  gNxpQoriqLsTokenSpaceGuid.PcdOcramStackBase
+  gNxpQoriqLsTokenSpaceGuid.PcdFdNorBaseAddress
+  gNxpQoriqLsTokenSpaceGuid.PcdPiFdSize
+  gArmTokenSpaceGuid.PcdFdBaseAddress
+  gArmTokenSpaceGuid.PcdFdSize
+  gArmTokenSpaceGuid.PcdFvBaseAddress
+  gNxpQoriqLsTokenSpaceGuid.PcdErratumA008751
+  gNxpQoriqLsTokenSpaceGuid.PcdErratumA009008
+  gNxpQoriqLsTokenSpaceGuid.PcdErratumA009798
+  gNxpQoriqLsTokenSpaceGuid.PcdI2cErratumA009203
+  gNxpQoriqLsTokenSpaceGuid.PcdUsbErratumA009007
+  gNxpQoriqLsTokenSpaceGuid.PcdGutsBaseAddr
+  gNxpQoriqLsTokenSpaceGuid.PcdErratumA008514
+  gNxpQoriqLsTokenSpaceGuid.PcdErratumA008336
+  
+

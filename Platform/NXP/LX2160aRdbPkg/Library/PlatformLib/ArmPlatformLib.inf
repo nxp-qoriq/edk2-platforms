@@ -26,6 +26,7 @@
   EmbeddedPkg/EmbeddedPkg.dec
   MdePkg/MdePkg.dec
   Silicon/NXP/NxpQoriqLs.dec
+  Platform/NXP/LX2160aRdbPkg/LX2160aRdbPkg.dec
 
 [LibraryClasses]
   ArmLib
@@ -73,4 +74,5 @@
   gNxpQoriqLsTokenSpaceGuid.PcdDpaa2QBmanPortalsBaseAddr
   gNxpQoriqLsTokenSpaceGuid.PcdDpaa2QBmanPortalSize
   gNxpQoriqLsTokenSpaceGuid.PcdDpaa2QBmanPortalsCacheSize
-
+  gNxpQoriqLsTokenSpaceGuid.PcdOcram1Size
+  gNxpQoriqLsTokenSpaceGuid.PcdOcram1BaseAddr

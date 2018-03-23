@@ -129,7 +129,6 @@ typedef struct {
     UINT32     Csr;             // core cluster n clock control status
     UINT8      Res14[0x20-0x14];
   } HwnCsr[4];
-  UINT8      Res60[0x80-0x60];
   struct {
     UINT32     Gsr;             // core cluster n clock general status
     UINT8      Res84[0xa0-0x84];

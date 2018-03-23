@@ -45,6 +45,7 @@
   PciSegmentLib|Silicon/NXP/Library/PciSegmentLib/PciSegmentLib.inf
   PciHostBridgeLib|Silicon/NXP/Library/PciHostBridgeLib/PciHostBridgeLib.inf
   MmcLib|Silicon/NXP/Library/MmcLib/MmcLib.inf
+  ItbParseLib|Silicon/NXP/Library/ItbParseLib/ItbParse.inf  
 
 [PcdsFixedAtBuild.common]
 
@@ -81,6 +82,19 @@
   gNxpQoriqLsTokenSpaceGuid.PcdSerdes2Enabled|TRUE
   gNxpQoriqLsTokenSpaceGuid.PcdPlatformFreqDiv|0x4
   gNxpQoriqLsTokenSpaceGuid.PcdDdrClk|133333333
+
+  gNxpQoriqLsTokenSpaceGuid.PcdOcramStackBase|0x18010000
+  gNxpQoriqLsTokenSpaceGuid.PcdFdNorBaseAddress|0x20100000
+
+  gNxpQoriqLsTokenSpaceGuid.PcdI2cErratumA009203|TRUE
+  gNxpQoriqLsTokenSpaceGuid.PcdUsbErratumA009007|TRUE
+  gNxpQoriqLsTokenSpaceGuid.PcdErratumA008751|TRUE
+  gNxpQoriqLsTokenSpaceGuid.PcdErratumA009008|TRUE
+  gNxpQoriqLsTokenSpaceGuid.PcdErratumA009798|TRUE
+  gNxpQoriqLsTokenSpaceGuid.PcdErratumA008514|TRUE
+  gNxpQoriqLsTokenSpaceGuid.PcdErratumA008336|TRUE
+
+
 
   #
   # I2C controller Pcds
@@ -138,5 +152,12 @@
 
   Silicon/NXP/Drivers/SataInitDxe/SataInitDxe.inf
   Silicon/NXP/Drivers/MmcHostDxe/MmcHostDxe.inf
+
+  #
+  # PrePiNor
+  #
+  Platform/NXP/LX2160aRdbPkg/Library/PrePiNor/PrePiNor.inf
+  Silicon/NXP/Drivers/PpaInitDxe/PpaInitDxe.inf
+
 
  ##
