@@ -22,6 +22,7 @@
 #include <Ppi/ArmMpCoreInfo.h>
 
 extern VOID SocInit (VOID);
+EFI_STATUS EFIAPI FpgaInterfaceInit ();
 
 /**
   Return the current Boot Mode
@@ -46,9 +47,9 @@ ArmPlatformInitialize (
   IN  UINTN   MpId
   )
 {
- SocInit ();
-
- return EFI_SUCCESS;
+  FpgaInterfaceInit();
+  SocInit ();
+  return EFI_SUCCESS;
 }
 
 ARM_CORE_INFO LX2160aMpCoreInfoCTA72x8[] = {

@@ -36,7 +36,6 @@ GetSysInfo (
 {
   UINT32 Index;
   CCSR_GUR *GurBase;
-  CCSR_CLT_CTRL *ClkBase = (VOID *)PcdGet64(PcdClkBaseAddr);
   CCSR_CLK_CLUSTER  *ClkGrp[2] = {
     (void *)(FSL_CLK_GRPA_ADDR),
     (void *)(FSL_CLK_GRPB_ADDR)
@@ -146,11 +145,11 @@ GetSysInfo (
   ForEachCpu(Index, Cpu, CpuNumCores(), CpuMask()) {
     Cluster = QoriqCoreToCluster(Cpu);
     ASSERT_EFI_ERROR (Cluster);
-
     /// Read the mux to check which clock is selected for this Cluster
     // CPllSel 0, 1, 2 means PLL-1 /2 or /4
     // CPllSel 4, 5, 6 menas PLL-2 /2 or /4
-    CPllSel = (MmioRead32((UINTN)&ClkBase->ClkCnCsr[Cluster].Csr) >> 27) & 0xf;
+    OffSet = (void *)((UINTN)ClkGrp[Cluster/4] +
+                   OFFSET_OF (CCSR_CLK_CLUSTER, HwnCsr[Cluster%4].Csr));
     CPllSel = (MmioRead32((UINTN)OffSet) >> 27) & 0xf;
     // Get if this CPU is clocked from PLL-1 or PLL-2
     CplxPll = CoreCplxPll[CPllSel];

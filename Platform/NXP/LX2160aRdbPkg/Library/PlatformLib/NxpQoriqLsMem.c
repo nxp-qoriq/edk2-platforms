@@ -83,6 +83,12 @@ ArmPlatformGetVirtualMemoryMap (
   VirtualMemoryTable[Index].VirtualBase  = FixedPcdGet64 (PcdCcsrBaseAddr);
   VirtualMemoryTable[Index].Length       = FixedPcdGet64 (PcdCcsrSize);
   VirtualMemoryTable[Index].Attributes   = ARM_MEMORY_REGION_ATTRIBUTE_DEVICE;
+  
+  // CCSR OCRAM
+  VirtualMemoryTable[++Index].PhysicalBase = FixedPcdGet64 (PcdOcram1BaseAddr);
+  VirtualMemoryTable[Index].VirtualBase  = FixedPcdGet64 (PcdOcram1BaseAddr);
+  VirtualMemoryTable[Index].Length       = FixedPcdGet64 (PcdOcram1Size);
+  VirtualMemoryTable[Index].Attributes   = ARM_MEMORY_REGION_ATTRIBUTE_DEVICE;
 
   // ROM Space
   VirtualMemoryTable[++Index].PhysicalBase = FixedPcdGet64 (PcdRomBaseAddr);

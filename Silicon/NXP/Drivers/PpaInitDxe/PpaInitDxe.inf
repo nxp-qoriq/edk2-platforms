@@ -1,0 +1,66 @@
+#/** PpaInitDxe.inf
+#
+#  Component description file for Ppa Initialization driver
+#
+#  Copyright 2017 NXP
+#
+#  This program and the accompanying materials
+#  are licensed and made available under the terms and conditions of the BSD License
+#  which accompanies this distribution.  The full text of the license may be found at
+#  http://opensource.org/licenses/bsd-license.php
+#
+#  THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
+#
+#
+#**/
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = PpaInit
+  FILE_GUID                      = 4d00ef14-c4e0-426b-81b7-30a00a14abb6
+  MODULE_TYPE                    = DXE_DRIVER
+  VERSION_STRING                 = 1.0
+
+  ENTRY_POINT                    = PpaInitialize
+
+[Sources.common]
+  PpaInit.c
+  PpaInitHelper.S
+
+[Packages]
+  ArmPkg/ArmPkg.dec
+  ArmPlatformPkg/ArmPlatformPkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  MdePkg/MdePkg.dec
+  Platform/NXP/LX2160aRdbPkg/LX2160aRdbPkg.dec
+  Silicon/NXP/NxpQoriqLs.dec
+
+[LibraryClasses]
+  ArmLib
+  BaseLib
+  ItbParseLib
+  MemoryInitPeiLib
+  SocLib
+  UefiDriverEntryPoint
+  UefiLib
+
+[Guids]
+
+[Protocols]
+
+[Pcd]
+  gArmTokenSpaceGuid.PcdSystemMemoryBase
+  gArmTokenSpaceGuid.PcdSystemMemorySize
+  gNxpQoriqLsTokenSpaceGuid.PcdPpaFlashBaseAddr
+  gNxpQoriqLsTokenSpaceGuid.PcdPpaFwSize
+  gNxpQoriqLsTokenSpaceGuid.PcdPpaFitConfiguration
+  gNxpQoriqLsTokenSpaceGuid.PcdGutsBaseAddr
+  gArmTokenSpaceGuid.PcdGicDistributorBase
+  gArmTokenSpaceGuid.PcdGicInterruptInterfaceBase
+
+[FixedPcd]
+  gNxpQoriqLsTokenSpaceGuid.PcdPpaInitCh3
+
+[depex]
+  TRUE

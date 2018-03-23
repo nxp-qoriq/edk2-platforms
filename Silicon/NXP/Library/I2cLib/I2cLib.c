@@ -26,6 +26,13 @@ UINT32 I2cBusAddrArr(EFI_PHYSICAL_ADDRESS **I2cAddrArr);
 EFI_PHYSICAL_ADDRESS *I2cAddrArr;
 UINT32 I2cAddrArrSize;
 
+EFI_PHYSICAL_ADDRESS I2cAddress[] = {
+  (EFI_PHYSICAL_ADDRESS)0x02000000,
+  (EFI_PHYSICAL_ADDRESS)0x02010000,
+  (EFI_PHYSICAL_ADDRESS)0x02020000,
+  (EFI_PHYSICAL_ADDRESS)0x02030000
+};
+
 
 UINT16 ClkDiv[60][2] = {
   { 20,  0x00 }, { 22, 0x01 },  { 24, 0x02 },  { 26, 0x03 },
@@ -50,7 +57,7 @@ I2cBusAddrArr(
   EFI_PHYSICAL_ADDRESS **Arr
   )
 {
-  *Arr = (EFI_PHYSICAL_ADDRESS *) FixedPcdGet64 (PcdI2c0BaseAddr);
+  *Arr = (EFI_PHYSICAL_ADDRESS*)I2cAddress;
   return FixedPcdGet32 (PcdNumI2cController);
 }
 

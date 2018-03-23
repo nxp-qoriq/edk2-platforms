@@ -67,6 +67,7 @@ GetBoardSysClk (
 {
   UINT8 SysclkConf;
   SysclkConf = FPGA_READ (BrdCfg[1]);
+  SysclkConf = CLK_100;
   switch (SysclkConf & FPGA_CLK_MASK) {
     case CLK_66:
       return SYSCLK_66_MHZ;
