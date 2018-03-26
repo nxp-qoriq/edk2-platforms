@@ -127,7 +127,6 @@ LSSerDesMap (
   UINT32                        Flag;
 
   Gur = (VOID *)PcdGet64 (PcdGutsBaseAddr);
-  *SerDesPrtclMap = 0x0;
   Flag = 0;
 
   SrdsProt = GurRead ((UINTN)&Gur->RcwSr[RCWSR_INDEX]) & SerdesProtocolMask;
@@ -242,6 +241,8 @@ GetSerdesProtocolMaps (
   OUT UINT64               *SerDesPrtclMap
   )
 {
+  *SerDesPrtclMap = 0x0;
+
   LSSerDesMap (SRDS_1,
                RCWSR_SRDS1_PRTCL_MASK,
                RCWSR_SRDS1_PRTCL_SHIFT,
