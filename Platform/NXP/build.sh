@@ -59,7 +59,7 @@ if [[ $1 == "" || $2 == "" || $3 == "" ]]; then
 fi
 
 # Check for input arguments
-if [[ $1 != "LS1043" && $1 != "LS1046" && $1 != "LS2088" ]]; then
+if [[ $1 != "LS1043" && $1 != "LS1046" && $1 != "LS2088" && $1 != "LX2160" ]]; then
   echo "Error ! Incorrect Soc Type specified."
   print_usage_banner
   exit
@@ -115,3 +115,8 @@ source edksetup.sh BaseTools
 
 
 build -p "$PACKAGES_PATH/Platform/NXP/$1$PKG/$1$PKG.dsc" -a $ARCH -t $TARGET_TOOLS -b $3
+
+
+cat $WORKSPACE/Build/$1aRdbPkg/$3"_"$TARGET_TOOLS/FV/$1ARDB_EFI.fd >> $WORKSPACE/Build/$1aRdbPkg/$3"_"$TARGET_TOOLS/FV/$1ARDBPI_EFI.fd
+mv $WORKSPACE/Build/$1aRdbPkg/$3"_"$TARGET_TOOLS/FV/$1ARDBPI_EFI.fd $WORKSPACE/Build/$1aRdbPkg/$3"_"$TARGET_TOOLS/FV/$1ARDB_EFI.fd
+
