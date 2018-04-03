@@ -31,7 +31,7 @@ print_usage_banner()
     echo ""
     echo "This shell script expects:"
     echo "    Arg 1 (mandatory): SoC Type (can be LS1043 / LS1046 / LS2088)."
-    echo "    Arg 2 (mandatory): Board Type (can be RDB / QDS)."
+    echo "    Arg 2 (mandatory): Board Type (can be RDB / QDS/ CFP)."
     echo "    Arg 3 (mandatory): Build candidate (can be RELEASE or DEBUG). By
               default we build the RELEASE candidate."
     echo "    Arg 4 (optional): clean - To do a 'make clean' operation."
@@ -66,7 +66,7 @@ if [[ $1 != "LS1043" && $1 != "LS1046" && $1 != "LS2088" && $1 != "LX2160" ]]; t
 fi
 
 # Check for input arguments
-if [[ $2 != "RDB" && $2 != "QDS" ]]; then
+if [[ $2 != "RDB" && $2 != "QDS" && $2 != "CFP" ]]; then
   echo "Error ! Incorrect Board Type specified."
   print_usage_banner
   exit
@@ -84,9 +84,13 @@ fi
 # Set Package drirectory
 if [[ $2 == "RDB" ]]; then
   PKG="aRdbPkg"
+fi
   if [[ $2 == "QDS" ]]; then
     PKG="aQdsPkg"
-  fi
+fi
+  if [[ $2 == "CFP" ]]; then
+    PKG="aCfpPkg"
+    BASEPKG="aRdbPkg"
 fi
 
 echo ".........................................."
@@ -113,10 +117,14 @@ cd $BASE_DIR
 export EDK_TOOLS_PATH=`pwd`/BaseTools
 source edksetup.sh BaseTools
 
+if [[ $BASEPKG ]]; then
+	build -p "$PACKAGES_PATH/Platform/NXP/$1$BASEPKG/$1$PKG.dsc" -a $ARCH -t $TARGET_TOOLS -b $3
+else
+	build -p "$PACKAGES_PATH/Platform/NXP/$1$PKG/$1$PKG.dsc" -a $ARCH -t $TARGET_TOOLS -b $3
+fi
 
-build -p "$PACKAGES_PATH/Platform/NXP/$1$PKG/$1$PKG.dsc" -a $ARCH -t $TARGET_TOOLS -b $3
 
-
+if [[ $2 == "RDB" ]]; then
 cat $WORKSPACE/Build/$1aRdbPkg/$3"_"$TARGET_TOOLS/FV/$1ARDB_EFI.fd >> $WORKSPACE/Build/$1aRdbPkg/$3"_"$TARGET_TOOLS/FV/$1ARDBPI_EFI.fd
 mv $WORKSPACE/Build/$1aRdbPkg/$3"_"$TARGET_TOOLS/FV/$1ARDBPI_EFI.fd $WORKSPACE/Build/$1aRdbPkg/$3"_"$TARGET_TOOLS/FV/$1ARDB_EFI.fd
-
+fi
