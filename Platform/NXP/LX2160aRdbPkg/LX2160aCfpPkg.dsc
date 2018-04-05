@@ -89,7 +89,8 @@
   gNxpQoriqLsTokenSpaceGuid.PcdDdrClk|133333333
 
   gNxpQoriqLsTokenSpaceGuid.PcdOcramStackBase|0x18010000
-  gNxpQoriqLsTokenSpaceGuid.PcdFdNorBaseAddress|0x20100000
+  gNxpQoriqLsTokenSpaceGuid.PcdFdNorBaseAddress|0x80000000
+  gNxpQoriqLsTokenSpaceGuid.PcdPpaFlashBaseAddr|0x80400000
 
   gNxpQoriqLsTokenSpaceGuid.PcdI2cErratumA009203|TRUE
   gNxpQoriqLsTokenSpaceGuid.PcdUsbErratumA009007|TRUE
@@ -161,6 +162,7 @@
   #
   # PPA
   #
+  Platform/NXP/LX2160aRdbPkg/Library/PrePiNor/PrePiNor.inf
   Silicon/NXP/Drivers/PpaInitDxe/PpaInitDxe.inf
 
 

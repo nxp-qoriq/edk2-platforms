@@ -28,11 +28,11 @@
 ################################################################################
 
 [FD.LX2160aCfp_EFI]
-BaseAddress   = 0x80000000|gArmTokenSpaceGuid.PcdFdBaseAddress  #The base address of the FLASH Device.
-Size          = 0x00100000|gArmTokenSpaceGuid.PcdFdSize           #The size in bytes of the FLASH Device
+BaseAddress   = 0xE0000000|gArmTokenSpaceGuid.PcdFdBaseAddress  #The base address of the FLASH Device.
+Size          = 0x00F0000|gArmTokenSpaceGuid.PcdFdSize           #The size in bytes of the FLASH Device
 ErasePolarity = 1
 BlockSize     = 0x1
-NumBlocks     = 0x00100000
+NumBlocks     = 0x00F0000
 
 ################################################################################
 #
@@ -49,9 +49,21 @@ NumBlocks     = 0x00100000
 # RegionType <FV, DATA, or FILE>
 #
 ################################################################################
-0x00000000|0x00100000
+0x00000000|0x00F0000
 gArmTokenSpaceGuid.PcdFvBaseAddress|gArmTokenSpaceGuid.PcdFvSize
 FV = FVMAIN_COMPACT
+
+[FD.LX2160aCfpPi_EFI]
+BaseAddress     = 0x80000000|gNxpQoriqLsTokenSpaceGuid.PcdPiFdBaseAddress       #The base address of the FLASH device
+Size            = 0x00020000|gNxpQoriqLsTokenSpaceGuid.PcdPiFdSize              #The size in bytes of the FLASH device
+ErasePolarity = 1
+BlockSize       = 0x1
+NumBlocks       = 0x20000
+
+0x00000000|0x00020000
+gNxpQoriqLsTokenSpaceGuid.PcdFvNorBaseAddress|gNxpQoriqLsTokenSpaceGuid.PcdFvNorSize
+FV = FVNOR_COMPACT
+
 
 !include ../FVRules.fdf.inc
 !include VarStore.fdf.inc
@@ -211,6 +223,27 @@ READ_LOCK_STATUS   = TRUE
   INF MdeModulePkg/Universal/SetupBrowserDxe/SetupBrowserDxe.inf
   INF MdeModulePkg/Universal/BdsDxe/BdsDxe.inf
   INF MdeModulePkg/Application/UiApp/UiApp.inf
+
+[FV.FVNOR_COMPACT]
+FvAlignment        = 8
+ERASE_POLARITY     = 1
+MEMORY_MAPPED      = TRUE
+STICKY_WRITE       = TRUE
+LOCK_CAP           = TRUE
+LOCK_STATUS        = TRUE
+WRITE_DISABLED_CAP = TRUE
+WRITE_ENABLED_CAP  = TRUE
+WRITE_STATUS       = TRUE
+WRITE_LOCK_CAP     = TRUE
+WRITE_LOCK_STATUS  = TRUE
+READ_DISABLED_CAP  = TRUE
+READ_ENABLED_CAP   = TRUE
+READ_STATUS        = TRUE
+READ_LOCK_CAP      = TRUE
+READ_LOCK_STATUS   = TRUE
+
+  INF Platform/NXP/LX2160aRdbPkg/Library/PrePiNor/PrePiNor.inf
+
 
 [FV.FVMAIN_COMPACT]
 FvAlignment        = 8
