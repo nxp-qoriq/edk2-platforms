@@ -36,7 +36,7 @@ ASM_PFX(_ModuleEntryPoint):
 /** NXP_TZPC_BP147 configuration */
 	/* Set Non Secure access for all devices protected via NXP_TZPC */
 	ldr	x1, =NXP_TZPCDECPROT_0_SET_BASE /* Decode Protection-0 Set Reg */
-	orr	w0, w0, #1 << 3 /* DCFG_RESET is accessible from NS world */
+	orr	w0, w0, #3 << 3 /* DCFG_RESET is accessible from NS world */
 	str	w0, [x1]
 
 	isb
