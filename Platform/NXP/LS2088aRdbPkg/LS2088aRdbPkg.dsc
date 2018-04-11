@@ -139,4 +139,6 @@
   Silicon/NXP/Drivers/SataInitDxe/SataInitDxe.inf
   Silicon/NXP/Drivers/MmcHostDxe/MmcHostDxe.inf
 
+  Silicon/NXP/Drivers/NandFlashDxe/NandFlashDxe.inf
+
  ##
