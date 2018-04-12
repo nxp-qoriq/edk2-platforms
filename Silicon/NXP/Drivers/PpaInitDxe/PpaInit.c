@@ -151,8 +151,14 @@ PpaInitialize (
   ArmInvalidateInstructionCache ();
 
   Status = PpaInit(PpaRamAddr);
+  DEBUG((EFI_D_ERROR, " ppa init done \n"));
+  DEBUG((EFI_D_ERROR, " ppa init done \n"));
+  DEBUG((EFI_D_ERROR, " ppa init done \n"));
+  DEBUG((EFI_D_ERROR, " ppa init done \n"));
   ArmPlatformGetVirtualMemoryMap (&MemoryTable);
+  DEBUG((EFI_D_ERROR, " ppa init done \n"));
   InitMmu(MemoryTable);
+  DEBUG((EFI_D_ERROR, " ppa init done \n"));
 
   return Status;
 }
