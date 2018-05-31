@@ -80,6 +80,7 @@ GetBoardSysClk (
     case CLK_133:
       return SYSCLK_133_MHZ;
   }
+  DEBUG((DEBUG_INFO, "Board: Using default clock \n"));
   return SYSCLK_100_MHZ;
 }
 
