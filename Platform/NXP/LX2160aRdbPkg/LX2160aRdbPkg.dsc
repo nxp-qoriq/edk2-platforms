@@ -78,7 +78,7 @@
   gArmTokenSpaceGuid.PcdGenericWatchdogEl2IntrNum|28
 
   gEfiMdeModulePkgTokenSpaceGuid.PcdSerialRegisterBase|0x21C0000
-  gArmPlatformTokenSpaceGuid.PL011UartClkInHz|200000000
+  gArmPlatformTokenSpaceGuid.PL011UartClkInHz|150000000
   gNxpQoriqLsTokenSpaceGuid.PcdSerdes2Enabled|TRUE
   gNxpQoriqLsTokenSpaceGuid.PcdPlatformFreqDiv|0x4
   gNxpQoriqLsTokenSpaceGuid.PcdDdrClk|133333333

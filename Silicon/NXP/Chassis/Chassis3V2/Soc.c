@@ -42,21 +42,22 @@ GetSysInfo (
   };
 
   const UINT8 CoreCplxPll[8] = {
-    [0] = 0,        /* CC1 PPL / 1 */
-    [1] = 0,        /* CC1 PPL / 2 */
-    [2] = 0,        /* CC1 PPL / 4 */
-    [4] = 1,        /* CC2 PPL / 1 */
-    [5] = 1,        /* CC2 PPL / 2 */
-    [6] = 1,        /* CC2 PPL / 4 */
+    [0] = 0,        /* CC1 PLL / 1 */
+    [1] = 0,        /* CC1 PLL / 2 */
+    [2] = 0,        /* CC1 PLL / 4 */
+    [4] = 1,        /* CC2 PLL / 1 */
+    [5] = 1,        /* CC2 PLL / 2 */
+    [6] = 1,        /* CC2 PLL / 4 */
   };
 
   const UINT8 CoreCplxPllDivisor[8] = {
-    [0] = 1,        /* CC1 PPL / 1 */
-    [1] = 2,        /* CC1 PPL / 2 */
-    [2] = 4,        /* CC1 PPL / 4 */
-    [4] = 1,        /* CC2 PPL / 1 */
-    [5] = 2,        /* CC2 PPL / 2 */
-    [6] = 4,        /* CC2 PPL / 4 */
+    [0] = 1,        /* CC1 PLL Sync Mode */
+    [1] = 1,        /* CC1 PLL / 1       */
+    [2] = 2,        /* CC1 PLL / 2       */
+    [3] = 3,        /* CC1 PLL1 / 1      */ 
+    [4] = 1,        /* CC2 PLL / 1       */
+    [5] = 2,        /* CC2 PLL / 2       */
+    [6] = 4,        /* CC2 PLL / 4       */
   };
 
   UINTN PllCount, Cluster;
@@ -84,7 +85,7 @@ GetSysInfo (
       CHASSIS3_RCWSR_0_SYS_PLL_RAT_MASK;
 
   /* Platform clock is half of platform PLL */
-  PtrSysInfo->FreqSystemBus /= PcdGet32 (PcdPlatformFreqDiv);
+  PtrSysInfo->FreqSystemBus /= 2;
 
   PtrSysInfo->FreqDdrBus *= (MmioRead32 ((UINTN)&GurBase->RcwSr[0]) >>
       CHASSIS3_RCWSR_0_MEM_PLL_RAT_SHIFT) &
@@ -161,6 +162,7 @@ GetSysInfo (
     PtrSysInfo->FreqProcessor[Cpu] = FreqCPll[CplxPll] / CoreCplxPllDivisor[CPllSel];
   }
   PtrSysInfo->FreqSdhc = PtrSysInfo->FreqSystemBus/PcdGet32 (PcdPlatformFreqDiv);
+ 
 }
 
 /**
