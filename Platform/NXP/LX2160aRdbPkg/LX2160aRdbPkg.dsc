@@ -95,16 +95,10 @@
   gNxpQoriqLsTokenSpaceGuid.PcdErratumA008336|TRUE
 
 
-
-  #
-  # I2C controller Pcds
-  #
-  gNxpQoriqLsTokenSpaceGuid.PcdI2cBus|0
-
   #
   # RTC Pcds
   #
-  gNxpQoriqLsTokenSpaceGuid.PcdI2cBus|0
+  gNxpQoriqLsTokenSpaceGuid.PcdI2cBus|4
   gNxpQoriqLsTokenSpaceGuid.PcdI2cSpeed|100000
   gNxpQoriqLsTokenSpaceGuid.PcdI2cSlaveAddress|0x51
 
