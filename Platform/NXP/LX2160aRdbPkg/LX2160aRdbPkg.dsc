@@ -113,6 +113,7 @@
   gNxpQoriqLsTokenSpaceGuid.PcdPciDebug|FALSE
   gNxpQoriqLsTokenSpaceGuid.PcdPcieLutBase|0x80000
   gNxpQoriqLsTokenSpaceGuid.PcdPcieLutDbg|0x407FC
+  gNxpQoriqLsTokenSpaceGuid.PcdPcieLX2160|TRUE
 
   #
   # SATA Pcds

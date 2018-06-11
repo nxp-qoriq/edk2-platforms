@@ -80,6 +80,8 @@
   gNxpQoriqLsTokenSpaceGuid.PcdPciExp3BaseSize|0x0|UINT64|0x00000117
   gNxpQoriqLsTokenSpaceGuid.PcdPciExp4BaseAddr|0x0|UINT64|0x0000118
   gNxpQoriqLsTokenSpaceGuid.PcdPciExp4BaseSize|0x0|UINT64|0x0000119
+  gNxpQoriqLsTokenSpaceGuid.PcdPciExp5BaseAddr|0x0|UINT64|0x0001118
+  gNxpQoriqLsTokenSpaceGuid.PcdPciExp6BaseAddr|0x0|UINT64|0x0001119
   gNxpQoriqLsTokenSpaceGuid.PcdDram1BaseAddr|0x0|UINT64|0x0000011A
   gNxpQoriqLsTokenSpaceGuid.PcdDram1Size|0x0|UINT64|0x0000011B
   gNxpQoriqLsTokenSpaceGuid.PcdDram2BaseAddr|0x0|UINT64|0x0000011C
@@ -113,6 +115,7 @@
   gNxpQoriqLsTokenSpaceGuid.PcdPcieLutDbg|0x0|UINT32|0x000001D1
   gNxpQoriqLsTokenSpaceGuid.PcdPciDebug|FALSE|BOOLEAN|0x000001D2
   gNxpQoriqLsTokenSpaceGuid.PcdNumPciController|0|UINT32|0x000001D3
+  gNxpQoriqLsTokenSpaceGuid.PcdPcieLX2160|FALSE|BOOLEAN|0x000001D4
 
   #
   # IFC PCDs

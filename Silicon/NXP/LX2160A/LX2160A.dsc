@@ -53,6 +53,8 @@
   gNxpQoriqLsTokenSpaceGuid.PcdPciExp3BaseSize|0x800000000        # 32 GB
   gNxpQoriqLsTokenSpaceGuid.PcdPciExp4BaseAddr|0x9800000000
   gNxpQoriqLsTokenSpaceGuid.PcdPciExp4BaseSize|0x800000000        # 32 GB
+  gNxpQoriqLsTokenSpaceGuid.PcdPciExp5BaseAddr|0xA000000000
+  gNxpQoriqLsTokenSpaceGuid.PcdPciExp6BaseAddr|0xA800000000
   gNxpQoriqLsTokenSpaceGuid.PcdSystemMemoryExBase|0x2080000000    # Extended System Memory Base
   gNxpQoriqLsTokenSpaceGuid.PcdSystemMemoryExSize|0x0380000000    # 14GB Extended System Memory Size
   gNxpQoriqLsTokenSpaceGuid.PcdUsbBaseAddr|0x3100000

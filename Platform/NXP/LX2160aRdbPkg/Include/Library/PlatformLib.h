@@ -22,7 +22,6 @@
 #define FSL_PMU_PCTBENR_OFFSET    0x8A0
 #define PMU_PCTBEN0_WDT_BIT_MASK  0x000000FF
 
-
 #define FSPI_BOOT                                  0x3
 
 // Base address of i2c controllers
