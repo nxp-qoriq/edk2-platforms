@@ -15,45 +15,39 @@
 #define FIT_IMAGE_LOAD "load"
 
 EFI_STATUS
-FitCheckHeader(
+FitCheckHeader (
   EFI_PHYSICAL_ADDRESS FitImage
 );
 
 EFI_STATUS
 FitGetConfNode (
-	EFI_PHYSICAL_ADDRESS  FitImage,
-	VOID*									ConfigPtr,
-	INT32*								NodeOffset
+  EFI_PHYSICAL_ADDRESS  FitImage,
+  VOID*                 ConfigPtr,
+  INT32*                NodeOffset
 );
 
 EFI_STATUS
 FitGetNodeFromConf (
-	EFI_PHYSICAL_ADDRESS  FitImage,
-	INT32									CfgNodeOffset,
-	CHAR8*								ConfPropName,
-	INT32*								NodeOffset
+  EFI_PHYSICAL_ADDRESS  FitImage,
+  INT32                 CfgNodeOffset,
+  CHAR8*                ConfPropName,
+  INT32*                NodeOffset
 );
 
 EFI_STATUS
 FitGetNodeData (
-	EFI_PHYSICAL_ADDRESS  FitImage,
-	INT32									NodeOffset,
-	EFI_PHYSICAL_ADDRESS* Addr,
-	INT32*								Size
-);
-
-EFI_STATUS
-FitGetNodeLoad (
-	EFI_PHYSICAL_ADDRESS  FitImage,
-	INT32									NodeOffset,
-	EFI_PHYSICAL_ADDRESS* Addr
+  EFI_PHYSICAL_ADDRESS  FitImage,
+  INT32                 NodeOffset,
+  EFI_PHYSICAL_ADDRESS* Addr,
+  INT32*                Size
 );
 
 EFI_STATUS
 FitImageGetNode (
-    EFI_PHYSICAL_ADDRESS FitImageAddr,
-    CHAR8 *ImageUnitName,
-    INT32 *NodeOffset
-    );
+  EFI_PHYSICAL_ADDRESS FitImageAddr,
+  CHAR8 *ImageUnitName,
+  INT32 *NodeOffset
+  );
 
-#endif
+#endif //__ITB_PARSE__
+

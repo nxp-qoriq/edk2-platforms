@@ -1,5 +1,5 @@
-#/* @Utils.inf
-
+##@file
+#
 #  Copyright 2017 NXP
 #
 #  This program and the accompanying materials
@@ -10,12 +10,12 @@
 #  THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "AS IS" BASIS,
 #  WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
 #
-#*/
+##
 
 [Defines]
-  INF_VERSION                    = 0x00010005
+  INF_VERSION                    = 0x0001001A
   BASE_NAME                      = UtilsLib
-  FILE_GUID                      = 0985d4e8-5a41-40cf-ad12-2ad5d97e817f 
+  FILE_GUID                      = 487134f3-3b47-4653-bf52-bed6eeadef0c
   MODULE_TYPE                    = BASE
   VERSION_STRING                 = 1.0
   LIBRARY_CLASS                  = ItbParseLib
@@ -31,8 +31,8 @@
 [LibraryClasses]
   ArmLib
   FdtLib
-  IoLib
   MemoryAllocationLib
 
 [Sources.common]
- ItbParse.c 
+ ItbParse.c
+
