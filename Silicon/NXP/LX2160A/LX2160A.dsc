@@ -72,4 +72,30 @@
   gNxpQoriqLsTokenSpaceGuid.PcdSataSize|0x10000
   gNxpQoriqLsTokenSpaceGuid.PcdNumSataController|0x4
 
+  #
+  # DPAA2 specific Pcd
+  #
+  gNxpQoriqLsTokenSpaceGuid.PcdMdioBustCount|0x2
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa2Wriop1Mdio1Addr|0x8B96000
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa2Wriop1Mdio2Addr|0x8B97000
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa2McPortalBaseAddr|0x00080C000000
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa2McPortalSize|0x4000000
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa2NiPortalsBaseAddr|0x000810000000
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa2NiPortalsSize|0x8000000
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa2QBmanPortalsBaseAddr|0x000818000000
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa2QBmanPortalSize|0x8000000
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa2QBmanPortalsCacheSize|0x4000000
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa2McFwNorAddr|0x20A00000
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa2McDpcNorAddr|0x20E00000
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa2McDplNorAddr|0x20D00000
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa2McDpcMaxLen|0x20000
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa2McDpcMcDramOffset|0x00F00000
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa2McDplMaxLen|0x20000
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa2McDplMcDramOffset|0x00F20000
+# to check for Cortina phy f/w
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa2CortinaFwNorAddr|0x20980000
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa2CortinaFwMaxLen|0x40000
+  gNxpQoriqLsTokenSpaceGuid.PcdBypassAmqMask|0x60000
+  gNxpQoriqLsTokenSpaceGuid.PcdMacDeviceDisableRegAddr|0x1e00074
+
 ##
