@@ -45,7 +45,12 @@
   PciSegmentLib|Silicon/NXP/Library/PciSegmentLib/PciSegmentLib.inf
   PciHostBridgeLib|Silicon/NXP/Library/PciHostBridgeLib/PciHostBridgeLib.inf
   MmcLib|Silicon/NXP/Library/MmcLib/MmcLib.inf
-  ItbParseLib|Silicon/NXP/Library/ItbParseLib/ItbParse.inf  
+  ItbParseLib|Silicon/NXP/Library/ItbParseLib/ItbParse.inf
+  Dpaa2BoardSpecificLib|Platform/NXP/LX2160aRdbPkg/Library/Dpaa2BoardSpecificLib/Dpaa2BoardSpecificLib.inf
+  Dpaa2EthernetMacLib|Silicon/NXP/Library/Dpaa2EthernetMacLib/Dpaa2EthernetMacLib.inf
+  Dpaa2EthernetPhyLib|Silicon/NXP/Library/Dpaa2EthernetPhyLib/Dpaa2EthernetPhyLib.inf
+  Dpaa2ManagementComplexLib|Silicon/NXP/Library/Dpaa2ManagementComplexLib/Dpaa2ManagementComplexLib.inf
+  Dpaa2McInterfaceLib|Silicon/NXP/Library/Dpaa2McInterfaceLib/Dpaa2McInterfaceLib.inf
 
 [PcdsFixedAtBuild.common]
 
@@ -78,7 +83,7 @@
   gArmTokenSpaceGuid.PcdGenericWatchdogEl2IntrNum|28
 
   gEfiMdeModulePkgTokenSpaceGuid.PcdSerialRegisterBase|0x21C0000
-  gArmPlatformTokenSpaceGuid.PL011UartClkInHz|150000000
+  gArmPlatformTokenSpaceGuid.PL011UartClkInHz|175000000
   gNxpQoriqLsTokenSpaceGuid.PcdSerdes2Enabled|TRUE
   gNxpQoriqLsTokenSpaceGuid.PcdPlatformFreqDiv|0x4
   gNxpQoriqLsTokenSpaceGuid.PcdDdrClk|133333333
@@ -119,6 +124,39 @@
   # SATA Pcds
   #
   gNxpQoriqLsTokenSpaceGuid.PcdSataErratumA009185|TRUE
+
+  #
+  # DPAA2 Pcds
+  #
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa2Initialize|TRUE
+  gNxpQoriqLsTokenSpaceGuid.PcdDisableMcLogging|FALSE
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa2McFwSrc|0x01
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa2StreamIdStart|23
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa2StreamIdEnd|63
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa2McBootTimeoutMs|200000
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa2UsedDpmacsMask|0xff
+
+  # Valid values for PcdDpaa2McLogLevel:
+  # - 0x01: LOG_LEVEL_DEBUG
+  # - 0x02: LOG_LEVEL_INFO
+  # - 0x03: LOG_LEVEL_WARNING
+  # - 0x04: LOG_LEVEL_ERROR
+  # - 0x05: LOG_LEVEL_CRITICAL
+  # - 0x06: LOG_LEVEL_ASSERT
+  # - 0xFF: LOG_LEVEL_DEFAULT (default from DPC)
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa2McLogLevel|0xff
+
+  # Valid values for PcdDpaaDebugFlags:
+  # - 0x0      DPAA debug logs are disabled.
+  # - 0x1      Enable DPAA debugging messages
+  # - 0x2      Dump values of RAM words or registers
+  # - 0x4      Trace commands sent to the MC
+  # - 0x8      Dump MC log fragment
+  # - 0x10     Dump contents of the root DPRC
+  # - 0x20     Perform extra checks
+  # - 0x40     Trace network packets sent/received
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaaDebugFlags|0x0
+
 ################################################################################
 #
 # Components Section - list of all EDK II Modules needed by this Platform
@@ -147,6 +185,8 @@
 
   Silicon/NXP/Drivers/SataInitDxe/SataInitDxe.inf
   Silicon/NXP/Drivers/MmcHostDxe/MmcHostDxe.inf
+  Silicon/NXP/Drivers/Dpaa2EthernetDxe/Dpaa2EthernetDxe.inf
+  Silicon/NXP/Drivers/ExtendedSystemInitDxe/ExtendedSystemInitDxe.inf
 
   #
   # PrePiNor
