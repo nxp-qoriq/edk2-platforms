@@ -57,6 +57,10 @@ DPAA2_PHY_MDIO_BUS gDpaa2MdioBuses[] = {
 /**
  * Table of mappings of WRIOP DPMACs to PHYs
  */
+// Checked dpmac 2, 3, 4
+// to be done 5 and 6 for inphy
+// 17 and 18 for rgmii
+
 static const DPMAC_PHY_MAPPING gDpmacToPhyMap[] = {
   [WRIOP_DPMAC1] = {
     .MdioBus = &gDpaa2MdioBuses[0],
@@ -66,20 +70,20 @@ static const DPMAC_PHY_MAPPING gDpmacToPhyMap[] = {
 
   [WRIOP_DPMAC2] = {
     .MdioBus = &gDpaa2MdioBuses[0],
-    .PhyAddress = CORTINA_PHY_ADDR2,
+    .PhyAddress = CORTINA_PHY_ADDR1,
     .PhyMediaType = OPTICAL_PHY,
   },
 
   [WRIOP_DPMAC3] = {
     .MdioBus = &gDpaa2MdioBuses[0],
-    .PhyAddress = CORTINA_PHY_ADDR3,
-    .PhyMediaType = OPTICAL_PHY,
+    .PhyAddress = AQUANTIA_PHY_ADDR1,
+    .PhyMediaType = COPPER_PHY,
   },
 
   [WRIOP_DPMAC4] = {
     .MdioBus = &gDpaa2MdioBuses[0],
-    .PhyAddress = CORTINA_PHY_ADDR4,
-    .PhyMediaType = OPTICAL_PHY,
+    .PhyAddress = AQUANTIA_PHY_ADDR2,
+    .PhyMediaType = COPPER_PHY,
   },
 
   [WRIOP_DPMAC5] = {
@@ -107,6 +111,35 @@ static const DPMAC_PHY_MAPPING gDpmacToPhyMap[] = {
   },
 };
 
+STATIC VOID GetDpMacId (
+  SERDES_PROTOCOL LaneProtocol,
+  OUT WRIOP_DPMAC_ID *DpmacId
+  )
+{
+  switch(LaneProtocol) {
+    case XFI1...XFI14:
+      *DpmacId = (WRIOP_DPMAC_ID)(LaneProtocol - XFI1 + 1);
+       break;
+    case SGMII1...SGMII18:
+      *DpmacId = (WRIOP_DPMAC_ID)(LaneProtocol - SGMII1 + 1);
+       break;
+    case GE100_1...GE100_2:
+      *DpmacId = (WRIOP_DPMAC_ID)(LaneProtocol - GE100_1 + 1);
+       break;
+    case GE50_1...GE50_2:
+      *DpmacId = (WRIOP_DPMAC_ID)(LaneProtocol - GE50_1 + 1);
+       break;
+    case GE40_1...GE40_2:
+      *DpmacId = (WRIOP_DPMAC_ID)(LaneProtocol - GE40_1 + 1);
+       break;
+    case GE25_1...GE25_10:
+      *DpmacId = (WRIOP_DPMAC_ID)(LaneProtocol - GE25_1 + 1);
+       break;
+    default:
+      *DpmacId = 0;
+      break;
+  }
+}
 /**
    SerDes lane probe callback
 
@@ -116,6 +149,7 @@ static const DPMAC_PHY_MAPPING gDpmacToPhyMap[] = {
    @retval -1, if not found
 
  **/
+STATIC UINT32 AssignedMac[NUM_WRIOP_DPMACS] = {0};
 VOID
 Dpaa2DiscoverWriopDpmac (
   SERDES_PROTOCOL LaneProtocol,
@@ -123,10 +157,15 @@ Dpaa2DiscoverWriopDpmac (
   )
 {
   WRIOP_DPMAC_ID DpmacId;
-
   ASSERT (LaneProtocol != NONE);
-  if (LaneProtocol >= XFI1 && LaneProtocol <= XFI8) {
-    DpmacId = (WRIOP_DPMAC_ID)(LaneProtocol - XFI1 + 1);
+  if (LaneProtocol >= XFI1 && LaneProtocol <= XFI14) {
+    GetDpMacId(LaneProtocol, &DpmacId);
+    if (!DpmacId || AssignedMac[DpmacId]) {
+      DEBUG((EFI_D_INFO, "Lane protocol %d, has mac %d, New Lane %d\n",
+                           AssignedMac[DpmacId], DpmacId, LaneProtocol));
+      return;
+    }
+    AssignedMac[DpmacId] = LaneProtocol;
     ASSERT (DpmacId < ARRAY_SIZE (gDpmacToPhyMap));
     WriopDpmacInit (DpmacId,
                    PHY_INTERFACE_XGMII,

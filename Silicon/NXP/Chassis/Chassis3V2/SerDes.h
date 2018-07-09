@@ -34,7 +34,7 @@ typedef enum {
   SATA1,
   SATA2,
   SATA3,
-  SATA4,
+  SATA4, //10
   XFI1,
   XFI2,
   XFI3,
@@ -44,45 +44,45 @@ typedef enum {
   XFI7,
   XFI8,
   XFI9,
-  XFI10,
+  XFI10, //20
   XFI11,
   XFI12,
   XFI13,
   XFI14,
-  SGMII1,
+  SGMII1, //25
   SGMII2,
   SGMII3,
   SGMII4,
   SGMII5,
-  SGMII6,
+  SGMII6, //30
   SGMII7,
   SGMII8,
   SGMII9,
   SGMII10,
-  SGMII11,
+  SGMII11, //35
   SGMII12,
   SGMII13,
   SGMII14,
   SGMII15,
-  SGMII16,
+  SGMII16, //40
   SGMII17,
   SGMII18,
   GE100_1,
   GE100_2,
-  GE50_1,
+  GE50_1, //45
   GE50_2,
   GE40_1,
   GE40_2,
   GE25_1,
-  GE25_2,
+  GE25_2, //50
   GE25_3,
   GE25_4,
   GE25_5,
   GE25_6,
-  GE25_7,
+  GE25_7,//55
   GE25_8,
   GE25_9,
-  GE25_10,
+  GE25_10, //59
   /*
    * Number of entries in this enum
    */

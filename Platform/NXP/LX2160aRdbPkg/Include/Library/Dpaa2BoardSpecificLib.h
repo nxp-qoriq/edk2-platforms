@@ -31,12 +31,14 @@
 /*
  * DPAA2 Ethernet PHY MDIO addresses
  */
-#define CORTINA_PHY_ADDR1   0x10
+#define CORTINA_PHY_ADDR1   0x0
 #define CORTINA_PHY_ADDR2   0x11
 #define CORTINA_PHY_ADDR3   0x12
 #define CORTINA_PHY_ADDR4   0x13
-#define AQUANTIA_PHY_ADDR1  0x00
-#define AQUANTIA_PHY_ADDR2  0x01
+
+#define AQUANTIA_PHY_ADDR1  0x4
+#define AQUANTIA_PHY_ADDR2  0x5
+
 #define AQUANTIA_PHY_ADDR3  0x02
 #define AQUANTIA_PHY_ADDR4  0x03
 
