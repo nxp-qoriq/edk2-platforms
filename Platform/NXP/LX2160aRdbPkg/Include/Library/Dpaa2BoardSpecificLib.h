@@ -39,8 +39,8 @@
 #define AQUANTIA_PHY_ADDR1  0x4
 #define AQUANTIA_PHY_ADDR2  0x5
 
-#define AQUANTIA_PHY_ADDR3  0x02
-#define AQUANTIA_PHY_ADDR4  0x03
+#define QC_PHY_ADDR1  0x1
+#define QC_PHY_ADDR2  0x2
 
 
 VOID

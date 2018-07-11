@@ -367,13 +367,15 @@ Dpaa2PhyConfig (
   DPAA2_PHY *Dpaa2Phy
   )
 {
-  DPAA_DEBUG_MSG ("Configuring PHY (PHY address: 0x%x) ...\n",
-                  Dpaa2Phy->PhyAddress);
+  DPAA_DEBUG_MSG ("Configuring PHY (PHY address: 0x%x) ... Media %d \n",
+                  Dpaa2Phy->PhyAddress, Dpaa2Phy->PhyMediaType);
 
   /*
    * For now we just support Aquantia PHY
    */
-  if (Dpaa2Phy->PhyMediaType == COPPER_PHY) {
+  if (Dpaa2Phy->PhyId == QC_PHY) {
+    return QC8035PhyConfig( Dpaa2Phy);
+  } else if (Dpaa2Phy->PhyMediaType == COPPER_PHY) {
     return AquantiaPhyConfig (Dpaa2Phy);
   } else if (Dpaa2Phy->PhyMediaType == OPTICAL_PHY) {
     return CortinaPhyConfig (Dpaa2Phy);
@@ -437,8 +439,8 @@ Dpaa2PhyStartup (
   DPAA2_PHY *Dpaa2Phy
   )
 {
-  DPAA_INFO_MSG ("Starting up PHY (PHY address: 0x%x) ...\n",
-                 Dpaa2Phy->PhyAddress);
+  DPAA_INFO_MSG ("Starting up PHY (PHY address: 0x%x) %x ...\n",
+                 Dpaa2Phy->PhyAddress, Dpaa2Phy);
 
   /*
    * For now we just support the Aquantia PHY

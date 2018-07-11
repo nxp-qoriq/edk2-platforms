@@ -37,6 +37,11 @@ typedef struct _DPMAC_PHY_MAPPING {
    * PHY media type:
    */
   PHY_MEDIA_TYPE PhyMediaType;
+
+  /**
+   * PHY Id of the associated PHY
+   */
+  UINT8 PhyId;
 } DPMAC_PHY_MAPPING;
 
 /**
@@ -98,16 +103,17 @@ static const DPMAC_PHY_MAPPING gDpmacToPhyMap[] = {
     .PhyMediaType = COPPER_PHY,
   },
 
-  [WRIOP_DPMAC7] = {
-    .MdioBus = &gDpaa2MdioBuses[1],
-    .PhyAddress = AQUANTIA_PHY_ADDR3,
+  [WRIOP_DPMAC17] = {
+    .MdioBus = &gDpaa2MdioBuses[0],
+    .PhyAddress = QC_PHY_ADDR1,
     .PhyMediaType = COPPER_PHY,
+    .PhyId        = QC_PHY,
   },
-
-  [WRIOP_DPMAC8] = {
-    .MdioBus = &gDpaa2MdioBuses[1],
-    .PhyAddress = AQUANTIA_PHY_ADDR4,
+  [WRIOP_DPMAC18] = {
+    .MdioBus = &gDpaa2MdioBuses[0],
+    .PhyAddress = QC_PHY_ADDR2,
     .PhyMediaType = COPPER_PHY,
+    .PhyId        = QC_PHY,
   },
 };
 
@@ -172,6 +178,7 @@ Dpaa2DiscoverWriopDpmac (
                    gDpmacToPhyMap[DpmacId].MdioBus,
                    gDpmacToPhyMap[DpmacId].PhyAddress,
                    gDpmacToPhyMap[DpmacId].PhyMediaType,
+                   gDpmacToPhyMap[DpmacId].PhyId,
                    Arg);
   }
 }
@@ -180,7 +187,17 @@ VOID ProbeDpaaLanes (
   VOID *Arg
   )
 {
+   WRIOP_DPMAC_ID DpmacId;
   // Probe SerDes Lanes
   SerDesProbeLanes (Dpaa2DiscoverWriopDpmac, Arg);
+   for (DpmacId = 17; DpmacId <=18; DpmacId++) {
+    WriopDpmacInit (DpmacId,
+                   PHY_INTERFACE_XGMII,
+                   gDpmacToPhyMap[DpmacId].MdioBus,
+                   gDpmacToPhyMap[DpmacId].PhyAddress,
+                   gDpmacToPhyMap[DpmacId].PhyMediaType,
+                   gDpmacToPhyMap[DpmacId].PhyId,
+                   Arg);
+  }
 }
 
