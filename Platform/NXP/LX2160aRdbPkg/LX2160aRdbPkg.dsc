@@ -52,6 +52,7 @@
   Dpaa2EthernetPhyLib|Silicon/NXP/Library/Dpaa2EthernetPhyLib/Dpaa2EthernetPhyLib.inf
   Dpaa2ManagementComplexLib|Silicon/NXP/Library/Dpaa2ManagementComplexLib/Dpaa2ManagementComplexLib.inf
   Dpaa2McInterfaceLib|Silicon/NXP/Library/Dpaa2McInterfaceLib/Dpaa2McInterfaceLib.inf
+  DtPlatformDtbLoaderLib|EmbeddedPkg/Library/DxeDtPlatformDtbLoaderLibDefault/DxeDtPlatformDtbLoaderLibDefault.inf
 
 [PcdsFixedAtBuild.common]
 
@@ -168,11 +169,11 @@
   # Architectural Protocols
   #
   MdeModulePkg/Universal/Variable/EmuRuntimeDxe/EmuVariableRuntimeDxe.inf
-  MdeModulePkg/Universal/Variable/RuntimeDxe/VariableRuntimeDxe.inf{
-     <LibraryClasses>
-     NULL|MdeModulePkg/Library/VarCheckUefiLib/VarCheckUefiLib.inf
-  }
-  MdeModulePkg/Universal/FaultTolerantWriteDxe/FaultTolerantWriteDxe.inf
+  #MdeModulePkg/Universal/Variable/RuntimeDxe/VariableRuntimeDxe.inf{
+   #  <LibraryClasses>
+    # NULL|MdeModulePkg/Library/VarCheckUefiLib/VarCheckUefiLib.inf
+  #}
+  #MdeModulePkg/Universal/FaultTolerantWriteDxe/FaultTolerantWriteDxe.inf
   ArmPkg/Drivers/GenericWatchdogDxe/GenericWatchdogDxe.inf
   Silicon/NXP/Drivers/I2cDxe/I2cDxe.inf
   Silicon/NXP/Drivers/UsbHcdInitDxe/UsbHcd.inf
@@ -193,7 +194,10 @@
   # PrePiNor
   #
   Platform/NXP/LX2160aRdbPkg/Library/PrePiNor/PrePiNor.inf
-  Silicon/NXP/Drivers/PpaInitDxe/PpaInitDxe.inf
 
+  #
+  # FDT installation
+  #
+  EmbeddedPkg/Drivers/DtPlatformDxe/DtPlatformDxe.inf
 
  ##
