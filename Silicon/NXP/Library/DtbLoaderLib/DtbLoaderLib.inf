@@ -1,0 +1,64 @@
+/** @file
+*
+*  Copyright 2018 NXP
+*
+*  This program and the accompanying materials
+*  are licensed and made available under the terms and conditions of the BSD License
+*  which accompanies this distribution.  The full text of the license may be found at
+*  http://opensource.org/licenses/bsd-license.php
+*
+*  THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "AS IS" BASIS,
+*  WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
+*
+**/
+
+[Defines]
+  INF_VERSION                    = 0x0001001A
+  BASE_NAME                      = DtbLoaderLib
+  FILE_GUID                      = ccb739d2-3470-4646-9925-ce39195de7cd
+  MODULE_TYPE                    = DXE_DRIVER
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = DtPlatformDtbLoaderLib|DXE_DRIVER
+
+[Sources]
+  DtbLoaderLib.c
+
+[Packages]
+  ArmPkg/ArmPkg.dec
+  MdePkg/MdePkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  Silicon/NXP/NxpQoriqLs.dec
+
+[LibraryClasses]
+  BaseLib
+  DebugLib
+  DxeServicesLib
+  FdtLib
+  IoLib
+  MemoryAllocationLib
+  PcdLib
+  PrintLib
+  SocLib
+
+[Protocols]
+  gEfiMmcHostProtocolGuid
+  gEfiPciRootBridgeIoProtocolGuid
+  gEfiSimpleNetworkProtocolGuid
+
+[Pcd]
+  gNxpQoriqLsTokenSpaceGuid.PcdPcieExp1SysAddr
+  gNxpQoriqLsTokenSpaceGuid.PcdPcieExp2SysAddr
+  gNxpQoriqLsTokenSpaceGuid.PcdPcieExp3SysAddr
+  gNxpQoriqLsTokenSpaceGuid.PcdPcieExp4SysAddr
+  gNxpQoriqLsTokenSpaceGuid.PcdPcieExp5SysAddr
+  gNxpQoriqLsTokenSpaceGuid.PcdPcieExp6SysAddr
+  gNxpQoriqLsTokenSpaceGuid.PcdNumPciController
+  gNxpQoriqLsTokenSpaceGuid.PcdPcieLutBase
+  gNxpQoriqLsTokenSpaceGuid.PcdPcieLutDbg
+
+[Guids]
+  gDtPlatformDefaultDtbFileGuid
+
+[Depex]
+  gEfiMmcHostProtocolGuid AND
+  gEfiSimpleNetworkProtocolGuid

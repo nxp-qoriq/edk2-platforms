@@ -49,3 +49,9 @@
   gNxpQoriqLsTokenSpaceGuid.PcdClkBaseAddr
   gNxpQoriqLsTokenSpaceGuid.PcdScfgBaseAddr
   gNxpQoriqLsTokenSpaceGuid.PcdMuxToUsb3
+  gNxpQoriqLsTokenSpaceGuid.PcdPcieExp1SysAddr
+  gNxpQoriqLsTokenSpaceGuid.PcdPcieExp2SysAddr
+  gNxpQoriqLsTokenSpaceGuid.PcdPcieExp3SysAddr
+  gNxpQoriqLsTokenSpaceGuid.PcdPcieExp4SysAddr
+  gNxpQoriqLsTokenSpaceGuid.PcdPcieExp5SysAddr
+  gNxpQoriqLsTokenSpaceGuid.PcdPcieExp6SysAddr
