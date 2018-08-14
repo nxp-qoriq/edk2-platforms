@@ -52,7 +52,7 @@
   Dpaa2EthernetPhyLib|Silicon/NXP/Library/Dpaa2EthernetPhyLib/Dpaa2EthernetPhyLib.inf
   Dpaa2ManagementComplexLib|Silicon/NXP/Library/Dpaa2ManagementComplexLib/Dpaa2ManagementComplexLib.inf
   Dpaa2McInterfaceLib|Silicon/NXP/Library/Dpaa2McInterfaceLib/Dpaa2McInterfaceLib.inf
-  DtPlatformDtbLoaderLib|EmbeddedPkg/Library/DxeDtPlatformDtbLoaderLibDefault/DxeDtPlatformDtbLoaderLibDefault.inf
+  DtPlatformDtbLoaderLib|Silicon/NXP/Library/DtbLoaderLib/DtbLoaderLib.inf
 
 [PcdsFixedAtBuild.common]
 
@@ -121,6 +121,12 @@
   gNxpQoriqLsTokenSpaceGuid.PcdPcieLutBase|0x80000
   gNxpQoriqLsTokenSpaceGuid.PcdPcieLutDbg|0x407FC
   gNxpQoriqLsTokenSpaceGuid.PcdPcieLX2160|TRUE
+  gNxpQoriqLsTokenSpaceGuid.PcdPcieExp1SysAddr|0x3400000
+  gNxpQoriqLsTokenSpaceGuid.PcdPcieExp2SysAddr|0x3500000
+  gNxpQoriqLsTokenSpaceGuid.PcdPcieExp3SysAddr|0x3600000
+  gNxpQoriqLsTokenSpaceGuid.PcdPcieExp4SysAddr|0x3700000
+  gNxpQoriqLsTokenSpaceGuid.PcdPcieExp5SysAddr|0x3800000
+  gNxpQoriqLsTokenSpaceGuid.PcdPcieExp6SysAddr|0x3900000
 
   #
   # SATA Pcds

@@ -283,3 +283,38 @@ IsSerDesLaneProtocolConfigured (
 
   return (SerDesPrtclMap & BIT (Device)) != 0 ;
 }
+
+/**
+  check if given PCIe Controller is enabled by serdes or not
+**/
+BOOLEAN
+IsPcieEnabled (
+  IN UINTN PCIeBaseAddr
+  )
+{
+  UINT64 SerDesProtocolMap;
+
+  SerDesProtocolMap = 0x0;
+
+  GetSerdesProtocolMaps (&SerDesProtocolMap);
+
+  switch (PCIeBaseAddr){
+    case FixedPcdGet64 (PcdPcieExp1SysAddr):
+      return(IsSerDesLaneProtocolConfigured(SerDesProtocolMap, PCIE1));
+    case FixedPcdGet64 (PcdPcieExp2SysAddr):
+      return(IsSerDesLaneProtocolConfigured(SerDesProtocolMap, PCIE2));
+    case FixedPcdGet64 (PcdPcieExp3SysAddr):
+      return(IsSerDesLaneProtocolConfigured(SerDesProtocolMap, PCIE3));
+    case FixedPcdGet64 (PcdPcieExp4SysAddr):
+      return(IsSerDesLaneProtocolConfigured(SerDesProtocolMap, PCIE4));
+    case FixedPcdGet64 (PcdPcieExp5SysAddr):
+      return(IsSerDesLaneProtocolConfigured(SerDesProtocolMap, PCIE5));
+    case FixedPcdGet64 (PcdPcieExp6SysAddr):
+      return(IsSerDesLaneProtocolConfigured(SerDesProtocolMap, PCIE6));
+    default:
+      DEBUG ((DEBUG_ERROR, "Device not supported\n"));
+      break;
+  }
+
+  return FALSE;
+}
