@@ -610,6 +610,9 @@ FdtFixupPcie (
   NextLutIndex = 1;
   StreamId = NXP_PEX_STREAM_ID_START + 1;
   for (PciNo = 0; PciNo < FixedPcdGet32 (PcdNumPciController); PciNo++) {
+
+      PciBaseAddress = PcdGet64 (PcdPcieExp1SysAddr) + PciNo * 0x100000;
+
       if (!PciChildInfo[PciNo].HasChild) {
         continue;
       }
