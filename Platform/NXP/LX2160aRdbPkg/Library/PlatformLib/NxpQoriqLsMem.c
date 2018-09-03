@@ -34,7 +34,7 @@
 #define MC_BASE_ADDR                            FixedPcdGet64 (PcdDram2BaseAddr) + DDR_MEM_SIZE
 #else
 #define DDR_MEM_SIZE                            FixedPcdGet64 (PcdDramMemSize)
-#define MC_BASE_ADDR                            FixedPcdGet64 (PcdDram1BaseAddr) - FixedPcdGet64 (PcdDpaa2McRamSize)
+#define MC_BASE_ADDR                            PcdGet64 (PcdSystemMemoryBase) - FixedPcdGet64 (PcdDpaa2McRamSize)
 #endif
 
 
@@ -73,9 +73,9 @@ ArmPlatformGetVirtualMemoryMap (
   CacheAttributes = ARM_MEMORY_REGION_ATTRIBUTE_WRITE_BACK;
 
   // DRAM1 (Must be 1st entry)
-  VirtualMemoryTable[Index].PhysicalBase = FixedPcdGet64 (PcdDram1BaseAddr);
-  VirtualMemoryTable[Index].VirtualBase  = FixedPcdGet64 (PcdDram1BaseAddr);
-  VirtualMemoryTable[Index].Length       = FixedPcdGet64 (PcdDram1Size);
+  VirtualMemoryTable[Index].PhysicalBase = PcdGet64 (PcdSystemMemoryBase);
+  VirtualMemoryTable[Index].VirtualBase  = PcdGet64 (PcdSystemMemoryBase);
+  VirtualMemoryTable[Index].Length       = PcdGet64 (PcdSystemMemorySize);
   VirtualMemoryTable[Index].Attributes   = CacheAttributes;
 
   // CCSR Space
@@ -84,19 +84,6 @@ ArmPlatformGetVirtualMemoryMap (
   VirtualMemoryTable[Index].Length       = FixedPcdGet64 (PcdCcsrSize);
   VirtualMemoryTable[Index].Attributes   = ARM_MEMORY_REGION_ATTRIBUTE_DEVICE;
   
-  // CCSR OCRAM
-  VirtualMemoryTable[++Index].PhysicalBase = FixedPcdGet64 (PcdOcram1BaseAddr);
-  VirtualMemoryTable[Index].VirtualBase  = FixedPcdGet64 (PcdOcram1BaseAddr);
-  VirtualMemoryTable[Index].Length       = FixedPcdGet64 (PcdOcram1Size);
-  VirtualMemoryTable[Index].Attributes   = ARM_MEMORY_REGION_ATTRIBUTE_DEVICE;
-
-  // ROM Space
-  VirtualMemoryTable[++Index].PhysicalBase = FixedPcdGet64 (PcdRomBaseAddr);
-  VirtualMemoryTable[Index].VirtualBase  = FixedPcdGet64 (PcdRomBaseAddr);
-  VirtualMemoryTable[Index].Length       = FixedPcdGet64 (PcdRomSize);
-  VirtualMemoryTable[Index].Attributes   = ARM_MEMORY_REGION_ATTRIBUTE_DEVICE;
-
-
   // FSPI region 1
   VirtualMemoryTable[++Index].PhysicalBase = FixedPcdGet64 (PcdQspiRegionBaseAddr);
   VirtualMemoryTable[Index].VirtualBase  = FixedPcdGet64 (PcdQspiRegionBaseAddr);

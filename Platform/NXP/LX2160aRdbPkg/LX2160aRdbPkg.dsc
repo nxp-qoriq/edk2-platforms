@@ -62,14 +62,14 @@
   gNxpQoriqLsTokenSpaceGuid.PcdDpaa2McRamSize|0x80000000          # 2GB (PcdDpaa2McRamSize must be 512MB aligned)
   gNxpQoriqLsTokenSpaceGuid.PcdMcHighMemSupport|1
   gArmTokenSpaceGuid.PcdSystemMemoryBase|0x0080000000             # Actual base
-  gArmTokenSpaceGuid.PcdSystemMemorySize|0x0080000000             # 2G
+  gArmTokenSpaceGuid.PcdSystemMemorySize|0x007BE00000             # 2G - 66MB (ATF)
 !else
   gNxpQoriqLsTokenSpaceGuid.PcdDram1BaseAddr|0x00A0000000         # Actual base address (0x0080000000) + 512MB
   gNxpQoriqLsTokenSpaceGuid.PcdDram1Size|0x0060000000             # 2GB - 512MB
   gNxpQoriqLsTokenSpaceGuid.PcdDpaa2McRamSize|0x20000000          # 512MB (Fixed)
   gNxpQoriqLsTokenSpaceGuid.PcdMcHighMemSupport|0
   gArmTokenSpaceGuid.PcdSystemMemoryBase|0x00A0000000             # Actual base + 512MB
-  gArmTokenSpaceGuid.PcdSystemMemorySize|0x0060000000             # 2G - 512MB
+  gArmTokenSpaceGuid.PcdSystemMemorySize|0x005BE00000             # 2G - 512MB - 66MB (ATF)
 !endif
   gNxpQoriqLsTokenSpaceGuid.PcdDramMemSize|0x380000000            # 14 GB
   gNxpQoriqLsTokenSpaceGuid.PcdDram2BaseAddr|0x2080000000
@@ -195,11 +195,6 @@
   Silicon/NXP/Drivers/MmcHostDxe/MmcHostDxe.inf
   Silicon/NXP/Drivers/Dpaa2EthernetDxe/Dpaa2EthernetDxe.inf
   Silicon/NXP/Drivers/ExtendedSystemInitDxe/ExtendedSystemInitDxe.inf
-
-  #
-  # PrePiNor
-  #
-  Platform/NXP/LX2160aRdbPkg/Library/PrePiNor/PrePiNor.inf
 
   #
   # FDT installation
