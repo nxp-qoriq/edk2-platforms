@@ -28,7 +28,7 @@
 ################################################################################
 
 [FD.LX2160aRdb_EFI]
-BaseAddress   = 0xA0000000|gArmTokenSpaceGuid.PcdFdBaseAddress  #The base address of the FLASH Device.
+BaseAddress   = 0x82000000|gArmTokenSpaceGuid.PcdFdBaseAddress  #The base address of the FLASH Device.
 Size          = 0x00100000|gArmTokenSpaceGuid.PcdFdSize           #The size in bytes of the FLASH Device
 ErasePolarity = 1
 BlockSize     = 0x1
