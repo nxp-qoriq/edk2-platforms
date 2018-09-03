@@ -371,7 +371,7 @@ FdtPciSetup (
  * Update PCIe Child Info
  */
 STATIC
-VOID
+EFI_STATUS
 UpdatePciChildInfo ()
 {
   EFI_STATUS Status;
@@ -387,11 +387,11 @@ UpdatePciChildInfo ()
   if (EFI_ERROR (Status)) {
     DEBUG ((DEBUG_ERROR, "Fail to locate PciRootBridgeIoProtocolGuid 0x%x\n",
       Status));
-    return;
+    return EFI_NOT_FOUND;
   }
 
   if (Size == 0) {
-    return;
+    return EFI_NOT_FOUND;
   }
 
   for (Id = 0; Id < Size; Id++) {
@@ -407,6 +407,8 @@ UpdatePciChildInfo ()
 
     PciChildInfo[PciProtocol->SegmentNumber -1].HasChild = 1;
   }
+
+  return EFI_SUCCESS;
 }
 
 /*
@@ -561,6 +563,7 @@ FdtFixupPcie (
   VOID  *Blob
   )
 {
+  EFI_STATUS Status;
   UINT32 StreamId;
   UINT32 MsiStreamId;
   UINT32 Bdf;
@@ -574,7 +577,12 @@ FdtFixupPcie (
   NextLutIndex = 0;
 
   /* Update Pcie Child Info */
-  UpdatePciChildInfo();
+  Status = UpdatePciChildInfo();
+  if (Status == EFI_NOT_FOUND) {
+    PciChildInfo[2].HasChild = 1;
+    PciChildInfo[4].HasChild = 1;
+  }
+
 
   /* Scan all known buses */
   for (PciNo = 0, SeqNum = 0; PciNo < FixedPcdGet32 (PcdNumPciController);
