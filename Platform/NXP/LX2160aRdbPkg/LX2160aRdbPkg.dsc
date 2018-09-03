@@ -143,6 +143,7 @@
   gNxpQoriqLsTokenSpaceGuid.PcdDpaa2StreamIdEnd|63
   gNxpQoriqLsTokenSpaceGuid.PcdDpaa2McBootTimeoutMs|200000
   gNxpQoriqLsTokenSpaceGuid.PcdDpaa2UsedDpmacsMask|0xff00ff
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa2McLogMcDramOffset|0x1000000
 
   # Valid values for PcdDpaa2McLogLevel:
   # - 0x01: LOG_LEVEL_DEBUG
