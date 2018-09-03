@@ -20,7 +20,7 @@
 
 [FD.LX2160aRdbNv_EFI]
 
-BaseAddress = 0x20300000|gNxpQoriqLsTokenSpaceGuid.PcdNvFdBase #The base address of the FLASH device
+BaseAddress = 0x20500000|gNxpQoriqLsTokenSpaceGuid.PcdNvFdBase #The base address of the FLASH device
 Size = 0x000C0000|gNxpQoriqLsTokenSpaceGuid.PcdNvFdSize #The size in bytes of the FLASH device
 ErasePolarity = 1
 BlockSize = 0x1
