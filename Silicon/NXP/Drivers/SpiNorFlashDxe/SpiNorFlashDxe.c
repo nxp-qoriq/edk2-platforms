@@ -14,7 +14,7 @@
    •Erase 32 or 64 KiB blocks
    •Write status
 
- Copyright 2018 NXP.
+ Copyright 2018 NXP
 
  This program and the accompanying materials
  are licensed and made available under the terms and conditions of
