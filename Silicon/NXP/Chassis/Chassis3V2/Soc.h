@@ -46,6 +46,7 @@
 #define SCR0_CLIENTPD_MASK           0x00000001
 #define SCR0_USFCFG_MASK             0x00000400
 
+#define DDR_GEN2_PHY_MULTIPLIER      4
 typedef struct {
   UINTN FreqProcessor[MAX_CPUS];
   UINTN FreqSystemBus;
@@ -93,6 +94,8 @@ typedef struct {
 #define CHASSIS3_RCWSR_0_MEM_PLL_RAT_MASK     0x3f
 #define CHASSIS3_RCWSR_0_MEM2_PLL_RAT_SHIFT   18
 #define CHASSIS3_RCWSR_0_MEM2_PLL_RAT_MASK    0x3f
+#define CHASSIS3_RCWSR_0_MEM_PLL_CFG_SHIFT    8
+#define CHASSIS3_RCWSR_0_MEM_PLL_CFG_MASK     0x3
   UINT8     Res180[0x200-0x180];
   UINT32    ScratchRw[32];    // Scratch Read/Write
   UINT8     Res280[0x300-0x280];

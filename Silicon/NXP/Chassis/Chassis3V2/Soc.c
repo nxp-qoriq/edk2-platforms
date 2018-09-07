@@ -36,6 +36,7 @@ GetSysInfo (
 {
   UINT32 Index;
   CCSR_GUR *GurBase;
+  CCSR_CLT_CTRL *ClkBase;
   CCSR_CLK_CLUSTER  *ClkGrp[2] = {
     (void *)(FSL_CLK_GRPA_ADDR),
     (void *)(FSL_CLK_GRPB_ADDR)
@@ -52,9 +53,8 @@ GetSysInfo (
 
   const UINT8 CoreCplxPllDivisor[8] = {
     [0] = 1,        /* CC1 PLL Sync Mode */
-    [1] = 1,        /* CC1 PLL / 1       */
-    [2] = 2,        /* CC1 PLL / 2       */
-    [3] = 3,        /* CC1 PLL1 / 1      */ 
+    [1] = 2,        /* CC1 PLL / 1       */
+    [2] = 4,        /* CC1 PLL / 2       */
     [4] = 1,        /* CC2 PLL / 1       */
     [5] = 2,        /* CC2 PLL / 2       */
     [6] = 4,        /* CC2 PLL / 4       */
@@ -72,6 +72,7 @@ GetSysInfo (
   VOID *OffSet;
 
   GurBase = (VOID *)PcdGet64 (PcdGutsBaseAddr);
+  ClkBase = (VOID *)PcdGet64 (PcdClkBaseAddr);
   InternalMemZeroMem (PtrSysInfo, sizeof (SYS_INFO));
 
   SysClk = GetBoardSysClk ();
@@ -90,6 +91,13 @@ GetSysInfo (
   PtrSysInfo->FreqDdrBus *= (MmioRead32 ((UINTN)&GurBase->RcwSr[0]) >>
       CHASSIS3_RCWSR_0_MEM_PLL_RAT_SHIFT) &
       CHASSIS3_RCWSR_0_MEM_PLL_RAT_MASK;
+
+  /* For GEN2 DDR */
+  PtrSysInfo->FreqDdrBus *= DDR_GEN2_PHY_MULTIPLIER /
+    (((MmioRead32 ((UINTN)&GurBase->RcwSr[0]) >>
+	CHASSIS3_RCWSR_0_MEM_PLL_CFG_SHIFT) &
+       CHASSIS3_RCWSR_0_MEM_PLL_CFG_MASK) + 1);
+
   PtrSysInfo->FreqDdrBus2 *= (MmioRead32 ((UINTN)&GurBase->RcwSr[0]) >>
       CHASSIS3_RCWSR_0_MEM2_PLL_RAT_SHIFT) &
       CHASSIS3_RCWSR_0_MEM2_PLL_RAT_MASK;
@@ -149,9 +157,8 @@ GetSysInfo (
     /// Read the mux to check which clock is selected for this Cluster
     // CPllSel 0, 1, 2 means PLL-1 /2 or /4
     // CPllSel 4, 5, 6 menas PLL-2 /2 or /4
-    OffSet = (void *)((UINTN)ClkGrp[Cluster/4] +
-                   OFFSET_OF (CCSR_CLK_CLUSTER, HwnCsr[Cluster%4].Csr));
-    CPllSel = (MmioRead32((UINTN)OffSet) >> 27) & 0xf;
+    CPllSel = (MmioRead32 ((UINTN)&ClkBase->ClkCnCsr[Cluster].Csr) >> 27) & 0xf;
+
     // Get if this CPU is clocked from PLL-1 or PLL-2
     CplxPll = CoreCplxPll[CPllSel];
 

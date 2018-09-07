@@ -153,12 +153,8 @@ PrintBoardPersonality (
 
 
 //SYSCLK
-#define FPGA_CLK_MASK            0x0F     // FPGA Clock Mask
-#define SYSCLK_66_MHZ            66000000
-#define SYSCLK_83_MHZ            83000000
+#define FPGA_CLK_MASK            0x03     // FPGA Clock Mask
 #define SYSCLK_100_MHZ           100000000
-#define SYSCLK_125_MHZ           125000000
-#define SYSCLK_133_MHZ           133000000
 
 #define FPGA_VBANK_MASK          0x07
 #define FPGA_CS_MASK             0x08

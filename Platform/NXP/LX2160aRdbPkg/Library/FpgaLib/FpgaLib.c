@@ -77,20 +77,10 @@ GetBoardSysClk (
 {
   UINT8 SysclkConf;
   SysclkConf = FPGA_READ (BrdCfg[1]);
-  SysclkConf = CLK_100;
   switch (SysclkConf & FPGA_CLK_MASK) {
-    case CLK_66:
-      return SYSCLK_66_MHZ;
-    case CLK_83:
-      return SYSCLK_83_MHZ;
     case CLK_100:
       return SYSCLK_100_MHZ;
-    case CLK_125:
-      return SYSCLK_125_MHZ;
-    case CLK_133:
-      return SYSCLK_133_MHZ;
   }
-  DEBUG((DEBUG_INFO, "Board: Using default clock \n"));
   return SYSCLK_100_MHZ;
 }
 

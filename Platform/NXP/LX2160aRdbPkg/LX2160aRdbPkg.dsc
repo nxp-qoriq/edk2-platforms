@@ -88,7 +88,7 @@
   gArmPlatformTokenSpaceGuid.PL011UartClkInHz|175000000
   gNxpQoriqLsTokenSpaceGuid.PcdSerdes2Enabled|TRUE
   gNxpQoriqLsTokenSpaceGuid.PcdPlatformFreqDiv|0x4
-  gNxpQoriqLsTokenSpaceGuid.PcdDdrClk|133333333
+  gNxpQoriqLsTokenSpaceGuid.PcdDdrClk|100000000
 
   gNxpQoriqLsTokenSpaceGuid.PcdOcramStackBase|0x18010000
   gNxpQoriqLsTokenSpaceGuid.PcdFdNorBaseAddress|0x20100000
