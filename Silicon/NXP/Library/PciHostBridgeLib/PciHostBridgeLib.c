@@ -14,14 +14,17 @@
 **/
 
 #include <PiDxe.h>
+#include <libfdt.h>
 #include <IndustryStandard/Pci22.h>
 #include <Library/BeIoLib.h>
 #include <Library/DebugLib.h>
 #include <Library/DevicePathLib.h>
 #include <Library/IoLib.h>
+#include <Library/ItbParse.h>
 #include <Library/MemoryAllocationLib.h>
 #include <Library/PcdLib.h>
 #include <Library/PciHostBridgeLib.h>
+#include <Library/UefiLib.h>
 #include <Pcie.h>
 #include <Protocol/PciHostBridgeResourceAllocation.h>
 #include <Protocol/PciRootBridgeIo.h>
@@ -614,6 +617,82 @@ PcieSetupCntrl (
 }
 
 /**
+  Fixup the pcie controller status disabled or okay in device tree
+
+  @param[in] Dtb         Device tree to fixup
+  @param[in] PciEnabled  Array of Pcie controllers that are enabled
+  @param[in] Regs        Array of addresses of registers of all pcie controllers
+  @param[in] Count       Size of PciEnabled array
+
+  @retval EFI_SUCCESS    Controller status set successfully
+  @retval EFI_DEVICE_ERROR Couldn't set the status
+**/
+
+EFI_STATUS
+FdtFixupPcie (
+  IN  VOID  *Dtb,
+  IN  UINT8 *PciEnabled,
+  IN  UINT64 *Regs,
+  IN  UINTN  Count
+  )
+{
+  INTN    NodeOffset;
+  UINT64  PcieAddress;
+  UINT8   RegIndex;
+  UINTN   Idx, Idx2;
+  INT32   FdtStatus;
+  EFI_STATUS Status;
+
+  // Iterate through all the pci nodes
+  for (NodeOffset = fdt_node_offset_by_compatible (Dtb, -1, (VOID *)(PcdGetPtr (PcdPciFdtCompatible)));
+       NodeOffset != -FDT_ERR_NOTFOUND;
+       NodeOffset = fdt_node_offset_by_compatible (Dtb, NodeOffset, (VOID *)(PcdGetPtr (PcdPciFdtCompatible)))) {
+    // Get the Index of Controllers' registers
+    RegIndex = fdt_stringlist_search (Dtb, NodeOffset, "reg-names", "regs");
+    if (RegIndex < 0) {
+      DEBUG ((DEBUG_ERROR, "Error: can't get regs address' index(ret = %d)!\n", RegIndex));
+      continue;
+    }
+    // Get the controller's registers' address from node.
+    Status = FdtGetAddressSize (Dtb, NodeOffset, "reg", RegIndex, &PcieAddress, NULL);
+    if (EFI_ERROR (Status)) {
+      DEBUG ((DEBUG_ERROR, "Error: can't get regs base address(Status = %r)!\n", Status));
+      continue;
+    }
+    // Search the address in received array from PciHostBridgeLib
+    for  (Idx = 0; Idx < NUM_PCIE_CONTROLLER; Idx++) {
+      if (Regs[Idx] == PcieAddress) {
+        break;
+      }
+    }
+    // if the address is not found in Regs array received from PciHostBridgeLib
+    if (Idx == NUM_PCIE_CONTROLLER) {
+      continue;
+    }
+    // Now check if this controller is enabled or not ?
+    for (Idx2 = 0; Idx2 < Count; Idx2++) {
+      if (PciEnabled[Idx2] == Idx) {
+        FdtStatus = fdt_setprop_string (Dtb, NodeOffset, "status", "okay");
+        if (FdtStatus) {
+          DEBUG ((DEBUG_ERROR, "Error: couldn't set the status %a!\n", fdt_strerror (FdtStatus)));
+          return EFI_DEVICE_ERROR;
+        }
+        break;
+      }
+    }
+    // check if we were able to find the controller in enabled list or not?
+    if (Idx2 == Count) {
+      FdtStatus = fdt_setprop_string (Dtb, NodeOffset, "status", "disabled");
+      if (FdtStatus) {
+        DEBUG ((DEBUG_ERROR, "Error: couldn't set the status %a!\n", fdt_strerror (FdtStatus)));
+        return EFI_DEVICE_ERROR;
+      }
+    }
+  }
+
+  return EFI_SUCCESS;
+}
+/**
   Return all the root bridge instances in an array.
 
   @param Count  Return the count of root bridge instances.
@@ -636,8 +715,13 @@ PciHostBridgeGetRootBridges (
   UINT64 PciPhyIoAddr[NUM_PCIE_CONTROLLER];
   UINT64 Regs[NUM_PCIE_CONTROLLER];
   UINT8  PciEnabled[NUM_PCIE_CONTROLLER];
+  VOID   *Dtb;
+  EFI_STATUS Status;
+  PCI_ROOT_BRIDGE *RetVal;
 
   *Count = 0;
+  Dtb = NULL;
+  RetVal = NULL;
 
   //
   // Filling local array for
@@ -699,9 +783,7 @@ PciHostBridgeGetRootBridges (
     *Count += BIT0;
   }
 
-  if (*Count == 0) {
-     return NULL;
-  } else {
+  if (*Count != 0) {
      for (Loop = 0; Loop < *Count; Loop++) {
         mPciRootBridges[Loop].Segment               = PciEnabled[Loop];
         mPciRootBridges[Loop].Supports              = PCI_SUPPORT_ATTRIBUTES;
@@ -738,8 +820,21 @@ PciHostBridgeGetRootBridges (
         mPciRootBridges[Loop].DevicePath            = (EFI_DEVICE_PATH_PROTOCOL *)&mEfiPciRootBridgeDevicePath[PciEnabled[Loop]];
      }
 
-     return mPciRootBridges;
+     RetVal = mPciRootBridges;
   }
+
+  // Before returning fixup the device tree.
+  Status = EfiGetSystemConfigurationTable (&gFdtTableGuid, &Dtb);
+  if (EFI_ERROR (Status)) {
+    DEBUG ((DEBUG_ERROR, "Did not find the Dtb Blob.\n"));
+  } else {
+    Status = FdtFixupPcie (Dtb, PciEnabled, Regs, *Count);
+    if (EFI_ERROR (Status)) {
+      DEBUG ((DEBUG_ERROR, "Could not set Pcie status retval %r\n", Status));
+    }
+  }
+
+  return RetVal;
 }
 
 /**

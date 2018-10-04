@@ -52,6 +52,7 @@
   gNxpQoriqLsTokenSpaceGuid.PcdPciExp2BaseSize|0x800000000
   gNxpQoriqLsTokenSpaceGuid.PcdPciExp3BaseAddr|0x5000000000
   gNxpQoriqLsTokenSpaceGuid.PcdPciExp3BaseSize|0x800000000
+  gNxpQoriqLsTokenSpaceGuid.PcdPciFdtCompatible|"fsl,ls1046a-pcie"
   gNxpQoriqLsTokenSpaceGuid.PcdDram1BaseAddr|0x0080000000
   gNxpQoriqLsTokenSpaceGuid.PcdDram1Size|0x0080000000
   gNxpQoriqLsTokenSpaceGuid.PcdDram2BaseAddr|0x0880000000
