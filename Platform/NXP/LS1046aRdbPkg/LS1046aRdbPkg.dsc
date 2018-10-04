@@ -45,6 +45,7 @@
   PciHostBridgeLib|Silicon/NXP/Library/PciHostBridgeLib/PciHostBridgeLib.inf
   SpiPlatformConfigLib|Platform/NXP/LS1046aRdbPkg/Library/SpiPlatformConfigLib/SpiPlatformConfigLib.inf
   MmcLib|Silicon/NXP/Library/MmcLib/MmcLib.inf
+  SecureMonRngLib|Silicon/NXP/Library/SecureMonRngLib/SecureMonRngLib.inf
 
 [PcdsFixedAtBuild.common]
 
@@ -130,9 +131,8 @@
   #
   Platform/NXP/LS1046aRdbPkg/DeviceTree/DeviceTree.inf
   EmbeddedPkg/Drivers/DtPlatformDxe/DtPlatformDxe.inf
-
   Silicon/NXP/Drivers/MmcHostDxe/MmcHostDxe.inf
-
   Silicon/NXP/Drivers/NandFlashDxe/NandFlashDxe.inf
+  Silicon/NXP/Drivers/RngDxe/RngDxe.inf
 
  ##
