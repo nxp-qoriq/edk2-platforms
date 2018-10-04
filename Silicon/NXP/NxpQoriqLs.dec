@@ -29,10 +29,6 @@
   #   This library is only intended to be used by NXP SOC based Platforms.
   SocClockLib|Include/Library/SocClockLib.h
 
-  ## @libraryclass Provides Platform specific configuration of SPI peripherals, which is not available in device tree
-  #
-  SpiPlatformConfigLib|Include/Library/SpiPlatformConfigLib.h
-
 [Guids.common]
   gNxpQoriqLsTokenSpaceGuid      = {0x98657342, 0x4aee, 0x4fc6, {0xbc, 0xb5, 0xff, 0x45, 0xb7, 0xa8, 0x71, 0xf2}}
 
@@ -41,6 +37,8 @@
   gEfiSpiNorFlashDriverGuid      = {0x93E34C7E, 0xB50E, 0x11DF, {0x92, 0x23, 0x24, 0x43, 0xDF, 0xD7, 0x20, 0x85}}
 
   gEfiDspiDriverGuid             = {0xde9eb0c8, 0xd66e, 0x4ea5, {0x8b, 0x7c, 0x68, 0x66, 0x69, 0xd3, 0x99, 0x30}}
+
+  gEfiFlexSpiDriverGuid          = {0xe248c411, 0x0043, 0x43bb, {0x85, 0x14, 0x75, 0x8c, 0x3d, 0xfc, 0x30, 0x2c}}
 
 [PcdsFixedAtBuild.common]
   #
@@ -206,6 +204,8 @@
   #
   gNxpQoriqLsTokenSpaceGuid.PcdQspiFdtCompatible|""|VOID*|0x00000316
   gNxpQoriqLsTokenSpaceGuid.PcdDspiFdtCompatible|""|VOID*|0x00000317
+  gNxpQoriqLsTokenSpaceGuid.PcdFlexSpiFdtCompatible|""|VOID*|0x00000318
+  gNxpQoriqLsTokenSpaceGuid.PcdQspiErratumA008886|FALSE|BOOLEAN|0x00000319
 
   #
   # SATA PCDs

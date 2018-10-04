@@ -43,7 +43,6 @@
   FpgaLib|Platform/NXP/LS1046aRdbPkg/Library/FpgaLib/FpgaLib.inf
   PciSegmentLib|Silicon/NXP/Library/PciSegmentLib/PciSegmentLib.inf
   PciHostBridgeLib|Silicon/NXP/Library/PciHostBridgeLib/PciHostBridgeLib.inf
-  SpiPlatformConfigLib|Platform/NXP/LS1046aRdbPkg/Library/SpiPlatformConfigLib/SpiPlatformConfigLib.inf
   MmcLib|Silicon/NXP/Library/MmcLib/MmcLib.inf
   SecureMonRngLib|Silicon/NXP/Library/SecureMonRngLib/SecureMonRngLib.inf
 
@@ -51,10 +50,10 @@
 
   #
   # LS1046a board Specific PCDs
-  # XX (DRAM - Region 1 2GB)
+  # XX (DRAM - Region 1 2GB - 66 MB)
   # (NOR - IFC Region 1 512MB)
   gArmTokenSpaceGuid.PcdSystemMemoryBase|0x80000000
-  gArmTokenSpaceGuid.PcdSystemMemorySize|0x80000000
+  gArmTokenSpaceGuid.PcdSystemMemorySize|0x007BE00000
   gArmPlatformTokenSpaceGuid.PcdSystemMemoryUefiRegionSize|0x02000000
 
   #

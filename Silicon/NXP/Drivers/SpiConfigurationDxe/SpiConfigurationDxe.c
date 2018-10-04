@@ -41,7 +41,6 @@
 #include <Library/DxeServicesTableLib.h>
 #include <Library/MemoryAllocationLib.h>
 #include <Library/PcdLib.h>
-#include <Library/SpiPlatformConfigLib.h>
 #include <Library/UefiBootServicesTableLib.h>
 
 /* Define external, global and module variables here */
@@ -86,7 +85,8 @@ STATIC CONST struct {
   GUID*   SpiBusDriverGuid;
 } gSpiBusIds[] = {
   { FixedPcdGetPtr (PcdQspiFdtCompatible), &gEfiQspiDriverGuid },
-  { FixedPcdGetPtr (PcdDspiFdtCompatible), &gEfiDspiDriverGuid }
+  { FixedPcdGetPtr (PcdDspiFdtCompatible), &gEfiDspiDriverGuid },
+  { FixedPcdGetPtr (PcdFlexSpiFdtCompatible), &gEfiFlexSpiDriverGuid }
 };
 
 ///
@@ -96,7 +96,8 @@ STATIC CONST struct {
   CHAR8*  SpiPeripheralCompatible;
   GUID*   SpiPeripheralDriverGuid;
 } gSpiPeripheralIds[] = {
-  { "spi-flash", &gEfiSpiNorFlashDriverGuid }
+  { "spi-flash", &gEfiSpiNorFlashDriverGuid },
+  { "micron,m25p80", &gEfiSpiNorFlashDriverGuid }
 };
 
 CONST EFI_SPI_BUS    *gSpiBuses[FixedPcdGet32 (PcdSpiBusCount)];
@@ -143,15 +144,12 @@ ParseSpiChildNode (
   UINT32                             SpiBusWidth;
   VOID                               *ChipSelectParameter;
   EFI_SPI_PERIPHERAL                 *pSpiPeripheral;
-  SPI_CONFIGURATION_DATA             *SpiConfigData;
-  SPI_PERIPHERAL_CONFIG_KEY          Key;
   EFI_SPI_PART                       *SpiPart;
   EFI_STATUS                         Status;
 
   pSpiPeripheral = NULL;
   SpiPart = NULL;
   ChipSelectParameter = NULL;
-  SpiConfigData = NULL;
   Status = EFI_SUCCESS;
   SpiBusWidth = SPI_TRANSACTION_BUS_WIDTH_1;
 
@@ -166,16 +164,14 @@ ParseSpiChildNode (
     pSpiPeripheral = AllocateZeroPool (sizeof (EFI_SPI_PERIPHERAL));
     SpiPart = AllocateZeroPool (sizeof (EFI_SPI_PART));
     ChipSelectParameter = AllocatePool (sizeof (UINT32));
-    SpiConfigData = AllocateZeroPool (sizeof (SPI_CONFIGURATION_DATA));
     *Runtime = FALSE;
   } else {
     pSpiPeripheral = AllocateRuntimeZeroPool (sizeof (EFI_SPI_PERIPHERAL));
     SpiPart = AllocateRuntimeZeroPool (sizeof (EFI_SPI_PART));
     ChipSelectParameter = AllocateRuntimePool (sizeof (UINT32));
-    SpiConfigData = AllocateRuntimeZeroPool (sizeof (SPI_CONFIGURATION_DATA));
     *Runtime = TRUE;
   }
-  if ((pSpiPeripheral == NULL) || (SpiPart == NULL) || (ChipSelectParameter == NULL) || (SpiConfigData == NULL)) {
+  if ((pSpiPeripheral == NULL) || (SpiPart == NULL) || (ChipSelectParameter == NULL)) {
     Status = EFI_OUT_OF_RESOURCES;
     goto ErrorExit;
   }
@@ -269,15 +265,6 @@ ParseSpiChildNode (
   pSpiPeripheral->ChipSelectParameter = ChipSelectParameter;
   pSpiPeripheral->SpiPart = SpiPart;
 
-  CopyMem (&Key.ControllerPath, SpiBusDevicePath, sizeof (EFI_SPI_DEVICE_PATH));
-  Key.ChipSelect = *(UINT32 *)ChipSelectParameter;
-
-  if (!EFI_ERROR (SpiGetPlatformConfigData (&Key, SpiConfigData))) {
-    pSpiPeripheral->ConfigurationData = SpiConfigData;
-  } else {
-    FreePool (SpiConfigData);
-  }
-
   *SpiPeripheral = pSpiPeripheral;
 
 ErrorExit:
@@ -290,9 +277,6 @@ ErrorExit:
     }
     if (ChipSelectParameter != NULL) {
       FreePool (ChipSelectParameter);
-    }
-    if (SpiConfigData != NULL) {
-      FreePool (SpiConfigData);
     }
   }
 
@@ -422,6 +406,10 @@ SpiConfigurationDxeEntryPoint (
 
   SpiBusCount = 0;
   for (Index = 0; (Index < ARRAY_SIZE (gSpiBusIds)) && (SpiBusCount < FixedPcdGet32 (PcdSpiBusCount)); Index++) {
+    if (AsciiStrSize(gSpiBusIds[Index].SpiBusCompatible) == 1) {
+      // The compatible string is empty string, therefore skip it.
+      continue;
+    }
     SpiBusTypeCount = 0;
     for ((SpiBusNodeOffset = fdt_node_offset_by_compatible (Fdt, -1, gSpiBusIds[Index].SpiBusCompatible));
          (SpiBusNodeOffset != -FDT_ERR_NOTFOUND) && ((SpiBusCount + SpiBusTypeCount) < FixedPcdGet32 (PcdSpiBusCount));
