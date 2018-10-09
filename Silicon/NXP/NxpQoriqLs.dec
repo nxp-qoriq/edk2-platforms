@@ -120,6 +120,7 @@
   gNxpQoriqLsTokenSpaceGuid.PcdPcieExp4SysAddr|0x0|UINT64|0x000001D8
   gNxpQoriqLsTokenSpaceGuid.PcdPcieExp5SysAddr|0x0|UINT64|0x000001D9
   gNxpQoriqLsTokenSpaceGuid.PcdPcieExp6SysAddr|0x0|UINT64|0x000001DA
+  gNxpQoriqLsTokenSpaceGuid.PcdPciFdtCompatible|""|VOID*|0x000001DB
 
   #
   # IFC PCDs

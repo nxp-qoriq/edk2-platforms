@@ -26,6 +26,7 @@
   PciHostBridgeLib.c
 
 [Packages]
+  EmbeddedPkg/EmbeddedPkg.dec
   MdePkg/MdePkg.dec
   MdeModulePkg/MdeModulePkg.dec
   Silicon/NXP/NxpQoriqLs.dec
@@ -34,10 +35,13 @@
 [LibraryClasses]
   DebugLib
   DevicePathLib
+  FdtLib
+  ItbParseLib
   MemoryAllocationLib
   PcdLib
   SocLib
   UefiBootServicesTableLib
+  UefiLib
 
 [Pcd]
   gNxpQoriqLsTokenSpaceGuid.PcdPciLutBigEndian
@@ -52,3 +56,7 @@
   gNxpQoriqLsTokenSpaceGuid.PcdPciExp5BaseAddr
   gNxpQoriqLsTokenSpaceGuid.PcdPciExp6BaseAddr
   gNxpQoriqLsTokenSpaceGuid.PcdPcieConfigurePex
+  gNxpQoriqLsTokenSpaceGuid.PcdPciFdtCompatible
+
+[Guids]
+  gFdtTableGuid
