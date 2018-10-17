@@ -29,8 +29,9 @@
   FLASH_DEFINITION               = Platform/NXP/LS2088aRdbPkg/LS2088aRdbPkg.fdf
   DEFINE MC_HIGH_MEM             = TRUE
 
-!include ../NxpQoriqLs.dsc
-!include ../../../Silicon/NXP/LS2088A/LS2088A.dsc
+!include Platform/NXP/NxpQoriqLs.dsc
+!include Silicon/NXP/Chassis/Chassis3/Chassis3.dsc
+!include Silicon/NXP/LS2088A/LS2088A.dsc
 
 [LibraryClasses.common]
   ArmPlatformLib|Platform/NXP/LS2088aRdbPkg/Library/PlatformLib/ArmPlatformLib.inf
@@ -123,8 +124,6 @@
   gNxpQoriqLsTokenSpaceGuid.PcdDpaa2Initialize|TRUE
   gNxpQoriqLsTokenSpaceGuid.PcdDisableMcLogging|FALSE
   gNxpQoriqLsTokenSpaceGuid.PcdDpaa2McFwSrc|0x01
-  gNxpQoriqLsTokenSpaceGuid.PcdDpaa2StreamIdStart|23
-  gNxpQoriqLsTokenSpaceGuid.PcdDpaa2StreamIdEnd|63
   gNxpQoriqLsTokenSpaceGuid.PcdDpaa2McBootTimeoutMs|200000
   gNxpQoriqLsTokenSpaceGuid.PcdDpaa2UsedDpmacsMask|0xff
   gNxpQoriqLsTokenSpaceGuid.PcdDpaa2McLogMcDramOffset|0x1000000

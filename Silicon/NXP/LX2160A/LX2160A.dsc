@@ -28,7 +28,7 @@
 
 [LibraryClasses.common]
   SocClockLib|Silicon/NXP/LX2160A/Library/SocClockLib/SocClockLib.inf
-  SocFixupLib|Silicon/NXP/Library/SocFixupLibNull/SocFixupLibNull.inf
+  SocFixupLib|Silicon/NXP/LX2160A/Library/SocFixupLib/SocFixupLib.inf
 
 [PcdsFixedAtBuild.common]
   gArmTokenSpaceGuid.PcdGenericWatchdogControlBase|0x23A0000
@@ -98,7 +98,5 @@
   gNxpQoriqLsTokenSpaceGuid.PcdDpaa2CortinaFwMaxLen|0x40000
   gNxpQoriqLsTokenSpaceGuid.PcdBypassAmqMask|0x60000
   gNxpQoriqLsTokenSpaceGuid.PcdMacDeviceDisableRegAddr|0x1e00074
-  gNxpQoriqLsTokenSpaceGuid.PcdPcieStreamIdStart|7
-  gNxpQoriqLsTokenSpaceGuid.PcdPcieStreamIdEnd|22
 
 ##

@@ -772,7 +772,10 @@ FdtPcieSetMsiMapEntry (
   return EFI_SUCCESS;
 
 Error:
-    DEBUG ((DEBUG_ERROR, "error setting msi-map for %a\n", fdt_get_name (Dtb, PcieNodeOffset, NULL)));
+    DEBUG ((
+      DEBUG_ERROR, "error %a setting msi-map for %a\n",
+      fdt_strerror (FdtStatus), fdt_get_name (Dtb, PcieNodeOffset, NULL)
+      ));
     return EFI_DEVICE_ERROR;
 }
 
@@ -816,7 +819,10 @@ FdtPcieSetIommuMapEntry (
   }
 
   if (FdtStatus) {
-    DEBUG ((DEBUG_ERROR, "error setting iommu-map for %a\n", fdt_get_name (Dtb, PcieNodeOffset, NULL)));
+    DEBUG ((
+      DEBUG_ERROR, "error %a setting iommu-map for %a\n",
+      fdt_strerror (FdtStatus), fdt_get_name (Dtb, PcieNodeOffset, NULL)
+      ));
     return EFI_DEVICE_ERROR;
   }
 
@@ -854,6 +860,7 @@ OnPlatformHasPciIo (
   UINT32                StreamId;
   UINT32                LutIndex;
   LS_PCIE               *LsPcie;
+  VOID                  *Dev;
 
   LsPcie = (LS_PCIE *)Context;
 
@@ -896,6 +903,14 @@ OnPlatformHasPciIo (
     Status = gBS->HandleProtocol (Handle, &gEfiPciIoProtocolGuid, (VOID **)&PciIo);
     ASSERT_EFI_ERROR (Status);
     ASSERT (PciIo != NULL);
+
+    // Check if this PciIo is installed for a pcie controller root bridge
+    // or a Non discoverable Pci Io Instance
+    Status = gBS->HandleProtocol (Handle, &gEdkiiNonDiscoverableDeviceProtocolGuid, (VOID **)&Dev);
+    if (Status == EFI_SUCCESS) {
+      // Io protocol is for Non discoverable Pci device. no fixups for this
+      continue;
+    }
 
     //
     // Get the Bus Device and Function

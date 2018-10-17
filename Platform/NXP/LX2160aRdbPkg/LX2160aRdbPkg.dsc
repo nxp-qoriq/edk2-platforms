@@ -29,8 +29,9 @@
   FLASH_DEFINITION               = Platform/NXP/LX2160aRdbPkg/LX2160aRdbPkg.fdf
   DEFINE MC_HIGH_MEM             = TRUE
 
-!include ../NxpQoriqLs.dsc
-!include ../../../Silicon/NXP/LX2160A/LX2160A.dsc
+!include Platform/NXP/NxpQoriqLs.dsc
+!include Silicon/NXP/Chassis/Chassis3V2/Chassis3V2.dsc
+!include Silicon/NXP/LX2160A/LX2160A.dsc
 
 [LibraryClasses.common]
   ArmPlatformLib|Platform/NXP/LX2160aRdbPkg/Library/PlatformLib/ArmPlatformLib.inf
@@ -125,8 +126,6 @@
   gNxpQoriqLsTokenSpaceGuid.PcdDpaa2Initialize|TRUE
   gNxpQoriqLsTokenSpaceGuid.PcdDisableMcLogging|FALSE
   gNxpQoriqLsTokenSpaceGuid.PcdDpaa2McFwSrc|0x01
-  gNxpQoriqLsTokenSpaceGuid.PcdDpaa2StreamIdStart|23
-  gNxpQoriqLsTokenSpaceGuid.PcdDpaa2StreamIdEnd|63
   gNxpQoriqLsTokenSpaceGuid.PcdDpaa2McBootTimeoutMs|200000
   gNxpQoriqLsTokenSpaceGuid.PcdDpaa2UsedDpmacsMask|0xff00ff
   gNxpQoriqLsTokenSpaceGuid.PcdDpaa2McLogMcDramOffset|0x1000000
@@ -182,5 +181,10 @@
   Silicon/NXP/Drivers/MmcHostDxe/MmcHostDxe.inf
   Silicon/NXP/Drivers/Dpaa2EthernetDxe/Dpaa2EthernetDxe.inf
   Silicon/NXP/Drivers/RngDxe/RngDxe.inf
+  #
+  # DT support
+  #
+  Platform/NXP/LX2160aRdbPkg/DeviceTree/DeviceTree.inf
+  Silicon/NXP/Drivers/DtPlatformDxe/DtPlatformDxe.inf
 
  ##
