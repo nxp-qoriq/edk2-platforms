@@ -446,6 +446,7 @@ GetEraseCommandIndex (
       if (Table->Config.AddressLength == 1 || Table->Config.AddressLength == 3) {
         RequestPacket->Transaction[Index].Length = 3; // 24 bit address
       } else {
+        // TODO : if required Enter 4-Byte Addressing
         RequestPacket->Transaction[Index].Length = 4; // 32 bit address
       }
       RequestPacket->Transaction[Index].FrameSize = 8;
@@ -488,6 +489,11 @@ GetEraseCommandIndex (
         ));
       goto ErrorExit;
     }
+
+    if (Table->Config.Address == 4)
+      ConfigRegister |= (BIT3 | BIT1);
+    else if (Table->Config.Address == 2)
+      ConfigRegister &= ~BIT2;
 
     // Mask the data read
     ConfigRegister &= Table->Config.Mask;
@@ -907,25 +913,44 @@ ReadFlashData (
 {
   EFI_SPI_REQUEST_PACKET        *RequestPacket;
   EFI_STATUS                    Status;
+  UINTN                         TransferBytes;
 
+  Status = EFI_SUCCESS;
   RequestPacket = SpiNorGetRequestPacket (SpiNorParams, SPI_NOR_REQUEST_TYPE_READ);
-  // Fill Flash read request packet
-  FillRequestPacketData (
-    SPI_NOR_REQUEST_TYPE_READ,
-    SpiNorParams,
-    RequestPacket,
-    From,
-    ReadBuf,
-    Length
-    );
-  // read Flash Data
-  Status = SpiIo->Transaction (
-                    SpiIo,
-                    RequestPacket,
-                    0
-                    );
-  if (EFI_ERROR (Status)) {
-    DEBUG ((DEBUG_ERROR, "Error Reading Flash Data %r\n", Status));
+
+  while (Length) {
+    TransferBytes = SpiIo->MaximumTransferBytes;
+    if (SpiIo->Attributes | SPI_TRANSFER_SIZE_INCLUDES_ADDRESS) {
+      TransferBytes -= sizeof (UINT32);
+    }
+    if (SpiIo->Attributes | SPI_TRANSFER_SIZE_INCLUDES_OPCODE) {
+      TransferBytes -= sizeof (UINT8);
+    }
+    TransferBytes = MIN (Length, TransferBytes);
+    // Fill Flash read request packet
+    FillRequestPacketData (
+      SPI_NOR_REQUEST_TYPE_READ,
+      SpiNorParams,
+      RequestPacket,
+      From,
+      ReadBuf,
+      TransferBytes
+      );
+    // read Flash Data
+    Status = SpiIo->Transaction (
+                      SpiIo,
+                      RequestPacket,
+                      0
+                      );
+    if (EFI_ERROR (Status)) {
+      DEBUG ((DEBUG_ERROR, "Error Reading Flash Data %r\n", Status));
+      break;
+    }
+
+    // Move Pointers
+    ReadBuf += TransferBytes;
+    From += TransferBytes;
+    Length -= TransferBytes;
   }
 
   return Status;
