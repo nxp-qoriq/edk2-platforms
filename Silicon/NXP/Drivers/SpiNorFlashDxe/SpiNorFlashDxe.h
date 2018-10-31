@@ -14,20 +14,22 @@
 #ifndef _SPI_NOR_FLASH_DXE_H_
 #define _SPI_NOR_FLASH_DXE_H_
 
+#include "SpiNorFlashOps.h"
+
 EFI_STATUS
 SpiNorFlashSupported (
   IN EFI_DRIVER_BINDING_PROTOCOL   *This,
   IN EFI_HANDLE                    ControllerHandle,
-  IN EFI_DEVICE_PATH_PROTOCOL      *RemainingDevicePath OPTIONAL 
+  IN EFI_DEVICE_PATH_PROTOCOL      *RemainingDevicePath OPTIONAL
   );
-  
+
 EFI_STATUS
 SpiNorFlashStart (
   IN EFI_DRIVER_BINDING_PROTOCOL   *This,
   IN EFI_HANDLE                    ControllerHandle,
   IN EFI_DEVICE_PATH_PROTOCOL      *RemainingDevicePath OPTIONAL
   );
-  
+
 EFI_STATUS
 SpiNorFlashStop (
   IN EFI_DRIVER_BINDING_PROTOCOL   *This,
