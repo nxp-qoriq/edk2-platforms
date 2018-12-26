@@ -175,6 +175,12 @@ ConfigScfgMux (VOID)
                 CCSR_SCFG_USBPWRFAULT_USB1_SHIFT);
   BeMmioWrite32 ((UINTN)&Scfg->UsbPwrFaultSelCr, UsbPwrFault);
   BeMmioWrite32 ((UINTN)&Scfg->UsbPwrFaultSelCr, UsbPwrFault);
+
+  /* Make SATA reads and writes snoopable */
+  MmioSetBitsBe32 (
+    (UINTN)&Scfg->SnpCnfGcr,
+    CCSR_SCFG_SNPCNFGCR_SATARDSNP | CCSR_SCFG_SNPCNFGCR_SATAWRSNP
+    );
 }
 
 /**
@@ -191,7 +197,9 @@ SocInit (
 {
   CHAR8 Buffer[100];
   UINTN CharCount;
-
+  CCSR_SCFG    *Scfg;
+   
+  Scfg = (VOID *)PcdGet64 (PcdScfgBaseAddr);
   SmmuInit ();
 
   //
@@ -220,6 +228,9 @@ SocInit (
   // determined externel to RCW at Power-on Reset Sequence.
   //
   ConfigScfgMux ();
+
+   //Invert AQR105 IRQ pins interrupt polarity
+  MmioWriteBe32 ((UINTN)&Scfg->IntpCr, PcdGet32 (PcdScfgIntPol));
 
 
   return;
