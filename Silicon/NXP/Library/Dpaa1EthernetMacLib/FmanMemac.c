@@ -43,7 +43,7 @@ STATIC CONST CHAR8 *CONST gPhyInterfaceTypeStrings[] = {
 #define FMAN_MEMAC_INITIALIZER(_MemacId) \
         [_MemacId] = {                                                  \
           .Signature = FMAN_MEMAC_SIGNATURE,                            \
-          .Id = _MemacId,                                               \
+          .Id = INVALID_FMAN_MEMAC_ID,                                  \
           .Enabled = FALSE,                                             \
           .Phy = {                                                      \
             .Signature = DPAA1_PHY_SIGNATURE,                           \
@@ -190,7 +190,7 @@ FmanMemacInit(
   /* Initialize with default values */
   Memac = &gFmanMemacs[MemacId];
 
-  ASSERT(Memac->Id == MemacId);
+  Memac->Id = MemacId;
   Memac->Enabled = IsMemacEnabled(MemacId);
   Memac->Phy.PhyInterfaceType = PhyInterfaceType;
   Memac->Phy.MdioBus = MdioBus;
