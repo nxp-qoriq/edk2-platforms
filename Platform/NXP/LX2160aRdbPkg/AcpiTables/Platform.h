@@ -2,7 +2,7 @@
 *
 *  Copyright (c) 2011-2015, ARM Limited. All rights reserved.
 *  Copyright (c) 2015, Linaro Limited. All rights reserved.
-*  Copyright 2017-2018 NXP
+*  Copyright 2017-2019 NXP
 *
 *  This program and the accompanying materials
 *  are licensed and made available under the terms and conditions of the BSD License
@@ -128,6 +128,11 @@
 #define SDC_LEN   0x10000
 #define SDC0_IT   60
 #define SDC1_IT   95
+
+// MDIO
+#define MDI0_BASE 0x8b96000
+#define MDI_LEN   0x1000
+#define MDI0_IT   122
 
 // Timer
 #define TIMER_BLOCK_COUNT            1
