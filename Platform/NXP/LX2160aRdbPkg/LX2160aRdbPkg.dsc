@@ -214,4 +214,10 @@
   #
   Platform/NXP/LX2160aRdbPkg/AcpiTables/AcpiTables.inf
 
+ #
+ #SMBIOS
+ #
+ MdeModulePkg/Universal/SmbiosDxe/SmbiosDxe.inf
+ Platform/NXP/LX2160aRdbPkg/SmbiosPlatformDxe/SmbiosPlatformDxe.inf
+ ##
  ##
