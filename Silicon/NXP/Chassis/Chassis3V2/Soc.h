@@ -107,8 +107,18 @@ typedef struct {
   UINT8     Res310[0x400-0x310];
   UINT32    BootLocPtrL;      // Low addr : Boot location pointer
   UINT32    BootLocPtrH;      // High addr : Boot location pointer
-  UINT8     Res408[0x500-0x408];
-  UINT8     Res500[0x740-0x500];
+  UINT8     Res408[0x520-0x408];
+  UINT32    Usb1Amqr;
+  UINT32    Usb2Amqr;
+  UINT8     Res528[0x530-0x528];
+  UINT32    Sdmm1Amqr;
+  UINT32    Sdmm2Amqr;
+  UINT8     Res538[0x550-0x538];
+  UINT32    Sata1Amqr;
+  UINT32    Sata2Amqr;
+  UINT32    Sata3Amqr;
+  UINT32    Sata4Amqr;
+  UINT8     Res560[0x740-0x560];
   UINT32    TpItyp[64];
   struct {
     UINT32     Upper;
@@ -154,6 +164,13 @@ UINT32
 EFIAPI
 GurRead (
   IN  UINTN     Address
+  );
+
+VOID
+EFIAPI
+GurWrite (
+  IN  UINTN    Address,
+  IN  UINT32   Value
   );
 
 #endif /* __SOC_H__ */
