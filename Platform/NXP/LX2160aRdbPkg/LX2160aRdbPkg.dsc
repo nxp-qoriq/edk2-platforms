@@ -207,7 +207,7 @@
   #
   # Acpi Support
   #
-  MdeModulePkg/Universal/Acpi/AcpiPlatformDxe/AcpiPlatformDxe.inf
+  Silicon/NXP/Drivers/NxpAcpiPlatformDxe/AcpiPlatformDxe.inf
 
   #
   # Platform
