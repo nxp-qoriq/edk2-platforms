@@ -895,6 +895,58 @@ FdtPcieSetIommuMapEntry (
 }
 
 /**
+  fix the pci controller node in device tree with msi-map and iommu-map property
+
+  @param[in] Dtb           Device tree to fixup
+  @param[in] LsPcie        Array of type LS_PCIE for all PCIE controllers in SOC
+  @param[in] SegmentNumber SegmentNumber corresponding to PCIE controller. Used
+                           to find PCIE controller structure in LsPcie array.
+  @param[in] InputId       The device as identified by BusDeviceFunc Triplet
+  @param[in] OutputId      StreamId assigned to the Pcie device.
+
+  @retval EFI_SUCCESS       device tree fixed up successfully
+  @retval EFI_NOT_FOUND     Controller node not found in device tree
+  @retval EFI_DEVICE_ERROR  Couldn't fix the device tree
+**/
+STATIC
+EFI_STATUS
+FdtPcieSetUp (
+  VOID      *Dtb,
+  LS_PCIE   *LsPcie,
+  UINTN     SegmentNumber,
+  UINT32    InputId,
+  UINT32    OutputId
+  )
+{
+  INTN                  PcieNodeOffset;
+  EFI_STATUS            Status;
+
+  // Segment Number denotes the controller number
+  // Find the controller node offset in Device tree based on this
+  PcieNodeOffset = FdtFindPcie (Dtb, LsPcie[SegmentNumber].ControllerAddress);
+  if (PcieNodeOffset < 0) {
+    DEBUG ((
+      DEBUG_WARN,
+      "Pcie node with regs address %p node found in Dtb\n",
+      LsPcie[SegmentNumber].ControllerAddress
+      ));
+    return EFI_NOT_FOUND;
+  }
+
+  Status = FdtPcieSetIommuMapEntry (Dtb, PcieNodeOffset, InputId, OutputId);
+  if (EFI_ERROR (Status) && (Status != EFI_NOT_FOUND)) {
+    return Status;
+  }
+
+  Status = FdtPcieSetMsiMapEntry (Dtb, PcieNodeOffset, InputId, OutputId);
+  if (EFI_ERROR (Status) && (Status != EFI_NOT_FOUND)) {
+    return Status;
+  }
+
+  return EFI_SUCCESS;
+}
+
+/**
   This notification function is invoked when an instance of the
   EFI_PCI_IO_PROTOCOL is produced.  It searches the devices on the IO
   Protocol and fixes the device tree with msi-map and iommu-map property
@@ -920,7 +972,6 @@ OnPlatformHasPciIo (
   UINTN                 DeviceNumber;
   UINTN                 FunctionNumber;
   UINTN                 BusDevFuc;
-  INTN                  PcieNodeOffset;
   VOID                  *Dtb;
   INT32                 StreamId;
   INT32                 LutIndex;
@@ -1011,25 +1062,8 @@ OnPlatformHasPciIo (
       break;
     }
 
-    // Segment Number denotes the controller number
-    // Find the controller node offset in Device tree based on this
-    PcieNodeOffset = FdtFindPcie (Dtb, LsPcie[SegmentNumber].ControllerAddress);
-    if (PcieNodeOffset < 0) {
-      DEBUG ((
-        DEBUG_WARN,
-        "Pcie node with regs address %p node found in Dtb\n",
-        LsPcie[SegmentNumber].ControllerAddress
-        ));
-      continue;
-    }
-
-    Status = FdtPcieSetIommuMapEntry (Dtb, PcieNodeOffset, BusDevFuc, StreamId);
-    if (EFI_ERROR (Status) && (Status != EFI_NOT_FOUND)) {
-      break;
-    }
-
-    Status = FdtPcieSetMsiMapEntry (Dtb, PcieNodeOffset, BusDevFuc, StreamId);
-    if (EFI_ERROR (Status) && (Status != EFI_NOT_FOUND)) {
+    Status = FdtPcieSetUp (Dtb, LsPcie, SegmentNumber, BusDevFuc, StreamId);
+    if (EFI_ERROR (Status) && Status != EFI_NOT_FOUND) {
       break;
     }
 
