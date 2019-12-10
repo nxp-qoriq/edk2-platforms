@@ -5,6 +5,7 @@
   Copyright (c) 2014, ARM Ltd. All rights reserved.<BR>
   Copyright (c) 2004 - 2016, Intel Corporation. All rights reserved.<BR>
   Copyright (c) 2016, Linaro Ltd. All rights reserved.<BR>
+  Copyright 2019 NXP
 
   This program and the accompanying materials are licensed and made available
   under the terms and conditions of the BSD License which accompanies this
@@ -476,6 +477,11 @@ PlatformBootManagerBeforeConsole (
   // them.
   //
   FilterAndProcess (&gEfiPciRootBridgeIoProtocolGuid, NULL, Connect);
+
+  //
+  // Signal the ACPI platform driver that it can download Install IORT ACPI tables.
+  //
+  EfiEventGroupSignal (&gRootBridgesConnectedEventGroupGuid);
 
   //
   // Find all display class PCI devices (using the handles from the previous
