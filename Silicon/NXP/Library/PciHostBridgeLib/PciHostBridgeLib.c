@@ -1212,7 +1212,12 @@ OnPlatformHasPciIo (
 
     // TODO: remove this if check, when all platforms have IORT table
     if (PcdGet64 (PcdIortTablePtr) != 0) {
-      Status = IortPcieSetUp ((VOID *)PcdGet64 (PcdIortTablePtr), SegmentNumber, BusDevFuc, StreamId);
+      if (SegmentNumber == 2) {
+        Status = IortPcieSetUp ((VOID *)PcdGet64 (PcdIortTablePtr), 0, BusDevFuc, StreamId);
+      }
+      if (SegmentNumber == 4) {
+        Status = IortPcieSetUp ((VOID *)PcdGet64 (PcdIortTablePtr), 1, BusDevFuc, StreamId);
+      }
       if (EFI_ERROR (Status) && Status != EFI_NOT_FOUND) {
         break;
       }
