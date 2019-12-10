@@ -9,6 +9,7 @@
 #include <PiDxe.h>
 #include <libfdt.h>
 #include <IndustryStandard/Pci22.h>
+#include <IndustryStandard/NxpIoRemappingTable.h>
 #include <Library/BeIoLib.h>
 #include <Library/DebugLib.h>
 #include <Library/DevicePathLib.h>
@@ -947,6 +948,148 @@ FdtPcieSetUp (
 }
 
 /**
+  ID mappings represent the formula by which an ID from a source is converted to
+  an ID in a destination.
+
+  This function doesn't check the table for memory footprint. i.e. it's assumed
+  that the memory for ID mapping is avaliable in IORT table.
+
+  @param[in] CurrentTable  IORT table to fixup
+  @param[in] InputId       Input Id to ITS block
+  @param[in] OutputId      Output Id from ITS block
+
+  @retval EFI_SUCCESS      IORT table fixed up successfully
+**/
+EFI_STATUS
+IortPcieSetItsIdMapping (
+  VOID    *CurrentTable,
+  UINT32  InputId,
+  UINT32  OutputId
+  )
+{
+  NXP_EFI_ACPI_6_0_IO_REMAPPING_TABLE      *Iort;
+  NXP_EFI_ACPI_6_0_IO_REMAPPING_SMMU_NODE  *SmmuNode;
+  EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE       *IdMapping;
+
+  Iort = (NXP_EFI_ACPI_6_0_IO_REMAPPING_TABLE *)CurrentTable;
+
+  // find Smmu Node
+  SmmuNode = &(Iort->SmmuNode);
+
+  IdMapping = &(SmmuNode->SmmuID[SmmuNode->SmmuNode.Node.NumIdMappings]);
+
+  IdMapping->InputBase = InputId;
+  IdMapping->NumIds = 0;
+  IdMapping->OutputBase = OutputId;
+  IdMapping->OutputReference = OFFSET_OF (NXP_EFI_ACPI_6_0_IO_REMAPPING_TABLE, ItsNode);
+
+  SmmuNode->SmmuNode.Node.NumIdMappings += 1;
+
+  return EFI_SUCCESS;
+}
+
+/**
+  ID mappings represent the formula by which an ID from a source is converted to
+  an ID in a destination.
+
+  This function doesn't check the table for memory footprint. i.e. it's assumed
+  that the memory for ID mapping is avaliable in IORT table.
+
+  @param[in] CurrentTable  IORT table to fixup
+  @param[in] SegmentNumber SegmentNumber corresponding to PCIE controller. Used
+                           to find PCIE controller structure in Iort->PciRcNode
+                           array.
+  @param[in] InputId       The device as identified by BusDeviceFunc Triplet
+  @param[in] OutputId      StreamId assigned to the Pcie device.
+
+  @retval EFI_SUCCESS      IORT table fixed up successfully
+  @retval EFI_NOT_FOUND    Controller node not found in IORT table
+**/
+EFI_STATUS
+IortPcieSetIommuIdMapping (
+  VOID    *CurrentTable,
+  UINTN   SegmentNumber,
+  UINT32  InputId,
+  UINT32  OutputId
+  )
+{
+  NXP_EFI_ACPI_6_0_IO_REMAPPING_TABLE    *Iort;
+  NXP_EFI_ACPI_6_0_IO_REMAPPING_RC_NODE  *PciRcNode;
+  EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE     *IdMapping;
+  UINTN                                  Index;
+
+  Iort = (NXP_EFI_ACPI_6_0_IO_REMAPPING_TABLE *)CurrentTable;
+
+  // find Pcie Rc Node
+  Index = 0;
+  PciRcNode = Iort->PciRcNode;
+  while (Index < ARRAY_SIZE(Iort->PciRcNode)) {
+    if (PciRcNode->PciRcNode.PciSegmentNumber == SegmentNumber) {
+      break;
+    }
+    PciRcNode = &(Iort->PciRcNode[++Index]);
+  }
+
+  if (Index == ARRAY_SIZE(Iort->PciRcNode)) {
+    DEBUG ((DEBUG_ERROR, "Pcie node with Segment number %d not found in IORT table\n", SegmentNumber));
+    return EFI_NOT_FOUND;
+  }
+
+  IdMapping = &(PciRcNode->PciRcIdMapping[PciRcNode->PciRcNode.Node.NumIdMappings]);
+
+  IdMapping->InputBase = InputId;
+  IdMapping->NumIds = 0;
+  IdMapping->OutputBase = OutputId;
+  IdMapping->OutputReference = OFFSET_OF (NXP_EFI_ACPI_6_0_IO_REMAPPING_TABLE, SmmuNode);
+
+  PciRcNode->PciRcNode.Node.NumIdMappings += 1;
+
+  return EFI_SUCCESS;
+}
+
+/**
+  ID mappings represent the formula by which an ID from a source is converted to
+  an ID in a destination. For example, for a root complex behind an SMMU, the
+  RID originating from that root complex must be converted to a StreamID in the
+  destination SMMU. With IORT, ID mappings are declared in the source node.
+
+  This function doesn't check the table for memory footprint. i.e. it's assumed
+  that the memory for ID mapping is avaliable in IORT table.
+
+  @param[in] CurrentTable  IORT table to fixup
+  @param[in] SegmentNumber SegmentNumber corresponding to PCIE controller. Used
+                           to find PCIE controller structure in Iort->PciRcNode
+                           array.
+  @param[in] InputId       Input Id to IOMMU block
+  @param[in] OutputId      Output Id from IOMMU block
+
+  @retval EFI_SUCCESS      IORT table fixed up successfully
+  @retval EFI_NOT_FOUND    Controller node not found in IORT table
+**/
+EFI_STATUS
+IortPcieSetUp (
+  VOID      *CurrentTable,
+  UINTN     SegmentNumber,
+  UINT32    InputId,
+  UINT32    OutputId
+  )
+{
+  EFI_STATUS            Status;
+
+  Status = IortPcieSetIommuIdMapping (CurrentTable, SegmentNumber, InputId, OutputId);
+  if (EFI_ERROR (Status)) {
+    return Status;
+  }
+
+  Status = IortPcieSetItsIdMapping (CurrentTable, OutputId, OutputId);
+  if (EFI_ERROR (Status)) {
+    return Status;
+  }
+
+  return EFI_SUCCESS;
+}
+
+/**
   This notification function is invoked when an instance of the
   EFI_PCI_IO_PROTOCOL is produced.  It searches the devices on the IO
   Protocol and fixes the device tree with msi-map and iommu-map property
@@ -1065,6 +1208,14 @@ OnPlatformHasPciIo (
     Status = FdtPcieSetUp (Dtb, LsPcie, SegmentNumber, BusDevFuc, StreamId);
     if (EFI_ERROR (Status) && Status != EFI_NOT_FOUND) {
       break;
+    }
+
+    // TODO: remove this if check, when all platforms have IORT table
+    if (PcdGet64 (PcdIortTablePtr) != 0) {
+      Status = IortPcieSetUp ((VOID *)PcdGet64 (PcdIortTablePtr), SegmentNumber, BusDevFuc, StreamId);
+      if (EFI_ERROR (Status) && Status != EFI_NOT_FOUND) {
+        break;
+      }
     }
 
     PcieLutSetMapping (&LsPcie[SegmentNumber], LutIndex, BusDevFuc, StreamId);
