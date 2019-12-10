@@ -202,7 +202,7 @@ NXP_EFI_ACPI_6_0_IO_REMAPPING_TABLE Iort = {
       },
       {
         .InputBase = 0x1801,
-        .NumIds = 7,
+        .NumIds = 0,
         .OutputBase = 0x1801,
         .OutputReference = OFFSET_OF (NXP_EFI_ACPI_6_0_IO_REMAPPING_TABLE, ItsNode),
         .Flags = 0,
@@ -216,7 +216,7 @@ NXP_EFI_ACPI_6_0_IO_REMAPPING_TABLE Iort = {
       },
       {
         .InputBase = 0x2801,
-        .NumIds = 7,
+        .NumIds = 0,
         .OutputBase = 0x2801,
         .OutputReference = OFFSET_OF (NXP_EFI_ACPI_6_0_IO_REMAPPING_TABLE, ItsNode),
         .Flags = 0,
@@ -250,7 +250,7 @@ NXP_EFI_ACPI_6_0_IO_REMAPPING_TABLE Iort = {
       },
       {
         .InputBase = 0x100,
-        .NumIds = 0x7,
+        .NumIds = 0,
         .OutputBase = 0x1801,
         .OutputReference = OFFSET_OF (NXP_EFI_ACPI_6_0_IO_REMAPPING_TABLE, SmmuNode),
         .Flags = 0,
@@ -284,7 +284,7 @@ NXP_EFI_ACPI_6_0_IO_REMAPPING_TABLE Iort = {
       },
       {
         .InputBase = 0x100,
-        .NumIds = 0x7,
+        .NumIds = 0x0,
         .OutputBase = 0x2801,
         .OutputReference = OFFSET_OF (NXP_EFI_ACPI_6_0_IO_REMAPPING_TABLE, SmmuNode),
         .Flags = 0,
