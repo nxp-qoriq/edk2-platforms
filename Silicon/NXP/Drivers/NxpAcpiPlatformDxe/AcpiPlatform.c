@@ -2,6 +2,8 @@
   Sample ACPI Platform Driver
 
   Copyright (c) 2008 - 2011, Intel Corporation. All rights reserved.<BR>
+  Copyright 2019 NXP
+
   This program and the accompanying materials
   are licensed and made available under the terms and conditions of the BSD License
   which accompanies this distribution.  The full text of the license may be found at
@@ -152,6 +154,54 @@ AcpiPlatformChecksum (
   Buffer[ChecksumOffset] = CalculateCheckSum8(Buffer, Size);
 }
 
+STATIC
+VOID
+OnRootBridgesConnected (
+  IN EFI_EVENT  Event,
+  IN VOID       *Context
+  )
+{
+  EFI_STATUS                     Status;
+  EFI_ACPI_TABLE_PROTOCOL        *AcpiTable;
+  EFI_ACPI_COMMON_HEADER         *CurrentTable;
+  UINTN                          TableHandle;
+  UINTN                          TableSize;
+
+  //
+  // Find the AcpiTable protocol
+  //
+  Status = gBS->LocateProtocol (&gEfiAcpiTableProtocolGuid, NULL, (VOID**)&AcpiTable);
+  if (EFI_ERROR (Status)) {
+    DEBUG ((DEBUG_ERROR, "AcpiPlatformDxe: Failed to get ACPI Table Protocol\n"));
+  }
+
+  CurrentTable = (EFI_ACPI_COMMON_HEADER *)PcdGet64 (PcdIortTablePtr);
+
+  TableSize = ((EFI_ACPI_DESCRIPTION_HEADER *) CurrentTable)->Length;
+  //
+  // Checksum ACPI table
+  //
+  AcpiPlatformChecksum ((UINT8*)CurrentTable, TableSize);
+
+  //
+  // Install ACPI table
+  //
+  Status = AcpiTable->InstallAcpiTable (
+                        AcpiTable,
+                        CurrentTable,
+                        TableSize,
+                        &TableHandle
+                        );
+
+  //
+  // Free memory allocated by ReadSection
+  //
+  gBS->FreePool (CurrentTable);
+
+  if (EFI_ERROR(Status)) {
+    DEBUG ((DEBUG_ERROR, "AcpiPlatformDxe: Failed to install IORT Table\n"));
+  }
+}
 
 /**
   Entrypoint of Acpi Platform driver.
@@ -180,6 +230,8 @@ AcpiPlatformEntryPoint (
   UINT32                         FvStatus;
   UINTN                          TableSize;
   UINTN                          Size;
+  EFI_ACPI_DESCRIPTION_HEADER    *TableHeader;
+  EFI_EVENT                      RootBridgesConnected;
 
   Instance     = 0;
   CurrentTable = NULL;
@@ -223,6 +275,30 @@ AcpiPlatformEntryPoint (
       TableSize = ((EFI_ACPI_DESCRIPTION_HEADER *) CurrentTable)->Length;
       ASSERT (Size >= TableSize);
 
+      TableHeader = (EFI_ACPI_DESCRIPTION_HEADER*) (CurrentTable);
+      if (TableHeader->Signature == EFI_ACPI_6_2_IO_REMAPPING_TABLE_SIGNATURE) {
+        PcdSet64 (PcdIortTablePtr, (UINT64)CurrentTable);
+        //
+        // Delay installing the ACPI tables until root bridges are
+        // connected. The entry point's return status will only reflect the callback
+        // setup. (Note that we're a DXE_DRIVER; our entry point function is invoked
+        // strictly before BDS is entered and can connect the root bridges.)
+        //
+        Status = gBS->CreateEventEx (
+                       EVT_NOTIFY_SIGNAL,
+                       TPL_CALLBACK,
+                       OnRootBridgesConnected,
+                       NULL,
+                       &gRootBridgesConnectedEventGroupGuid,
+                       &RootBridgesConnected
+                       );
+        //
+        // Increment the instance
+        //
+        Instance++;
+        CurrentTable = NULL;
+        continue;
+      }
       //
       // Checksum ACPI table
       //

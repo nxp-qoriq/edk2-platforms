@@ -287,3 +287,5 @@
 
 [PcdsDynamic.common]
   gNxpQoriqLsTokenSpaceGuid.PcdSocSvr|0xffffffff|UINT32|0x00000400
+  gNxpQoriqLsTokenSpaceGuid.PcdIortTablePtr|0|UINT64|0x00000401
+

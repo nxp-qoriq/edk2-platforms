@@ -1180,6 +1180,10 @@ PciHostBridgeGetRootBridges (
     }
   }
 
+  if (PcdGet64 (PcdIortTablePtr) == 0) {
+    DEBUG ((DEBUG_ERROR, "Could not get IORT table Ptr\n"));
+  }
+
   for (Idx = 0; Idx < NUM_PCIE_CONTROLLER; Idx++) {
     //
     // Verify PCIe controller is enabled in Soc Serdes Map
