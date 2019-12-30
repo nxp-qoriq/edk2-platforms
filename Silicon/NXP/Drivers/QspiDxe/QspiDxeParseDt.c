@@ -2,7 +2,7 @@
 
   Functions for retrieving platform specific info from device tree and install protocols
 
-  Copyright 2017 NXP
+  Copyright 2017-2019 NXP
 
   This program and the accompanying materials
   are licensed and made available under the terms and conditions of the bsd
@@ -183,12 +183,13 @@ ParseDeviceTree (
     QspiMasterPtr->Regs = (QSPI_REGISTERS *)Regs;
     QspiMasterPtr->AmbaBase = AmbaBase;
 
-    if (fdt_getprop(Fdt, NodeOffset, "big-endian", NULL) != NULL) {
-      QspiMasterPtr->Read32 = BeMmioRead32;
-      QspiMasterPtr->Write32 = BeMmioWrite32;
-    } else {
+    // determine endianness automatically
+    if (MmioRead32 ( (UINTN)&QspiMasterPtr->Regs->Lutkey) == LUT_KEY) {
       QspiMasterPtr->Read32 = MmioRead32;
       QspiMasterPtr->Write32 = MmioWrite32;
+    } else {
+      QspiMasterPtr->Read32 = BeMmioRead32;
+      QspiMasterPtr->Write32 = BeMmioWrite32;
     }
 
     Prop = fdt_getprop(Fdt, NodeOffset, "num-cs", &PropLen);
