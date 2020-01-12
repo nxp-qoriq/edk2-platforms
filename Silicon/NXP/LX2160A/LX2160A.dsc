@@ -1,16 +1,9 @@
 #  LX2160A.dsc
 #  LX2160A Soc package.
 #
-#  Copyright 2018, 2020 NXP
+#  Copyright 2018-2020 NXP
 #
-#  This program and the accompanying materials
-#  are licensed and made available under the terms and conditions of the BSD License
-#  which accompanies this distribution. The full text of the license may be found at
-#  http://opensource.org/licenses/bsd-license.php
-#
-#  THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "AS IS" BASIS,
-#  WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
-#
+#  SPDX-License-Identifier: BSD-2-Clause
 #
 
 ################################################################################
@@ -25,6 +18,7 @@
   gArmTokenSpaceGuid.PcdGicDistributorBase|0x6000000
   gArmTokenSpaceGuid.PcdGicRedistributorsBase|0x6200000
   gArmTokenSpaceGuid.PcdGicInterruptInterfaceBase|0x0c0c0000
+  gNxpQoriqLsTokenSpaceGuid.PcdPciFdtCompatible|"fsl,lx2160a-pcie"
 
 [LibraryClasses.common]
   SocClockLib|Silicon/NXP/LX2160A/Library/SocClockLib/SocClockLib.inf
@@ -60,7 +54,6 @@
   gNxpQoriqLsTokenSpaceGuid.PcdPciExp4BaseSize|0x800000000        # 32 GB
   gNxpQoriqLsTokenSpaceGuid.PcdPciExp5BaseAddr|0xA000000000
   gNxpQoriqLsTokenSpaceGuid.PcdPciExp6BaseAddr|0xA800000000
-  gNxpQoriqLsTokenSpaceGuid.PcdPciFdtCompatible|"fsl,lx2160a-pcie"
   gNxpQoriqLsTokenSpaceGuid.PcdUsbBaseAddr|0x3100000
   gNxpQoriqLsTokenSpaceGuid.PcdUsbSize|0x10000
   gNxpQoriqLsTokenSpaceGuid.PcdGutsBaseAddr|0x1E00000

@@ -1,15 +1,8 @@
 #  @file
 #
-#  Copyright 2018 NXP
+#  Copyright 2018-2020 NXP
 #
-#  This program and the accompanying materials
-#  are licensed and made available under the terms and conditions of the BSD License
-#  which accompanies this distribution. The full text of the license may be found at
-#  http://opensource.org/licenses/bsd-license.php
-#
-#  THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "AS IS" BASIS,
-#  WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
-#
+#  SPDX-License-Identifier: BSD-2-Clause
 #
 
 ################################################################################
@@ -64,8 +57,8 @@
  #    ----------------------------
  #
   # PCI - programmed in PEXn_LUT
-  gNxpQoriqLsTokenSpaceGuid.PcdPcieStreamIdStart|7
-  gNxpQoriqLsTokenSpaceGuid.PcdPcieStreamIdEnd|22
+  gNxpQoriqLsTokenSpaceGuid.PcdPcieStreamIdStart|0x0
+  gNxpQoriqLsTokenSpaceGuid.PcdPcieStreamIdEnd|0x100
   # DPAA2 - set in MC DPC and alloced by MC
   gNxpQoriqLsTokenSpaceGuid.PcdDpaa2StreamIdStart|23
   gNxpQoriqLsTokenSpaceGuid.PcdDpaa2StreamIdEnd|63

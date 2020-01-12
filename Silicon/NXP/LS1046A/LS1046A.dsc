@@ -1,16 +1,9 @@
 #  LS1046A.dsc
 #  LS1046A Soc package.
 #
-#  Copyright 2017 NXP
+#  Copyright 2017-2020 NXP
 #
-#  This program and the accompanying materials
-#  are licensed and made available under the terms and conditions of the BSD License
-#  which accompanies this distribution. The full text of the license may be found at
-#  http://opensource.org/licenses/bsd-license.php
-#
-#  THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "AS IS" BASIS,
-#  WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
-#
+#  SPDX-License-Identifier: BSD-2-Clause
 #
 
 ################################################################################
@@ -24,6 +17,7 @@
   # ARM General Interrupt Controller
   gArmTokenSpaceGuid.PcdGicDistributorBase|0x01410000
   gArmTokenSpaceGuid.PcdGicInterruptInterfaceBase|0x01420000
+  gNxpQoriqLsTokenSpaceGuid.PcdPciFdtCompatible|"fsl,ls1046a-pcie"
 
 [LibraryClasses.common]
   SocClockLib|Silicon/NXP/LS1046A/Library/SocClockLib/SocClockLib.inf
@@ -52,7 +46,6 @@
   gNxpQoriqLsTokenSpaceGuid.PcdPciExp2BaseSize|0x800000000
   gNxpQoriqLsTokenSpaceGuid.PcdPciExp3BaseAddr|0x5000000000
   gNxpQoriqLsTokenSpaceGuid.PcdPciExp3BaseSize|0x800000000
-  gNxpQoriqLsTokenSpaceGuid.PcdPciFdtCompatible|"fsl,ls1046a-pcie"
   gNxpQoriqLsTokenSpaceGuid.PcdScfgBaseAddr|0x1570000
   gNxpQoriqLsTokenSpaceGuid.PcdScfgIntPol|0x80000000
   gNxpQoriqLsTokenSpaceGuid.PcdGutsBaseAddr|0x01EE0000

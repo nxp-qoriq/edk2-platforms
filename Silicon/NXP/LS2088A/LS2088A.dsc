@@ -1,16 +1,9 @@
 #  LS2088A.dsc
 #  LS2088A Soc package.
 #
-#  Copyright 2017-2019 NXP
+#  Copyright 2017-2020 NXP
 #
-#  This program and the accompanying materials
-#  are licensed and made available under the terms and conditions of the BSD License
-#  which accompanies this distribution. The full text of the license may be found at
-#  http://opensource.org/licenses/bsd-license.php
-#
-#  THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "AS IS" BASIS,
-#  WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
-#
+#  SPDX-License-Identifier: BSD-2-Clause
 #
 
 ################################################################################
@@ -25,6 +18,7 @@
   gArmTokenSpaceGuid.PcdGicDistributorBase|0x6000000
   gArmTokenSpaceGuid.PcdGicRedistributorsBase|0x6100000
   gArmTokenSpaceGuid.PcdGicInterruptInterfaceBase|0x00
+  gNxpQoriqLsTokenSpaceGuid.PcdPciFdtCompatible|"fsl,ls2088a-pcie"
 
 [LibraryClasses.common]
   SocClockLib|Silicon/NXP/LS2088A/Library/SocClockLib/SocClockLib.inf
@@ -62,7 +56,6 @@
   gNxpQoriqLsTokenSpaceGuid.PcdPciExp3BaseSize|0x800000000        # 32 GB
   gNxpQoriqLsTokenSpaceGuid.PcdPciExp4BaseAddr|0x3800000000
   gNxpQoriqLsTokenSpaceGuid.PcdPciExp4BaseSize|0x800000000        # 32 GB
-  gNxpQoriqLsTokenSpaceGuid.PcdPciFdtCompatible|"fsl,ls2088a-pcie"
   gNxpQoriqLsTokenSpaceGuid.PcdUsbBaseAddr|0x3100000
   gNxpQoriqLsTokenSpaceGuid.PcdUsbSize|0x10000
   gNxpQoriqLsTokenSpaceGuid.PcdGutsBaseAddr|0x1E00000
@@ -101,5 +94,4 @@
   gNxpQoriqLsTokenSpaceGuid.PcdMacDeviceDisableRegAddr|0x1e00074
   gNxpQoriqLsTokenSpaceGuid.PcdCh3Srds1PrtclMask|0x00ff0000
   gNxpQoriqLsTokenSpaceGuid.PcdNumCcPlls|6
-
 ##

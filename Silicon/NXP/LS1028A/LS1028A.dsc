@@ -1,16 +1,9 @@
 #  LS1028A.dsc
 #  LS1028A Soc package.
 #
-#  Copyright 2019 NXP
+#  Copyright 2019-2020 NXP
 #
-#  This program and the accompanying materials
-#  are licensed and made available under the terms and conditions of the BSD License
-#  which accompanies this distribution. The full text of the license may be found at
-#  http://opensource.org/licenses/bsd-license.php
-#
-#  THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "AS IS" BASIS,
-#  WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
-#
+#  SPDX-License-Identifier: BSD-2-Clause
 #
 
 ################################################################################
@@ -24,6 +17,7 @@
   # ARM General Interrupt Controller
   gArmTokenSpaceGuid.PcdGicDistributorBase|0x06000000
   gArmTokenSpaceGuid.PcdGicRedistributorsBase|0x06040000
+  gNxpQoriqLsTokenSpaceGuid.PcdPciFdtCompatible|"fsl,ls1028a-pcie"
 
 [LibraryClasses.common]
   SocClockLib|Silicon/NXP/LS1028A/Library/SocClockLib/SocClockLib.inf
@@ -41,7 +35,6 @@
   gNxpQoriqLsTokenSpaceGuid.PcdPciExp1BaseSize|0x800000000
   gNxpQoriqLsTokenSpaceGuid.PcdPciExp2BaseAddr|0x8800000000
   gNxpQoriqLsTokenSpaceGuid.PcdPciExp2BaseSize|0x800000000
-  gNxpQoriqLsTokenSpaceGuid.PcdPciFdtCompatible|"fsl,ls1028a-pcie"
   gNxpQoriqLsTokenSpaceGuid.PcdScfgBaseAddr|0x1FC0000
   gNxpQoriqLsTokenSpaceGuid.PcdGutsBaseAddr|0x01E00000
   gNxpQoriqLsTokenSpaceGuid.PcdWdog1BaseAddr|0x02AD0000
@@ -67,5 +60,4 @@
   gNxpQoriqLsTokenSpaceGuid.PcdCh3Srds1PrtclMask|0xffff0000
   gNxpQoriqLsTokenSpaceGuid.PcdIfcEnabled|FALSE
   gNxpQoriqLsTokenSpaceGuid.PcdNumCcPlls|3
-
 ##
