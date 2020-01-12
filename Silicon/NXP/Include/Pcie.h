@@ -1,7 +1,7 @@
 /** @file
   PCI memory configuration for NXP
 
-  Copyright 2018-2019 NXP
+  Copyright 2018-2020 NXP
 
   SPDX-License-Identifier: BSD-2-Clause
 **/
@@ -13,6 +13,10 @@
 #define SVR_LS1043A             0x87920000
 #define SVR_LX2160A_MASK        0xffff0000
 #define SVR_LX2160A             0x87360000
+
+// SVR Versions
+#define SVR_LX2160A_REV_MASK        0xffff00ff
+#define SVR_LX2160A_REV1_1          0x87360010
 
 // Segment 0
 #define PCI_SEG0_NUM              0
@@ -215,12 +219,6 @@
 
 // PF control registers
 #define PCIE_LTSSM_STA                               0x7fc
-
-#if (FixedPcdGetBool (PcdPcieConfigurePex))
-#define LTSSM_STATE_MASK                             0x7f
-#else
-#define LTSSM_STATE_MASK                             0x3f
-#endif
 
 VOID GetSerdesProtocolMaps (UINT64 *);
 

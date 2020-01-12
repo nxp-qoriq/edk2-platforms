@@ -1,7 +1,7 @@
 /** @file
   PCI Segment Library for NXP SoCs with multiple RCs
 
-  Copyright 2018-2019 NXP
+  Copyright 2018-2020 NXP
 
   SPDX-License-Identifier: BSD-2-Clause
 **/
@@ -34,6 +34,7 @@ typedef enum {
   ASSERT (((A) & (0xffff0000f0000000ULL | (M))) == 0)
 
 static UINT8 WriteFixedData;
+static UINT32 SocSvr;
 
 /**
   Function to select page among the 48 1KB pages for
@@ -110,6 +111,10 @@ PciSegmentLibGetConfigBase (
 
   UINT32 Target;
 
+  if (SocSvr == 0) {
+      SocSvr = (UINT32)PcdGet32 (PcdSocSvr);
+  }
+
   switch (Segment) {
     // Root Complex 1
     case PCI_SEG0_NUM:
@@ -133,7 +138,7 @@ PciSegmentLibGetConfigBase (
     case PCI_SEG2_NUM:
       // Reading bus number(bits 20-27)
       if ((Address >> 20) & 1) {
-        if (PcdGetBool (PcdPcieConfigurePex)) {
+        if ((SocSvr & SVR_LX2160A_REV_MASK) == SVR_LX2160A_REV1_1) {
           Target = ((((Address >> 20) & 0xFF) << 24) |
                    (((Address >> 15) & 0x1F) << 19) |
                    (((Address >> 12) & 0x7) << 16));;
@@ -141,7 +146,7 @@ PciSegmentLibGetConfigBase (
         }
         return (PCI_SEG2_MMIO_MEMBASE + Offset);
       } else {
-          if (PcdGetBool (PcdPcieConfigurePex)) {
+          if ((SocSvr & SVR_LX2160A_REV_MASK) == SVR_LX2160A_REV1_1) {
             if (Offset < INDIRECT_ADDR_BNDRY) {
               CcsrSetPg (PCI_SEG2_DBI_BASE, 0);
               if (Offset == 4)  {
@@ -169,7 +174,7 @@ PciSegmentLibGetConfigBase (
     case PCI_SEG4_NUM:
       // Reading bus number(bits 20-27)
       if ((Address >> 20) & 1) {
-        if (PcdGetBool (PcdPcieConfigurePex)) {
+        if ((SocSvr & SVR_LX2160A_REV_MASK) == SVR_LX2160A_REV1_1) {
           Target = ((((Address >> 20) & 0xFF) << 24) |
                    (((Address >> 15) & 0x1F) << 19) |
                    (((Address >> 12) & 0x7) << 16));;
@@ -177,7 +182,7 @@ PciSegmentLibGetConfigBase (
         }
         return (PCI_SEG4_MMIO_MEMBASE + Offset);
       } else {
-          if (PcdGetBool (PcdPcieConfigurePex)) {
+          if ((SocSvr & SVR_LX2160A_REV_MASK) == SVR_LX2160A_REV1_1) {
             if (Offset < INDIRECT_ADDR_BNDRY) {
               CcsrSetPg (PCI_SEG4_DBI_BASE, 0);
               if (Offset == 4)  {

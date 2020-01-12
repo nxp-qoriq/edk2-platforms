@@ -1,7 +1,7 @@
 /** @file
   PCI Host Bridge Library instance for NXP SoCs
 
-  Copyright 2018-2019 NXP
+  Copyright 2018-2020 NXP
 
   SPDX-License-Identifier: BSD-2-Clause
 **/
@@ -335,7 +335,7 @@ PcieOutboundSet (
   IN UINT64 Size
   )
 {
-  if (PcdGetBool (PcdPcieConfigurePex)) {
+  if (((UINT32)PcdGet32(PcdSocSvr) & SVR_LX2160A_REV_MASK) == SVR_LX2160A_REV1_1) {
     UINT32 Val;
     Size = ~(Size -1 );
 
@@ -398,16 +398,22 @@ PcieLinkState (
   )
 {
   UINT32 State;
+  UINT32 LtssmMask;
 
+  if (((UINT32)PcdGet32(PcdSocSvr) & SVR_LX2160A_REV_MASK) == SVR_LX2160A_REV1_1) {
+      LtssmMask = 0x7f;
+  } else {
+      LtssmMask = 0x3f;
+  }
   //
   // Reading PCIe controller LTSSM state
   //
   if (FeaturePcdGet (PcdPciLutBigEndian)) {
     State = BeMmioRead32 ((UINTN)Pcie + PCI_LUT_BASE + PCI_LUT_DBG) &
-            LTSSM_STATE_MASK;
+            LtssmMask;
   } else {
    State = MmioRead32 ((UINTN)Pcie + PCI_LUT_BASE + PCI_LUT_DBG) &
-           LTSSM_STATE_MASK;
+           LtssmMask;
   }
 
   if (State < LTSSM_PCIE_L0) {
@@ -620,8 +626,7 @@ PcieSetupCntrl (
   IN EFI_PHYSICAL_ADDRESS IoBase
   )
 {
-  if (PcdGetBool (PcdPcieConfigurePex)) {
-
+  if (((UINT32)PcdGet32(PcdSocSvr) & SVR_LX2160A_REV_MASK) == SVR_LX2160A_REV1_1) {
     UINT32 Val;
 
     // Set ACK Latency Timeout
