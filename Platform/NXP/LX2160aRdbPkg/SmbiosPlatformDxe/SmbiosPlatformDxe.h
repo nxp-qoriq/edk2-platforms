@@ -2,7 +2,7 @@
   SMBIOS struct information for NXP LX2160ARDB platforms
 
   Copyright (c) 2015, ARM Limited. All rights reserved.
-  Copyright 2019 NXP
+  Copyright 2019-2020 NXP
 
   This program and the accompanying materials
   are licensed and made available under the terms and conditions of the BSD License
@@ -33,12 +33,12 @@
 #define TYPE1_STRINGS                                   \
   "NXP\0"                            /* Manufacturer */ \
   "NXP LX2160ARDB Platform\0"        /* Product Name */ \
-  "None\0"                           /* Version */      \
+  "B6\0"                           /* Version */      \
   "                    \0"           /* 20 character buffer */
 
 #define TYPE3_STRINGS                                   \
   "NXP\0"                            /* Manufacturer */ \
-  "None\0"                           /* Version */      \
+  "1U 19 rackmount\0"              /* Version */      \
   "Serial Not Set\0"                 /* Serial  */
 
 #define TYPE4_STRINGS                                               \
