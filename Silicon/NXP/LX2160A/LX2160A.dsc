@@ -69,6 +69,7 @@
   gNxpQoriqLsTokenSpaceGuid.PcdSataBaseAddr|0x3200000
   gNxpQoriqLsTokenSpaceGuid.PcdSataSize|0x10000
   gNxpQoriqLsTokenSpaceGuid.PcdNumSataController|0x4
+  gNxpQoriqLsTokenSpaceGuid.PcdPciCfgShiftEnable|TRUE
 
   gNxpQoriqLsTokenSpaceGuid.PcdFlexSpiFdtCompatible|"nxp,lx2160a-fspi"
   gNxpQoriqLsTokenSpaceGuid.PcdSpiBusCount|4

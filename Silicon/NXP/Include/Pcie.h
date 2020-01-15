@@ -18,6 +18,7 @@
 #define SVR_LX2160A_REV_MASK        0xffff00ff
 #define SVR_LX2160A_REV1_1          0x87360010
 #define SVR_LX2160A_REV1_2          0x87360020
+#define CFG_SHIFT_ENABLE            (FixedPcdGetBool (PcdPciCfgShiftEnable))
 
 // Segment 0
 #define PCI_SEG0_NUM              0
@@ -122,6 +123,7 @@
 
 #define IATU_REGION_CTRL_2_OFF_OUTBOUND_0            0x908
 #define IATU_REGION_CTRL_2_OFF_OUTBOUND_0_REGION_EN  BIT31
+#define IATU_ENABLE_CFG_SHIFT_FEATURE                BIT28
 
 #define IATU_LWR_BASE_ADDR_OFF_OUTBOUND_0            0x90C
 #define IATU_UPPER_BASE_ADDR_OFF_OUTBOUND_0          0x910
@@ -133,6 +135,8 @@
 #define PCI_CLASS_DEVICE                             0x8
 #define PCI_DBI_RO_WR_EN                             0x8bc
 #define PCI_BASE_ADDRESS_0                           0x10
+#define CLASS_CODE_MASK                              0xffff
+#define CLASS_CODE_SHIFT                             0x10
 
 // PAB CSR
 #define PAB_CTRL                                     0x808

@@ -110,9 +110,16 @@ PciSegmentLibGetConfigBase (
 {
 
   UINT32 Target;
+  UINT32 CfgAddr;
 
   if (SocSvr == 0) {
       SocSvr = (UINT32)PcdGet32 (PcdSocSvr);
+  }
+
+  if (CFG_SHIFT_ENABLE) {
+      CfgAddr = (UINT32)Address;
+  } else {
+      CfgAddr = (UINT16)Offset;
   }
 
   switch (Segment) {
@@ -120,19 +127,19 @@ PciSegmentLibGetConfigBase (
     case PCI_SEG0_NUM:
       // Reading bus number(bits 20-27)
       if ((Address >> 20) & 1) {
-        return (PCI_SEG0_MMIO_MEMBASE + Offset);
+        return (PCI_SEG0_MMIO_MEMBASE + CfgAddr);
       } else {
         // On Bus 0 RCs are connected
-        return (PCI_SEG0_DBI_BASE + Offset);
+        return (PCI_SEG0_DBI_BASE + CfgAddr);
       }
     // Root Complex 2
     case PCI_SEG1_NUM:
       // Reading bus number(bits 20-27)
       if ((Address >> 20) & 1) {
-        return (PCI_SEG1_MMIO_MEMBASE + Offset);
+        return (PCI_SEG1_MMIO_MEMBASE + CfgAddr);
       } else {
         // On Bus 0 RCs are connected
-        return (PCI_SEG1_DBI_BASE + Offset);
+        return (PCI_SEG1_DBI_BASE + CfgAddr);
       }
     // Root Complex 3
     case PCI_SEG2_NUM:
@@ -144,31 +151,31 @@ PciSegmentLibGetConfigBase (
                    (((Address >> 12) & 0x7) << 16));;
           PcieCfgSetTarget (PCI_SEG2_DBI_BASE, Target);
         }
-        return (PCI_SEG2_MMIO_MEMBASE + Offset);
+        return (PCI_SEG2_MMIO_MEMBASE + CfgAddr);
       } else {
           if ((SocSvr & SVR_LX2160A_REV_MASK) == SVR_LX2160A_REV1_1) {
-            if (Offset < INDIRECT_ADDR_BNDRY) {
+            if (CfgAddr < INDIRECT_ADDR_BNDRY) {
               CcsrSetPg (PCI_SEG2_DBI_BASE, 0);
-              if (Offset == 4)  {
+              if (CfgAddr == 4)  {
                 WriteFixedData = 1;
               }
-              return (PCI_SEG2_DBI_BASE + Offset);
+              return (PCI_SEG2_DBI_BASE + CfgAddr);
             }
 
-            CcsrSetPg (PCI_SEG2_DBI_BASE, OFFSET_TO_PAGE_IDX (Offset));
-            Offset = OFFSET_TO_PAGE_ADDR (Offset);
+            CcsrSetPg (PCI_SEG2_DBI_BASE, OFFSET_TO_PAGE_IDX (CfgAddr));
+            CfgAddr = OFFSET_TO_PAGE_ADDR (CfgAddr);
             }
         // On Bus 0 RCs are connected
-        return (PCI_SEG2_DBI_BASE + Offset);
+        return (PCI_SEG2_DBI_BASE + CfgAddr);
       }
     // Root Complex 4
     case PCI_SEG3_NUM:
       // Reading bus number(bits 20-27)
       if ((Address >> 20) & 1) {
-        return (PCI_SEG3_MMIO_MEMBASE + Offset);
+        return (PCI_SEG3_MMIO_MEMBASE + CfgAddr);
       } else {
         // On Bus 0 RCs are connected
-        return (PCI_SEG3_DBI_BASE + Offset);
+        return (PCI_SEG3_DBI_BASE + CfgAddr);
       }
     // Root Complex 5
     case PCI_SEG4_NUM:
@@ -180,31 +187,31 @@ PciSegmentLibGetConfigBase (
                    (((Address >> 12) & 0x7) << 16));;
           PcieCfgSetTarget (PCI_SEG4_DBI_BASE, Target);
         }
-        return (PCI_SEG4_MMIO_MEMBASE + Offset);
+        return (PCI_SEG4_MMIO_MEMBASE + CfgAddr);
       } else {
           if ((SocSvr & SVR_LX2160A_REV_MASK) == SVR_LX2160A_REV1_1) {
-            if (Offset < INDIRECT_ADDR_BNDRY) {
+            if (CfgAddr < INDIRECT_ADDR_BNDRY) {
               CcsrSetPg (PCI_SEG4_DBI_BASE, 0);
-              if (Offset == 4)  {
+              if (CfgAddr == 4)  {
                 WriteFixedData = 1;
               }
-              return (PCI_SEG4_DBI_BASE + Offset);
+              return (PCI_SEG4_DBI_BASE + CfgAddr);
             }
 
-            CcsrSetPg (PCI_SEG4_DBI_BASE, OFFSET_TO_PAGE_IDX (Offset));
-            Offset = OFFSET_TO_PAGE_ADDR (Offset);
+            CcsrSetPg (PCI_SEG4_DBI_BASE, OFFSET_TO_PAGE_IDX (CfgAddr));
+            CfgAddr = OFFSET_TO_PAGE_ADDR (CfgAddr);
             }
         // On Bus 0 RCs are connected
-        return (PCI_SEG4_DBI_BASE + Offset);
+        return (PCI_SEG4_DBI_BASE + CfgAddr);
       }
     // Root Complex 6
     case PCI_SEG5_NUM:
       // Reading bus number(bits 20-27)
       if ((Address >> 20) & 1) {
-        return (PCI_SEG5_MMIO_MEMBASE + Offset);
+        return (PCI_SEG5_MMIO_MEMBASE + CfgAddr);
       } else {
         // On Bus 0 RCs are connected
-        return (PCI_SEG5_DBI_BASE + Offset);
+        return (PCI_SEG5_DBI_BASE + CfgAddr);
       }
     default:
       return 0;

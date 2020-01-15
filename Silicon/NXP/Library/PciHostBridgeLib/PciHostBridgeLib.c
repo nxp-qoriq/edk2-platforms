@@ -313,6 +313,7 @@ PciSetupInBoundWin (
   CcsrWrite32 ((UINTN)Pcie, PAB_PEX_AMAP_PEX_WIN_H(Idx), (BusAddr >>32));
 
 }
+
 /**
   Function to set-up iATU outbound window for PCIe controller
 
@@ -380,12 +381,21 @@ PcieOutboundSet (
                 (UINT32)(BusAddr >> 32));
     MmioWrite32 (Dbi + IATU_REGION_CTRL_1_OFF_OUTBOUND_0,
                 (UINT32)Type);
-    MmioWrite32 (Dbi + IATU_REGION_CTRL_2_OFF_OUTBOUND_0,
+    if (CFG_SHIFT_ENABLE &&
+            ((Type == IATU_REGION_CTRL_1_OFF_OUTBOUND_0_TYPE_CFG0) ||
+            (Type == IATU_REGION_CTRL_1_OFF_OUTBOUND_0_TYPE_CFG1))) {
+             MmioWrite32 (Dbi + IATU_REGION_CTRL_2_OFF_OUTBOUND_0,
+                (IATU_REGION_CTRL_2_OFF_OUTBOUND_0_REGION_EN |
+                 IATU_ENABLE_CFG_SHIFT_FEATURE));
+    } else {
+        MmioWrite32 (Dbi + IATU_REGION_CTRL_2_OFF_OUTBOUND_0,
                 IATU_REGION_CTRL_2_OFF_OUTBOUND_0_REGION_EN);
+    }
  }
 }
 
 /**
+
    Function to check PCIe controller LTSSM state
 
    @param Pcie Address of PCIe host controller.
@@ -569,23 +579,46 @@ PcieSetupAtu (
   IN EFI_PHYSICAL_ADDRESS IoBase
   )
 {
+  UINT64 Cfg0BaseAddr;
+  UINT64 Cfg1BaseAddr;
+  UINT64 Cfg0BusAddress;
+  UINT64 Cfg1BusAddress;
+  UINT64 Cfg0Size;
+  UINT64 Cfg1Size;
 
+  if (CFG_SHIFT_ENABLE) {
+    DEBUG ((DEBUG_INFO, "PCIe: CFG Shit Method Enabled \n"));
+    Cfg0BaseAddr = Cfg0Base + SIZE_1MB;
+    Cfg1BaseAddr = Cfg0Base + SIZE_2MB;
+    Cfg0BusAddress = SIZE_1MB;
+    Cfg1BusAddress = SIZE_2MB;
+    Cfg0Size = SIZE_1MB;
+    Cfg1Size = (SIZE_256MB - SIZE_1MB); // 255MB
+
+  } else {
+      Cfg0BaseAddr = Cfg0Base;
+      Cfg1BaseAddr = Cfg1Base;
+      Cfg0BusAddress = SEG_CFG_BUS;
+      Cfg1BusAddress = SEG_CFG_BUS;
+      Cfg0Size = SEG_CFG_SIZE;
+      Cfg1Size = SEG_CFG_SIZE;
+  }
   //
   // iATU : OUTBOUND WINDOW 0 : CFG0
   //
   PcieOutboundSet (Pcie, IATU_REGION_INDEX0,
                             IATU_REGION_CTRL_1_OFF_OUTBOUND_0_TYPE_CFG0,
-                            Cfg0Base,
-                            SEG_CFG_BUS,
-                            SEG_CFG_SIZE);
+                            Cfg0BaseAddr,
+                            Cfg0BusAddress,
+                            Cfg0Size);
 
   //
   // iATU : OUTBOUND WINDOW 1 : CFG1
   PcieOutboundSet (Pcie, IATU_REGION_INDEX1,
                             IATU_REGION_CTRL_1_OFF_OUTBOUND_0_TYPE_CFG1,
-                            Cfg1Base,
-                            SEG_CFG_BUS,
-                            SEG_CFG_SIZE);
+                            Cfg1BaseAddr,
+                            Cfg1BusAddress,
+                            Cfg1Size);
   //
   // iATU 2 : OUTBOUND WINDOW 2 : MEM
   //
@@ -595,15 +628,16 @@ PcieSetupAtu (
                             SEG_MEM_BUS,
                             SEG_MEM_SIZE);
 
-  //
-  // iATU 3 : OUTBOUND WINDOW 3: IO
-  //
-  PcieOutboundSet (Pcie, IATU_REGION_INDEX3,
-                            IATU_REGION_CTRL_1_OFF_OUTBOUND_0_TYPE_IO,
-                            IoBase,
-                            SEG_IO_BUS,
-                            SEG_IO_SIZE);
-
+  if (!CFG_SHIFT_ENABLE) {
+    //
+    // iATU 3 : OUTBOUND WINDOW 3: IO
+    //
+    PcieOutboundSet (Pcie, IATU_REGION_INDEX3,
+            IATU_REGION_CTRL_1_OFF_OUTBOUND_0_TYPE_IO,
+            IoBase,
+            SEG_IO_BUS,
+            SEG_IO_SIZE);
+  }
 }
 
 /**
@@ -626,8 +660,9 @@ PcieSetupCntrl (
   IN EFI_PHYSICAL_ADDRESS IoBase
   )
 {
+  UINT32 Val;
+
   if (((UINT32)PcdGet32(PcdSocSvr) & SVR_LX2160A_REV_MASK) == SVR_LX2160A_REV1_1) {
-    UINT32 Val;
 
     // Set ACK Latency Timeout
     Val = CcsrRead32 ((UINTN)Pcie, GPEX_ACK_REPLAY_TO);
@@ -680,7 +715,10 @@ PcieSetupCntrl (
     //
     MmioWrite32 ((UINTN)Pcie + PCI_BASE_ADDRESS_0, (BIT0 - BIT0));
     MmioWrite32 ((UINTN)Pcie + PCI_DBI_RO_WR_EN, (UINT32)BIT0);
-    MmioWrite32 ((UINTN)Pcie + PCI_CLASS_DEVICE, (UINT32)PCI_CLASS_BRIDGE_PCI);
+    Val = MmioRead32 ((UINTN)Pcie + PCI_CLASS_DEVICE);
+    Val &= ~(CLASS_CODE_MASK << CLASS_CODE_SHIFT);
+    Val |= (PCI_CLASS_BRIDGE_PCI << CLASS_CODE_SHIFT);
+    MmioWrite32 ((UINTN)Pcie + PCI_CLASS_DEVICE, Val);
     MmioWrite32 ((UINTN)Pcie + PCI_DBI_RO_WR_EN, (UINT32)(BIT0 - BIT0));
   }
 }

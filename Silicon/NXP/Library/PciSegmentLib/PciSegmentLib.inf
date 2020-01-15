@@ -27,6 +27,9 @@
   IoLib
   PcdLib
 
+[FixedPcd]
+  gNxpQoriqLsTokenSpaceGuid.PcdPciCfgShiftEnable
+
 [Pcd]
   gNxpQoriqLsTokenSpaceGuid.PcdPciExp1BaseAddr
   gNxpQoriqLsTokenSpaceGuid.PcdPciExp2BaseAddr

@@ -45,6 +45,7 @@
 [FixedPcd]
   gNxpQoriqLsTokenSpaceGuid.PcdPcieStreamIdStart
   gNxpQoriqLsTokenSpaceGuid.PcdPcieStreamIdEnd
+  gNxpQoriqLsTokenSpaceGuid.PcdPciCfgShiftEnable
 
 [Pcd]
   gNxpQoriqLsTokenSpaceGuid.PcdPciLutBigEndian
