@@ -1,7 +1,7 @@
 #  LX2160A.dsc
 #  LX2160A Soc package.
 #
-#  Copyright 2018 NXP
+#  Copyright 2018, 2020 NXP
 #
 #  This program and the accompanying materials
 #  are licensed and made available under the terms and conditions of the BSD License
@@ -29,6 +29,7 @@
 [LibraryClasses.common]
   SocClockLib|Silicon/NXP/LX2160A/Library/SocClockLib/SocClockLib.inf
   SocFixupLib|Silicon/NXP/LX2160A/Library/SocFixupLib/SocFixupLib.inf
+  AcpiPlatformLib|Silicon/NXP/LX2160A/Library/AcpiPlatformLib/AcpiPlatformLib.inf
 
 [PcdsFixedAtBuild.common]
   gArmTokenSpaceGuid.PcdGenericWatchdogControlBase|0x23A0000
