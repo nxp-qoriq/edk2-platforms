@@ -1,6 +1,6 @@
 #  @file
 #
-#  Copyright 2019 NXP
+#  Copyright 2019-2020 NXP
 #
 #  This program and the accompanying materials
 #  are licensed and made available under the terms and conditions of the BSD License
@@ -19,6 +19,10 @@
   MODULE_TYPE                    = BASE
   VERSION_STRING                 = 1.0
   LIBRARY_CLASS                  = SocLib
+
+[BuildOptions]
+  GCC:*_*_*_CC_FLAGS = -DWORKSPACE_GIT_VERSION="$(WORKSPACE_GIT_VERSION)"
+  GCC:*_*_*_CC_FLAGS = -DPACKAGES_PATH_GIT_VERSION="$(PACKAGES_PATH_GIT_VERSION)"
 
 [Packages]
   ArmPkg/ArmPkg.dec
