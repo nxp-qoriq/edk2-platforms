@@ -2,7 +2,7 @@
   Sample ACPI Platform Driver
 
   Copyright (c) 2008 - 2011, Intel Corporation. All rights reserved.<BR>
-  Copyright 2019 NXP
+  Copyright 2019-2020 NXP
 
   This program and the accompanying materials
   are licensed and made available under the terms and conditions of the BSD License
@@ -23,6 +23,7 @@
 #include <Library/UefiBootServicesTableLib.h>
 #include <Library/DebugLib.h>
 #include <Library/PcdLib.h>
+#include <Library/AcpiPlatformLib.h>
 
 #include <IndustryStandard/Acpi.h>
 
@@ -276,6 +277,13 @@ AcpiPlatformEntryPoint (
       ASSERT (Size >= TableSize);
 
       TableHeader = (EFI_ACPI_DESCRIPTION_HEADER*) (CurrentTable);
+
+      Status = AcpiPlatformFixup (TableHeader);
+      if (EFI_ERROR(Status)) {
+        gBS->FreePool (CurrentTable);
+        return EFI_ABORTED;
+      }
+
       if (TableHeader->Signature == EFI_ACPI_6_2_IO_REMAPPING_TABLE_SIGNATURE) {
         PcdSet64 (PcdIortTablePtr, (UINT64)CurrentTable);
         //
