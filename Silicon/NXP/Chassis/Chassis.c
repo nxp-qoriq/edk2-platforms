@@ -1,7 +1,7 @@
 /** @file
   SoC specific Library containg functions to initialize various SoC components
 
-  Copyright 2017-2019 NXP
+  Copyright 2017-2020 NXP
 
   This program and the accompanying materials
   are licensed and made available under the terms and conditions of the BSD License
@@ -27,6 +27,9 @@
 
 #include "Chassis.h"
 #include "DramInfo.h"
+
+#define XPRINT(x)   #x
+#define PRINT(x)    XPRINT(x)
 
 UINT32
 EFIAPI
@@ -246,6 +249,15 @@ PrintCpuInfo (
   UINTN    CharCount;
 
   GetSysInfo (&SysInfo);
+
+  CharCount = AsciiSPrint (Buffer, sizeof (Buffer), "edk2 version %a\n\r",
+      PRINT (WORKSPACE_GIT_VERSION));
+  SerialPortWrite ((UINT8 *) Buffer, CharCount);
+
+  CharCount = AsciiSPrint (Buffer, sizeof (Buffer), "edk2-platforms version %a\n\r",
+      PRINT (PACKAGES_PATH_GIT_VERSION));
+  SerialPortWrite ((UINT8 *) Buffer, CharCount);
+
   CharCount = AsciiSPrint (Buffer, sizeof (Buffer), "Clock Configuration:");
   SerialPortWrite ((UINT8 *) Buffer, CharCount);
 
