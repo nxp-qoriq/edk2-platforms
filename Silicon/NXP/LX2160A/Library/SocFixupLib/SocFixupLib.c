@@ -1,6 +1,6 @@
 /** @file
 
- Copyright 2018-2019 NXP
+ Copyright 2018-2020 NXP
 
  SPDX-License-Identifier: BSD-2-Clause
 **/
@@ -11,6 +11,84 @@
 #include <Library/DebugLib.h>
 #include <Library/ItbParse.h>
 #include <Library/SocFixupLib.h>
+
+/**
+  Fixup PCIe nodes in device tree based on running SoC's version.
+
+**/
+VOID
+PcieFdtFixup (
+  IN  VOID      *Fdt
+  )
+{
+  CHAR8 *RegName, *OldStr, *NewStr;
+  CONST CHAR8 *RegNames;
+  INT32 NamesLen, OldStrLen, NewStrLen, RemainingStrLen;
+  struct StrMap {
+    CHAR8 *OldStr;
+    CHAR8 *NewStr;
+  } RegNamesMap[] = {
+    { "csr_axi_slave", "regs" },
+    { "config_axi_slave", "config" }
+  };
+  INT32 Off, i;
+  UINTN CompatibleSize;
+
+  Off = -1;
+
+  if (((UINT32)SocGetSvr() & SVR_LX2160A_REV_MASK) == SVR_LX2160A_REV1)
+      return;
+
+  Off = fdt_node_offset_by_compatible (Fdt, -1, (VOID *)(PcdGetPtr (PcdPciFdtCompatible)));
+  while (Off != -FDT_ERR_NOTFOUND) {
+   fdt_setprop (Fdt, Off, "compatible", "fsl,ls2088a-pcie",
+        AsciiStrLen ("fsl,ls2088a-pcie") + 1);
+
+   RegNames = fdt_getprop (Fdt, Off, "reg-names", &NamesLen);
+   if (!RegNames)
+       continue;
+   RegName = (CHAR8 *)RegNames;
+   RemainingStrLen = NamesLen - (RegName - RegNames);
+   i = 0;
+   while ((i < ARRAY_SIZE(RegNamesMap)) && RemainingStrLen) {
+       OldStr = RegNamesMap[i].OldStr;
+       NewStr = RegNamesMap[i].NewStr;
+       OldStrLen = AsciiStrLen (OldStr);
+       NewStrLen = AsciiStrLen (NewStr);
+       if (CompareMem (RegName, OldStr, OldStrLen) == 0) {
+        /* first only leave required bytes for NewStr
+         * and copy rest of the string after it
+         */
+        CopyMem (RegName + NewStrLen,
+             RegName + OldStrLen,
+             RemainingStrLen - OldStrLen);
+
+        /* Now copy NewStr */
+        CopyMem (RegName, NewStr, NewStrLen);
+        NamesLen -= OldStrLen;
+        NamesLen += NewStrLen;
+        i++;
+       }
+
+       RegName = memchr (RegName, '\0', RemainingStrLen);
+       if (!RegName)
+        break;
+       RegName += 1;
+
+       RemainingStrLen = NamesLen - (RegName - RegNames);
+   }
+   fdt_setprop (Fdt, Off, "reg-names", RegNames, NamesLen);
+   fdt_delprop (Fdt, Off, "apio-wins");
+   fdt_delprop (Fdt, Off, "ppio-wins");
+   Off = fdt_node_offset_by_compatible (Fdt, Off,
+        (VOID *)(PcdGetPtr (PcdPciFdtCompatible)));
+  }
+
+  CompatibleSize = PcdGetSize (PcdPciFdtCompatible);
+  PcdSetPtrS (PcdPciFdtCompatible, &CompatibleSize, "fsl,ls2088a-pcie");
+
+  return;
+}
 
 /**
   Fixup the device tree based on running SOC's properties.
@@ -64,6 +142,11 @@ FdtSocFixup (
       break;
     }
   }
+
+  /* LX2160A-Rev2 PCIe fixup: LX2160A-Rev2 has different PCIe controller.
+   * Detect the SoC version and fixup PCIe nodes in device tree accordingly.
+   */
+  PcieFdtFixup (Dtb);
 
   return EFI_SUCCESS;
 }

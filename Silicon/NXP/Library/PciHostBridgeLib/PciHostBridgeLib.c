@@ -1354,76 +1354,6 @@ FdtFixupPcieStatus (
 }
 
 /**
-  Fixup FDT
-
-**/
-VOID
-BoardFixupFdt (
-  IN  VOID      *Fdt
-  )
-{
-    CHAR8 *RegName, *OldStr, *NewStr;
-    CONST CHAR8 *RegNames;
-    INT32 NamesLen, OldStrLen, NewStrLen, RemainingStrLen;
-    struct StrMap {
-      CHAR8 *OldStr;
-      CHAR8 *NewStr;
-    } RegNamesMap[] = {
-      { "csr_axi_slave", "regs" },
-      { "config_axi_slave", "config" }
-    };
-    INT32 Off, i;
-
-    Off = -1;
-
-    Off = fdt_node_offset_by_compatible(Fdt, -1, (VOID *)(PcdGetPtr (PcdPciFdtCompatible)));
-    while (Off != -FDT_ERR_NOTFOUND) {
-     fdt_setprop(Fdt, Off, "compatible", "fsl,ls2088a-pcie",
-          strlen("fsl,ls2088a-pcie") + 1);
-
-     RegNames = fdt_getprop(Fdt, Off, "reg-names", &NamesLen);
-     if (!RegNames)
-         continue;
-     RegName = (CHAR8 *)RegNames;
-     RemainingStrLen = NamesLen - (RegName - RegNames);
-     i = 0;
-     while ((i < ARRAY_SIZE(RegNamesMap)) && RemainingStrLen) {
-         OldStr = RegNamesMap[i].OldStr;
-         NewStr = RegNamesMap[i].NewStr;
-         OldStrLen = strlen(OldStr);
-         NewStrLen = strlen(NewStr);
-         if (memcmp(RegName, OldStr, OldStrLen) == 0) {
-          /* first only leave required bytes for NewStr
-           * and copy rest of the string after it
-           */
-          memcpy(RegName + NewStrLen,
-               RegName + OldStrLen,
-               RemainingStrLen - OldStrLen);
-
-          /* Now copy NewStr */
-          memcpy(RegName, NewStr, NewStrLen);
-          NamesLen -= OldStrLen;
-          NamesLen += NewStrLen;
-          i++;
-         }
-
-         RegName = memchr(RegName, '\0', RemainingStrLen);
-         if (!RegName)
-          break;
-         RegName += 1;
-
-         RemainingStrLen = NamesLen - (RegName - RegNames);
-     }
-     fdt_setprop(Fdt, Off, "reg-names", RegNames, NamesLen);
-     fdt_delprop(Fdt, Off, "apio-wins");
-     fdt_delprop(Fdt, Off, "ppio-wins");
-     Off = fdt_node_offset_by_compatible(Fdt, Off,
-          (VOID *)(PcdGetPtr (PcdPciFdtCompatible)));
-    }
-    return;
-}
-
-/**
   Return all the root bridge instances in an array.
 
   @param Count  Return the count of root bridge instances.
@@ -1449,7 +1379,6 @@ PciHostBridgeGetRootBridges (
   LS_PCIE       *LsPcie;
   EFI_STATUS    Status;
   VOID          *Dtb;
-  UINTN         CompatibleSize;
 
   *Count = 0;
 
@@ -1481,14 +1410,6 @@ PciHostBridgeGetRootBridges (
   if (EFI_ERROR (Status)) {
     DEBUG ((DEBUG_ERROR, "Did not find the Dtb Blob.\n"));
   } else {
-
-    /* Compatible node fixup for LX2-Rev2 */
-    if (((UINT32)PcdGet32(PcdSocSvr) & SVR_LX2160A_REV_MASK) == SVR_LX2160A_REV1_2) {
-        BoardFixupFdt (Dtb);
-        CompatibleSize = PcdGetSize (PcdPciFdtCompatible);
-        PcdSetPtrS (PcdPciFdtCompatible, &CompatibleSize, "fsl,ls2088a-pcie");
-    }
-
     Status = FdtFixupPcieStatus (Dtb, LsPcie);
     if (EFI_ERROR (Status)) {
       DEBUG ((DEBUG_ERROR, "Could not set Pcie status retval %r\n", Status));

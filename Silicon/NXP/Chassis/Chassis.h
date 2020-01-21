@@ -1,16 +1,9 @@
 /** @file
 *  Header defining the Base addresses, sizes, flags etc for chassis 1
 *
-*  Copyright 2017, 2019 NXP
+*  Copyright 2017, 2019-2020 NXP
 *
-*  This program and the accompanying materials
-*  are licensed and made available under the terms and conditions of the BSD License
-*  which accompanies this distribution.  The full text of the license may be found at
-*  http://opensource.org/licenses/bsd-license.php
-*
-*  THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "AS IS" BASIS,
-*  WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
-*
+*  SPDX-License-Identifier: BSD-2-Clause
 **/
 
 #ifndef __CHASSIS_H__
@@ -60,6 +53,9 @@ CpuMaskNext (
 #define SVR_LS2088A                 0x870901
 #define SVR_LX2160A                 0x873600
 #define SVR_LS1028A                 0x870B00
+#define SVR_LX2160A_REV_MASK        0xffff00ff
+#define SVR_LX2160A_REV1            0x87360010
+#define SVR_LX2160A_REV2            0x87360020
 
 #define SVR_MAJOR(svr)              (((svr) >> 4) & 0xf)
 #define SVR_MINOR(svr)              (((svr) >> 0) & 0xf)

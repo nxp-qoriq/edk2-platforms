@@ -2,7 +2,7 @@
 #
 #  Component description file for SocFixupLib module
 #
-#  Copyright 2018-2019 NXP
+#  Copyright 2018-2020 NXP
 #
 #  SPDX-License-Identifier: BSD-2-Clause
 #
@@ -38,6 +38,7 @@
 
 [Pcd]
   gNxpQoriqLsTokenSpaceGuid.PcdSocSvr
+  gNxpQoriqLsTokenSpaceGuid.PcdPciFdtCompatible
 
 [Guids]
   gDtPlatformDefaultDtbFileGuid
