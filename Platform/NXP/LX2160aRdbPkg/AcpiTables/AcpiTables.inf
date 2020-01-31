@@ -4,7 +4,7 @@
 #
 #  Copyright (c) 2014, ARM Ltd. All rights reserved.
 #  Copyright (c) 2015, Linaro Limited. All rights reserved.
-#  Copyright 2017-2019 NXP
+#  Copyright 2017-2020 NXP
 #
 #  This program and the accompanying materials
 #  are licensed and made available under the terms and conditions of the BSD License
@@ -33,8 +33,8 @@
   Madt.aslc
   Mcfg.aslc
   Spcr.aslc
-/*  Dbg2.aslc
-  SASSSDT.ASL
+  Dbg2.aslc
+/*  SASSSDT.ASL
   SATASSDT.ASL*/
 
 [Packages]
@@ -45,3 +45,5 @@
   MdeModulePkg/MdeModulePkg.dec
   Silicon/NXP/NxpQoriqLs.dec
  
+[FixedPcd]
+  gArmPlatformTokenSpaceGuid.PcdSerialDbgRegisterBase
