@@ -15,7 +15,7 @@
 [Defines]
   INF_VERSION    = 0x0001001A
   BASE_NAME      = LS1046aFRWYDeviceTree
-  FILE_GUID      = 5dcba2b6-e54c-4091-9372-bd38123318d1 # gDtPlatformDefaultDtbFileGuid
+  FILE_GUID      = 25462CDA-221F-47DF-AC1D-259CFAA4E326 # gDtPlatformDefaultDtbFileGuid
   MODULE_TYPE    = USER_DEFINED
   VERSION_STRING = 1.0
 
