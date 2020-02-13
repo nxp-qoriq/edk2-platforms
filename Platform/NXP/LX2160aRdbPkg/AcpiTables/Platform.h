@@ -2,7 +2,7 @@
 *
 *  Copyright (c) 2011-2015, ARM Limited. All rights reserved.
 *  Copyright (c) 2015, Linaro Limited. All rights reserved.
-*  Copyright 2018-2019 NXP
+*  Copyright 2018-2020 NXP
 *
 *  SPDX-License-Identifier: BSD-2-Clause
 *
@@ -22,6 +22,13 @@
 #define EFI_ACPI_ARM_OEM_REVISION       0x00000000
 #define EFI_ACPI_ARM_CREATOR_ID         SIGNATURE_32('I','N','T','L')
 #define EFI_ACPI_ARM_CREATOR_REVISION   0x20151124
+
+//
+//Dbg2 Table Information
+//
+#define NUM_DEBUG_DEVICE_INFO    1
+#define NUM_GENERIC_ADDRESS      1
+#define NAMESPACE_STRING_SIZE    16
 
 // A macro to initialise the common header part of EFI ACPI tables as defined by
 // EFI_ACPI_DESCRIPTION_HEADER structure.
