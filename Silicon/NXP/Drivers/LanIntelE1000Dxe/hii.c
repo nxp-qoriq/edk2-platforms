@@ -434,6 +434,10 @@ RouteConfig (
   UINTN                            BufferSize;
   GIG_UNDI_PRIVATE_DATA            *GigUndiPrivateData;
 
+  if (Configuration == NULL) {
+    *Progress = NULL;
+    return EFI_INVALID_PARAMETER;
+  }
   DEBUGPRINT(HII, ("RouteConfig\n"));
   GigUndiPrivateData = DRIVER_SAMPLE_PRIVATE_FROM_THIS (This);
 
