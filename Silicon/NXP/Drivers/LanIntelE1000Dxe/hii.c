@@ -1,5 +1,6 @@
 /*++
 Copyright (c) 2004-2010, Intel Corporation
+Copyright 2020 NXP
 All rights reserved. This program and the accompanying materials
 are licensed and made available under the terms and conditions of the BSD License
 which accompanies this distribution.  The full text of the license may be found at
@@ -358,6 +359,7 @@ ExtractConfig (
                   &GigUndiPrivateData->Configuration
                   );
   if (EFI_ERROR (Status)) {
+    *Progress = Request;
     DEBUGPRINT(CRITICAL, ("GetVariable failed with %r\n", Status));
     DEBUGWAIT(CRITICAL);
     return Status;
