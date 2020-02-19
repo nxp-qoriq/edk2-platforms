@@ -5,7 +5,7 @@
   EmbeddedPkg/Library/TemplateRealTimeClockLib/RealTimeClockLib.c
 
   Copyright (c) 2008 - 2009, Apple Inc. All rights reserved.<BR>
-  Copyright 2017, 2019 NXP
+  Copyright 2017, 2019-2020 NXP
 
   This program and the accompanying materials
   are licensed and made available under the terms and conditions of the BSD License
@@ -339,7 +339,7 @@ LibGetWakeupTime (
     return EFI_DEVICE_ERROR;
   }
 
-  if (Time == NULL) {
+  if ((Enabled == NULL) || (Pending == NULL) || (Time == NULL)) {
     return EFI_INVALID_PARAMETER;
   }
   Req.OperationCount = OPERATION_COUNT;
