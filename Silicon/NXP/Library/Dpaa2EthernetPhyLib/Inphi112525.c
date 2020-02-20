@@ -1,6 +1,6 @@
 /*
  * Copyright 2018 INPHI
- * Copyright 2019 NXP
+ * Copyright 2019-2020 NXP
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -552,10 +552,11 @@ In112525S03LaneRecovery (
 
   if (Lane == NUMBER_OF_LANES) {
     if (BitTest(Dpaa2PhyRegisterRead (Dpaa2Phy, MDIO_MMD_VEND1, PHYMISC_REG2), 6) == 0) {
-      return EFI_DEVICE_ERROR;
+      DEBUG ((DEBUG_INFO, "TX PLL not locked on ALL lanes\n"));
     }
   } else {
     if (TxPllLockTest (Dpaa2Phy,Lane) == 0) {
+      DEBUG ((DEBUG_INFO, "TX PLL not locked on lane %d\n", Lane));
       return EFI_DEVICE_ERROR;
     }
   }
