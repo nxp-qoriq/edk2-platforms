@@ -2,7 +2,7 @@
 #
 #  LS1046ARDB Board package.
 #
-#  Copyright 2017 NXP
+#  Copyright 2017, 2020 NXP
 #
 #  This program and the accompanying materials
 #  are licensed and made available under the terms and conditions of the BSD License
@@ -27,6 +27,9 @@
   PLATFORM_GUID                  = 43920156-3f3b-4199-9b29-c6db1fb792b0
   OUTPUT_DIRECTORY               = Build/LS1046aRdbPkg
   FLASH_DEFINITION               = Platform/NXP/LS1046aRdbPkg/LS1046aRdbPkg.fdf
+  DEFINE NETWORK_TLS_ENABLE             = FALSE
+  DEFINE NETWORK_HTTP_BOOT_ENABLE       = FALSE
+  DEFINE NETWORK_ISCSI_ENABLE           = FALSE
 
 !include Platform/NXP/NxpQoriqLs.dsc
 !include Silicon/NXP/Chassis/Chassis2/Chassis2.dsc
@@ -157,6 +160,12 @@
   Silicon/NXP/Drivers/LanIntelE1000Dxe/LanIntelE1000Dxe.inf
 
   Silicon/NXP/Drivers/QspiDxe/QspiDxe.inf
+
+  #
+  # Networking stack
+  #
+!include NetworkPkg/Network.dsc.inc
+
   Silicon/NXP/Drivers/SpiBusDxe/SpiBusDxe.inf
   Silicon/NXP/Drivers/SpiNorFlashDxe/SpiNorFlashDxe.inf
   Silicon/NXP/Drivers/SpiConfigurationDxe/SpiConfigurationDxe.inf

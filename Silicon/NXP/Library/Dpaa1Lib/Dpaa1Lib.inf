@@ -30,6 +30,7 @@
 [Packages]
   MdeModulePkg/MdeModulePkg.dec
   MdePkg/MdePkg.dec
+  NetworkPkg/NetworkPkg.dec
   Silicon/NXP/NxpQoriqLs.dec
 
 [LibraryClasses]

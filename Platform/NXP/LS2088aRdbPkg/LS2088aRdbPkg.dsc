@@ -2,7 +2,7 @@
 #
 #  LS2088ARDB Board package.
 #
-#  Copyright 2017 NXP
+#  Copyright 2017, 2020 NXP
 #
 #  This program and the accompanying materials
 #  are licensed and made available under the terms and conditions of the BSD License
@@ -28,6 +28,9 @@
   OUTPUT_DIRECTORY               = Build/LS2088aRdbPkg
   FLASH_DEFINITION               = Platform/NXP/LS2088aRdbPkg/LS2088aRdbPkg.fdf
   DEFINE MC_HIGH_MEM             = TRUE
+  DEFINE NETWORK_TLS_ENABLE             = FALSE
+  DEFINE NETWORK_HTTP_BOOT_ENABLE       = FALSE
+  DEFINE NETWORK_ISCSI_ENABLE           = FALSE
 
 !include Platform/NXP/NxpQoriqLs.dsc
 !include Silicon/NXP/Chassis/Chassis3/Chassis3.dsc
@@ -177,6 +180,12 @@
   MdeModulePkg/Bus/Pci/PciBusDxe/PciBusDxe.inf
 
   Silicon/NXP/Drivers/LanIntelE1000Dxe/LanIntelE1000Dxe.inf
+
+
+  #
+  # Networking stack
+  #
+!include NetworkPkg/Network.dsc.inc
 
   Silicon/NXP/Drivers/SataInitDxe/SataInitDxe.inf
   Silicon/NXP/Drivers/MmcHostDxe/MmcHostDxe.inf

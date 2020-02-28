@@ -66,3 +66,6 @@
 
 [Depex]
   gEdkiiPlatformHasDeviceTreeGuid
+
+[Depex.common.DXE_RUNTIME_DRIVER]
+  gEfiCpuArchProtocolGuid

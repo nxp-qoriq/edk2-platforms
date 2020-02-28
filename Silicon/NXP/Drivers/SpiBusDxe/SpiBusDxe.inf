@@ -3,7 +3,7 @@
 #
 #  Based on MdeModulePkg/Bus/I2c/I2cDxe/I2cBusDxe.inf
 #
-#  Copyright 2018 NXP
+#  Copyright 2018, 2020 NXP
 #
 #  This program and the accompanying materials
 #  are licensed and made available under the terms and conditions of the BSD License
@@ -49,5 +49,7 @@
   gEfiSpiConfigurationProtocolGuid                ## TO_START
   gEfiLegacySpiControllerProtocolGuid             ## TO_START
 
+[Guids]
+  gEfiEventVirtualAddressChangeGuid
 [Depex]
   TRUE
