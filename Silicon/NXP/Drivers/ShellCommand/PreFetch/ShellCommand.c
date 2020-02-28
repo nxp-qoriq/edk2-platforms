@@ -1,6 +1,6 @@
 /** ShellCommand.c
 
-  Copyright 2017-2018 NXP
+  Copyright 2017-2018, 2020 NXP
 
   This program and the accompanying materials
   are licensed and made available under the terms and conditions of the
@@ -13,7 +13,6 @@
 **/
 
 #include <Library/ArmSmcLib.h>
-#include <Library/BdsLib.h>
 #include "ShellCommand.h"
 
 //

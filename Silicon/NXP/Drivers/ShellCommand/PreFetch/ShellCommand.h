@@ -1,7 +1,7 @@
 /** ShellCommand.h
 
   Copyright (c) 2011 - 2014, ARM Ltd. All rights reserved.<BR>
-  Copyright 2017 NXP
+  Copyright 2017, 2020 NXP
 
   This program and the accompanying materials
   are licensed and made available under the terms and conditions of
@@ -23,8 +23,7 @@
 #include <Library/UefiBootServicesTableLib.h>
 #include <Library/UefiLib.h>
 #include <Library/UefiRuntimeServicesTableLib.h>
-#include <Protocol/EfiShell.h>
-#include <Protocol/EfiShellDynamicCommand.h>
+#include <Protocol/ShellDynamicCommand.h>
 #include <Uefi.h>
 
 // Set DEBUG to 1 to enable debug feature

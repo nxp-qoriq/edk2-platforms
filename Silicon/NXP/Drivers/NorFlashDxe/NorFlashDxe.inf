@@ -2,7 +2,7 @@
 #
 #  Component description file for NorFlashDxe module
 #
-#  Copyright 2017 NXP
+#  Copyright 2017, 2020 NXP
 #
 #  This program and the accompanying materials
 #  are licensed and made available under the terms and conditions of the BSD License
@@ -59,8 +59,7 @@
   gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageFtwSpareSize
   gNxpQoriqLsTokenSpaceGuid.PcdIfcNandReservedSize
 
+#[Depex.common.DXE_RUNTIME_DRIVER]
 [Depex]
-  #
-  # NorFlashDxe must be loaded before VariableRuntimeDxe in case empty flash needs populating with default values
-  #
-  BEFORE gVariableRuntimeDxeFileGuid
+  gEfiCpuArchProtocolGuid
+
