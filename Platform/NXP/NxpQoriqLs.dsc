@@ -1,6 +1,6 @@
 #  @file
 #
-#  Copyright 2017, 2019 NXP
+#  Copyright 2017, 2019-2020 NXP
 #
 #  This program and the accompanying materials
 #  are licensed and made available under the terms and conditions of the BSD License
@@ -343,7 +343,7 @@
   MdeModulePkg/Universal/SecurityStubDxe/SecurityStubDxe.inf
   MdeModulePkg/Universal/CapsuleRuntimeDxe/CapsuleRuntimeDxe.inf
   MdeModulePkg/Universal/ResetSystemRuntimeDxe/ResetSystemRuntimeDxe.inf
-  EmbeddedPkg/EmbeddedMonotonicCounter/EmbeddedMonotonicCounter.inf
+  MdeModulePkg/Universal/MonotonicCounterRuntimeDxe/MonotonicCounterRuntimeDxe.inf
 
   # FDT installation
   MdeModulePkg/Universal/Console/ConPlatformDxe/ConPlatformDxe.inf
