@@ -94,4 +94,7 @@
   gNxpQoriqLsTokenSpaceGuid.PcdMacDeviceDisableRegAddr|0x1e00074
   gNxpQoriqLsTokenSpaceGuid.PcdCh3Srds1PrtclMask|0x00ff0000
   gNxpQoriqLsTokenSpaceGuid.PcdNumCcPlls|6
+
+[PcdsFeatureFlag]
+  gNxpQoriqLsTokenSpaceGuid.PcdI2cErratumA009203|TRUE
 ##

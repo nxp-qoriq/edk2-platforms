@@ -1,7 +1,7 @@
 /** @Soc.c
   SoC specific Library containg functions to initialize various SoC components
 
-  Copyright 2017-2019 NXP
+  Copyright 2017-2020 NXP
 
   This program and the accompanying materials
   are licensed and made available under the terms and conditions of the BSD License
@@ -205,12 +205,6 @@ SocInit (
 {
   CHAR8 Buffer[100];
   UINTN CharCount;
-
-  //
-  // Erratum of SOC
-  //
-  // Common erratum with V3.x
-  ApplyErratum();
 
   // USB Erratum
   ErratumA008751();

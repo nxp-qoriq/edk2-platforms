@@ -5,7 +5,7 @@
   FPGA is connected to IFC Controller and so MMIO APIs are used
   to read/write FPGA registers
 
-  Copyright 2018 NXP
+  Copyright 2018, 2020 NXP
 
   This program and the accompanying materials
   are licensed and made available under the terms and conditions of the BSD License
@@ -21,7 +21,7 @@
 #include <Library/BaseLib.h>
 #include <Library/DebugLib.h>
 #include <Library/FpgaLib.h>
-#include <Library/I2c.h>
+#include <Library/I2cLib.h>
 
 /**
    Function to read FPGA register.
@@ -34,16 +34,20 @@ FpgaRead (
   IN  UINTN  Reg
   )
 {
-  UINT8 Val;
+  UINT8  Val;
+  UINTN  I2cBase;
 
-  I2cDataRead (QIXIS_BASE_I2C_BUS, QIXIS_BASE_I2C_ADR, Reg, 1, &Val, 1);
+  I2cBase = ( EFI_PHYSICAL_ADDRESS)(FixedPcdGet64 (PcdI2c0BaseAddr) +
+                        (QIXIS_BASE_I2C_BUS * FixedPcdGet32 (PcdI2cSize)));
+
+  I2cBusReadReg (I2cBase, QIXIS_BASE_I2C_ADR, Reg, 1, &Val, 1);
   return Val;
 }
 
 /**
-   Function to write FPGA register.
+   Function to Write FPGA register.
 
-   @param  Reg   Register offset of FPGA to write.
+   @param  Reg  Register offset of FPGA to write.
    @param  Value Value to be written.
 
 **/
@@ -53,7 +57,22 @@ FpgaWrite (
   IN  UINT8  Value
   )
 {
-  I2cDataWrite (QIXIS_BASE_I2C_BUS, QIXIS_BASE_I2C_ADR, Reg, 1, &Value, 1);
+  UINTN                   I2cBase;
+  UINT8                   Buffer[2];
+  EFI_I2C_REQUEST_PACKET  Req;
+
+  I2cBase = ( EFI_PHYSICAL_ADDRESS)(FixedPcdGet64 (PcdI2c0BaseAddr) +
+                        (QIXIS_BASE_I2C_BUS * FixedPcdGet32 (PcdI2cSize)));
+
+  Buffer[0] = Reg;
+  Buffer[1] = Value;
+
+  Req.OperationCount                   = 1;
+  Req.Operation[0].Flags               = 0;
+  Req.Operation[0].LengthInBytes       = sizeof (Buffer);
+  Req.Operation[0].Buffer              = (VOID *)Buffer;
+
+  I2cBusXfer (I2cBase, QIXIS_BASE_I2C_ADR,  &Req);
 }
 
 /**

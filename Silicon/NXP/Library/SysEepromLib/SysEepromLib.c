@@ -2,7 +2,7 @@
 
   SystemID Non-Volatile Memory Device
 
-  Copyright 2017 NXP
+  Copyright 2017, 2020 NXP
 
   This program and the accompanying materials
   are licensed and made available under the terms and conditions of the BSD License
@@ -18,9 +18,10 @@
 #include <Library/BaseMemoryLib.h>
 #include <Library/BaseMemoryLib/MemLibInternals.h>
 #include <Library/DebugLib.h>
-#include <Library/I2c.h>
+#include <Library/I2cLib.h>
 #include <Library/MemoryAllocationLib.h>
 #include <Library/NetLib.h>
+#include <Library/SocClockLib.h>
 #include <Library/SysEepromLib.h>
 #include <Library/PcdLib.h>
 #include <Library/UefiBootServicesTableLib.h>
@@ -58,11 +59,16 @@ EepromRead (
   UINT32       CalulatedCrc32;
   UINT32       CrcOffset;
   UINT32       CrcStored;
+  UINTN        I2cBase;
+  UINT64       I2cClock;
 
   Status = EFI_SUCCESS;
   CalulatedCrc32 = 0;
   CrcOffset = 0;
   CrcStored = 0;
+  I2cBase = ( EFI_PHYSICAL_ADDRESS)(FixedPcdGet64 (PcdI2c0BaseAddr) +
+                         (PcdGet32 (PcdSysEepromI2cBus) * FixedPcdGet32 (PcdI2cSize)));
+  I2cClock = SocGetClock (IP_I2C, 0);
 
   if (SystemID == NULL) {
     SystemID = (SYSTEM_ID *)AllocateZeroPool (sizeof (SYSTEM_ID));
@@ -73,12 +79,12 @@ EepromRead (
   }
 
   if (ForceRead == TRUE) {
-    Status = I2cBusInit(PcdGet32(PcdSysEepromI2cBus), PcdGet32(PcdI2cSpeed));
+    Status = I2cInitialize(I2cBase, I2cClock, PcdGet32(PcdI2cSpeed));
     if (EFI_ERROR (Status)) {
       return Status;
     }
-    Status = I2cDataRead(
-               PcdGet32(PcdSysEepromI2cBus),
+    Status = I2cBusReadReg(
+               I2cBase,
                PcdGet32(PcdSysEepromI2cAddress),
                0,
                0x1,

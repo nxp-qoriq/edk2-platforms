@@ -1,7 +1,7 @@
 /** @Soc.c
   SoC specific Library containg functions to initialize various SoC components
 
-  Copyright 2018-2019 NXP
+  Copyright 2018-2020 NXP
 
   This program and the accompanying materials
   are licensed and made available under the terms and conditions of the BSD License
@@ -19,7 +19,7 @@
 #include <Library/BaseLib.h>
 #include <Library/BaseMemoryLib/MemLibInternals.h>
 #include <Library/DebugLib.h>
-#include <Library/I2c.h>
+#include <Library/I2cLib.h>
 #include <Library/IfcLib.h>
 #include <Library/IoLib.h>
 #include <Library/PcdLib.h>
@@ -186,9 +186,6 @@ SocInit (
   CHAR8 Buffer[100];
   UINTN CharCount;
 
-  // Apply Erratum
-  ApplyErratum();
-
   //
   // Initialize SMMU
   //
@@ -197,7 +194,7 @@ SocInit (
   //
   // Early init i2c, needed to read Fpga register for Serial initialization.
   //
-  I2cBusEarlyInit (I2C1);
+  I2cEarlyInitialize (FixedPcdGet64 (PcdI2c0BaseAddr));
 
   //
   // Initialize the Serial Port.
