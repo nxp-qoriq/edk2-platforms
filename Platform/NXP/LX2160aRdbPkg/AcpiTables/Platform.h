@@ -3,8 +3,9 @@
 *  Copyright (c) 2011-2015, ARM Limited. All rights reserved.
 *  Copyright (c) 2015, Linaro Limited. All rights reserved.
 *  Copyright 2018-2020 NXP
+*  Copyright 2020 Puresoftware Ltd
 *
-*  SPDX-License-Identifier: BSD-2-Clause
+*  SPDX-License-Identifier: BSD-2-Clause-Patent
 *
 *  Based on the files under ArmPlatformPkg/ArmJunoPkg/AcpiTables/
 *
@@ -43,6 +44,10 @@
     EFI_ACPI_ARM_CREATOR_ID,        /* UINT32  CreatorId */       \
     EFI_ACPI_ARM_CREATOR_REVISION   /* UINT32  CreatorRevision */ \
   }
+
+// PCLK
+#define DCFG_BASE   0x1E00000
+#define DCFG_LEN    0x1FFFF
 
 // Gic
 #define GIC_VERSION 3
