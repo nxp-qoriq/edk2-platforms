@@ -98,4 +98,6 @@
   gNxpQoriqLsTokenSpaceGuid.PcdBypassAmqMask|0x60000
   gNxpQoriqLsTokenSpaceGuid.PcdMacDeviceDisableRegAddr|0x1e00074
 
+[PcdsFeatureFlag]
+  gNxpQoriqLsTokenSpaceGuid.PcdI2cErratumA009203|TRUE
 ##
