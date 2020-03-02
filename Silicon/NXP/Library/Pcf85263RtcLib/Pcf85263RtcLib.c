@@ -2,7 +2,7 @@
 
   Implement EFI RealTimeClock with runtime services for PCF85263 RTC.
 
-  Copyright 2018 NXP
+  Copyright 2018, 2020 NXP
 
   This program and the accompanying materials
   are licensed and made available under the terms and conditions of the BSD License
@@ -67,7 +67,7 @@ RtcRead (
                                      (VOID *)&Req,
                                      NULL,  NULL);
   if (EFI_ERROR (Status)) {
-    BOOTTIME_DEBUG ((DEBUG_ERROR, "RTC read error at Addr:0x%x\n", RtcRegAddr));
+    BOOTTIME_DEBUG ((DEBUG_ERROR, "RTC read error at Addr:0x%x, Status = %r\n", RtcRegAddr, Status));
   }
 
   return Val;
@@ -88,24 +88,23 @@ RtcWrite (
   IN  UINT8                Val
   )
 {
-  RTC_I2C_REQUEST          Req;
+  EFI_I2C_REQUEST_PACKET   Req;
   EFI_STATUS               Status;
+  UINT8                    Buffer[2];
 
-  Req.OperationCount = 2;
+  Req.OperationCount = 1;
+  Buffer[0] = RtcRegAddr;
+  Buffer[1] = Val;
 
-  Req.SetAddressOp.Flags = 0;
-  Req.SetAddressOp.LengthInBytes = sizeof (RtcRegAddr);
-  Req.SetAddressOp.Buffer = &RtcRegAddr;
-
-  Req.GetSetDateTimeOp.Flags = 0;
-  Req.GetSetDateTimeOp.LengthInBytes = sizeof (Val);
-  Req.GetSetDateTimeOp.Buffer = &Val;
+  Req.Operation[0].Flags = 0;
+  Req.Operation[0].LengthInBytes = sizeof (Buffer);
+  Req.Operation[0].Buffer = Buffer;
 
   Status = mI2cMaster->StartRequest (mI2cMaster, FixedPcdGet8 (PcdI2cSlaveAddress),
                                      (VOID *)&Req,
                                      NULL,  NULL);
   if (EFI_ERROR (Status)) {
-    BOOTTIME_DEBUG ((DEBUG_ERROR, "RTC write error at Addr:0x%x\n", RtcRegAddr));
+    BOOTTIME_DEBUG ((DEBUG_ERROR, "RTC write error at Addr:0x%x, Status = %r\n", RtcRegAddr, Status));
   }
 
   return Status;
@@ -195,7 +194,7 @@ LibGetTime (
   EFI_STATUS                    Status;
   INT16                         TimeZone;
   UINT8                         Daylight;
-  UINT8                         Buffer[8];
+  RTC_DATETIME                  DateTime;
   UINTN                         Size;
   UINT8                         Val;
   RTC_I2C_REQUEST               Req;
@@ -211,7 +210,7 @@ LibGetTime (
     return EFI_INVALID_PARAMETER;
   }
 
-  RtcRegAddr = PCF85263_100SEC_REG_ADDR;
+  RtcRegAddr = PCF85263_CENTISEC_REG_ADDR;
 
   Req.OperationCount = 2;
 
@@ -220,34 +219,34 @@ LibGetTime (
   Req.SetAddressOp.Buffer = &RtcRegAddr;
 
   Req.GetSetDateTimeOp.Flags = I2C_FLAG_READ;
-  Req.GetSetDateTimeOp.LengthInBytes = sizeof (Buffer);
-  Req.GetSetDateTimeOp.Buffer = Buffer;
+  Req.GetSetDateTimeOp.LengthInBytes = sizeof (RTC_DATETIME);
+  Req.GetSetDateTimeOp.Buffer = (VOID *)&DateTime;
 
   Status = mI2cMaster->StartRequest (mI2cMaster, FixedPcdGet8 (PcdI2cSlaveAddress),
                                      (VOID *)&Req,
                                      NULL,  NULL);
   if (EFI_ERROR (Status)) {
-    BOOTTIME_DEBUG ((DEBUG_ERROR, "RTC read error at Addr:0x%x\n", RtcRegAddr));
+    BOOTTIME_DEBUG ((DEBUG_ERROR, "RTC read error at Addr:0x%x, Status = %r\n", RtcRegAddr, Status));
     return Status;
   }
 
-  if (Buffer[PCF85263_SEC_REG_ADDR] & PCF85263_SEC_BIT_OSC) {
+  if (DateTime.Seconds & PCF85263_SEC_BIT_OSC) {
     BOOTTIME_DEBUG ((DEBUG_ERROR, "### Warning: RTC oscillator has stopped\n"));
     /* clear the OS flag */
-    Val = Buffer[PCF85263_SEC_REG_ADDR] & ~PCF85263_SEC_BIT_OSC;
+    Val = DateTime.Seconds & ~PCF85263_SEC_BIT_OSC;
     RtcWrite (PCF85263_SEC_REG_ADDR, Val);
 
     return EFI_DEVICE_ERROR;
   }
 
-  Time->Nanosecond = BcdToDecimal8 (Buffer[PCF85263_100SEC_REG_ADDR]);
-  Time->Second  = BcdToDecimal8 (Buffer[PCF85263_SEC_REG_ADDR] & MASK_SEC);
-  Time->Minute  = BcdToDecimal8 (Buffer[PCF85263_MIN_REG_ADDR] & MASK_MIN);
-  Time->Hour = BcdToDecimal8 (Buffer[PCF85263_HR_REG_ADDR] & MASK_HOUR);
-  Time->Day = BcdToDecimal8 (Buffer[PCF85263_DATE_REG_ADDR] & MASK_DAY);
-  Time->Month  = BcdToDecimal8 (Buffer[PCF85263_MON_REG_ADDR] & MASK_MONTH);
-  Time->Year = BcdToDecimal8 (Buffer[PCF85263_YR_REG_ADDR]) +
-               (BcdToDecimal8 (Buffer[PCF85263_YR_REG_ADDR]) >= 98 ? 1900 : 2000);
+  Time->Nanosecond = BcdToDecimal8 (DateTime.CentiSeconds) * 10000000;
+  Time->Second  = BcdToDecimal8 (DateTime.Seconds & MASK_SEC);
+  Time->Minute  = BcdToDecimal8 (DateTime.Minutes & MASK_MIN);
+  Time->Hour = BcdToDecimal8 (DateTime.Hours & MASK_HOUR);
+  Time->Day = BcdToDecimal8 (DateTime.Days & MASK_DAY);
+  Time->Month  = BcdToDecimal8 (DateTime.Months & MASK_MONTH);
+  Time->Year = BcdToDecimal8 (DateTime.Years) +
+               (BcdToDecimal8 (DateTime.Years) >= 98 ? 1900 : 2000);
 
   // Get the current time zone information from non-volatile storage
   Size = sizeof (TimeZone);
@@ -405,10 +404,9 @@ LibSetTime (
   )
 {
   EFI_STATUS                 Status;
-  UINT8                      Buffer[8];
   UINT8                      Val;
-  RTC_I2C_REQUEST            Req;
-  UINT8                      RtcRegAddr;
+  RTC_SET_DATETIME_PACKET    Packet;
+  EFI_I2C_REQUEST_PACKET     Req;
 
   if (mI2cMaster == NULL) {
     BOOTTIME_DEBUG ((DEBUG_ERROR, "%a : I2c Master protocol is not yet installed\n", __FUNCTION__));
@@ -439,14 +437,15 @@ LibSetTime (
   }
 
   /* hours, minutes and seconds */
-  Buffer[PCF85263_100SEC_REG_ADDR] = DecimalToBcd8 (Time->Nanosecond);
-  Buffer[PCF85263_SEC_REG_ADDR]    = DecimalToBcd8 (Time->Second);
-  Buffer[PCF85263_MIN_REG_ADDR]    = DecimalToBcd8 (Time->Minute);
-  Buffer[PCF85263_HR_REG_ADDR]     = DecimalToBcd8 (Time->Hour);
-  Buffer[PCF85263_DATE_REG_ADDR]   = DecimalToBcd8 (Time->Day);
-  Buffer[PCF85263_DAY_REG_ADDR]    = EfiTimeToWday (Time) & 0x07;
-  Buffer[PCF85263_MON_REG_ADDR]    = DecimalToBcd8 (Time->Month);
-  Buffer[PCF85263_YR_REG_ADDR]     = DecimalToBcd8 (Time->Year % 100);
+  Packet.Reg = PCF85263_CENTISEC_REG_ADDR;
+  Packet.DateTime.CentiSeconds = DecimalToBcd8 (Time->Nanosecond) / 10000000;
+  Packet.DateTime.Seconds = DecimalToBcd8 (Time->Second);
+  Packet.DateTime.Minutes = DecimalToBcd8 (Time->Minute);
+  Packet.DateTime.Hours = DecimalToBcd8 (Time->Hour);
+  Packet.DateTime.Days = DecimalToBcd8 (Time->Day);
+  Packet.DateTime.Weekdays = EfiTimeToWday (Time) & 0x07;
+  Packet.DateTime.Months = DecimalToBcd8 (Time->Month);
+  Packet.DateTime.Years = DecimalToBcd8 (Time->Year % 100);
 
   /* Send STOP to RTC to freeze time */
   Val = STOP_RTC;
@@ -467,24 +466,18 @@ LibSetTime (
      return Status;
   }
 
-  /* Write Time */
-  RtcRegAddr = PCF85263_100SEC_REG_ADDR;
+  Req.OperationCount = 1;
 
-  Req.OperationCount = 2;
-  Req.SetAddressOp.Flags = 0;
-  Req.SetAddressOp.LengthInBytes = sizeof (RtcRegAddr);
-  Req.SetAddressOp.Buffer = &RtcRegAddr;
-
-  Req.GetSetDateTimeOp.Flags = 0;
-  Req.GetSetDateTimeOp.LengthInBytes = sizeof (Buffer);
-  Req.GetSetDateTimeOp.Buffer = Buffer;
+  Req.Operation[0].Flags = 0;
+  Req.Operation[0].LengthInBytes = sizeof (RTC_SET_DATETIME_PACKET);
+  Req.Operation[0].Buffer = (VOID *)&Packet;
 
   Status = mI2cMaster->StartRequest (mI2cMaster, FixedPcdGet8 (PcdI2cSlaveAddress),
                                      (VOID *)&Req,
                                      NULL,  NULL);
 
   if (EFI_ERROR (Status)) {
-     DEBUG((DEBUG_ERROR, "RTC write error at Addr:0x%x \n", RtcRegAddr));
+     DEBUG((DEBUG_ERROR, "RTC write error at Addr:0x%x, Status = %r\n", Packet.Reg, Status));
      StartRtc();
      return Status;
   }
@@ -603,7 +596,7 @@ Enable100Sec  (
 
   Value = RtcRead (PCF85263_FUNC_REG_ADDR);
 
-  Value |= ENABLE_100SEC;
+  Value |= ENABLE_CENTISEC;
 
   RtcWrite (PCF85263_FUNC_REG_ADDR, Value);
 
