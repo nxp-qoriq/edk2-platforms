@@ -1,6 +1,6 @@
 /** @file
 
-  Copyright 2018 NXP
+  Copyright 2018, 2020 NXP
 
   This program and the accompanying materials
   are licensed and made available under the terms and conditions of the BSD License
@@ -23,16 +23,10 @@
 /*
  * RTC mode time register
  */
-#define PCF85263_100SEC_REG_ADDR  0x00
-#define PCF85263_SEC_REG_ADDR     0x01
-#define PCF85263_MIN_REG_ADDR     0x02
-#define PCF85263_HR_REG_ADDR      0x03
-#define PCF85263_DATE_REG_ADDR    0x04
-#define PCF85263_DAY_REG_ADDR     0x05
-#define PCF85263_MON_REG_ADDR     0x06
-#define PCF85263_YR_REG_ADDR      0x07
+#define PCF85263_CENTISEC_REG_ADDR  0x00
+#define PCF85263_SEC_REG_ADDR       0x01
 
-#define PCF85263_SEC_BIT_OSC      0x80
+#define PCF85263_SEC_BIT_OSC        0x80
 
 /*
  * RTC control register
@@ -40,7 +34,7 @@
 #define PCF85263_OSC_REG_ADDR     0x25
 #define PCF85263_FUNC_REG_ADDR    0x28
 
-#define ENABLE_100SEC             0x80
+#define ENABLE_CENTISEC           0x80
 #define ENABLE_12HOUR_FORMAT      0x20
 
 /*
@@ -66,6 +60,24 @@
 #define MASK_HOUR                  0x3F
 #define MASK_DAY                   0x3F
 #define MASK_MONTH                 0x1F
+
+#pragma pack(1)
+typedef struct {
+  UINT8                           CentiSeconds;
+  UINT8                           Seconds;
+  UINT8                           Minutes;
+  UINT8                           Hours;
+  UINT8                           Days;
+  UINT8                           Weekdays;
+  UINT8                           Months;
+  UINT8                           Years;
+} RTC_DATETIME;
+
+typedef struct {
+  UINT8                           Reg;
+  RTC_DATETIME                    DateTime;
+} RTC_SET_DATETIME_PACKET;
+#pragma pack()
 
 typedef struct {
   UINTN                           OperationCount;
