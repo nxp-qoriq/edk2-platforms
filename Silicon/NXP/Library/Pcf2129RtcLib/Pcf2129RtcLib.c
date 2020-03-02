@@ -20,6 +20,7 @@
 #include <PiDxe.h>
 #include <Base.h>
 #include <Library/BaseLib.h>
+#include <Library/BaseMemoryLib.h>
 #include <Library/DebugLib.h>
 #include <Library/RealTimeClockLib.h>
 #include <Library/UefiBootServicesTableLib.h>
@@ -27,7 +28,7 @@
 #include <Library/UefiRuntimeLib.h>
 #include <Protocol/I2cMaster.h>
 
-#include "Pcf2129Rtc.h"
+#include "Pcf2129RtcLibInternal.h"
 
 STATIC EFI_I2C_MASTER_PROTOCOL    *mI2cMaster;
 STATIC EFI_EVENT                  mRtcVirtualAddrChangeEvent;
@@ -64,42 +65,6 @@ EfiTimeToWday (
 /**
   Write RTC register.
 
-  @param  RtcRegAddr       Register offset of RTC to write.
-  @param  Val              Value to be written
-
-**/
-
-STATIC
-VOID
-RtcWrite (
-  IN  UINT8                RtcRegAddr,
-  IN  UINT8                Val
-  )
-{
-  RTC_I2C_REQUEST          Req;
-  EFI_STATUS               Status;
-
-  Req.OperationCount = 2;
-
-  Req.SetAddressOp.Flags = 0;
-  Req.SetAddressOp.LengthInBytes = 0;
-  Req.SetAddressOp.Buffer = &RtcRegAddr;
-
-  Req.GetSetDateTimeOp.Flags = 0;
-  Req.GetSetDateTimeOp.LengthInBytes = sizeof (Val);
-  Req.GetSetDateTimeOp.Buffer = &Val;
-
-  Status = mI2cMaster->StartRequest (mI2cMaster, FixedPcdGet8 (PcdI2cSlaveAddress),
-                                     (VOID *)&Req,
-                                     NULL,  NULL);
-  if (EFI_ERROR (Status)) {
-    BOOTTIME_DEBUG ((DEBUG_ERROR, "RTC write error at Addr:0x%x\n", RtcRegAddr));
-  }
-
-}
-/**
-  Write RTC register.
-
   @param  SlaveDeviceAddress   Slave device address offset of RTC to be read.
   @param  RtcRegAddr           Register offset of RTC to write.
   @param  Val                  Value to be written
@@ -113,18 +78,17 @@ I2CWriteMux (
   IN  UINT8                Val
   )
 {
-  RTC_I2C_REQUEST          Req;
+  EFI_I2C_REQUEST_PACKET   Req;
   EFI_STATUS               Status;
+  UINT8                    Buffer[2];
 
-  Req.OperationCount = 2;
+  Req.OperationCount = 1;
+  Buffer[0] = RtcRegAddr;
+  Buffer[1] = Val;
 
-  Req.SetAddressOp.Flags = 0;
-  Req.SetAddressOp.LengthInBytes = sizeof (RtcRegAddr);
-  Req.SetAddressOp.Buffer = &RtcRegAddr;
-
-  Req.GetSetDateTimeOp.Flags = 0;
-  Req.GetSetDateTimeOp.LengthInBytes = sizeof (Val);
-  Req.GetSetDateTimeOp.Buffer = &Val;
+  Req.Operation[0].Flags = 0;
+  Req.Operation[0].LengthInBytes = sizeof (Buffer);
+  Req.Operation[0].Buffer = Buffer;
 
   Status = mI2cMaster->StartRequest (mI2cMaster, SlaveDeviceAddress,
                                      (VOID *)&Req,
@@ -169,14 +133,18 @@ LibGetTime (
   OUT  EFI_TIME_CAPABILITIES  *Capabilities
   )
 {
-  EFI_STATUS      Status;
-  UINT8           Buffer[10];
-  RTC_I2C_REQUEST Req;
-  UINT8           RtcRegAddr;
+  PCF2129_REGS             Regs;
+  EFI_STATUS               Status;
+  EFI_I2C_REQUEST_PACKET   Req;
+  UINT8                    RtcRegAddr;
 
   Status = EFI_SUCCESS;
-  RtcRegAddr = PCF2129_CTRL1_REG_ADDR;
-  Buffer[0] = 0;
+  RtcRegAddr = OFFSET_OF (PCF2129_REGS, Control[2]);
+  ZeroMem (&Regs, sizeof (Regs));
+
+  if (Time == NULL) {
+    return EFI_INVALID_PARAMETER;
+  }
 
   if (mI2cMaster == NULL) {
     return EFI_DEVICE_ERROR;
@@ -190,41 +158,44 @@ LibGetTime (
     ConfigureMuxDevice (FixedPcdGet8 (PcdMuxRtcChannelValue));
   }
 
-  RtcWrite (PCF2129_CTRL1_REG_ADDR, Buffer[0]);
+  Req.OperationCount = 1;
 
-  if (Time == NULL) {
-    return EFI_INVALID_PARAMETER;
-  }
-
-  Req.OperationCount = 2;
-
-  Req.SetAddressOp.Flags = 0;
-  Req.SetAddressOp.LengthInBytes = 0;
-  Req.SetAddressOp.Buffer = &RtcRegAddr;
-
-  Req.GetSetDateTimeOp.Flags = I2C_FLAG_READ;
-  Req.GetSetDateTimeOp.LengthInBytes = sizeof (Buffer);
-  Req.GetSetDateTimeOp.Buffer = Buffer;
+  Req.Operation[0].Flags = 0;
+  Req.Operation[0].LengthInBytes = sizeof (RtcRegAddr);
+  Req.Operation[0].Buffer = &RtcRegAddr;
 
   Status = mI2cMaster->StartRequest (mI2cMaster, FixedPcdGet8 (PcdI2cSlaveAddress),
                                      (VOID *)&Req,
                                      NULL,  NULL);
   if (EFI_ERROR (Status)) {
-    BOOTTIME_DEBUG ((DEBUG_ERROR, "RTC read error at Addr:0x%x\n", RtcRegAddr));
+    BOOTTIME_DEBUG ((DEBUG_ERROR, "RTC read error at Addr:0x%x, Status = %r\n", RtcRegAddr, Status));
   }
 
-  if (Buffer[PCF2129_CTRL3_REG_ADDR] & PCF2129_CTRL3_BIT_BLF) {
+  Req.OperationCount = 1;
+
+  Req.Operation[0].Flags = I2C_FLAG_READ;
+  Req.Operation[0].LengthInBytes = OFFSET_OF (PCF2129_REGS, SecondAlarm) - OFFSET_OF (PCF2129_REGS, Control[2]);
+  Req.Operation[0].Buffer = &(Regs.Control[2]);
+
+  Status = mI2cMaster->StartRequest (mI2cMaster, FixedPcdGet8 (PcdI2cSlaveAddress),
+                                     (VOID *)&Req,
+                                     NULL,  NULL);
+  if (EFI_ERROR (Status)) {
+    BOOTTIME_DEBUG ((DEBUG_ERROR, "RTC read error at Addr:0x%x, Status = %r\n", RtcRegAddr, Status));
+  }
+
+  if (Regs.Control[2] & PCF2129_CTRL3_BIT_BLF) {
     BOOTTIME_DEBUG ((DEBUG_INFO,
       "### Warning: RTC battery status low, check/replace RTC battery.\n"));
   }
 
   Time->Nanosecond = 0;
-  Time->Second  = BcdToDecimal8 (Buffer[PCF2129_SEC_REG_ADDR] & 0x7F);
-  Time->Minute  = BcdToDecimal8 (Buffer[PCF2129_MIN_REG_ADDR] & 0x7F);
-  Time->Hour = BcdToDecimal8 (Buffer[PCF2129_HR_REG_ADDR] & 0x3F);
-  Time->Day = BcdToDecimal8 (Buffer[PCF2129_DAY_REG_ADDR] & 0x3F);
-  Time->Month  = BcdToDecimal8 (Buffer[PCF2129_MON_REG_ADDR] & 0x1F);
-  Time->Year = BcdToDecimal8 (Buffer[PCF2129_YR_REG_ADDR]) + ( BcdToDecimal8 (Buffer[PCF2129_YR_REG_ADDR]) >= 98 ? 1900 : 2000);
+  Time->Second  = BcdToDecimal8 (Regs.Seconds & 0x7F);
+  Time->Minute  = BcdToDecimal8 (Regs.Minutes & 0x7F);
+  Time->Hour = BcdToDecimal8 (Regs.Hours & 0x3F);
+  Time->Day = BcdToDecimal8 (Regs.Days & 0x3F);
+  Time->Month  = BcdToDecimal8 (Regs.Months & 0x1F);
+  Time->Year = BcdToDecimal8 (Regs.Years) + ( BcdToDecimal8 (Regs.Years) >= 98 ? 1900 : 2000);
 
   if (FixedPcdGetBool (PcdIsRtcDeviceMuxed)) {
     // Switch to the default channel
@@ -251,15 +222,13 @@ LibSetTime (
   IN EFI_TIME                *Time
   )
 {
-  UINT8           Buffer[8];
-  UINT8           Index;
-  EFI_STATUS      Status;
-  RTC_I2C_REQUEST Req;
-  UINT8           RtcRegAddr;
+  UINT8                   Buffer[8];
+  EFI_STATUS              Status;
+  EFI_I2C_REQUEST_PACKET  Req;
+  UINT8                   Index;
 
-  Index = 0;
   Status = EFI_SUCCESS;
-  RtcRegAddr = PCF2129_CTRL1_REG_ADDR;
+  Index = 0;
 
   if (mI2cMaster == NULL) {
     return EFI_DEVICE_ERROR;
@@ -273,7 +242,7 @@ LibSetTime (
   }
 
   // start register address
-  Buffer[Index++] = PCF2129_SEC_REG_ADDR;
+  Buffer[Index++] = OFFSET_OF (PCF2129_REGS, Seconds);
 
   // hours, minutes and seconds
   Buffer[Index++] = DecimalToBcd8 (Time->Second);
@@ -284,20 +253,17 @@ LibSetTime (
   Buffer[Index++] = DecimalToBcd8 (Time->Month);
   Buffer[Index++] = DecimalToBcd8 (Time->Year % 100);
 
-  Req.OperationCount = 2;
-  Req.SetAddressOp.Flags = 0;
-  Req.SetAddressOp.LengthInBytes = 0;
-  Req.SetAddressOp.Buffer = &RtcRegAddr;
+  Req.OperationCount = 1;
 
-  Req.GetSetDateTimeOp.Flags = 0;
-  Req.GetSetDateTimeOp.LengthInBytes = sizeof (Buffer);
-  Req.GetSetDateTimeOp.Buffer = Buffer;
+  Req.Operation[0].Flags = 0;
+  Req.Operation[0].LengthInBytes = sizeof (Buffer);
+  Req.Operation[0].Buffer = Buffer;
 
   Status = mI2cMaster->StartRequest (mI2cMaster, FixedPcdGet8 (PcdI2cSlaveAddress),
                                      (VOID *)&Req,
                                      NULL,  NULL);
   if (EFI_ERROR (Status)) {
-    BOOTTIME_DEBUG ((DEBUG_ERROR, "RTC write error at Addr:0x%x\n", RtcRegAddr));
+    BOOTTIME_DEBUG ((DEBUG_ERROR, "RTC write error at Addr:0x%x\n", Buffer[0]));
     return Status;
   }
     if (FixedPcdGetBool (PcdIsRtcDeviceMuxed)) {
