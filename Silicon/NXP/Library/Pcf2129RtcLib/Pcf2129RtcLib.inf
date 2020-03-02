@@ -1,6 +1,6 @@
 #/** @Pcf2129RtcLib.inf
 #
-#  Copyright 2017, 2019 NXP
+#  Copyright 2017, 2019-2020 NXP
 #
 #  This program and the accompanying materials
 #  are licensed and made available under the terms and conditions of the BSD License
@@ -30,6 +30,7 @@
   Silicon/NXP/NxpQoriqLs.dec
 
 [LibraryClasses]
+  BaseMemoryLib
   DebugLib
   UefiBootServicesTableLib
   UefiLib
