@@ -328,45 +328,8 @@ LibGetWakeupTime (
   OUT EFI_TIME    *Time
   )
 {
-  EFI_STATUS      Status;
-  UINT8           buffer[PCF2129_GET_WAKEUP_TIME_REG_COUNT];
-  RTC_I2C_REQUEST Req;
-  UINT8           RtcRegAddr;
-
-  Status = EFI_SUCCESS;
-  RtcRegAddr = PCF2129_YR_REG_ADDR;
-  if (mI2cMaster == NULL) {
-    return EFI_DEVICE_ERROR;
-  }
-
-  if ((Enabled == NULL) || (Pending == NULL) || (Time == NULL)) {
-    return EFI_INVALID_PARAMETER;
-  }
-  Req.OperationCount = OPERATION_COUNT;
-  Req.SetAddressOp.Flags = 0;
-  Req.SetAddressOp.LengthInBytes = PCF2129_REG_OFFSET_LEN;
-  Req.SetAddressOp.Buffer = &RtcRegAddr;
-  Req.GetSetDateTimeOp.Flags = PCF2129_READ_FLAG;
-  Req.GetSetDateTimeOp.LengthInBytes = sizeof (buffer);
-  Req.GetSetDateTimeOp.Buffer = buffer;
-
-  Status = mI2cMaster->StartRequest (mI2cMaster,
-                         FixedPcdGet8 (PcdI2cSlaveAddress),
-                         (VOID *)&Req,
-                         NULL,
-                         NULL
-                         );
-  if (EFI_ERROR (Status)) {
-    BOOTTIME_DEBUG ((DEBUG_ERROR, "RTC read error at Addr:0x%x\n", RtcRegAddr));
-    return Status;
-  }
-  Time->Nanosecond = 0;
-  Time->Second  = BcdToDecimal8 (buffer[PCF2129_ALARM_SEC_OFFSET] & PCF2129_ALARM_SEC_REG_MASK);
-  Time->Minute  = BcdToDecimal8 (buffer[PCF2129_ALARM_MIN_OFFSET] & PCF2129_ALARM_MIN_REG_MASK);
-  Time->Hour    = BcdToDecimal8 (buffer[PCF2129_ALARM_HR_OFFSET]  & PCF2129_ALARM_HR_REG_MASK);
-  Time->Day     = BcdToDecimal8 (buffer[PCF2129_ALARM_DAY_OFFSET] & PCF2129_ALARM_DAY_REG_MASK);
-
-  return Status;
+  // Not a required feature
+  return EFI_UNSUPPORTED;
 }
 
 
@@ -388,43 +351,8 @@ LibSetWakeupTime (
   OUT EFI_TIME    *Time
   )
 {
-  UINT8           Buffer[PCF2129_SET_WAKEUP_TIME_REG_COUNT];
-  EFI_STATUS      Status;
-  RTC_I2C_REQUEST Req;
-  UINT8           RtcRegAddr;
-  UINT8           Index;
-  Index = 0;
-  Status = EFI_SUCCESS;
-  RtcRegAddr = PCF2129_ALARM_SEC_REG_ADDR;
-
-  if (mI2cMaster == NULL) {
-    return EFI_DEVICE_ERROR;
-  }
-  Buffer[Index++] = DecimalToBcd8 (Time->Second);
-  Buffer[Index++] = DecimalToBcd8 (Time->Minute);
-  Buffer[Index++] = DecimalToBcd8 (Time->Hour);
-  Buffer[Index]   = DecimalToBcd8 (Time->Day);
-
-  Req.OperationCount = OPERATION_COUNT;
-  Req.SetAddressOp.Flags = 0;
-  Req.SetAddressOp.LengthInBytes = PCF2129_REG_OFFSET_LEN;
-  Req.SetAddressOp.Buffer = &RtcRegAddr;
-  Req.GetSetDateTimeOp.Flags = PCF2129_WRITE_FLAG;
-  Req.GetSetDateTimeOp.LengthInBytes = sizeof (Buffer);
-  Req.GetSetDateTimeOp.Buffer = Buffer;
-
-  Status = mI2cMaster->StartRequest (mI2cMaster,
-                         FixedPcdGet8 (PcdI2cSlaveAddress),
-                         (VOID *)&Req,
-                         NULL,
-                         NULL
-                         );
-  if (EFI_ERROR (Status)) {
-   BOOTTIME_DEBUG ((DEBUG_ERROR, "RTC WAKE_UP time error at Addr:0x%x\n", RtcRegAddr));
-   return Status;
-  }
-
-  return Status;
+  // Not a required feature
+  return EFI_UNSUPPORTED;
 }
 
 /**
