@@ -2,7 +2,7 @@
 
   Functions for implementing fspi controller functionality.
 
-  Copyright 2018 NXP
+  Copyright 2018, 2020 NXP
 
   This program and the accompanying materials
   are licensed and made available under the terms and conditions of the bsd
@@ -251,7 +251,7 @@ WriteTransaction (
     // (write pointer is incremented).
     // NOTE: IP TX FIFO data is not pushed by each write access,
     // only pushed by set INTR[IPTXWE] bit.
-    Fspi->SetBits32 ( (UINTN)&Regs->Intr, INTR_IPTXWE);
+    Fspi->Or32 ( (UINTN)&Regs->Intr, INTR_IPTXWE);
   }
 
   TxSize = Length;
@@ -261,7 +261,7 @@ WriteTransaction (
   Fspi->Write32 ( (UINTN)&Regs->IpCr0, To);
 
   // Clear all flags before triggering IP command.
-  Fspi->SetBits32 ((UINTN)&Regs->Intr, FLEXSPI_ERR_MASK | INTR_IPRXWA | INTR_SCKSTOPBYWR);
+  Fspi->Or32 ((UINTN)&Regs->Intr, FLEXSPI_ERR_MASK | INTR_IPRXWA | INTR_SCKSTOPBYWR);
   // Load IP command Sequnce id and number of sequences to run
   Fspi->Write32 (
           (UINTN)&Regs->IpCr1,
@@ -297,7 +297,7 @@ WriteTransaction (
     // (write pointer is incremented).
     // NOTE: IP TX FIFO data is not pushed by each write access,
     // only pushed by set INTR[IPTXWE] bit.
-    Fspi->SetBits32 ( (UINTN)&Regs->Intr, INTR_IPTXWE);
+    Fspi->Or32 ( (UINTN)&Regs->Intr, INTR_IPTXWE);
   }
   // poll register bit INTR_IP_CMD_DONE
   while (!(Fspi->Read32 ( (UINTN)&Regs->Intr) & INTR_IPCMDDONE)) {
@@ -312,7 +312,7 @@ WriteTransaction (
   // software done. SW reset lasts about 64 cycles of serial root clock plus 2 cycles of ipg_clk
   // clock. Configurtion registers will not be reset. Software should poll this bit to wait for SW
   // reset done.
-  Fspi->SetBits32 ( (UINTN)&Regs->Mcr0, MCR0_SWRESET);
+  Fspi->Or32 ( (UINTN)&Regs->Mcr0, MCR0_SWRESET);
   while (Fspi->Read32 ( (UINTN)&Regs->Mcr0) & MCR0_SWRESET) {
     MicroSecondDelay (1);
   }
@@ -386,7 +386,7 @@ ReadTransaction (
     Size = (Request->Length > RX_IPBUF_SIZE) ? RX_IPBUF_SIZE : Request->Length;
 
     // Clear all flags before triggering IP command.
-    Fspi->SetBits32 ((UINTN)&Regs->Intr, FLEXSPI_ERR_MASK | INTR_IPRXWA | INTR_SCKSTOPBYRD);
+    Fspi->Or32 ((UINTN)&Regs->Intr, FLEXSPI_ERR_MASK | INTR_IPRXWA | INTR_SCKSTOPBYRD);
     // Load IP command Sequnce id and number of sequences to run
     Fspi->Write32 (
                (UINTN)&Regs->IpCr1,
@@ -428,7 +428,7 @@ ReadTransaction (
         }
         // After reading a watermark level datas from IP RX FIFO, software need to set register bit
         // INTR[IPRXWA]. This set action will pop out a watermark level datas from IP RX FIFO.
-        Fspi->SetBits32 ( (UINTN)&Regs->Intr, INTR_IPRXWA);
+        Fspi->Or32 ( (UINTN)&Regs->Intr, INTR_IPRXWA);
       } else {
         // It's supported that the total flash read/program data size is not multiple of
         // watermark level. In this case, the reading data size from IP RX FIFO will be less
@@ -454,7 +454,7 @@ ReadTransaction (
     }
 
     // Clear all valid data entries in IP RX FIFO
-    Fspi->SetBits32 ( (UINTN)&Regs->IpRxfCr, IPRXFCR_CLRIPRXF);
+    Fspi->Or32 ( (UINTN)&Regs->IpRxfCr, IPRXFCR_CLRIPRXF);
   }
 
   return Status;
@@ -503,28 +503,28 @@ FspiSetup (
   // software done. SW reset lasts about 64 cycles of serial root clock plus 2 cycles of ipg_clk
   // clock. Configurtion registers will not be reset. Software should poll this bit to wait for SW
   // reset done.
-  Fspi->SetBits32 ( (UINTN)&Regs->Mcr0, MCR0_SWRESET);
+  Fspi->Or32 ( (UINTN)&Regs->Mcr0, MCR0_SWRESET);
   while (Fspi->Read32 ( (UINTN)&Regs->Mcr0) & MCR0_SWRESET) {
     MicroSecondDelay (1);
   }
 
   // Set MCR0[MDIS] to 0x1 (Make sure controller is configured in module stop mode)
-  Fspi->SetBits32 ( (UINTN)&Regs->Mcr0, MCR0_MDIS);
+  Fspi->Or32 ( (UINTN)&Regs->Mcr0, MCR0_MDIS);
 
   // Configure module control registers: MCR0, MCR1, MCR2. (Don't change MCR0[MDIS])
-  Fspi->ClearSet32 (
+  Fspi->AndThenOr32 (
           (UINTN)&Regs->Mcr0,
-          MCR0_ATDFEN | MCR0_HSEN | MCR0_DOZEEN | MCR0_COMBINATIONEN |
-          MCR0_SCKFREERUNEN | MCR0_LEARNEN | MCR0_ARDFEN,
+          ~(MCR0_ATDFEN | MCR0_HSEN | MCR0_DOZEEN | MCR0_COMBINATIONEN |
+          MCR0_SCKFREERUNEN | MCR0_LEARNEN | MCR0_ARDFEN),
           (MCR0_END_CFD_64BIT_LE & MCR0_END_CFG_MASK) |
           (MCR0_RXCLKSRC_DEFAULT & MCR0_RXCLKSRC_MASK)
           );
   // Device type may be different on A1/A2/B1/B2
   // For this case, clear the MCR2[SAMEDEVICEEN] bit and configure FLSHxCR0 and
   // FLSHxCR1 register separately for up to four external devices.
-  Fspi->ClearBits32 (
+  Fspi->And32 (
           (UINTN)&Regs->Mcr2,
-          MCR2_SAMEDEVICEEN
+          ~MCR2_SAMEDEVICEEN
           );
 
   // prefetch and no start address alignment limitation
@@ -547,9 +547,9 @@ FspiSetup (
               ( (UINTN)(&Regs->FlshA1Cr0 + Index)),
               ( ( (AmbaSizePerChip + SIZE_1KB - 1) / SIZE_1KB) & FLSHCR0_FLSHSZ_MASK)
               );
-      Fspi->ClearBits32 (
+      Fspi->And32 (
               ( (UINTN)(&Regs->FlshA1Cr1 + Index)),
-              (FLSHCR1_CAS_MASK | FLSHCR1_WA)
+              ~(FLSHCR1_CAS_MASK | FLSHCR1_WA)
               );
     }
   } else {
@@ -565,7 +565,7 @@ FspiSetup (
   Fspi->Write32 ( (UINTN)&Regs->DllbCr, 0x0100);
 
   // enable module
-  Fspi->ClearBits32 ( (UINTN)&Regs->Mcr0, MCR0_MDIS);
+  Fspi->And32 ( (UINTN)&Regs->Mcr0, ~MCR0_MDIS);
 
   return Status;
 }

@@ -2,7 +2,7 @@
 
   Functions for retrieving platform specific info from device tree and install protocols
 
-  Copyright 2018 NXP
+  Copyright 2018, 2020 NXP
 
   This program and the accompanying materials
   are licensed and made available under the terms and conditions of the bsd
@@ -18,6 +18,7 @@
 
 #include <Library/BeIoLib.h>
 #include <Library/DebugLib.h>
+#include <Library/IoAccessLib.h>
 #include <Library/IoLib.h>
 #include <Library/ItbParse.h>
 #include <Library/MemoryAllocationLib.h>
@@ -80,9 +81,9 @@ FSPI_MASTER  mFspiMasterTemplate = {
 
   .Read32 = MmioRead32,
   .Write32 = MmioWrite32,
-  .ClearBits32 = MmioClearBits32,
-  .SetBits32 = MmioSetBits32,
-  .ClearSet32 = MmioClearSet32,
+  .Or32 = MmioOr32,
+  .And32 = MmioAnd32,
+  .AndThenOr32 = MmioAndThenOr32,
   .Event = NULL
 };
 
@@ -196,17 +197,17 @@ ParseDeviceTree (
     FspiMasterPtr->AmbaBase = AmbaBase;
 
     if (fdt_getprop(Fdt, NodeOffset, "big-endian", NULL) != NULL) {
-      FspiMasterPtr->Read32 = MmioReadBe32;
-      FspiMasterPtr->Write32 = MmioWriteBe32;
-      FspiMasterPtr->ClearBits32 = MmioClearBitsBe32;
-      FspiMasterPtr->SetBits32 = MmioSetBitsBe32;
-      FspiMasterPtr->ClearSet32 = MmioClearSetBe32;
+      FspiMasterPtr->Read32 = SwapMmioRead32;
+      FspiMasterPtr->Write32 = SwapMmioWrite32;
+      FspiMasterPtr->Or32 = SwapMmioOr32;
+      FspiMasterPtr->And32 = SwapMmioAnd32;
+      FspiMasterPtr->AndThenOr32 = SwapMmioAndThenOr32;
     } else {
       FspiMasterPtr->Read32 = MmioRead32;
       FspiMasterPtr->Write32 = MmioWrite32;
-      FspiMasterPtr->ClearBits32 = MmioClearBits32;
-      FspiMasterPtr->SetBits32 = MmioSetBits32;
-      FspiMasterPtr->ClearSet32 = MmioClearSet32;
+      FspiMasterPtr->Or32 = MmioOr32;
+      FspiMasterPtr->And32 = MmioAnd32;
+      FspiMasterPtr->AndThenOr32 = MmioAndThenOr32;
     }
 
     Prop = fdt_getprop(Fdt, NodeOffset, "num-cs", &PropLen);
