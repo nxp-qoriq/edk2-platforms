@@ -174,3 +174,15 @@ SocGetSvr (
 
   return Svr;
 }
+
+/**
+  Enable PCie feature based on SoC revision
+
+**/
+VOID
+SocPcieCfgShift (
+  )
+{
+  if (((UINT32)SocGetSvr() & SVR_LX2160A_REV_MASK) == SVR_LX2160A_REV2)
+    PcdSetBool(PcdPciCfgShiftEnable, TRUE);
+}

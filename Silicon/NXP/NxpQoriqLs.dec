@@ -130,7 +130,6 @@
   gNxpQoriqLsTokenSpaceGuid.PcdPcieExp4SysAddr|0x0|UINT64|0x000001D8
   gNxpQoriqLsTokenSpaceGuid.PcdPcieExp5SysAddr|0x0|UINT64|0x000001D9
   gNxpQoriqLsTokenSpaceGuid.PcdPcieExp6SysAddr|0x0|UINT64|0x000001DA
-  gNxpQoriqLsTokenSpaceGuid.PcdPciCfgShiftEnable|FALSE|BOOLEAN|0x000001DB
 
   #
   # IFC PCDs
@@ -282,3 +281,4 @@
   gNxpQoriqLsTokenSpaceGuid.PcdSocSvr|0xffffffff|UINT32|0x00000400
   gNxpQoriqLsTokenSpaceGuid.PcdIortTablePtr|0|UINT64|0x00000401
   gNxpQoriqLsTokenSpaceGuid.PcdPciFdtCompatible|""|VOID*|0x00000402
+  gNxpQoriqLsTokenSpaceGuid.PcdPciCfgShiftEnable|FALSE|BOOLEAN|0x000001DB

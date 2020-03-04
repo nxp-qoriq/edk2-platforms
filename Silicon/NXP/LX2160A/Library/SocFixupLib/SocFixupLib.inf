@@ -39,6 +39,7 @@
 [Pcd]
   gNxpQoriqLsTokenSpaceGuid.PcdSocSvr
   gNxpQoriqLsTokenSpaceGuid.PcdPciFdtCompatible
+  gNxpQoriqLsTokenSpaceGuid.PcdPciCfgShiftEnable
 
 [Guids]
   gDtPlatformDefaultDtbFileGuid

@@ -34,6 +34,7 @@
   SocLib
   UefiBootServicesTableLib
   UefiLib
+  SocFixupLib
 
 [Protocols]
   gEfiPciIoProtocolGuid  ## CONSUMES ## PROTOCOL
@@ -45,7 +46,6 @@
 [FixedPcd]
   gNxpQoriqLsTokenSpaceGuid.PcdPcieStreamIdStart
   gNxpQoriqLsTokenSpaceGuid.PcdPcieStreamIdEnd
-  gNxpQoriqLsTokenSpaceGuid.PcdPciCfgShiftEnable
 
 [Pcd]
   gNxpQoriqLsTokenSpaceGuid.PcdPciLutBigEndian
@@ -62,3 +62,4 @@
   gNxpQoriqLsTokenSpaceGuid.PcdPciFdtCompatible
   gNxpQoriqLsTokenSpaceGuid.PcdSocSvr
   gNxpQoriqLsTokenSpaceGuid.PcdIortTablePtr
+  gNxpQoriqLsTokenSpaceGuid.PcdPciCfgShiftEnable
