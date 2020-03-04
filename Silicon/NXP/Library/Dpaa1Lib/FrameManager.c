@@ -144,7 +144,7 @@ UINT16 MemReadMasked (
   UINT16 Ret;
 
   Base = (UINTN)Addr & ~0x3UL;
-  Val = MmioReadBe32(Base);
+  Val = SwapMmioRead32(Base);
 
   Pos = (UINTN)Addr & 0x3UL;
   if (Pos)
@@ -161,7 +161,7 @@ VOID MemWriteMasked (
   )
 {
   UINTN Base = (UINTN)Addr & ~0x3UL;
-  UINT32 Org = MmioReadBe32(Base);
+  UINT32 Org = SwapMmioRead32(Base);
   UINT32 Val;
   INT32 Pos;
 
@@ -171,7 +171,7 @@ VOID MemWriteMasked (
   else
     Val = (Org & MASK_UPPER_16) | ((UINT32)Data << 16);
 
-  MmioWriteBe32(Base, Val);
+  SwapMmioWrite32(Base, Val);
 }
 
 VOID
@@ -183,10 +183,10 @@ DumpFmanCfg (
   FMAN_CONTROLLER_CONFIG *Cfg = &FmanRegs->FmanControllerCfg;
 
   DPAA1_DEBUG_MSG(" ------------- DUMP CFG 0x%x -------------\n", Cfg);
-  DPAA1_DEBUG_MSG("Address      : 0x%x \n", MmioReadBe32((UINTN)&Cfg->Address      ));
-  DPAA1_DEBUG_MSG("Data         : 0x%x \n", MmioReadBe32((UINTN)&Cfg->Data         ));
-  DPAA1_DEBUG_MSG("TimingConfig : 0x%x \n", MmioReadBe32((UINTN)&Cfg->TimingConfig ));
-  DPAA1_DEBUG_MSG("DataReady    : 0x%x \n", MmioReadBe32((UINTN)&Cfg->DataReady    ));
+  DPAA1_DEBUG_MSG("Address      : 0x%x \n", SwapMmioRead32((UINTN)&Cfg->Address      ));
+  DPAA1_DEBUG_MSG("Data         : 0x%x \n", SwapMmioRead32((UINTN)&Cfg->Data         ));
+  DPAA1_DEBUG_MSG("TimingConfig : 0x%x \n", SwapMmioRead32((UINTN)&Cfg->TimingConfig ));
+  DPAA1_DEBUG_MSG("DataReady    : 0x%x \n", SwapMmioRead32((UINTN)&Cfg->DataReady    ));
 }
 
 VOID
@@ -199,44 +199,44 @@ DumpFmanFpm (
   UINT32 I = 0;
 
   DPAA1_DEBUG_MSG(" ------------- DUMP FPM 0x%x -------------\n", Fpm);
-  DPAA1_DEBUG_MSG("Tnc  : 0x%x \n", MmioReadBe32((UINTN)&Fpm->Tnc  ));
-  DPAA1_DEBUG_MSG("Prc  : 0x%x \n", MmioReadBe32((UINTN)&Fpm->Prc  ));
-  DPAA1_DEBUG_MSG("Flc  : 0x%x \n", MmioReadBe32((UINTN)&Fpm->Flc  ));
-  DPAA1_DEBUG_MSG("Dist1: 0x%x \n", MmioReadBe32((UINTN)&Fpm->Dist1));
-  DPAA1_DEBUG_MSG("Dist2: 0x%x \n", MmioReadBe32((UINTN)&Fpm->Dist2));
-  DPAA1_DEBUG_MSG("Epi  : 0x%x \n", MmioReadBe32((UINTN)&Fpm->Epi  ));
-  DPAA1_DEBUG_MSG("Rie  : 0x%x \n", MmioReadBe32((UINTN)&Fpm->Rie  ));
+  DPAA1_DEBUG_MSG("Tnc  : 0x%x \n", SwapMmioRead32((UINTN)&Fpm->Tnc  ));
+  DPAA1_DEBUG_MSG("Prc  : 0x%x \n", SwapMmioRead32((UINTN)&Fpm->Prc  ));
+  DPAA1_DEBUG_MSG("Flc  : 0x%x \n", SwapMmioRead32((UINTN)&Fpm->Flc  ));
+  DPAA1_DEBUG_MSG("Dist1: 0x%x \n", SwapMmioRead32((UINTN)&Fpm->Dist1));
+  DPAA1_DEBUG_MSG("Dist2: 0x%x \n", SwapMmioRead32((UINTN)&Fpm->Dist2));
+  DPAA1_DEBUG_MSG("Epi  : 0x%x \n", SwapMmioRead32((UINTN)&Fpm->Epi  ));
+  DPAA1_DEBUG_MSG("Rie  : 0x%x \n", SwapMmioRead32((UINTN)&Fpm->Rie  ));
   for (I =0; I < 0x4; I++)
-    DPAA1_DEBUG_MSG("Fcev[%d]  : 0x%x \n",I, MmioReadBe32((UINTN)&Fpm->Fcev[I]));
-
-  for (I =0; I < 0x4; I++)
-    DPAA1_DEBUG_MSG("Fcmask[%d]  : 0x%x \n",I, MmioReadBe32((UINTN)&Fpm->Fcmask[I]));
-
-  DPAA1_DEBUG_MSG("Tsc1 : 0x%x \n", MmioReadBe32((UINTN)&Fpm->Tsc1));
-  DPAA1_DEBUG_MSG("Tsc2  : 0x%x \n", MmioReadBe32((UINTN)&Fpm->Tsc2));
-  DPAA1_DEBUG_MSG("Tsp  : 0x%x \n", MmioReadBe32((UINTN)&Fpm->Tsp ));
-  DPAA1_DEBUG_MSG("Tsf  : 0x%x \n", MmioReadBe32((UINTN)&Fpm->Tsf ));
-  DPAA1_DEBUG_MSG("Rcr  : 0x%x \n", MmioReadBe32((UINTN)&Fpm->Rcr ));
+    DPAA1_DEBUG_MSG("Fcev[%d]  : 0x%x \n",I, SwapMmioRead32((UINTN)&Fpm->Fcev[I]));
 
   for (I =0; I < 0x4; I++)
-    DPAA1_DEBUG_MSG("Drd[%d]  : 0x%x \n", I, MmioReadBe32((UINTN)&Fpm->Drd[I]));
+    DPAA1_DEBUG_MSG("Fcmask[%d]  : 0x%x \n",I, SwapMmioRead32((UINTN)&Fpm->Fcmask[I]));
 
-  DPAA1_DEBUG_MSG("Dra    : 0x%x \n", MmioReadBe32((UINTN)&Fpm->Dra   ));
-  DPAA1_DEBUG_MSG("IpRev1 : 0x%x \n", MmioReadBe32((UINTN)&Fpm->IpRev1));
-  DPAA1_DEBUG_MSG("IpRev2 : 0x%x \n", MmioReadBe32((UINTN)&Fpm->IpRev2));
-  DPAA1_DEBUG_MSG("Rstc   : 0x%x \n", MmioReadBe32((UINTN)&Fpm->Rstc  ));
-  DPAA1_DEBUG_MSG("Cldc   : 0x%x \n", MmioReadBe32((UINTN)&Fpm->Cldc  ));
-  DPAA1_DEBUG_MSG("Npi    : 0x%x \n", MmioReadBe32((UINTN)&Fpm->Npi   ));
-  DPAA1_DEBUG_MSG("FpEe   : 0x%x \n", MmioReadBe32((UINTN)&Fpm->FpEe  ));
+  DPAA1_DEBUG_MSG("Tsc1 : 0x%x \n", SwapMmioRead32((UINTN)&Fpm->Tsc1));
+  DPAA1_DEBUG_MSG("Tsc2  : 0x%x \n", SwapMmioRead32((UINTN)&Fpm->Tsc2));
+  DPAA1_DEBUG_MSG("Tsp  : 0x%x \n", SwapMmioRead32((UINTN)&Fpm->Tsp ));
+  DPAA1_DEBUG_MSG("Tsf  : 0x%x \n", SwapMmioRead32((UINTN)&Fpm->Tsf ));
+  DPAA1_DEBUG_MSG("Rcr  : 0x%x \n", SwapMmioRead32((UINTN)&Fpm->Rcr ));
 
   for (I =0; I < 0x4; I++)
-    DPAA1_DEBUG_MSG("Cev[%d]  : 0x%x \n", I, MmioReadBe32((UINTN)&Fpm->Cev[I]));
+    DPAA1_DEBUG_MSG("Drd[%d]  : 0x%x \n", I, SwapMmioRead32((UINTN)&Fpm->Drd[I]));
+
+  DPAA1_DEBUG_MSG("Dra    : 0x%x \n", SwapMmioRead32((UINTN)&Fpm->Dra   ));
+  DPAA1_DEBUG_MSG("IpRev1 : 0x%x \n", SwapMmioRead32((UINTN)&Fpm->IpRev1));
+  DPAA1_DEBUG_MSG("IpRev2 : 0x%x \n", SwapMmioRead32((UINTN)&Fpm->IpRev2));
+  DPAA1_DEBUG_MSG("Rstc   : 0x%x \n", SwapMmioRead32((UINTN)&Fpm->Rstc  ));
+  DPAA1_DEBUG_MSG("Cldc   : 0x%x \n", SwapMmioRead32((UINTN)&Fpm->Cldc  ));
+  DPAA1_DEBUG_MSG("Npi    : 0x%x \n", SwapMmioRead32((UINTN)&Fpm->Npi   ));
+  DPAA1_DEBUG_MSG("FpEe   : 0x%x \n", SwapMmioRead32((UINTN)&Fpm->FpEe  ));
+
+  for (I =0; I < 0x4; I++)
+    DPAA1_DEBUG_MSG("Cev[%d]  : 0x%x \n", I, SwapMmioRead32((UINTN)&Fpm->Cev[I]));
 
   for (I =0; I < 0x40; I++)
-    DPAA1_DEBUG_MSG("Ps[%d]  : 0x%x \n",I, MmioReadBe32((UINTN)&Fpm->Ps[I]));
+    DPAA1_DEBUG_MSG("Ps[%d]  : 0x%x \n",I, SwapMmioRead32((UINTN)&Fpm->Ps[I]));
 
   for (I =0; I < 0x80; I++)
-    DPAA1_DEBUG_MSG("Ts[%d]  : 0x%x \n",I, MmioReadBe32((UINTN)&Fpm->Ts[I]));
+    DPAA1_DEBUG_MSG("Ts[%d]  : 0x%x \n",I, SwapMmioRead32((UINTN)&Fpm->Ts[I]));
 }
 
 VOID
@@ -248,27 +248,27 @@ DumpFmanQmi (
   FMAN_QMI_COMMON *Qmi = &FmanRegs->QmiCommon;
 
   DPAA1_DEBUG_MSG(" ------------- DUMP QMI COMMON 0x%x -------------\n", Qmi);
-  DPAA1_DEBUG_MSG(" Gc    : 0x%x \n", MmioReadBe32((UINTN)&Qmi->Gc   ));
-  DPAA1_DEBUG_MSG(" Eie   : 0x%x \n", MmioReadBe32((UINTN)&Qmi->Eie  ));
-  DPAA1_DEBUG_MSG(" Eien  : 0x%x \n", MmioReadBe32((UINTN)&Qmi->Eien ));
-  DPAA1_DEBUG_MSG(" Eif   : 0x%x \n", MmioReadBe32((UINTN)&Qmi->Eif  ));
-  DPAA1_DEBUG_MSG(" Ie    : 0x%x \n", MmioReadBe32((UINTN)&Qmi->Ie   ));
-  DPAA1_DEBUG_MSG(" Ien   : 0x%x \n", MmioReadBe32((UINTN)&Qmi->Ien  ));
-  DPAA1_DEBUG_MSG(" If    : 0x%x \n", MmioReadBe32((UINTN)&Qmi->If   ));
-  DPAA1_DEBUG_MSG(" Gs    : 0x%x \n", MmioReadBe32((UINTN)&Qmi->Gs   ));
-  DPAA1_DEBUG_MSG(" Ts    : 0x%x \n", MmioReadBe32((UINTN)&Qmi->Ts   ));
-  DPAA1_DEBUG_MSG(" Etfc  : 0x%x \n", MmioReadBe32((UINTN)&Qmi->Etfc ));
-  DPAA1_DEBUG_MSG(" Dtfc  : 0x%x \n", MmioReadBe32((UINTN)&Qmi->Dtfc ));
-  DPAA1_DEBUG_MSG(" Dc0   : 0x%x \n", MmioReadBe32((UINTN)&Qmi->Dc0  ));
-  DPAA1_DEBUG_MSG(" Dc1   : 0x%x \n", MmioReadBe32((UINTN)&Qmi->Dc1  ));
-  DPAA1_DEBUG_MSG(" Dc2   : 0x%x \n", MmioReadBe32((UINTN)&Qmi->Dc2  ));
-  DPAA1_DEBUG_MSG(" Dc3   : 0x%x \n", MmioReadBe32((UINTN)&Qmi->Dc3  ));
-  DPAA1_DEBUG_MSG(" Dfnoc : 0x%x \n", MmioReadBe32((UINTN)&Qmi->Dfnoc));
-  DPAA1_DEBUG_MSG(" Dfcc  : 0x%x \n", MmioReadBe32((UINTN)&Qmi->Dfcc ));
-  DPAA1_DEBUG_MSG(" Dffc  : 0x%x \n", MmioReadBe32((UINTN)&Qmi->Dffc ));
-  DPAA1_DEBUG_MSG(" Dcc   : 0x%x \n", MmioReadBe32((UINTN)&Qmi->Dcc  ));
-  DPAA1_DEBUG_MSG(" Dtrc  : 0x%x \n", MmioReadBe32((UINTN)&Qmi->Dtrc ));
-  DPAA1_DEBUG_MSG(" Efddd : 0x%x \n", MmioReadBe32((UINTN)&Qmi->Efddd));
+  DPAA1_DEBUG_MSG(" Gc    : 0x%x \n", SwapMmioRead32((UINTN)&Qmi->Gc   ));
+  DPAA1_DEBUG_MSG(" Eie   : 0x%x \n", SwapMmioRead32((UINTN)&Qmi->Eie  ));
+  DPAA1_DEBUG_MSG(" Eien  : 0x%x \n", SwapMmioRead32((UINTN)&Qmi->Eien ));
+  DPAA1_DEBUG_MSG(" Eif   : 0x%x \n", SwapMmioRead32((UINTN)&Qmi->Eif  ));
+  DPAA1_DEBUG_MSG(" Ie    : 0x%x \n", SwapMmioRead32((UINTN)&Qmi->Ie   ));
+  DPAA1_DEBUG_MSG(" Ien   : 0x%x \n", SwapMmioRead32((UINTN)&Qmi->Ien  ));
+  DPAA1_DEBUG_MSG(" If    : 0x%x \n", SwapMmioRead32((UINTN)&Qmi->If   ));
+  DPAA1_DEBUG_MSG(" Gs    : 0x%x \n", SwapMmioRead32((UINTN)&Qmi->Gs   ));
+  DPAA1_DEBUG_MSG(" Ts    : 0x%x \n", SwapMmioRead32((UINTN)&Qmi->Ts   ));
+  DPAA1_DEBUG_MSG(" Etfc  : 0x%x \n", SwapMmioRead32((UINTN)&Qmi->Etfc ));
+  DPAA1_DEBUG_MSG(" Dtfc  : 0x%x \n", SwapMmioRead32((UINTN)&Qmi->Dtfc ));
+  DPAA1_DEBUG_MSG(" Dc0   : 0x%x \n", SwapMmioRead32((UINTN)&Qmi->Dc0  ));
+  DPAA1_DEBUG_MSG(" Dc1   : 0x%x \n", SwapMmioRead32((UINTN)&Qmi->Dc1  ));
+  DPAA1_DEBUG_MSG(" Dc2   : 0x%x \n", SwapMmioRead32((UINTN)&Qmi->Dc2  ));
+  DPAA1_DEBUG_MSG(" Dc3   : 0x%x \n", SwapMmioRead32((UINTN)&Qmi->Dc3  ));
+  DPAA1_DEBUG_MSG(" Dfnoc : 0x%x \n", SwapMmioRead32((UINTN)&Qmi->Dfnoc));
+  DPAA1_DEBUG_MSG(" Dfcc  : 0x%x \n", SwapMmioRead32((UINTN)&Qmi->Dfcc ));
+  DPAA1_DEBUG_MSG(" Dffc  : 0x%x \n", SwapMmioRead32((UINTN)&Qmi->Dffc ));
+  DPAA1_DEBUG_MSG(" Dcc   : 0x%x \n", SwapMmioRead32((UINTN)&Qmi->Dcc  ));
+  DPAA1_DEBUG_MSG(" Dtrc  : 0x%x \n", SwapMmioRead32((UINTN)&Qmi->Dtrc ));
+  DPAA1_DEBUG_MSG(" Efddd : 0x%x \n", SwapMmioRead32((UINTN)&Qmi->Efddd));
 }
 
 VOID
@@ -281,21 +281,21 @@ DumpFmanBmi (
   UINT32 I = 0;
 
   DPAA1_DEBUG_MSG(" ------------- DUMP BMI COMMON 0x%x -------------\n", Bmi);
-  DPAA1_DEBUG_MSG(" Init;           : 0x%x \n", MmioReadBe32((UINTN)&Bmi->Init));
-  DPAA1_DEBUG_MSG(" Cfg1;           : 0x%x \n", MmioReadBe32((UINTN)&Bmi->Cfg1));
-  DPAA1_DEBUG_MSG(" Cfg2;           : 0x%x \n", MmioReadBe32((UINTN)&Bmi->Cfg2));
-  DPAA1_DEBUG_MSG(" Ievr;           : 0x%x \n", MmioReadBe32((UINTN)&Bmi->Ievr));
-  DPAA1_DEBUG_MSG(" Ier;            : 0x%x \n", MmioReadBe32((UINTN)&Bmi->Ier ));
-  DPAA1_DEBUG_MSG(" Ifr;            : 0x%x \n", MmioReadBe32((UINTN)&Bmi->Ifr ));
-  DPAA1_DEBUG_MSG(" Gde;            : 0x%x \n", MmioReadBe32((UINTN)&Bmi->Gde ));
+  DPAA1_DEBUG_MSG(" Init;           : 0x%x \n", SwapMmioRead32((UINTN)&Bmi->Init));
+  DPAA1_DEBUG_MSG(" Cfg1;           : 0x%x \n", SwapMmioRead32((UINTN)&Bmi->Cfg1));
+  DPAA1_DEBUG_MSG(" Cfg2;           : 0x%x \n", SwapMmioRead32((UINTN)&Bmi->Cfg2));
+  DPAA1_DEBUG_MSG(" Ievr;           : 0x%x \n", SwapMmioRead32((UINTN)&Bmi->Ievr));
+  DPAA1_DEBUG_MSG(" Ier;            : 0x%x \n", SwapMmioRead32((UINTN)&Bmi->Ier ));
+  DPAA1_DEBUG_MSG(" Ifr;            : 0x%x \n", SwapMmioRead32((UINTN)&Bmi->Ifr ));
+  DPAA1_DEBUG_MSG(" Gde;            : 0x%x \n", SwapMmioRead32((UINTN)&Bmi->Gde ));
   for (I =0; I < 0x3f; I++)
-    DPAA1_DEBUG_MSG("Pp[%x] : 0x%x \n", I, MmioReadBe32((UINTN)&Bmi->Pp[I]));
+    DPAA1_DEBUG_MSG("Pp[%x] : 0x%x \n", I, SwapMmioRead32((UINTN)&Bmi->Pp[I]));
   
   for (I =0; I < 0x3f; I++)
-    DPAA1_DEBUG_MSG("Pfs[%x] : 0x%x \n", I, MmioReadBe32((UINTN)&Bmi->Pfs[I]));
+    DPAA1_DEBUG_MSG("Pfs[%x] : 0x%x \n", I, SwapMmioRead32((UINTN)&Bmi->Pfs[I]));
 
   for (I =0; I < 0x3f; I++)
-    DPAA1_DEBUG_MSG("Ppid[%x] : 0x%x \n", I, MmioReadBe32((UINTN)&Bmi->Ppid[I]));
+    DPAA1_DEBUG_MSG("Ppid[%x] : 0x%x \n", I, SwapMmioRead32((UINTN)&Bmi->Ppid[I]));
 }
 
 VOID
@@ -308,20 +308,20 @@ DumpFmanDma (
   UINT32 I = 0;
 
   DPAA1_INFO_MSG(" ------------- DUMP FMAN DMA 0x%x -------------\n", Dma);
-  DPAA1_INFO_MSG(" Sr   : 0x%x \n", MmioReadBe32((UINTN)&Dma->Sr  ));
-  DPAA1_INFO_MSG(" Mr   : 0x%x \n", MmioReadBe32((UINTN)&Dma->Mr  ));
-  DPAA1_INFO_MSG(" Tr   : 0x%x \n", MmioReadBe32((UINTN)&Dma->Tr  ));
-  DPAA1_INFO_MSG(" Hy   : 0x%x \n", MmioReadBe32((UINTN)&Dma->Hy  ));
-  DPAA1_INFO_MSG(" Setr : 0x%x \n", MmioReadBe32((UINTN)&Dma->Setr));
-  DPAA1_INFO_MSG(" Tah  : 0x%x \n", MmioReadBe32((UINTN)&Dma->Tah ));
-  DPAA1_INFO_MSG(" Tal  : 0x%x \n", MmioReadBe32((UINTN)&Dma->Tal ));
-  DPAA1_INFO_MSG(" Tcid : 0x%x \n", MmioReadBe32((UINTN)&Dma->Tcid));
-  DPAA1_INFO_MSG(" Ra   : 0x%x \n", MmioReadBe32((UINTN)&Dma->Ra  ));
-  DPAA1_INFO_MSG(" Rd   : 0x%x \n", MmioReadBe32((UINTN)&Dma->Rd  ));
-  DPAA1_INFO_MSG(" Dcr  : 0x%x \n", MmioReadBe32((UINTN)&Dma->Dcr ));
-  DPAA1_DEBUG_MSG(" Emsr : 0x%x \n", MmioReadBe32((UINTN)&Dma->Emsr));
+  DPAA1_INFO_MSG(" Sr   : 0x%x \n", SwapMmioRead32((UINTN)&Dma->Sr  ));
+  DPAA1_INFO_MSG(" Mr   : 0x%x \n", SwapMmioRead32((UINTN)&Dma->Mr  ));
+  DPAA1_INFO_MSG(" Tr   : 0x%x \n", SwapMmioRead32((UINTN)&Dma->Tr  ));
+  DPAA1_INFO_MSG(" Hy   : 0x%x \n", SwapMmioRead32((UINTN)&Dma->Hy  ));
+  DPAA1_INFO_MSG(" Setr : 0x%x \n", SwapMmioRead32((UINTN)&Dma->Setr));
+  DPAA1_INFO_MSG(" Tah  : 0x%x \n", SwapMmioRead32((UINTN)&Dma->Tah ));
+  DPAA1_INFO_MSG(" Tal  : 0x%x \n", SwapMmioRead32((UINTN)&Dma->Tal ));
+  DPAA1_INFO_MSG(" Tcid : 0x%x \n", SwapMmioRead32((UINTN)&Dma->Tcid));
+  DPAA1_INFO_MSG(" Ra   : 0x%x \n", SwapMmioRead32((UINTN)&Dma->Ra  ));
+  DPAA1_INFO_MSG(" Rd   : 0x%x \n", SwapMmioRead32((UINTN)&Dma->Rd  ));
+  DPAA1_INFO_MSG(" Dcr  : 0x%x \n", SwapMmioRead32((UINTN)&Dma->Dcr ));
+  DPAA1_DEBUG_MSG(" Emsr : 0x%x \n", SwapMmioRead32((UINTN)&Dma->Emsr));
   for (I =0; I < 32; I++)
-    DPAA1_INFO_MSG("Plr[%d] : 0x%x \n", I, MmioReadBe32((UINTN)&Dma->Plr[I]));
+    DPAA1_INFO_MSG("Plr[%d] : 0x%x \n", I, SwapMmioRead32((UINTN)&Dma->Plr[I]));
 }
 
 VOID
@@ -334,77 +334,77 @@ DumpEthDev (
   DPAA1_DEBUG_MSG("  Num    	: 	0x%x \n", FmanEthDevice->Num    );
 
   DPAA1_DEBUG_MSG("  TxPort	: 	0x%x -------- \n", FmanEthDevice->TxPort);
-  DPAA1_DEBUG_MSG("  TxPort->FmanBmTcfg;  	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->TxPort->FmanBmTcfg));
-  DPAA1_DEBUG_MSG("  TxPort->FmanBmTst;   	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->TxPort->FmanBmTst ));
-  DPAA1_DEBUG_MSG("  TxPort->FmanBmTda;   	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->TxPort->FmanBmTda ));
-  DPAA1_DEBUG_MSG("  TxPort->FmanBmTfp;   	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->TxPort->FmanBmTfp ));
-  DPAA1_DEBUG_MSG("  TxPort->FmanBmTfed;  	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->TxPort->FmanBmTfed));
-  DPAA1_DEBUG_MSG("  TxPort->FmanBmTicp;  	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->TxPort->FmanBmTicp));
-  DPAA1_DEBUG_MSG("  TxPort->FmanBmTfne;  	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->TxPort->FmanBmTfne));
-  DPAA1_DEBUG_MSG("  TxPort->FmanBmTfca;  	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->TxPort->FmanBmTfca));
-  DPAA1_DEBUG_MSG("  TxPort->FmanBmTcfqid;	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->TxPort->FmanBmTcfqid));
-  DPAA1_DEBUG_MSG("  TxPort->FmanBmTfeqid;	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->TxPort->FmanBmTfeqid));
-  DPAA1_DEBUG_MSG("  TxPort->FmanBmTfene; 	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->TxPort->FmanBmTfene));
-  DPAA1_DEBUG_MSG("  TxPort->FmanBmTrlmts;	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->TxPort->FmanBmTrlmts));
-  DPAA1_DEBUG_MSG("  TxPort->FmanBmTrlmt; 	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->TxPort->FmanBmTrlmt));
-  DPAA1_DEBUG_MSG("  TxPort->FmanBmTstc;  	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->TxPort->FmanBmTstc ));
-  DPAA1_DEBUG_MSG("  TxPort->FmanBmTfrc;  	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->TxPort->FmanBmTfrc ));
-  DPAA1_DEBUG_MSG("  TxPort->FmanBmTfdc;  	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->TxPort->FmanBmTfdc ));
-  DPAA1_DEBUG_MSG("  TxPort->FmanBmTfledc;	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->TxPort->FmanBmTfledc));
-  DPAA1_DEBUG_MSG("  TxPort->FmanBmTfufdc;	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->TxPort->FmanBmTfufdc));
-  DPAA1_DEBUG_MSG("  TxPort->FmanBmTbdc;  	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->TxPort->FmanBmTbdc ));
-  DPAA1_DEBUG_MSG("  TxPort->FmanBmTpc;   	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->TxPort->FmanBmTpc  ));
-  DPAA1_DEBUG_MSG("  TxPort->FmanBmTpcp;  	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->TxPort->FmanBmTpcp ));
-  DPAA1_DEBUG_MSG("  TxPort->FmanBmTccn;  	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->TxPort->FmanBmTccn ));
-  DPAA1_DEBUG_MSG("  TxPort->FmanBmTtuc;  	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->TxPort->FmanBmTtuc ));
-  DPAA1_DEBUG_MSG("  TxPort->FmanBmTtcquc;	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->TxPort->FmanBmTtcquc));
-  DPAA1_DEBUG_MSG("  TxPort->FmanBmTduc;  	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->TxPort->FmanBmTduc ));
-  DPAA1_DEBUG_MSG("  TxPort->FmanBmTfuc;  	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->TxPort->FmanBmTfuc ));
-  DPAA1_DEBUG_MSG("  TxPort->FmanBmTdcfg;  	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->TxPort->FmanBmTdcfg));
+  DPAA1_DEBUG_MSG("  TxPort->FmanBmTcfg;  	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->TxPort->FmanBmTcfg));
+  DPAA1_DEBUG_MSG("  TxPort->FmanBmTst;   	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->TxPort->FmanBmTst ));
+  DPAA1_DEBUG_MSG("  TxPort->FmanBmTda;   	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->TxPort->FmanBmTda ));
+  DPAA1_DEBUG_MSG("  TxPort->FmanBmTfp;   	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->TxPort->FmanBmTfp ));
+  DPAA1_DEBUG_MSG("  TxPort->FmanBmTfed;  	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->TxPort->FmanBmTfed));
+  DPAA1_DEBUG_MSG("  TxPort->FmanBmTicp;  	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->TxPort->FmanBmTicp));
+  DPAA1_DEBUG_MSG("  TxPort->FmanBmTfne;  	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->TxPort->FmanBmTfne));
+  DPAA1_DEBUG_MSG("  TxPort->FmanBmTfca;  	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->TxPort->FmanBmTfca));
+  DPAA1_DEBUG_MSG("  TxPort->FmanBmTcfqid;	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->TxPort->FmanBmTcfqid));
+  DPAA1_DEBUG_MSG("  TxPort->FmanBmTfeqid;	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->TxPort->FmanBmTfeqid));
+  DPAA1_DEBUG_MSG("  TxPort->FmanBmTfene; 	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->TxPort->FmanBmTfene));
+  DPAA1_DEBUG_MSG("  TxPort->FmanBmTrlmts;	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->TxPort->FmanBmTrlmts));
+  DPAA1_DEBUG_MSG("  TxPort->FmanBmTrlmt; 	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->TxPort->FmanBmTrlmt));
+  DPAA1_DEBUG_MSG("  TxPort->FmanBmTstc;  	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->TxPort->FmanBmTstc ));
+  DPAA1_DEBUG_MSG("  TxPort->FmanBmTfrc;  	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->TxPort->FmanBmTfrc ));
+  DPAA1_DEBUG_MSG("  TxPort->FmanBmTfdc;  	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->TxPort->FmanBmTfdc ));
+  DPAA1_DEBUG_MSG("  TxPort->FmanBmTfledc;	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->TxPort->FmanBmTfledc));
+  DPAA1_DEBUG_MSG("  TxPort->FmanBmTfufdc;	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->TxPort->FmanBmTfufdc));
+  DPAA1_DEBUG_MSG("  TxPort->FmanBmTbdc;  	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->TxPort->FmanBmTbdc ));
+  DPAA1_DEBUG_MSG("  TxPort->FmanBmTpc;   	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->TxPort->FmanBmTpc  ));
+  DPAA1_DEBUG_MSG("  TxPort->FmanBmTpcp;  	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->TxPort->FmanBmTpcp ));
+  DPAA1_DEBUG_MSG("  TxPort->FmanBmTccn;  	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->TxPort->FmanBmTccn ));
+  DPAA1_DEBUG_MSG("  TxPort->FmanBmTtuc;  	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->TxPort->FmanBmTtuc ));
+  DPAA1_DEBUG_MSG("  TxPort->FmanBmTtcquc;	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->TxPort->FmanBmTtcquc));
+  DPAA1_DEBUG_MSG("  TxPort->FmanBmTduc;  	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->TxPort->FmanBmTduc ));
+  DPAA1_DEBUG_MSG("  TxPort->FmanBmTfuc;  	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->TxPort->FmanBmTfuc ));
+  DPAA1_DEBUG_MSG("  TxPort->FmanBmTdcfg;  	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->TxPort->FmanBmTdcfg));
 
   DPAA1_DEBUG_MSG("  RxPort	: 	0x%x ---------\n", FmanEthDevice->RxPort);
-  DPAA1_DEBUG_MSG("  RxPort->FmanBmRcfg      	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->RxPort->FmanBmRcfg));
-  DPAA1_DEBUG_MSG("  RxPort->FmanBmRst 	 	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->RxPort->FmanBmRst));
-  DPAA1_DEBUG_MSG("  RxPort->FmanBmRda       	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->RxPort->FmanBmRda));
-  DPAA1_DEBUG_MSG("  RxPort->FmanBmRfp       	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->RxPort->FmanBmRfp));
-  DPAA1_DEBUG_MSG("  RxPort->FmanBmRfed      	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->RxPort->FmanBmRfed));
-  DPAA1_DEBUG_MSG("  RxPort->FmanBmRicp      	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->RxPort->FmanBmRicp));
-  DPAA1_DEBUG_MSG("  RxPort->FmanBmRim 	 	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->RxPort->FmanBmRim ));
-  DPAA1_DEBUG_MSG("  RxPort->FmanBmRebm      	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->RxPort->FmanBmRebm));
-  DPAA1_DEBUG_MSG("  RxPort->FmanBmRfne      	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->RxPort->FmanBmRfne));
-  DPAA1_DEBUG_MSG("  RxPort->FmanBmRfca      	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->RxPort->FmanBmRfca));
-  DPAA1_DEBUG_MSG("  RxPort->FmanBmRfpne     	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->RxPort->FmanBmRfpne));
-  DPAA1_DEBUG_MSG("  RxPort->FmanBmRpso      	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->RxPort->FmanBmRpso ));
-  DPAA1_DEBUG_MSG("  RxPort->FmanBmRpp       	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->RxPort->FmanBmRpp  ));
-  DPAA1_DEBUG_MSG("  RxPort->FmanBmRccb      	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->RxPort->FmanBmRccb ));
-  DPAA1_DEBUG_MSG("  RxPort->FmanBmRprai[0x8]	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->RxPort->FmanBmRprai[0x8] ));
-  DPAA1_DEBUG_MSG("  RxPort->FmanBmRfqid     	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->RxPort->FmanBmRfqid ));
-  DPAA1_DEBUG_MSG("  RxPort->FmanBmRefqid    	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->RxPort->FmanBmRefqid));
-  DPAA1_DEBUG_MSG("  RxPort->FmanBmRfsdm     	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->RxPort->FmanBmRfsdm ));
-  DPAA1_DEBUG_MSG("  RxPort->FmanBmRfsem     	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->RxPort->FmanBmRfsem ));
-  DPAA1_DEBUG_MSG("  RxPort->FmanBmRfene     	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->RxPort->FmanBmRfene ));
-  DPAA1_DEBUG_MSG("  RxPort->FmanBmEbmpi[0x8]	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->RxPort->FmanBmEbmpi[0x8] ));
-  DPAA1_DEBUG_MSG("  RxPort->FmanBmAcnt[0x8] 	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->RxPort->FmanBmAcnt[0x8]  ));
-  DPAA1_DEBUG_MSG("  RxPort->FmanBmCgm[0x8]  	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->RxPort->FmanBmCgm[0x8]   ));
-  DPAA1_DEBUG_MSG("  RxPort->FmanBmMpd       	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->RxPort->FmanBmMpd   ));
-  DPAA1_DEBUG_MSG("  RxPort->FmanBmRstc      	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->RxPort->FmanBmRstc  ));
-  DPAA1_DEBUG_MSG("  RxPort->FmanBmRfrc      	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->RxPort->FmanBmRfrc  ));
-  DPAA1_DEBUG_MSG("  RxPort->FmanBmRfbc      	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->RxPort->FmanBmRfbc  ));
-  DPAA1_DEBUG_MSG("  RxPort->FmanBmRlfc      	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->RxPort->FmanBmRlfc  ));
-  DPAA1_DEBUG_MSG("  RxPort->FmanBmRffc      	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->RxPort->FmanBmRffc  ));
-  DPAA1_DEBUG_MSG("  RxPort->FmanBmRfdc      	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->RxPort->FmanBmRfdc  ));
-  DPAA1_DEBUG_MSG("  RxPort->FmanBmRfldec    	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->RxPort->FmanBmRfldec));
-  DPAA1_DEBUG_MSG("  RxPort->FmanBmRodc      	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->RxPort->FmanBmRodc  ));
-  DPAA1_DEBUG_MSG("  RxPort->FmanBmRbdc      	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->RxPort->FmanBmRbdc  ));
-  DPAA1_DEBUG_MSG("  RxPort->FmanBmRpc       	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->RxPort->FmanBmRpc   ));
-  DPAA1_DEBUG_MSG("  RxPort->FmanBmRpcp      	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->RxPort->FmanBmRpcp  ));
-  DPAA1_DEBUG_MSG("  RxPort->FmanBmRccn      	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->RxPort->FmanBmRccn  ));
-  DPAA1_DEBUG_MSG("  RxPort->FmanBmRtuc      	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->RxPort->FmanBmRtuc  ));
-  DPAA1_DEBUG_MSG("  RxPort->FmanBmRrquc     	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->RxPort->FmanBmRrquc ));
-  DPAA1_DEBUG_MSG("  RxPort->FmanBmRduc      	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->RxPort->FmanBmRduc  ));
-  DPAA1_DEBUG_MSG("  RxPort->FmanBmRfuc      	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->RxPort->FmanBmRfuc  ));
-  DPAA1_DEBUG_MSG("  RxPort->FmanBmRpac      	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->RxPort->FmanBmRpac  ));
-  DPAA1_DEBUG_MSG("  RxPort->FmanBmRdbg      	: 	0x%x \n", MmioReadBe32((UINTN)&FmanEthDevice->RxPort->FmanBmRdbg  ));
+  DPAA1_DEBUG_MSG("  RxPort->FmanBmRcfg      	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->RxPort->FmanBmRcfg));
+  DPAA1_DEBUG_MSG("  RxPort->FmanBmRst 	 	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->RxPort->FmanBmRst));
+  DPAA1_DEBUG_MSG("  RxPort->FmanBmRda       	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->RxPort->FmanBmRda));
+  DPAA1_DEBUG_MSG("  RxPort->FmanBmRfp       	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->RxPort->FmanBmRfp));
+  DPAA1_DEBUG_MSG("  RxPort->FmanBmRfed      	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->RxPort->FmanBmRfed));
+  DPAA1_DEBUG_MSG("  RxPort->FmanBmRicp      	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->RxPort->FmanBmRicp));
+  DPAA1_DEBUG_MSG("  RxPort->FmanBmRim 	 	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->RxPort->FmanBmRim ));
+  DPAA1_DEBUG_MSG("  RxPort->FmanBmRebm      	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->RxPort->FmanBmRebm));
+  DPAA1_DEBUG_MSG("  RxPort->FmanBmRfne      	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->RxPort->FmanBmRfne));
+  DPAA1_DEBUG_MSG("  RxPort->FmanBmRfca      	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->RxPort->FmanBmRfca));
+  DPAA1_DEBUG_MSG("  RxPort->FmanBmRfpne     	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->RxPort->FmanBmRfpne));
+  DPAA1_DEBUG_MSG("  RxPort->FmanBmRpso      	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->RxPort->FmanBmRpso ));
+  DPAA1_DEBUG_MSG("  RxPort->FmanBmRpp       	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->RxPort->FmanBmRpp  ));
+  DPAA1_DEBUG_MSG("  RxPort->FmanBmRccb      	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->RxPort->FmanBmRccb ));
+  DPAA1_DEBUG_MSG("  RxPort->FmanBmRprai[0x8]	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->RxPort->FmanBmRprai[0x8] ));
+  DPAA1_DEBUG_MSG("  RxPort->FmanBmRfqid     	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->RxPort->FmanBmRfqid ));
+  DPAA1_DEBUG_MSG("  RxPort->FmanBmRefqid    	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->RxPort->FmanBmRefqid));
+  DPAA1_DEBUG_MSG("  RxPort->FmanBmRfsdm     	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->RxPort->FmanBmRfsdm ));
+  DPAA1_DEBUG_MSG("  RxPort->FmanBmRfsem     	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->RxPort->FmanBmRfsem ));
+  DPAA1_DEBUG_MSG("  RxPort->FmanBmRfene     	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->RxPort->FmanBmRfene ));
+  DPAA1_DEBUG_MSG("  RxPort->FmanBmEbmpi[0x8]	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->RxPort->FmanBmEbmpi[0x8] ));
+  DPAA1_DEBUG_MSG("  RxPort->FmanBmAcnt[0x8] 	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->RxPort->FmanBmAcnt[0x8]  ));
+  DPAA1_DEBUG_MSG("  RxPort->FmanBmCgm[0x8]  	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->RxPort->FmanBmCgm[0x8]   ));
+  DPAA1_DEBUG_MSG("  RxPort->FmanBmMpd       	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->RxPort->FmanBmMpd   ));
+  DPAA1_DEBUG_MSG("  RxPort->FmanBmRstc      	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->RxPort->FmanBmRstc  ));
+  DPAA1_DEBUG_MSG("  RxPort->FmanBmRfrc      	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->RxPort->FmanBmRfrc  ));
+  DPAA1_DEBUG_MSG("  RxPort->FmanBmRfbc      	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->RxPort->FmanBmRfbc  ));
+  DPAA1_DEBUG_MSG("  RxPort->FmanBmRlfc      	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->RxPort->FmanBmRlfc  ));
+  DPAA1_DEBUG_MSG("  RxPort->FmanBmRffc      	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->RxPort->FmanBmRffc  ));
+  DPAA1_DEBUG_MSG("  RxPort->FmanBmRfdc      	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->RxPort->FmanBmRfdc  ));
+  DPAA1_DEBUG_MSG("  RxPort->FmanBmRfldec    	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->RxPort->FmanBmRfldec));
+  DPAA1_DEBUG_MSG("  RxPort->FmanBmRodc      	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->RxPort->FmanBmRodc  ));
+  DPAA1_DEBUG_MSG("  RxPort->FmanBmRbdc      	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->RxPort->FmanBmRbdc  ));
+  DPAA1_DEBUG_MSG("  RxPort->FmanBmRpc       	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->RxPort->FmanBmRpc   ));
+  DPAA1_DEBUG_MSG("  RxPort->FmanBmRpcp      	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->RxPort->FmanBmRpcp  ));
+  DPAA1_DEBUG_MSG("  RxPort->FmanBmRccn      	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->RxPort->FmanBmRccn  ));
+  DPAA1_DEBUG_MSG("  RxPort->FmanBmRtuc      	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->RxPort->FmanBmRtuc  ));
+  DPAA1_DEBUG_MSG("  RxPort->FmanBmRrquc     	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->RxPort->FmanBmRrquc ));
+  DPAA1_DEBUG_MSG("  RxPort->FmanBmRduc      	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->RxPort->FmanBmRduc  ));
+  DPAA1_DEBUG_MSG("  RxPort->FmanBmRfuc      	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->RxPort->FmanBmRfuc  ));
+  DPAA1_DEBUG_MSG("  RxPort->FmanBmRpac      	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->RxPort->FmanBmRpac  ));
+  DPAA1_DEBUG_MSG("  RxPort->FmanBmRdbg      	: 	0x%x \n", SwapMmioRead32((UINTN)&FmanEthDevice->RxPort->FmanBmRdbg  ));
                                                                                 
   DPAA1_DEBUG_MSG("  Type       	: 	0x%x \n", FmanEthDevice->Type);            
   DPAA1_DEBUG_MSG("  Mac        	: 	0x%x \n", FmanEthDevice->Mac);             
@@ -430,7 +430,7 @@ DumpBD (
    DPAA1_DEBUG_MSG("  Status	: 	0x%x \n", MemReadMasked(&Bd->Status)); 
    DPAA1_DEBUG_MSG("  Len          : 	0x%x \n", MemReadMasked(&Bd->Len)); 
    DPAA1_DEBUG_MSG("  BufPtrHi   : 	0x%x \n", MemReadMasked(&Bd->BufPtrHi));
-   DPAA1_DEBUG_MSG("  BufPtrLo   : 	0x%x \n", MmioReadBe32((UINTN)&Bd->BufPtrLo));
+   DPAA1_DEBUG_MSG("  BufPtrLo   : 	0x%x \n", SwapMmioRead32((UINTN)&Bd->BufPtrLo));
    Bd++;
   }
 }
@@ -443,7 +443,7 @@ DumpQD (
    DPAA1_DEBUG_MSG(" ------------- DUMPING QD -------------\n");
    DPAA1_DEBUG_MSG("  Gen               : 0x%x \n", MemReadMasked(&Qd->Gen)); 
    DPAA1_DEBUG_MSG("  BdRingBaseHi   : 	0x%x \n", MemReadMasked(&Qd->BdRingBaseHi)); 
-   DPAA1_DEBUG_MSG("  BdRingBaseLo   : 	0x%x \n", MmioReadBe32((UINTN)&Qd->BdRingBaseLo));
+   DPAA1_DEBUG_MSG("  BdRingBaseLo   : 	0x%x \n", SwapMmioRead32((UINTN)&Qd->BdRingBaseLo));
    DPAA1_DEBUG_MSG("  BdRingSize      : 	0x%x \n", MemReadMasked(&Qd->BdRingSize));
    DPAA1_DEBUG_MSG("  OffsetIn         : 	0x%x \n", MemReadMasked(&Qd->OffsetIn));
    DPAA1_DEBUG_MSG("  OffsetOut        : 	0x%x \n", MemReadMasked(&Qd->OffsetOut));
@@ -579,10 +579,10 @@ EFI_STATUS FmRxPortParamInit (
 	Pram, gFmanMem[0].Base, PramPageOffset);
 
   /* enable global mode- snooping data buffers and BDs */
-  MmioWriteBe32((UINTN)&Pram->Mode, PARAM_MODE_GLOBAL);
+  SwapMmioWrite32((UINTN)&Pram->Mode, PARAM_MODE_GLOBAL);
 
   /* init Rx queue descriptor pointer */
-  MmioWriteBe32((UINTN)&Pram->RxqdPtr, PramPageOffset + 0x20);
+  SwapMmioWrite32((UINTN)&Pram->RxqdPtr, PramPageOffset + 0x20);
 
   /* set max receive buffer length, power of 2 (4096 - 2^12)*/
   MemWriteMasked(&Pram->Mrblr, MAX_RXBUF_LOG2);
@@ -616,7 +616,7 @@ EFI_STATUS FmRxPortParamInit (
     BufLo = Lower32Bits((UINTN)(RxBufPool +
 			I * MAX_RXBUF_LEN));
     MemWriteMasked(&RxBd->BufPtrHi, (UINT16)BufHi);
-    MmioWriteBe32((UINTN)&RxBd->BufPtrLo, BufLo);
+    SwapMmioWrite32((UINTN)&RxBd->BufPtrLo, BufLo);
     RxBd++;
   }
 
@@ -626,14 +626,14 @@ EFI_STATUS FmRxPortParamInit (
   BdRingBaseHi = Upper32Bits((UINTN)RxRingBase);
   BdRingBaseLo = Lower32Bits((UINTN)RxRingBase);
   MemWriteMasked(&RxQd->BdRingBaseHi, (UINT16)BdRingBaseHi);
-  MmioWriteBe32((UINTN)&RxQd->BdRingBaseLo, BdRingBaseLo);
+  SwapMmioWrite32((UINTN)&RxQd->BdRingBaseLo, BdRingBaseLo);
   MemWriteMasked(&RxQd->BdRingSize, sizeof(BD)
                 * RX_RING_SIZE);
   MemWriteMasked(&RxQd->OffsetIn, 0);
   MemWriteMasked(&RxQd->OffsetOut, 0);
 
   /* set IM parameter ram pointer to Rx Frame Queue ID */
-  MmioWriteBe32((UINTN)&BmiRxPort->FmanBmRfqid, PramPageOffset);
+  SwapMmioWrite32((UINTN)&BmiRxPort->FmanBmRfqid, PramPageOffset);
 
   return EFI_SUCCESS;
 }
@@ -665,10 +665,10 @@ EFI_STATUS FmTxPortParamInit (
   PramPageOffset = (VOID *)Pram - gFmanMem[0].Base;
 
   /* enable global mode- snooping data buffers and BDs */
-  MmioWriteBe32((UINTN)&Pram->Mode, PARAM_MODE_GLOBAL);
+  SwapMmioWrite32((UINTN)&Pram->Mode, PARAM_MODE_GLOBAL);
 
   /* init Tx queue descriptor pointer */
-  MmioWriteBe32((UINTN)&Pram->TxqdPtr, PramPageOffset + 0x40);
+  SwapMmioWrite32((UINTN)&Pram->TxqdPtr, PramPageOffset + 0x40);
 
   TxRingBase = AllocateZeroPool(sizeof(BD)
                 * TX_RING_SIZE);
@@ -688,7 +688,7 @@ EFI_STATUS FmTxPortParamInit (
     MemWriteMasked(&TxBd->Status, Tx_LAST);
     MemWriteMasked(&TxBd->Len, 0);
     MemWriteMasked(&TxBd->BufPtrHi, 0);
-    MmioWriteBe32((UINTN)&TxBd->BufPtrLo, 0);
+    SwapMmioWrite32((UINTN)&TxBd->BufPtrLo, 0);
     TxBd++;
   }
 
@@ -697,14 +697,14 @@ EFI_STATUS FmTxPortParamInit (
   BdRingBaseHi = Upper32Bits((UINTN)TxRingBase);
   BdRingBaseLo = Lower32Bits((UINTN)TxRingBase);
   MemWriteMasked(&TxQd->BdRingBaseHi, (UINT16)BdRingBaseHi);
-  MmioWriteBe32((UINTN)&TxQd->BdRingBaseLo, BdRingBaseLo);
+  SwapMmioWrite32((UINTN)&TxQd->BdRingBaseLo, BdRingBaseLo);
   MemWriteMasked(&TxQd->BdRingSize, sizeof(BD)
                 * TX_RING_SIZE);
   MemWriteMasked(&TxQd->OffsetIn, 0);
   MemWriteMasked(&TxQd->OffsetOut, 0);
 
   /* set IM parameter ram pointer to Tx Confirmation Frame Queue ID */
-  MmioWriteBe32((UINTN)&BmiTxPort->FmanBmTcfqid, PramPageOffset);
+  SwapMmioWrite32((UINTN)&BmiTxPort->FmanBmTcfqid, PramPageOffset);
 
   return EFI_SUCCESS;
 }
@@ -743,7 +743,7 @@ FmanLoadMicrocode (
   //
   // Enable FMan controller configuration address auto increment
   //
-  MmioWriteBe32((UINTN)&FmanControllerConfig->Address,
+  SwapMmioWrite32((UINTN)&FmanControllerConfig->Address,
 		FMAN_CONTROLLER_ADDR_AIE_MASK);
 
   //
@@ -755,7 +755,7 @@ FmanLoadMicrocode (
   //
   // Wait for the writes to complete:
   //
-  MmioWriteBe32((UINTN)&FmanControllerConfig->Address, 0);
+  SwapMmioWrite32((UINTN)&FmanControllerConfig->Address, 0);
   do {
     MicroSecondDelay(1);
     if (MmioRead32((UINTN)&FmanControllerConfig->Data) ==
@@ -774,7 +774,7 @@ FmanLoadMicrocode (
   /*
    * Tell FMan that it can access the loaded microcode
    */
-  MmioWriteBe32((UINTN)&FmanControllerConfig->DataReady,
+  SwapMmioWrite32((UINTN)&FmanControllerConfig->DataReady,
                 FMAN_CONTROLLER_DATA_READY_MASK);
 
   return EFI_SUCCESS;
@@ -914,16 +914,16 @@ FmanInitQmanInterface(FMAN_QMI_COMMON *Qmi)
   SwapMmioAnd32((UINTN)&Qmi->Gc, ~(QMI_GC_ENQ_EN | QMI_GC_DEQ_EN));
 
   // Disable all error interrupts
-  MmioWriteBe32((UINTN)&Qmi->Eien, 0x0);
+  SwapMmioWrite32((UINTN)&Qmi->Eien, 0x0);
 
   // Clear all error events ("write 1 to clear" bits)
-  MmioWriteBe32((UINTN)&Qmi->Eie, QMI_EIE_ALL);
+  SwapMmioWrite32((UINTN)&Qmi->Eie, QMI_EIE_ALL);
 
   // Disable all interrupts */
-  MmioWriteBe32((UINTN)&Qmi->Ien, 0x0);
+  SwapMmioWrite32((UINTN)&Qmi->Ien, 0x0);
 
   // Clear all interrupts ("write 1 to cleae" bits)
-  MmioWriteBe32((UINTN)&Qmi->Ie, QMI_IE_ALL);
+  SwapMmioWrite32((UINTN)&Qmi->Ie, QMI_IE_ALL);
 }
 
 STATIC
@@ -971,7 +971,7 @@ FmanInitFPM(FMAN_FPM *Fpm)
   for(Index = 0; Index < FMAN_MAX_NUM_OFFLINE_PORTS; Index++) {
     Port = FMAN_OFFLINE_PORT_ID_BASE + Index;
     RegValue = BuildFpmPcrRegValue(Port);
-    MmioWriteBe32((UINTN)&Fpm->Prc, RegValue);
+    SwapMmioWrite32((UINTN)&Fpm->Prc, RegValue);
   }
 
   //
@@ -980,7 +980,7 @@ FmanInitFPM(FMAN_FPM *Fpm)
   for(Index = 0; Index < FMAN_MAX_NUM_RX_1G_PORTS; Index++) {
     Port = FMAN_RX_1G_PORT_ID_BASE + Index;
     RegValue = BuildFpmPcrRegValue(Port);
-    MmioWriteBe32((UINTN)&Fpm->Prc, RegValue);
+    SwapMmioWrite32((UINTN)&Fpm->Prc, RegValue);
   }
 
   //
@@ -989,42 +989,42 @@ FmanInitFPM(FMAN_FPM *Fpm)
   for(Index = 0; Index < FMAN_MAX_NUM_TX_1G_PORTS; Index++) {
     Port = FMAN_TX_1G_PORT_ID_BASE + Index;
     RegValue = BuildFpmPcrRegValue(Port);
-    MmioWriteBe32((UINTN)&Fpm->Prc, RegValue);
+    SwapMmioWrite32((UINTN)&Fpm->Prc, RegValue);
   }
 
   //
   // Initialize Rx 10G port:
   //
   RegValue = BuildFpmPcrRegValue(FMAN_RX_10G_PORT_ID_BASE);
-  MmioWriteBe32((UINTN)&Fpm->Prc, RegValue);
+  SwapMmioWrite32((UINTN)&Fpm->Prc, RegValue);
 
   //
   // Initialize Tx 10G port:
   //
   RegValue = BuildFpmPcrRegValue(FMAN_TX_10G_PORT_ID_BASE);
-  MmioWriteBe32((UINTN)&Fpm->Prc, RegValue);
+  SwapMmioWrite32((UINTN)&Fpm->Prc, RegValue);
 
   //
   // For independent mode (IM), disable the dispatch limit:
   //
-  MmioWriteBe32((UINTN)&Fpm->Flc, FPM_FLC_DISPATCH_LIMIT_NONE);
+  SwapMmioWrite32((UINTN)&Fpm->Flc, FPM_FLC_DISPATCH_LIMIT_NONE);
 
   //
   // Clear events (write 1 to clear):
   //
-  MmioWriteBe32((UINTN)&Fpm->FpEe, FPM_FPEE_ALL_EVENTS);
+  SwapMmioWrite32((UINTN)&Fpm->FpEe, FPM_FPEE_ALL_EVENTS);
 
   //
   // Clear CPU events (write 1 to clear):
   //
   for(Index = 0; Index < ARRAY_SIZE(Fpm->Cev); Index++) {
-    MmioWriteBe32((UINTN)&Fpm->Cev[Index], 0xFFFFFFFF);
+    SwapMmioWrite32((UINTN)&Fpm->Cev[Index], 0xFFFFFFFF);
   }
 
   //
   // Clear ECC events (write 1 to clear) for Fman internal memory access:
   //
-  MmioWriteBe32((UINTN)&Fpm->Rcr, FPM_RCR_MDEC | FPM_RCR_IDEC);
+  SwapMmioWrite32((UINTN)&Fpm->Rcr, FPM_RCR_MDEC | FPM_RCR_IDEC);
 }
 
 
@@ -1062,13 +1062,13 @@ FmanInitBmanInterface(
   __SET_BIT_FIELD32(RegValue, BMI_CFG1_FBPS_MASK, BMI_CFG1_FBPS_SHIFT,
                 FreeBufferPoolSizeInBlocks - 1);
 
-  MmioWriteBe32((UINTN)&Bmi->Cfg1, RegValue);
+  SwapMmioWrite32((UINTN)&Bmi->Cfg1, RegValue);
 
   //
   // Disable and clear all interrupts:
   //
-  MmioWriteBe32((UINTN)&Bmi->Ier, 0x0);
-  MmioWriteBe32((UINTN)&Bmi->Ievr, BMI_IEVR_ALL);
+  SwapMmioWrite32((UINTN)&Bmi->Ier, 0x0);
+  SwapMmioWrite32((UINTN)&Bmi->Ievr, BMI_IEVR_ALL);
 
   //
   // Configure offline ports:
@@ -1077,8 +1077,8 @@ FmanInitBmanInterface(
   //
   for(Index = 0; Index < FMAN_MAX_NUM_OFFLINE_PORTS; Index++) {
     PortIndex = FMAN_OFFLINE_PORT_ID_BASE + Index - 1;
-    MmioWriteBe32((UINTN)&Bmi->Pp[PortIndex], 0x0);
-    MmioWriteBe32((UINTN)&Bmi->Pfs[PortIndex], 0x0);
+    SwapMmioWrite32((UINTN)&Bmi->Pp[PortIndex], 0x0);
+    SwapMmioWrite32((UINTN)&Bmi->Pfs[PortIndex], 0x0);
   }
 
   //
@@ -1090,10 +1090,10 @@ FmanInitBmanInterface(
     PortIndex = FMAN_RX_1G_PORT_ID_BASE + Index - 1;
     RegValue = 0;
     __SET_BIT_FIELD32(RegValue, BMI_PP_MXT_MASK, BMI_PP_MXT_SHIFT, 4 - 1);
-    MmioWriteBe32((UINTN)&Bmi->Pp[PortIndex], RegValue);
+    SwapMmioWrite32((UINTN)&Bmi->Pp[PortIndex], RegValue);
     RegValue = 0;
     __SET_BIT_FIELD32(RegValue, BMI_PFS_IFSZ_MASK, BMI_PFS_IFSZ_SHIFT, 0xf);
-    MmioWriteBe32((UINTN)&Bmi->Pfs[PortIndex], RegValue);
+    SwapMmioWrite32((UINTN)&Bmi->Pfs[PortIndex], RegValue);
   }
 
   //
@@ -1105,10 +1105,10 @@ FmanInitBmanInterface(
     PortIndex = FMAN_TX_1G_PORT_ID_BASE + Index - 1;
     RegValue = 0;
     __SET_BIT_FIELD32(RegValue, BMI_PP_MXT_MASK, BMI_PP_MXT_SHIFT, 4 - 1);
-    MmioWriteBe32((UINTN)&Bmi->Pp[PortIndex], RegValue);
+    SwapMmioWrite32((UINTN)&Bmi->Pp[PortIndex], RegValue);
     RegValue = 0;
     __SET_BIT_FIELD32(RegValue, BMI_PFS_IFSZ_MASK, BMI_PFS_IFSZ_SHIFT, 0xf);
-    MmioWriteBe32((UINTN)&Bmi->Pfs[PortIndex], RegValue);
+    SwapMmioWrite32((UINTN)&Bmi->Pfs[PortIndex], RegValue);
   }
 
   //
@@ -1120,10 +1120,10 @@ FmanInitBmanInterface(
   RegValue = 0;
   __SET_BIT_FIELD32(RegValue, BMI_PP_MXT_MASK, BMI_PP_MXT_SHIFT, 12 - 1);
   __SET_BIT_FIELD32(RegValue, BMI_PP_MXD_MASK, BMI_PP_MXD_SHIFT, 3 - 1);
-  MmioWriteBe32((UINTN)&Bmi->Pp[PortIndex], RegValue);
+  SwapMmioWrite32((UINTN)&Bmi->Pp[PortIndex], RegValue);
   RegValue = 0;
   __SET_BIT_FIELD32(RegValue, BMI_PFS_IFSZ_MASK, BMI_PFS_IFSZ_SHIFT, 0xf);
-  MmioWriteBe32((UINTN)&Bmi->Pfs[PortIndex], RegValue);
+  SwapMmioWrite32((UINTN)&Bmi->Pfs[PortIndex], RegValue);
 
   //
   // Configure Tx 10G port:
@@ -1134,15 +1134,15 @@ FmanInitBmanInterface(
   RegValue = 0;
   __SET_BIT_FIELD32(RegValue, BMI_PP_MXT_MASK, BMI_PP_MXT_SHIFT, 12 - 1);
   __SET_BIT_FIELD32(RegValue, BMI_PP_MXD_MASK, BMI_PP_MXD_SHIFT, 3 - 1);
-  MmioWriteBe32((UINTN)&Bmi->Pp[PortIndex], RegValue);
+  SwapMmioWrite32((UINTN)&Bmi->Pp[PortIndex], RegValue);
   RegValue = 0;
   __SET_BIT_FIELD32(RegValue, BMI_PFS_IFSZ_MASK, BMI_PFS_IFSZ_SHIFT, 0xf);
-  MmioWriteBe32((UINTN)&Bmi->Pfs[PortIndex], RegValue);
+  SwapMmioWrite32((UINTN)&Bmi->Pfs[PortIndex], RegValue);
 
   //
   // Initialize internal buffers data base:
   //
-  MmioWriteBe32((UINTN)&Bmi->Init, BMI_INIT_START);
+  SwapMmioWrite32((UINTN)&Bmi->Init, BMI_INIT_START);
 
   return EFI_SUCCESS;
 }
@@ -1171,7 +1171,7 @@ ReceiveFrame(
   if (!(Status & Rx_EMPTY)) {
     if (!(Status & Rx_ERROR)) {
       BufHi = MemReadMasked(&Rxbd->BufPtrHi);
-      BufLo = MmioReadBe32((UINTN)&Rxbd->BufPtrLo);
+      BufLo = SwapMmioRead32((UINTN)&Rxbd->BufPtrLo);
       Buffer = (UINT8 *)((UINTN)(BufHi << 16) << 16 | BufLo);
       Len = MemReadMasked(&Rxbd->Len);
     } else {
@@ -1251,7 +1251,7 @@ TransmitFrame (
 
   /* setup TxBD */
   MemWriteMasked(&Txbd->BufPtrHi, (UINT16)Upper32Bits((UINTN)Data));
-  MmioWriteBe32((UINTN)&Txbd->BufPtrLo, Lower32Bits((UINTN)Data));
+  SwapMmioWrite32((UINTN)&Txbd->BufPtrLo, Lower32Bits((UINTN)Data));
   MemWriteMasked(&Txbd->Len, BuffSize);
 
   MemoryFence();
@@ -1297,7 +1297,7 @@ GetTransmitStatus (
     *TxBuf = NULL;
   else {
     BufHi = MemReadMasked(&Txbd->BufPtrHi);
-    BufLo = MmioReadBe32((UINTN)&Txbd->BufPtrLo);
+    BufLo = SwapMmioRead32((UINTN)&Txbd->BufPtrLo);
     *TxBuf = (UINT8 *)((UINTN)(BufHi << 16) << 16 | BufLo);
     FmanEthDevice->CurUsedTxbdId = (FmanEthDevice->CurUsedTxbdId + 1) % TX_RING_SIZE;
     FmanEthDevice->TotalPendingTxbd--;

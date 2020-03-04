@@ -2,7 +2,7 @@
 #
 #  Component description file for IFC Library
 #
-#  Copyright 2018 NXP
+#  Copyright 2018, 2020 NXP
 #
 #  This program and the accompanying materials
 #  are licensed and made available under the terms and conditions of the BSD License
@@ -30,7 +30,7 @@
 
 [LibraryClasses]
   BoardLib
-  BeIoLib
+  IoAccessLib
   TimerLib
 
 [FixedPcd]

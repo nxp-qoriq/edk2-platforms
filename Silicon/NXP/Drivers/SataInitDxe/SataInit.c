@@ -1,7 +1,7 @@
 /** @file
   This driver module adds SATA controller support.
 
-  Copyright 2017-2018 NXP
+  Copyright 2017-2018, 2020 NXP
 
   This program and the accompanying materials
   are licensed and made available under the terms and conditions of the BSD License
@@ -14,7 +14,7 @@
  **/
 
 #include <IndustryStandard/Pci.h>
-#include <Library/BeIoLib.h>
+#include <Library/IoAccessLib.h>
 #include <Library/DebugLib.h>
 #include <Library/IoLib.h>
 #include <Library/NonDiscoverableDeviceRegistrationLib.h>
@@ -59,7 +59,7 @@ InitializeSataController (
   // Workaround : write value 0x80104e20 to 0x1eb1300 (serdes 2)
   //
   if (PcdGetBool (PcdSataErratumA010554)) {
-    BeMmioWrite32 ((UINTN)SERDES2_SATA_ERRATA, 0x80104e20);
+    SwapMmioWrite32 ((UINTN)SERDES2_SATA_ERRATA, 0x80104e20);
   }
 
   //
@@ -67,7 +67,7 @@ InitializeSataController (
   // Workaround : write 0x80000000 to the address 0x20140520 (dcsr).
   //
   if (PcdGetBool (PcdSataErratumA010635)) {
-    BeMmioWrite32 ((UINTN)DCSR_SATA_ERRATA, 0x80000000);
+    SwapMmioWrite32 ((UINTN)DCSR_SATA_ERRATA, 0x80000000);
   }
 
   while (NumSataController) {

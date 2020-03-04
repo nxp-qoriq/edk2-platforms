@@ -2,6 +2,7 @@
   DPAA1 Ethernet PHY common services implementation
 
   Copyright (c) 2016, Freescale Semiconductor, Inc. All rights reserved.
+  Copyright 2020 NXP
 
   This program and the accompanying materials
   are licensed and made available under the terms and conditions of the BSD License
@@ -14,6 +15,7 @@
 **/
 
 #include <Library/Dpaa1DebugLib.h>
+#include <Library/IoAccessLib.h>
 #include <Library/IoLib.h>
 #include <Library/TimerLib.h>
 
@@ -41,12 +43,12 @@ Dpaa1PhyMdioBusInit (
 
   UINT32 RegValue;
 
-  RegValue = MmioReadBe32((UINTN)&MdioBusRegs->MdioStat);
+  RegValue = SwapMmioRead32((UINTN)&MdioBusRegs->MdioStat);
 
   RegValue |= MDIO_STAT_CLKDIV(MDIO_CLOCK_DIVIDER) | MDIO_STAT_NEG;
   DPAA1_DEBUG_MSG(" MDIO Init : 0x%x : 0x%x \n",
                                 &MdioBusRegs->MdioStat, RegValue);
-  MmioWriteBe32((UINTN)&MdioBusRegs->MdioStat, RegValue);
+  SwapMmioWrite32((UINTN)&MdioBusRegs->MdioStat, RegValue);
 
   return EFI_SUCCESS;
 }
@@ -100,7 +102,7 @@ Dpaa1PhyMdioBusWrite (
 
   ASSERT(MdioBus->Signature == DPAA1_PHY_MDIO_BUS_SIGNATURE);
 
-  RegValue = MmioReadBe32((UINTN)&MdioBusRegs->MdioStat);
+  RegValue = SwapMmioRead32((UINTN)&MdioBusRegs->MdioStat);
   if (MDIO_CTL_DEV_NONE == MdioCtlDevAddr) {
     Clause45 = FALSE; // Clause 22
     MdioCtlDevAddr = MDIO_CTL_DEV_ADDR(PhyRegNum);
@@ -109,13 +111,13 @@ Dpaa1PhyMdioBusWrite (
   else
     RegValue |= MDIO_STAT_ENC;
 
-  MmioWriteBe32((UINTN)&MdioBusRegs->MdioStat, RegValue);
+  SwapMmioWrite32((UINTN)&MdioBusRegs->MdioStat, RegValue);
 
   /*
    * Wait until the MDIO bus is not busy
    */
   do {
-    RegValue = MmioReadBe32((UINTN)&MdioBusRegs->MdioStat);
+    RegValue = SwapMmioRead32((UINTN)&MdioBusRegs->MdioStat);
   } while (RegValue & MDIO_STAT_BSY);
 
   /*
@@ -123,31 +125,31 @@ Dpaa1PhyMdioBusWrite (
    */
   RegValue = MDIO_CTL_PORT_ADDR(PhyAddress) |
              MDIO_CTL_DEV_ADDR(MdioCtlDevAddr);
-  MmioWriteBe32((UINTN)&MdioBusRegs->MdioCtl, RegValue);
+  SwapMmioWrite32((UINTN)&MdioBusRegs->MdioCtl, RegValue);
 
   /*
    * Specify the target PHY register:
    */
   if (TRUE == Clause45)
-    MmioWriteBe32((UINTN)&MdioBusRegs->MdioAddr, PhyRegNum);
+    SwapMmioWrite32((UINTN)&MdioBusRegs->MdioAddr, PhyRegNum);
 
   /*
    * Wait until the MDIO bus is not busy:
    */
   do {
-    RegValue = MmioReadBe32((UINTN)&MdioBusRegs->MdioStat);
+    RegValue = SwapMmioRead32((UINTN)&MdioBusRegs->MdioStat);
   } while (RegValue & MDIO_STAT_BSY);
 
   /*
    * Write the value to the PHY register
    */
-  MmioWriteBe32((UINTN)&MdioBusRegs->MdioData, MDIO_DATA(Value));
+  SwapMmioWrite32((UINTN)&MdioBusRegs->MdioData, MDIO_DATA(Value));
 
   /*
    * Wait until the MDIO write is complete
    */
   do {
-    RegValue = MmioReadBe32((UINTN)&MdioBusRegs->MdioData);
+    RegValue = SwapMmioRead32((UINTN)&MdioBusRegs->MdioData);
   } while (RegValue & MDIO_DATA_BSY);
 }
 
@@ -199,7 +201,7 @@ Dpaa1PhyMdioBusRead (
 
   ASSERT(MdioBus->Signature == DPAA1_PHY_MDIO_BUS_SIGNATURE);
 
-  RegValue = MmioReadBe32((UINTN)&MdioBusRegs->MdioStat);
+  RegValue = SwapMmioRead32((UINTN)&MdioBusRegs->MdioStat);
   if (MDIO_CTL_DEV_NONE == MdioCtlDevAddr) {
     Clause45 = FALSE; // Clause 22
     MdioCtlDevAddr = MDIO_CTL_DEV_ADDR(PhyRegNum);
@@ -208,13 +210,13 @@ Dpaa1PhyMdioBusRead (
   else
     RegValue |= MDIO_STAT_ENC;
 
-  MmioWriteBe32((UINTN)&MdioBusRegs->MdioStat, RegValue);
+  SwapMmioWrite32((UINTN)&MdioBusRegs->MdioStat, RegValue);
 
   /*
    * Wait until the MDIO bus is not busy
    */
   do {
-    RegValue = MmioReadBe32((UINTN)&MdioBusRegs->MdioStat);
+    RegValue = SwapMmioRead32((UINTN)&MdioBusRegs->MdioStat);
   } while (RegValue & MDIO_STAT_BSY);
 
   /*
@@ -222,19 +224,19 @@ Dpaa1PhyMdioBusRead (
    */
   RegValue = MDIO_CTL_PORT_ADDR(PhyAddress) |
              MDIO_CTL_DEV_ADDR(MdioCtlDevAddr);
-  MmioWriteBe32((UINTN)&MdioBusRegs->MdioCtl, RegValue);
+  SwapMmioWrite32((UINTN)&MdioBusRegs->MdioCtl, RegValue);
 
   /*
    * Specify the target PHY register:
    */
   if (TRUE == Clause45)
-    MmioWriteBe32((UINTN)&MdioBusRegs->MdioAddr, PhyRegNum & 0xFFFF);
+    SwapMmioWrite32((UINTN)&MdioBusRegs->MdioAddr, PhyRegNum & 0xFFFF);
 
   /*
    * Wait until the MDIO bus is not busy:
    */
   do {
-    RegValue = MmioReadBe32((UINTN)&MdioBusRegs->MdioStat);
+    RegValue = SwapMmioRead32((UINTN)&MdioBusRegs->MdioStat);
   } while (RegValue & MDIO_STAT_BSY);
 
   /*
@@ -243,16 +245,16 @@ Dpaa1PhyMdioBusRead (
   RegValue = MDIO_CTL_PORT_ADDR(PhyAddress) |
              MDIO_CTL_DEV_ADDR(MdioCtlDevAddr) |
              MDIO_CTL_READ;
-  MmioWriteBe32((UINTN)&MdioBusRegs->MdioCtl, RegValue);
+  SwapMmioWrite32((UINTN)&MdioBusRegs->MdioCtl, RegValue);
 
   /*
    * Wait until the MDIO read is complete
    */
   do {
-    RegValue = MmioReadBe32((UINTN)&MdioBusRegs->MdioData);
+    RegValue = SwapMmioRead32((UINTN)&MdioBusRegs->MdioData);
   } while (RegValue & MDIO_DATA_BSY);
 
-  RegValue = MmioReadBe32((UINTN)&MdioBusRegs->MdioStat);
+  RegValue = SwapMmioRead32((UINTN)&MdioBusRegs->MdioStat);
 
   if (RegValue & MDIO_STAT_RD_ER) {
     /*
@@ -263,7 +265,7 @@ Dpaa1PhyMdioBusRead (
                     PhyAddress, MdioCtlDevAddr, PhyRegNum, RegValue);
     return (UINT16)(-1);
   }
-  RegValue = MmioReadBe32((UINTN)&MdioBusRegs->MdioData);
+  RegValue = SwapMmioRead32((UINTN)&MdioBusRegs->MdioData);
   DPAA1_DEBUG_MSG("MDIO bus read for PHY addr 0x%x, dev addr %d, "
                     "reg num 0x%x (MDIO stat reg: 0x%x)\n",
                     PhyAddress, MdioCtlDevAddr, PhyRegNum, RegValue);

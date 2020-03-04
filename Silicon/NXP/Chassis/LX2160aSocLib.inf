@@ -35,7 +35,7 @@
 [LibraryClasses]
   ArmSmcLib
   BaseLib
-  BeIoLib
+  IoAccessLib
   DebugLib
   FpgaLib
   I2cLib

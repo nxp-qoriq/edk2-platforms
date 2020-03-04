@@ -1,6 +1,6 @@
 /** @file
 *
-*  Copyright 2018 NXP
+*  Copyright 2018, 2020 NXP
 *
 *  This program and the accompanying materials
 *  are licensed and made available under the terms and conditions of the BSD License
@@ -14,7 +14,7 @@
 
 #include <libfdt.h>
 #include <Library/BaseLib.h>
-#include <Library/BeIoLib.h>
+#include <Library/IoAccessLib.h>
 #include <Library/DebugLib.h>
 #include <Library/DevicePathLib.h>
 #include <Library/DxeServicesLib.h>
@@ -279,8 +279,8 @@ FdtFixupQman (
 
   if ((fdt_getprop (Dtb, NodeOffset, "big-endian", NULL) != NULL) ||
       (FeaturePcdGet (PcdQmanBigEndian) == TRUE)) {
-    QmanRev1 = BeMmioRead32 (QmanAddress + QMAN_IP_REV_1);
-    QmanRev2 = BeMmioRead32 (QmanAddress + QMAN_IP_REV_2);
+    QmanRev1 = SwapMmioRead32 (QmanAddress + QMAN_IP_REV_1);
+    QmanRev2 = SwapMmioRead32 (QmanAddress + QMAN_IP_REV_2);
   } else {
     QmanRev1 = MmioRead32 (QmanAddress + QMAN_IP_REV_1);
     QmanRev2 = MmioRead32 (QmanAddress + QMAN_IP_REV_2);
@@ -348,8 +348,8 @@ FdtFixupBmanVersion (
 
   if ((fdt_getprop (Dtb, NodeOffset, "big-endian", NULL) != NULL) ||
       (FeaturePcdGet (PcdBmanBigEndian) == TRUE)) {
-    BmanRev1 = BeMmioRead32 (BmanAddress + BMAN_IP_REV_1);
-    BmanRev2 = BeMmioRead32 (BmanAddress + BMAN_IP_REV_2);
+    BmanRev1 = SwapMmioRead32 (BmanAddress + BMAN_IP_REV_1);
+    BmanRev2 = SwapMmioRead32 (BmanAddress + BMAN_IP_REV_2);
   } else {
     BmanRev1 = MmioRead32 (BmanAddress + BMAN_IP_REV_1);
     BmanRev2 = MmioRead32 (BmanAddress + BMAN_IP_REV_2);

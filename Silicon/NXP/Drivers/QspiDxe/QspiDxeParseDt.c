@@ -2,7 +2,7 @@
 
   Functions for retrieving platform specific info from device tree and install protocols
 
-  Copyright 2017-2019 NXP
+  Copyright 2017-2020 NXP
 
   This program and the accompanying materials
   are licensed and made available under the terms and conditions of the bsd
@@ -16,7 +16,7 @@
   WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
 **/
 
-#include <Library/BeIoLib.h>
+#include <Library/IoAccessLib.h>
 #include <Library/DebugLib.h>
 #include <Library/IoLib.h>
 #include <Library/ItbParse.h>
@@ -188,8 +188,8 @@ ParseDeviceTree (
       QspiMasterPtr->Read32 = MmioRead32;
       QspiMasterPtr->Write32 = MmioWrite32;
     } else {
-      QspiMasterPtr->Read32 = BeMmioRead32;
-      QspiMasterPtr->Write32 = BeMmioWrite32;
+      QspiMasterPtr->Read32 = SwapMmioRead32;
+      QspiMasterPtr->Write32 = SwapMmioWrite32;
     }
 
     Prop = fdt_getprop(Fdt, NodeOffset, "num-cs", &PropLen);

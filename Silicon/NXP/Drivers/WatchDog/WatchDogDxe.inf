@@ -2,7 +2,7 @@
 #
 #  Component description file for  WatchDog module
 #
-#  Copyright 2017 NXP
+#  Copyright 2017, 2020 NXP
 #
 #  This program and the accompanying materials
 #  are licensed and made available under the terms and conditions of the BSD License
@@ -31,7 +31,7 @@
 
 [LibraryClasses]
   BaseLib
-  BeIoLib
+  IoAccessLib
   PcdLib
   UefiBootServicesTableLib
   UefiDriverEntryPoint

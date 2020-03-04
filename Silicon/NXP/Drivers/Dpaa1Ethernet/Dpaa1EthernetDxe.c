@@ -3,6 +3,7 @@
   DPAA1 Ethernet DXE driver
 
   Copyright (c) 2016, Freescale Semiconductor, Inc. All rights reserved.
+  Copyright 2020 NXP
 
   This program and the accompanying materials
   are licensed and made available under the terms and conditions of the BSD License
@@ -16,7 +17,7 @@
 
 #include <Bitops.h>
 #include <Library/BaseLib.h>
-#include <Library/BeIoLib.h>
+#include <Library/IoAccessLib.h>
 #include <Library/DevicePathLib.h>
 #include <Library/Dpaa1DebugLib.h>
 #include <Library/Dpaa1Lib.h>
@@ -1568,8 +1569,8 @@ InhibitPs (
   }
 
   for (Index = 0; Index < MaxPortals; Index++) {
-    BeMmioWrite32 ((UINTN)PAddr, -1);
-    Value = BeMmioRead32 ((UINTN)PAddr);
+    SwapMmioWrite32 ((UINTN)PAddr, -1);
+    Value = SwapMmioRead32 ((UINTN)PAddr);
     if (!Value) {
       DEBUG ((DEBUG_ERROR, "Stopped after %d portals\n", Index));
       break;

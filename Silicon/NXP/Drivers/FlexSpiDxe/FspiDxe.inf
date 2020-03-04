@@ -37,7 +37,7 @@
 
 [LibraryClasses]
   ArmLib
-  BeIoLib
+  IoAccessLib
   DxeServicesLib
   DxeServicesTableLib
   FdtLib

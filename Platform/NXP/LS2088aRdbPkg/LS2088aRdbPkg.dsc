@@ -40,7 +40,6 @@
   ArmPlatformLib|Platform/NXP/LS2088aRdbPkg/Library/PlatformLib/ArmPlatformLib.inf
   ResetSystemLib|ArmPkg/Library/ArmSmcPsciResetSystemLib/ArmSmcPsciResetSystemLib.inf
   SerialPortLib|Silicon/NXP/Library/DUartPortLib/DUartPortLib.inf
-  BeIoLib|Silicon/NXP/Library/BeIoLib/BeIoLib.inf
   SocLib|Silicon/NXP/Chassis/LS2088aSocLib.inf
   RealTimeClockLib|Silicon/Maxim/Library/Ds3232RtcLib/Ds3232RtcLib.inf
   IfcLib|Silicon/NXP/Library/IfcLib/IfcLib.inf

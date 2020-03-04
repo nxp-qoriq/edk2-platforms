@@ -1,6 +1,6 @@
 /** @IfcLib.c
 
-  Copyright 2018 NXP
+  Copyright 2018, 2020 NXP
 
   This program and the accompanying materials
   are licensed and made available under the terms and conditions of the BSD License
@@ -12,7 +12,7 @@
 
 **/
 
-#include <Library/BeIoLib.h>
+#include <Library/IoAccessLib.h>
 #include <Library/BaseLib.h>
 #include <Library/DebugLib.h>
 #include <Library/IoLib.h>
@@ -40,7 +40,7 @@ IfcRead (
   UINT32 Value;
 
   if (FixedPcdGetBool (PcdIfcBigEndian)) {
-    Value = BeMmioRead32 (Address);
+    Value = SwapMmioRead32 (Address);
   } else {
     Value = MmioRead32 (Address);
   }
@@ -64,7 +64,7 @@ IfcWrite (
   )
 {
   if (FixedPcdGetBool(PcdIfcBigEndian)) {
-    return BeMmioWrite32 (Address, Value);
+    return SwapMmioWrite32 (Address, Value);
   } else {
     return MmioWrite32 (Address, Value);
   }

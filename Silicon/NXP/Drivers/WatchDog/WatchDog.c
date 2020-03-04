@@ -3,7 +3,7 @@
 *  Based on Watchdog driver implemenation available in
 *  ArmPlatformPkg/Drivers/SP805WatchdogDxe/SP805Watchdog.c
 *
-*  Copyright 2017 NXP
+*  Copyright 2017, 2020 NXP
 *
 *  This program and the accompanying materials
 *  are licensed and made available under the terms and conditions of the BSD License
@@ -17,7 +17,7 @@
 
 #include <PiDxe.h>
 #include <Library/BaseLib.h>
-#include <Library/BeIoLib.h>
+#include <Library/IoAccessLib.h>
 #include <Library/DebugLib.h>
 #include <Library/IoLib.h>
 #include <Library/PcdLib.h>
@@ -37,7 +37,7 @@ WdogRead (
   )
 {
   if (FixedPcdGetBool (PcdWdogBigEndian)) {
-    return BeMmioRead16 (Address);
+    return SwapMmioRead16 (Address);
   } else {
     return MmioRead16(Address);
   }
@@ -52,7 +52,7 @@ WdogWrite (
   )
 {
   if (FixedPcdGetBool (PcdWdogBigEndian)) {
-    return BeMmioWrite16 (Address, Value);
+    return SwapMmioWrite16 (Address, Value);
   } else {
     return MmioWrite16 (Address, Value);
   }
@@ -68,7 +68,7 @@ WdogAndThenOr (
   )
 {
   if (FixedPcdGetBool (PcdWdogBigEndian)) {
-    return BeMmioAndThenOr16 (Address, And, Or);
+    return SwapMmioAndThenOr16 (Address, And, Or);
   } else {
     return MmioAndThenOr16 (Address, And, Or);
   }
@@ -83,7 +83,7 @@ WdogOr (
   )
 {
   if (FixedPcdGetBool (PcdWdogBigEndian)) {
-    return BeMmioOr16 (Address, Or);
+    return SwapMmioOr16 (Address, Or);
   } else {
     return MmioOr16 (Address, Or);
   }

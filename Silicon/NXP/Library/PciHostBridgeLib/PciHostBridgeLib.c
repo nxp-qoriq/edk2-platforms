@@ -10,7 +10,7 @@
 #include <libfdt.h>
 #include <IndustryStandard/Pci22.h>
 #include <IndustryStandard/NxpIoRemappingTable.h>
-#include <Library/BeIoLib.h>
+#include <Library/IoAccessLib.h>
 #include <Library/DebugLib.h>
 #include <Library/DevicePathLib.h>
 #include <Library/IoLib.h>
@@ -419,7 +419,7 @@ PcieLinkState (
   // Reading PCIe controller LTSSM state
   //
   if (FeaturePcdGet (PcdPciLutBigEndian)) {
-    State = BeMmioRead32 ((UINTN)Pcie + PCI_LUT_BASE + PCI_LUT_DBG) &
+    State = SwapMmioRead32 ((UINTN)Pcie + PCI_LUT_BASE + PCI_LUT_DBG) &
             LtssmMask;
   } else {
    State = MmioRead32 ((UINTN)Pcie + PCI_LUT_BASE + PCI_LUT_DBG) &
@@ -780,8 +780,8 @@ PcieLutSetMapping (
 {
   /* leave mask as all zeroes, want to match all bits */
   if (FeaturePcdGet (PcdPciLutBigEndian)) {
-    BeMmioWrite32 ((UINTN)&LsPcie->LsPcieLut->PexLut[Index].PexLudr, BusDevFuc << 16);
-    BeMmioWrite32 ((UINTN)&LsPcie->LsPcieLut->PexLut[Index].PexLldr, StreamId | PCIE_LUT_ENABLE);
+    SwapMmioWrite32 ((UINTN)&LsPcie->LsPcieLut->PexLut[Index].PexLudr, BusDevFuc << 16);
+    SwapMmioWrite32 ((UINTN)&LsPcie->LsPcieLut->PexLut[Index].PexLldr, StreamId | PCIE_LUT_ENABLE);
   } else {
     MmioWrite32 ((UINTN)&LsPcie->LsPcieLut->PexLut[Index].PexLudr, BusDevFuc << 16);
     MmioWrite32 ((UINTN)&LsPcie->LsPcieLut->PexLut[Index].PexLldr, StreamId | PCIE_LUT_ENABLE);
