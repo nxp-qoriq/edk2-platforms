@@ -1,6 +1,6 @@
 #  @file.
 #
-#  Copyright 2017 NXP
+#  Copyright 2017, 2020 NXP
 #
 #  This program and the accompanying materials are licensed and made available under
 #  the terms and conditions of the BSD License which accompanies this distribution.
@@ -29,7 +29,6 @@ if [ "$?" -eq 0 ];then
   MajorVersion=`echo $GCC_VERSION | cut -d . -f 1`
   MinorVersion=`echo $GCC_VERSION | cut -d . -f 2`
   GCC_ARCH_PREFIX=
-  NOTSUPPORTED=0
 
   case $MajorVersion in
     4)
@@ -54,14 +53,10 @@ if [ "$?" -eq 0 ];then
       esac
     ;;
     *)
-      NOTSUPPORTED=1
+      GCC_ARCH_PREFIX="GCC5_AARCH64_PREFIX"
+      echo "Warning: ${GCC_UTILITY} version ($MajorVersion.$MinorVersion) has not been tested, please use at own risk."
     ;;
   esac
-
-  [ "$NOTSUPPORTED" -eq 1 ] && {
-      echo "Error: ${GCC_UTILITY} version ($MajorVersion.$MinorVersion) not supported ."
-      unset GCC_UTILITY GCC_VERSION MajorVersion MinorVersion
-  }
 
   [ -n "$GCC_ARCH_PREFIX" ] && {
     export GCC_ARCH_PREFIX="$GCC_ARCH_PREFIX"
