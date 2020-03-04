@@ -35,6 +35,7 @@ typedef enum {
 
 static UINT8 WriteFixedData;
 static UINT32 SocSvr;
+static BOOLEAN CfgShiftEnable;
 
 /**
   Function to select page among the 48 1KB pages for
@@ -116,7 +117,7 @@ PciSegmentLibGetConfigBase (
       SocSvr = (UINT32)PcdGet32 (PcdSocSvr);
   }
 
-  if (CFG_SHIFT_ENABLE) {
+  if (CfgShiftEnable) {
       CfgAddr = (UINT32)Address;
   } else {
       CfgAddr = (UINT16)Offset;
@@ -723,4 +724,16 @@ PciSegmentWriteBuffer (
   }
 
   return ReturnValue;
+}
+
+EFI_STATUS
+PciSegLibInit (
+  IN EFI_HANDLE        ImageHandle,
+  IN EFI_SYSTEM_TABLE  *SystemTable
+  )
+{
+  // Enable SoC Specific PCIe feature
+  SocPcieCfgShift ();
+  CfgShiftEnable = CFG_SHIFT_ENABLE;
+  return EFI_SUCCESS;
 }

@@ -18,7 +18,7 @@
 #define SVR_LX2160A_REV_MASK        0xffff00ff
 #define SVR_LX2160A_REV1_1          0x87360010
 #define SVR_LX2160A_REV1_2          0x87360020
-#define CFG_SHIFT_ENABLE            (FixedPcdGetBool (PcdPciCfgShiftEnable))
+#define CFG_SHIFT_ENABLE            (PcdGetBool (PcdPciCfgShiftEnable))
 
 // Segment 0
 #define PCI_SEG0_NUM              0
@@ -229,4 +229,5 @@ VOID GetSerdesProtocolMaps (UINT64 *);
 
 BOOLEAN IsSerDesLaneProtocolConfigured (UINT64, UINT16);
 
+VOID SocPcieCfgShift ();
 #endif
