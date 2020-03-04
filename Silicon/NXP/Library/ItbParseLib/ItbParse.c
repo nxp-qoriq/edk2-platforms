@@ -1,6 +1,6 @@
 /** ItbParse.c
 
-  Copyright 2018 NXP
+  Copyright 2018, 2020 NXP
 
   This program and the accompanying materials
   are licensed and made available under the terms and conditions of the BSD License
@@ -149,6 +149,8 @@ FitGetConfNode (
   INT32 Length;
   CHAR8* ConfigName;
 
+  Noffset = -FDT_ERR_NOTFOUND;
+
   ConfsOffset = fdt_path_offset ((VOID*)FitImage, FIT_CONFS_PATH);
   if (ConfsOffset < 0) {
     DEBUG ((DEBUG_ERROR, "Can't find configurations parent node '%s' (%s)\n",
@@ -158,22 +160,25 @@ FitGetConfNode (
 
   ConfigName = (CHAR8 *)ConfigPtr;
 
-  if (ConfigName && *ConfigName == '\0')
+  if (ConfigName && *ConfigName == '\0') {
     ConfigName = NULL;
     if (ConfigName == NULL) {
       /* get configuration unit name from the default property
        * */
-    DEBUG ((DEBUG_ERROR, "No configuration specified, trying default...\n"));
-    ConfigName = (CHAR8 *)fdt_getprop ((VOID*)FitImage, ConfsOffset,
-        FIT_DEFAULT_PROP, &Length);
+      DEBUG ((DEBUG_ERROR, "No configuration specified, trying default...\n"));
+      ConfigName = (CHAR8 *)fdt_getprop ((VOID*)FitImage, ConfsOffset,
+                                         FIT_DEFAULT_PROP, &Length);
     }
+
     Noffset = fdt_subnode_offset ((VOID*)FitImage, ConfsOffset, ConfigName);
     if (Noffset < 0) {
-       DEBUG ((DEBUG_ERROR,
-       "Can't get node offset for configuration unit name: '%s' (%s)\n",
-       ConfigName, fdt_strerror (Noffset)));
-       return EFI_UNSUPPORTED;
+      DEBUG ((DEBUG_ERROR,
+        "Can't get node offset for configuration unit name: '%s' (%s)\n",
+        ConfigName, fdt_strerror (Noffset)
+        ));
+      return EFI_UNSUPPORTED;
     }
+  }
 
   *NodeOffset = Noffset;
   return EFI_SUCCESS;
