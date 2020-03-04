@@ -1,7 +1,7 @@
 /** @Soc.c
   SoC specific Library containg functions to initialize various SoC components
 
-  Copyright 2017 NXP
+  Copyright 2017, 2020 NXP
 
   This program and the accompanying materials
   are licensed and made available under the terms and conditions of the BSD License
@@ -22,6 +22,7 @@
 #include <Library/DebugLib.h>
 #include <Library/FpgaLib.h>
 #include <Library/IfcLib.h>
+#include <Library/IoAccessLib.h>
 #include <Library/IoLib.h>
 #include <Library/PcdLib.h>
 #include <Library/PrintLib.h>
@@ -187,7 +188,7 @@ ApplyErratums (
   Scfg = (VOID *)PcdGet64 (PcdScfgBaseAddr);
 
   /* Make SEC, SATA and USB reads and writes snoopable */
-  MmioSetBitsBe32((UINTN)&Scfg->SnpCnfgCr, CCSR_SCFG_SNPCNFGCR_SECRDSNP |
+  SwapMmioOr32((UINTN)&Scfg->SnpCnfgCr, CCSR_SCFG_SNPCNFGCR_SECRDSNP |
     CCSR_SCFG_SNPCNFGCR_SECWRSNP | CCSR_SCFG_SNPCNFGCR_USB1RDSNP |
     CCSR_SCFG_SNPCNFGCR_USB1WRSNP | CCSR_SCFG_SNPCNFGCR_USB2RDSNP |
     CCSR_SCFG_SNPCNFGCR_USB2WRSNP | CCSR_SCFG_SNPCNFGCR_USB3RDSNP |
