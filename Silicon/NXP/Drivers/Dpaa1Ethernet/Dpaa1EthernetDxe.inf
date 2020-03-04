@@ -35,7 +35,7 @@
   Silicon/NXP/NxpQoriqLs.dec
 
 [LibraryClasses]
-  BeIoLib
+  IoAccessLib
   DebugLib
   DevicePathLib
   Dpaa1BoardLib

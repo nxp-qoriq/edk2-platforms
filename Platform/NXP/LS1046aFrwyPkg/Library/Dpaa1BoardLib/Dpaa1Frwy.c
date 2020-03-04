@@ -10,6 +10,7 @@
 
 #include <Base.h>
 #include <Library/Dpaa1DebugLib.h>
+#include <Library/IoAccessLib.h>
 #include <Library/IoLib.h>
 #include <Library/Utils.h>
 #include <Soc.h>
@@ -100,7 +101,7 @@ IsMemacEnabled (
   UINT32 RegValue;
   CCSR_GUR *Gur = (VOID *)PcdGet64(PcdGutsBaseAddr);
 
-  RegValue = MmioReadBe32((UINTN)&Gur->DevDisr2);
+  RegValue = SwapMmioRead32((UINTN)&Gur->DevDisr2);
   //DPAA1_DEBUG_MSG(" IsMemacEnabled [%d] = 0x%x \n", MemacId, RegValue);
   return (!(RegValue & (1<<MemacId)));
 }

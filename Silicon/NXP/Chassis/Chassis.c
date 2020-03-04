@@ -16,7 +16,7 @@
 #include <Base.h>
 #include <Library/ArmSmcLib.h>
 #include <Library/BaseLib.h>
-#include <Library/BeIoLib.h>
+#include <Library/IoAccessLib.h>
 #include <Library/DebugLib.h>
 #include <Library/IoLib.h>
 #include <Library/PcdLib.h>
@@ -38,7 +38,7 @@ GurRead (
   )
 {
   if (FixedPcdGetBool (PcdGurBigEndian)) {
-    return BeMmioRead32 (Address);
+    return SwapMmioRead32 (Address);
   } else {
     return MmioRead32 (Address);
   }
@@ -52,7 +52,7 @@ GurWrite (
   )
 {
   if (FixedPcdGetBool (PcdGurBigEndian)) {
-    BeMmioWrite32 (Address, Value);
+    SwapMmioWrite32 (Address, Value);
   } else {
     MmioWrite32 (Address, Value);
   }
@@ -369,7 +369,7 @@ PrintRCW (
                "Reset Configuration Word (RCW):");
   SerialPortWrite ((UINT8 *) Buffer, CharCount);
   for (Count = 0; Count < ARRAY_SIZE(Base->RcwSr); Count++) {
-    UINT32 Rcw = BeMmioRead32((UINTN)&Base->RcwSr[Count]);
+    UINT32 Rcw = SwapMmioRead32((UINTN)&Base->RcwSr[Count]);
 
     if ((Count % 4) == 0) {
       CharCount = AsciiSPrint (Buffer, sizeof (Buffer),

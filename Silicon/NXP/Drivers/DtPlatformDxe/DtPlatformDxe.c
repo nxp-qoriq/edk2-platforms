@@ -1,7 +1,7 @@
 /** @file
 *
 *  Copyright (c) 2017, Linaro, Ltd. All rights reserved.
-*  Copyright 2018-2019 NXP
+*  Copyright 2018-2020 NXP
 *
 *  This program and the accompanying materials
 *  are licensed and made available under the terms and conditions of the BSD License
@@ -16,7 +16,7 @@
 #include <libfdt.h>
 #include <Chassis.h>
 #include <Library/BaseLib.h>
-#include <Library/BeIoLib.h>
+#include <Library/IoAccessLib.h>
 #include <Library/DebugLib.h>
 #include <Library/DevicePathLib.h>
 #include <Library/DxeServicesLib.h>
@@ -174,8 +174,8 @@ GetCryptoEra (
   UINT32 Index;
 
   if (BigEndian) {
-    SecVidMs = BeMmioRead32 (CryptoAddress + VIDMS_OFFSET);
-    CcbVid = BeMmioRead32 (CryptoAddress + CCBVID_OFFSET);
+    SecVidMs = SwapMmioRead32 (CryptoAddress + VIDMS_OFFSET);
+    CcbVid = SwapMmioRead32 (CryptoAddress + CCBVID_OFFSET);
   } else {
     SecVidMs = MmioRead32 (CryptoAddress + VIDMS_OFFSET);
     CcbVid = MmioRead32 (CryptoAddress + CCBVID_OFFSET);
@@ -252,7 +252,7 @@ FdtFixupCrypto (
       return EFI_SUCCESS;
     }
 
-    CryptoBigEndian = !!(BeMmioRead32 (CryptoAddress + SSTA_OFFSET) & (SSTA_PLEND | SSTA_ALT_PLEND));
+    CryptoBigEndian = !!(SwapMmioRead32 (CryptoAddress + SSTA_OFFSET) & (SSTA_PLEND | SSTA_ALT_PLEND));
     Era = GetCryptoEra (CryptoAddress, CryptoBigEndian);
 
     if (Era) {

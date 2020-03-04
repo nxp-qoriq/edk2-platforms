@@ -2,7 +2,7 @@
 
   Functions for providing Library interface APIs.
 
-  Copyright 2017 NXP
+  Copyright 2017, 2020 NXP
 
   This program and the accompanying materials
   are licensed and made available under the terms and conditions of the BSD
@@ -16,7 +16,7 @@
 **/
 
 #include <Library/BaseMemoryLib/MemLibInternals.h>
-#include <Library/BeIoLib.h>
+#include <Library/IoAccessLib.h>
 #include <Library/MemoryAllocationLib.h>
 #include <Library/MmcLib.h>
 #include <Library/SocClockLib.h>

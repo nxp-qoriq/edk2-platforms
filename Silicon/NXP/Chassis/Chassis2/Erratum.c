@@ -1,7 +1,7 @@
 /** @file
   This file containa all erratas need to be applied on different SoCs.
 
-  Copyright 2018 NXP
+  Copyright 2018, 2020 NXP
 
   This program and the accompanying materials
   are licensed and made available under the terms and conditions of the BSD License
@@ -16,7 +16,7 @@
 #include <Base.h>
 #include <Library/ArmLib.h>
 #include <Library/BaseLib.h>
-#include <Library/BeIoLib.h>
+#include <Library/IoAccessLib.h>
 #include <Library/DebugLib.h>
 #include <Library/IoLib.h>
 #include <Library/PcdLib.h>
@@ -41,15 +41,15 @@ ErratumA009008 (
 
   Scfg = (VOID *)PcdGet64 (PcdScfgBaseAddr);
 
-  Value = BeMmioRead32 ((UINTN)&Scfg->Usb1Prm1Cr);
+  Value = SwapMmioRead32 ((UINTN)&Scfg->Usb1Prm1Cr);
   Value &= ~(0xF << 6);
-  BeMmioWrite32 ((UINTN)&Scfg->Usb1Prm1Cr, Value|(USB_TXVREFTUNE << 6));
-  Value = BeMmioRead32 ((UINTN)&Scfg->Usb2Prm1Cr);
+  SwapMmioWrite32 ((UINTN)&Scfg->Usb1Prm1Cr, Value|(USB_TXVREFTUNE << 6));
+  Value = SwapMmioRead32 ((UINTN)&Scfg->Usb2Prm1Cr);
   Value &= ~(0xF << 6);
-  BeMmioWrite32 ((UINTN)&Scfg->Usb2Prm1Cr, Value|(USB_TXVREFTUNE << 6));
-  Value = BeMmioRead32 ((UINTN)&Scfg->Usb3Prm1Cr);
+  SwapMmioWrite32 ((UINTN)&Scfg->Usb2Prm1Cr, Value|(USB_TXVREFTUNE << 6));
+  Value = SwapMmioRead32 ((UINTN)&Scfg->Usb3Prm1Cr);
   Value &= ~(0xF << 6);
-  BeMmioWrite32 ((UINTN)&Scfg->Usb3Prm1Cr, Value|(USB_TXVREFTUNE << 6));
+  SwapMmioWrite32 ((UINTN)&Scfg->Usb3Prm1Cr, Value|(USB_TXVREFTUNE << 6));
 
   return;
 }
@@ -72,12 +72,12 @@ ErratumA009798 (
 
   Scfg = (VOID *)PcdGet64 (PcdScfgBaseAddr);
 
-  Value = BeMmioRead32 ((UINTN)&Scfg->Usb1Prm1Cr);
-  BeMmioWrite32 ((UINTN)&Scfg->Usb1Prm1Cr, Value & USB_SQRXTUNE);
-  Value = BeMmioRead32 ((UINTN)&Scfg->Usb2Prm1Cr);
-  BeMmioWrite32 ((UINTN)&Scfg->Usb2Prm1Cr, Value & USB_SQRXTUNE);
-  Value = BeMmioRead32 ((UINTN)&Scfg->Usb3Prm1Cr);
-  BeMmioWrite32 ((UINTN)&Scfg->Usb3Prm1Cr, Value & USB_SQRXTUNE);
+  Value = SwapMmioRead32 ((UINTN)&Scfg->Usb1Prm1Cr);
+  SwapMmioWrite32 ((UINTN)&Scfg->Usb1Prm1Cr, Value & USB_SQRXTUNE);
+  Value = SwapMmioRead32 ((UINTN)&Scfg->Usb2Prm1Cr);
+  SwapMmioWrite32 ((UINTN)&Scfg->Usb2Prm1Cr, Value & USB_SQRXTUNE);
+  Value = SwapMmioRead32 ((UINTN)&Scfg->Usb3Prm1Cr);
+  SwapMmioWrite32 ((UINTN)&Scfg->Usb3Prm1Cr, Value & USB_SQRXTUNE);
 
   return;
 }
@@ -100,15 +100,15 @@ ErratumA008997 (
 
   Scfg = (VOID *)PcdGet64 (PcdScfgBaseAddr);
 
-  Value = BeMmioRead32 ((UINTN)&Scfg->Usb1Prm2Cr);
+  Value = SwapMmioRead32 ((UINTN)&Scfg->Usb1Prm2Cr);
   Value &= ~(0x7F << 9);
-  BeMmioWrite32 ((UINTN)&Scfg->Usb1Prm2Cr, Value | (USB_PCSTXSWINGFULL << 9));
-  Value = BeMmioRead32 ((UINTN)&Scfg->Usb2Prm2Cr);
+  SwapMmioWrite32 ((UINTN)&Scfg->Usb1Prm2Cr, Value | (USB_PCSTXSWINGFULL << 9));
+  Value = SwapMmioRead32 ((UINTN)&Scfg->Usb2Prm2Cr);
   Value &= ~(0x7F << 9);
-  BeMmioWrite32 ((UINTN)&Scfg->Usb2Prm2Cr, Value | (USB_PCSTXSWINGFULL << 9));
-  Value = BeMmioRead32 ((UINTN)&Scfg->Usb3Prm2Cr);
+  SwapMmioWrite32 ((UINTN)&Scfg->Usb2Prm2Cr, Value | (USB_PCSTXSWINGFULL << 9));
+  Value = SwapMmioRead32 ((UINTN)&Scfg->Usb3Prm2Cr);
   Value &= ~(0x7F << 9);
-  BeMmioWrite32 ((UINTN)&Scfg->Usb3Prm2Cr, Value | (USB_PCSTXSWINGFULL << 9));
+  SwapMmioWrite32 ((UINTN)&Scfg->Usb3Prm2Cr, Value | (USB_PCSTXSWINGFULL << 9));
 
   return;
 }

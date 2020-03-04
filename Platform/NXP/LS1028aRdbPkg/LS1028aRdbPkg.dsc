@@ -2,7 +2,7 @@
 #
 #  LS1028ARDB Board package.
 #
-#  Copyright 2019 NXP
+#  Copyright 2019-2020 NXP
 #
 #  This program and the accompanying materials
 #  are licensed and made available under the terms and conditions of the BSD License
@@ -36,7 +36,6 @@
   ArmPlatformLib|Platform/NXP/LS1028aRdbPkg/Library/PlatformLib/ArmPlatformLib.inf
   ResetSystemLib|ArmPkg/Library/ArmSmcPsciResetSystemLib/ArmSmcPsciResetSystemLib.inf
   SerialPortLib|Silicon/NXP/Library/DUartPortLib/DUartPortLib.inf
-  BeIoLib|Silicon/NXP/Library/BeIoLib/BeIoLib.inf
   SocLib|Silicon/NXP/Chassis/LS1028aSocLib.inf
 #  RealTimeClockLib|Silicon/NXP/Library/Pcf2129RtcLib/Pcf2129RtcLib.inf
   RealTimeClockLib|EmbeddedPkg/Library/TemplateRealTimeClockLib/TemplateRealTimeClockLib.inf

@@ -1,7 +1,7 @@
 ## @file
 #  Component description file for the Sata Controller initialization driver
 #
-#  Copyright 2017 NXP
+#  Copyright 2017, 2020 NXP
 #
 #  This program and the accompanying materials
 #  are licensed and made available under the terms and conditions of the BSD License
@@ -30,7 +30,7 @@
   Silicon/NXP/NxpQoriqLs.dec
 
 [LibraryClasses]
-  BeIoLib
+  IoAccessLib
   DebugLib
   NonDiscoverableDeviceRegistrationLib
   UefiBootServicesTableLib

@@ -39,18 +39,18 @@ VOID BmiRxPortInit (
   )
 {
        /* set BMI to independent mode, Rx port disable */
-       MmioWriteBe32((UINTN)&Port->FmanBmRcfg, FMAN_BM_RCFG_IM);
+       SwapMmioWrite32((UINTN)&Port->FmanBmRcfg, FMAN_BM_RCFG_IM);
        /* clear FOF in IM case */
-       MmioWriteBe32((UINTN)&Port->FmanBmRim, 0);
+       SwapMmioWrite32((UINTN)&Port->FmanBmRim, 0);
        /* Rx frame next engine -RISC */
-       MmioWriteBe32((UINTN)&Port->FmanBmRfne, NIA_ENG_RISC | NIA_RISC_AC_IM_RX);
+       SwapMmioWrite32((UINTN)&Port->FmanBmRfne, NIA_ENG_RISC | NIA_RISC_AC_IM_RX);
        /* Rx command attribute - no order, MR[3] = 1 */
        SwapMmioAnd32((UINTN)&Port->FmanBmRfca, ~(FMAN_BM_RFCA_ORDER | FMAN_BM_RFCA_MR_MASK));
        SwapMmioOr32((UINTN)&Port->FmanBmRfca, FMAN_BM_RFCA_MR(4));
        /* enable Rx statistic counters */
-       MmioWriteBe32((UINTN)&Port->FmanBmRstc, FMAN_BM_RSTC_EN);
+       SwapMmioWrite32((UINTN)&Port->FmanBmRstc, FMAN_BM_RSTC_EN);
        /* disable Rx performance counters */
-       MmioWriteBe32((UINTN)&Port->FmanBmRpc, 0);
+       SwapMmioWrite32((UINTN)&Port->FmanBmRpc, 0);
 }
 
 VOID BmiTxPortInit (
@@ -58,17 +58,17 @@ VOID BmiTxPortInit (
   )
 {
        /* set BMI to independent mode, Tx port disable */
-       MmioWriteBe32((UINTN)&Port->FmanBmTcfg, FMAN_BM_TCFG_IM);
+       SwapMmioWrite32((UINTN)&Port->FmanBmTcfg, FMAN_BM_TCFG_IM);
        /* Tx frame next engine -RISC */
-       MmioWriteBe32((UINTN)&Port->FmanBmTfne, NIA_ENG_RISC | NIA_RISC_AC_IM_TX);
-       MmioWriteBe32((UINTN)&Port->FmanBmTfene, NIA_ENG_RISC | NIA_RISC_AC_IM_TX);
+       SwapMmioWrite32((UINTN)&Port->FmanBmTfne, NIA_ENG_RISC | NIA_RISC_AC_IM_TX);
+       SwapMmioWrite32((UINTN)&Port->FmanBmTfene, NIA_ENG_RISC | NIA_RISC_AC_IM_TX);
        /* Tx command attribute - no order, MR[3] = 1 */
        SwapMmioAnd32((UINTN)&Port->FmanBmTfca, ~(FMAN_BM_TFCA_ORDER | FMAN_BM_TFCA_MR_MASK));
        SwapMmioOr32((UINTN)&Port->FmanBmTfca, FMAN_BM_TFCA_MR(4));
        /* enable Tx statistic counters */
-       MmioWriteBe32((UINTN)&Port->FmanBmTstc, FMAN_BM_TSTC_EN);
+       SwapMmioWrite32((UINTN)&Port->FmanBmTstc, FMAN_BM_TSTC_EN);
        /* disable Tx performance counters */
-       MmioWriteBe32((UINTN)&Port->FmanBmTpc, 0);
+       SwapMmioWrite32((UINTN)&Port->FmanBmTpc, 0);
 }
 
 EFI_STATUS

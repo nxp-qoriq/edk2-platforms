@@ -39,7 +39,6 @@
   ArmPlatformLib|Platform/NXP/LS1046aRdbPkg/Library/PlatformLib/ArmPlatformLib.inf
   ResetSystemLib|ArmPkg/Library/ArmSmcPsciResetSystemLib/ArmSmcPsciResetSystemLib.inf
   SerialPortLib|Silicon/NXP/Library/DUartPortLib/DUartPortLib.inf
-  BeIoLib|Silicon/NXP/Library/BeIoLib/BeIoLib.inf
   SocLib|Silicon/NXP/Chassis/LS1046aSocLib.inf
   RealTimeClockLib|Silicon/NXP/Library/Pcf2129RtcLib/Pcf2129RtcLib.inf
   IfcLib|Silicon/NXP/Library/IfcLib/IfcLib.inf

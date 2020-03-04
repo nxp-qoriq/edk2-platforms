@@ -25,6 +25,9 @@ Dpaa1Frwy.c
   Silicon/NXP/NxpQoriqLs.dec
   Silicon/NXP/Chassis/Chassis2/Chassis2.dec
 
+[LibraryClasses]
+  IoAccessLib
+
 [FixedPcd]
   gNxpQoriqLsTokenSpaceGuid.PcdGutsBaseAddr
   gNxpQoriqLsTokenSpaceGuid.PcdDpaa1FmanMdio1Addr

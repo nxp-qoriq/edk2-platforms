@@ -1,6 +1,6 @@
 /**@file
 
-  Copyright 2017 NXP
+  Copyright 2017, 2020 NXP
 
   This Program And The Accompanying Materials
   Are Licensed And Made Available Under The Terms And Conditions Of The BSD License
@@ -12,7 +12,7 @@
 
 **/
 
-#include <Library/BeIoLib.h>
+#include <Library/IoAccessLib.h>
 #include <Library/IoLib.h>
 #include <Library/MmcLib.h>
 #include <Library/TimerLib.h>
@@ -35,7 +35,7 @@ MmcRead (
   )
 {
   if (FixedPcdGetBool (PcdMmcBigEndian)) {
-    return BeMmioRead32(Address);
+    return SwapMmioRead32(Address);
   } else {
     return MmioRead32 (Address);
   }
@@ -55,7 +55,7 @@ MmcWrite (
   )
 {
   if (FixedPcdGetBool (PcdMmcBigEndian)) {
-    return BeMmioWrite32 (Address, Value);
+    return SwapMmioWrite32 (Address, Value);
   } else {
     return MmioWrite32 (Address, Value);
   }
@@ -80,7 +80,7 @@ MmcAndThenOr (
   )
 {
   if (FixedPcdGetBool (PcdMmcBigEndian)) {
-    return BeMmioAndThenOr32 (Address, AndData, OrData);
+    return SwapMmioAndThenOr32 (Address, AndData, OrData);
   } else {
     return MmioAndThenOr32 (Address, AndData, OrData);
   }
@@ -103,7 +103,7 @@ MmcOr (
   )
 {
   if (FixedPcdGetBool (PcdMmcBigEndian)) {
-    return BeMmioOr32 (Address, OrData);
+    return SwapMmioOr32 (Address, OrData);
   } else {
     return MmioOr32 (Address, OrData);
   }
@@ -126,7 +126,7 @@ MmcAnd (
   )
 {
   if (FixedPcdGetBool (PcdMmcBigEndian)) {
-    return BeMmioAnd32 (Address, AndData);
+    return SwapMmioAnd32 (Address, AndData);
   } else {
     return MmioAnd32 (Address, AndData);
   }
