@@ -2,6 +2,7 @@
   DPAA library implementation
 
   Copyright (c) 2016, Freescale Semiconductor, Inc. All rights Reserved.
+  Copyright 2020 NXP
 
   This Program And The Accompanying Materials
   Are Licensed And Made Available Under The Terms And Conditions Of The BSD
@@ -17,6 +18,7 @@
 #include <Library/Dpaa1DebugLib.h>
 #include <Library/Dpaa1Lib.h>
 #include <Library/FrameManager.h>
+#include <Library/IoAccessLib.h>
 #include <Library/IoLib.h>
 #include <Library/MemoryAllocationLib.h>
 #include <Library/NetLib.h>
@@ -43,8 +45,8 @@ VOID BmiRxPortInit (
        /* Rx frame next engine -RISC */
        MmioWriteBe32((UINTN)&Port->FmanBmRfne, NIA_ENG_RISC | NIA_RISC_AC_IM_RX);
        /* Rx command attribute - no order, MR[3] = 1 */
-       MmioClearBitsBe32((UINTN)&Port->FmanBmRfca, FMAN_BM_RFCA_ORDER | FMAN_BM_RFCA_MR_MASK);
-       MmioSetBitsBe32((UINTN)&Port->FmanBmRfca, FMAN_BM_RFCA_MR(4));
+       SwapMmioAnd32((UINTN)&Port->FmanBmRfca, ~(FMAN_BM_RFCA_ORDER | FMAN_BM_RFCA_MR_MASK));
+       SwapMmioOr32((UINTN)&Port->FmanBmRfca, FMAN_BM_RFCA_MR(4));
        /* enable Rx statistic counters */
        MmioWriteBe32((UINTN)&Port->FmanBmRstc, FMAN_BM_RSTC_EN);
        /* disable Rx performance counters */
@@ -61,8 +63,8 @@ VOID BmiTxPortInit (
        MmioWriteBe32((UINTN)&Port->FmanBmTfne, NIA_ENG_RISC | NIA_RISC_AC_IM_TX);
        MmioWriteBe32((UINTN)&Port->FmanBmTfene, NIA_ENG_RISC | NIA_RISC_AC_IM_TX);
        /* Tx command attribute - no order, MR[3] = 1 */
-       MmioClearBitsBe32((UINTN)&Port->FmanBmTfca, FMAN_BM_TFCA_ORDER | FMAN_BM_TFCA_MR_MASK);
-       MmioSetBitsBe32((UINTN)&Port->FmanBmTfca, FMAN_BM_TFCA_MR(4));
+       SwapMmioAnd32((UINTN)&Port->FmanBmTfca, ~(FMAN_BM_TFCA_ORDER | FMAN_BM_TFCA_MR_MASK));
+       SwapMmioOr32((UINTN)&Port->FmanBmTfca, FMAN_BM_TFCA_MR(4));
        /* enable Tx statistic counters */
        MmioWriteBe32((UINTN)&Port->FmanBmTstc, FMAN_BM_TSTC_EN);
        /* disable Tx performance counters */

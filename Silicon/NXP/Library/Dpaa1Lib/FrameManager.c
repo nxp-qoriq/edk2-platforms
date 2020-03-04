@@ -2,6 +2,7 @@
   DPAA Frame manager implementation
 
   Copyright (c) 2016, Freescale Semiconductor, Inc. All rights reserved.
+  Copyright 2020 NXP
 
   This Program And The Accompanying Materials
   Are Licensed And Made Available Under The Terms And Conditions Of The BSD
@@ -21,6 +22,7 @@
 #include <Library/Dpaa1DebugLib.h>
 #include <Library/Dpaa1EthernetMacLib.h>
 #include <Library/FrameManager.h>
+#include <Library/IoAccessLib.h>
 #include <Library/IoLib.h>
 #include <Library/MemoryAllocationLib.h>
 #include <Library/PcdLib.h>
@@ -909,7 +911,7 @@ VOID
 FmanInitQmanInterface(FMAN_QMI_COMMON *Qmi)
 {
   // Disable enqueue and dequeue of Qman interface
-  MmioClearBitsBe32((UINTN)&Qmi->Gc, QMI_GC_ENQ_EN | QMI_GC_DEQ_EN);
+  SwapMmioAnd32((UINTN)&Qmi->Gc, ~(QMI_GC_ENQ_EN | QMI_GC_DEQ_EN));
 
   // Disable all error interrupts
   MmioWriteBe32((UINTN)&Qmi->Eien, 0x0);
@@ -959,7 +961,7 @@ FmanInitFPM(FMAN_FPM *Fpm)
   //
   // Initialize FPM event and enable register:
   //
-  MmioSetBitsBe32((UINTN)&Fpm->FpEe,
+  SwapMmioOr32((UINTN)&Fpm->FpEe,
      FPM_FPEE_EHM | FPM_FPEE_UEC | FPM_FPEE_CER | FPM_FPEE_DER);
 
   /* IM mode, each even port ID to RISC#1, each odd port ID to RISC#2 */
