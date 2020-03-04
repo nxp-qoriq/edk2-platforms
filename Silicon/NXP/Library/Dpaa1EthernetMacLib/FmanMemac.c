@@ -2,6 +2,7 @@
   DPAA1 FMAN MAC services implementation
 
   Copyright (c) 2016, Freescale Semiconductor, Inc. All rights Reserved.
+  Copyright 2020 NXP
 
   This program and the accompanying materials
   are licensed and made available under the terms and conditions of the BSD License
@@ -16,6 +17,7 @@
 #include <Library/Dpaa1DebugLib.h>
 #include <Library/Dpaa1EthernetMacLib.h>
 #include <Library/FrameManager.h>
+#include <Library/IoAccessLib.h>
 #include <Library/IoLib.h>
 #include <Library/ItbParse.h>
 #include <Library/PcdLib.h>
@@ -400,7 +402,7 @@ TxGracefulStopEnable (
 
   Pram = FmanEthDevice->TxPram;
   /* Enable graceful stop for TX */
-  MmioSetBitsBe32((UINTN)&Pram->Mode, PARAM_MODE_GRACEFUL_STOP);
+  SwapMmioOr32((UINTN)&Pram->Mode, PARAM_MODE_GRACEFUL_STOP);
   MemoryFence();
 }
 
@@ -413,7 +415,7 @@ TxGracefulStopDisable (
 
   Pram = FmanEthDevice->TxPram;
   /* re-enable transmission of frames */
-  MmioClearBitsBe32((UINTN)&Pram->Mode, PARAM_MODE_GRACEFUL_STOP);
+  SwapMmioAnd32((UINTN)&Pram->Mode, ~PARAM_MODE_GRACEFUL_STOP);
   MemoryFence();
 }
 
@@ -424,8 +426,8 @@ DisableMac (
 {
   Memac *Regs = Mac->Base;
 
-  MmioClearBitsBe32((UINTN)&Regs->CommandConfig, MEMAC_CMD_CFG_RXTX_EN);
-  MmioSetBitsBe32((UINTN)&Regs->CommandConfig, MEMAC_CMD_CFG_SWR);
+  SwapMmioAnd32((UINTN)&Regs->CommandConfig, ~MEMAC_CMD_CFG_RXTX_EN);
+  SwapMmioOr32((UINTN)&Regs->CommandConfig, MEMAC_CMD_CFG_SWR);
 }
 
 VOID
@@ -435,11 +437,11 @@ EnableMac (
 {
   Memac *Regs = Mac->Base;
 
-  MmioSetBitsBe32((UINTN)&Regs->CommandConfig, MEMAC_CMD_CFG_SWR);
-  MmioSetBitsBe32((UINTN)&Regs->StatnConfig, MEMAC_CMD_CFG_CLR_STATS);
-  MmioSetBitsBe32((UINTN)&Regs->CommandConfig,
+  SwapMmioOr32((UINTN)&Regs->CommandConfig, MEMAC_CMD_CFG_SWR);
+  SwapMmioOr32((UINTN)&Regs->StatnConfig, MEMAC_CMD_CFG_CLR_STATS);
+  SwapMmioOr32((UINTN)&Regs->CommandConfig,
       MEMAC_CMD_CFG_RXTX_EN | MEMAC_CMD_CFG_PAD );
-  MmioClearBitsBe32((UINTN)&Regs->CommandConfig, MEMAC_CMD_CFG_NO_LEN_CHK);
+  SwapMmioAnd32((UINTN)&Regs->CommandConfig, ~MEMAC_CMD_CFG_NO_LEN_CHK);
 }
 
 VOID
@@ -450,7 +452,7 @@ DisablePorts (
   UINT32 Timeout = 1000000;
 
   /* disable bmi Tx port */
-  MmioClearBitsBe32((UINTN)&FmanEthDevice->TxPort->FmanBmTcfg, FMAN_BM_TCFG_EN);
+  SwapMmioAnd32((UINTN)&FmanEthDevice->TxPort->FmanBmTcfg, ~FMAN_BM_TCFG_EN);
 
   /* wait until the tx port is not busy */
   while ((MmioReadBe32((UINTN)&FmanEthDevice->TxPort->FmanBmTst) & FMAN_BM_TST_BSY)
@@ -463,7 +465,7 @@ DisablePorts (
   /* disable bmi Rx port */
   Timeout = 1000000;
 
-  MmioClearBitsBe32((UINTN)&FmanEthDevice->RxPort->FmanBmRcfg, FMAN_BM_RCFG_EN);
+  SwapMmioAnd32((UINTN)&FmanEthDevice->RxPort->FmanBmRcfg, ~FMAN_BM_RCFG_EN);
 
   /* wait until the rx port is not busy */
   while ((MmioReadBe32((UINTN)&FmanEthDevice->RxPort->FmanBmRst) & FMAN_BM_RST_BSY)
@@ -477,11 +479,11 @@ EnablePorts (
   )
 {
   /* enable bmi Rx port */
-  MmioSetBitsBe32((UINTN)&FmanEthDevice->RxPort->FmanBmRcfg, FMAN_BM_RCFG_EN);
+  SwapMmioOr32((UINTN)&FmanEthDevice->RxPort->FmanBmRcfg, FMAN_BM_RCFG_EN);
   /* enable MAC rx/tx port */
   EnableMac(FmanEthDevice->Mac);
   /* enable bmi Tx port */
-  MmioSetBitsBe32((UINTN)&FmanEthDevice->TxPort->FmanBmTcfg, FMAN_BM_TCFG_EN);
+  SwapMmioOr32((UINTN)&FmanEthDevice->TxPort->FmanBmTcfg, FMAN_BM_TCFG_EN);
 }
 
 VOID
