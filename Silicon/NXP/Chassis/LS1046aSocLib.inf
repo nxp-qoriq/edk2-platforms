@@ -39,6 +39,7 @@
   DebugLib
   FpgaLib
   IfcLib
+  IoAccessLib
   SerialPortLib
 
 [Sources.common]
