@@ -3,7 +3,7 @@
   Driver for installing SPI Master and other spi protocols
   over FSPI controller Handle
 
-  Copyright 2018 NXP
+  Copyright 2018, 2020 NXP
 
   This program and the accompanying materials
   are licensed and made available under the terms and conditions of the bsd
@@ -55,9 +55,9 @@ FspiVirtualNotifyEvent (
   EfiConvertPointer (0x0, (VOID **)&Fspi->Regs);
   EfiConvertPointer (0x0, (VOID **)&Fspi->Write32);
   EfiConvertPointer (0x0, (VOID **)&Fspi->Read32);
-  EfiConvertPointer (0x0, (VOID **)&Fspi->ClearBits32);
-  EfiConvertPointer (0x0, (VOID **)&Fspi->SetBits32);
-  EfiConvertPointer (0x0, (VOID **)&Fspi->ClearSet32);
+  EfiConvertPointer (0x0, (VOID **)&Fspi->Or32);
+  EfiConvertPointer (0x0, (VOID **)&Fspi->And32);
+  EfiConvertPointer (0x0, (VOID **)&Fspi->AndThenOr32);
   // Convert SpiMaster protocol
   EfiConvertPointer (0x0, (VOID **)&Fspi->FspiHcProtocol.ChipSelect);
   EfiConvertPointer (0x0, (VOID **)&Fspi->FspiHcProtocol.Clock);

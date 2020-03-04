@@ -2,7 +2,7 @@
   Header Defining The Fspi Flash Controller Constants (Base Addresses, Sizes,
   Flags), Function Prototype, Structures etc
 
-  Copyright 2018 NXP
+  Copyright 2018, 2020 NXP
 
   This Program And The Accompanying Materials
   Are Licensed And Made Available Under The Terms And Conditions Of The BSD
@@ -382,17 +382,17 @@ typedef struct {
   ///
   UINT32                             (*Write32) (IN  UINTN  Address, IN  UINT32  Value);
   ///
-  /// FSPI controller Register ClearBits function
+  /// FSPI controller Register Or function
   ///
-  UINT32                             (*ClearBits32) (IN  UINTN  Address, IN  UINT32  Mask);
+  UINT32                             (*Or32) (IN  UINTN  Address, IN  UINT32  OrData);
   ///
-  /// FSPI controller Register SetBits function
+  /// FSPI controller Register And function
   ///
-  UINT32                             (*SetBits32) (IN  UINTN  Address, IN  UINT32  Bits);
+  UINT32                             (*And32) (IN  UINTN  Address, IN  UINT32  AndData);
   ///
-  /// FSPI controller Register ClearSet function
+  /// FSPI controller Register And function
   ///
-  UINT32                             (*ClearSet32) (IN  UINTN  Address, IN  UINT32  Mask, IN  UINT32  Value);
+  UINT32                             (*AndThenOr32) (IN  UINTN  Address, IN  UINT32  AndData, IN  UINT32  OrData);
   ///
   /// The Input clock frequency to FSPI module in Hz.
   ///
