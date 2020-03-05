@@ -1,7 +1,7 @@
 /** @file
  The Header file of SerDes Module
 
- Copyright 2017 NXP
+ Copyright 2017,2020 NXP
 
  This program and the accompanying materials
  are licensed and made available under the terms and conditions of the BSD License
@@ -31,6 +31,7 @@ SERDES_CONFIG SerDes1ConfigTbl[] = {
         {0x2263, {SGMII_2500_FM1_DTSEC9, SGMII_2500_FM1_DTSEC10, PCIE1, SGMII_FM1_DTSEC6 } },
         {0x3363, {SGMII_FM1_DTSEC5, SGMII_FM1_DTSEC6, PCIE1, SGMII_FM1_DTSEC6 } },
         {0x2223, {SGMII_2500_FM1_DTSEC9, SGMII_2500_FM1_DTSEC10, SGMII_2500_FM1_DTSEC5, SGMII_FM1_DTSEC6 } },
+        {0x3040, {SGMII_FM1_DTSEC9, NONE, QSGMII_FM1_A, NONE } },
         {}
 };
 

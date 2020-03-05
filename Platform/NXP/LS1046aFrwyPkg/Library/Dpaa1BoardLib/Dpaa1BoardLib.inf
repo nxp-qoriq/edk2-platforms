@@ -1,0 +1,31 @@
+/** @file
+
+  Component description file for Dpaa1BoardLib module
+
+  Copyright 2020 NXP
+
+  SPDX-License-Identifier: BSD-2-Clause-Patent
+
+**/
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = Dpaa1BoardLib
+  FILE_GUID                      = 36c4320a-add8-49ae-a50f-259befa1163d
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = Dpaa1BoardLib
+
+[Sources.common]
+Dpaa1Frwy.c
+
+[Packages]
+  EmbeddedPkg/EmbeddedPkg.dec
+  MdePkg/MdePkg.dec
+  Silicon/NXP/NxpQoriqLs.dec
+  Silicon/NXP/Chassis/Chassis2/Chassis2.dec
+
+[FixedPcd]
+  gNxpQoriqLsTokenSpaceGuid.PcdGutsBaseAddr
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa1FmanMdio1Addr
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa1FmanMdio2Addr
