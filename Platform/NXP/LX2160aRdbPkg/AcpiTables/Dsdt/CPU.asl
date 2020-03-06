@@ -3,7 +3,7 @@
 
   Copyright (c) 2014, ARM Ltd. All rights reserved.<BR>
   Copyright (c) 2015, Linaro Limited. All rights reserved.<BR>
-  Copyright 2017-2018 NXP
+  Copyright 2017-2018, 2020 NXP
 
   This program and the accompanying materials
   are licensed and made available under the terms and conditions of the BSD License
@@ -31,6 +31,9 @@ Scope(_SB)
     Device(CPU0) {
       Name(_HID, "ACPI0007")
       Name(_UID, 0)
+      Method (_STA) {
+        Return (0x0F)
+      }
     }
     Device(CPU1) {
       Name(_HID, "ACPI0007")
