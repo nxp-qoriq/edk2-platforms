@@ -2,7 +2,7 @@
   This driver installs SMBIOS information for NXP LX2160ARDB platforms
 
   Copyright (c) 2015, ARM Limited. All rights reserved.
-  Copyright 2019 NXP
+  Copyright 2019-2020 NXP
 
   This program and the accompanying materials
   are licensed and made available under the terms and conditions of the BSD License
@@ -162,15 +162,18 @@ STATIC CONST ARM_TYPE7 mArmDefaultType7_a57_l1i = {
       SMBIOS_HANDLE_A57_L1I,
     },
     1,
-    0x380,                                 /* L1 enabled, unknown WB */
-    48,                                    /* 48k i cache max */
-    48,                                    /* 48k installed */
+    0x280,                                 /* L1 enabled,
+                                             varies with Memory Address */
+    0x0030,                                /* 48k i cache max */
+    0x0030,                                /* 48k installed */
     {0,1},                                 /* SRAM type */
     {0,1},                                 /* SRAM type */
     0,                                     /* unkown speed */
     CacheErrorParity,                      /* parity checking */
     CacheTypeInstruction, /* instruction cache */
     CacheAssociativityOther, /* three way */
+    0x400,                                /* 1 MB max L2  cache */
+    0x400,                                /* 1 MB installed L2 Cache */
   },
   TYPE7_STRINGS
 };
@@ -187,8 +190,8 @@ STATIC CONST ARM_TYPE16 mArmDefaultType16 = {
     },
     MemoryArrayLocationSystemBoard, /* on motherboard */
     MemoryArrayUseSystemMemory,     /* system RAM */
-    MemoryErrorCorrectionNone,      /* Doesn't have ECC RAM */
-    0x800000, /* 8GB */
+    MemoryErrorCorrectionSingleBitEcc, /* single bit  ECC correction */
+    0x2000000, /* 32GB */
     0xFFFE,   /* No error information structure */
     0x1,      /* soldered memory */
   },
@@ -207,17 +210,17 @@ STATIC CONST ARM_TYPE17 mArmDefaultType17 = {
     },
     SMBIOS_HANDLE_MEMORY, /* array to which this module belongs */
     0xFFFE,               /* no errors */
-    64, /* single DIMM, no ECC is 64bits (for ecc this would be 72) */
+    72, /* single DIMM, no ECC is 64bits (for ecc this would be 72) */
     64, /* data width of this device (64-bits) */
-    0x2000, /* 8GB */
-    0x0B,   /* row of chips */
+    0x7FFF, /* for size 32GB -1MB or greater*/
+    0x09,   /* DIMM */
     0,      /* not part of a set */
     1,      /* right side of board */
     2,      /* bank 0 */
 /*  MemoryTypeLpddr3, */ /* LP DDR3, isn't defined yet */
-    MemoryTypeDdr3,                  /* LP DDR3 */
+    MemoryTypeDdr4,                  /* LP DDR4 */
     {0,0,0,0,0,0,0,0,0,0,0,0,0,0,1}, /* unbuffered */
-    1600,                            /* 1600Mhz DDR */
+    2900,                            /* 2900Mhz DDR */
     0, /* varies between diffrent production runs */
     0, /* serial */
     0, /* asset tag */
@@ -242,8 +245,8 @@ STATIC CONST ARM_TYPE19 mArmDefaultType19 = {
     0xFFFFFFFF,
     SMBIOS_HANDLE_DIMM, /* handle */
     1,
-    0x080000000,        /* starting addr of first 2GB */
-    0x100000000,        /* ending addr of first 2GB */
+    0x000000000,        /* starting addr of first 32GB */
+    0x7FFFFFFFE,        /* ending addr of first 32GB */
   },
   TYPE19_STRINGS
 };
