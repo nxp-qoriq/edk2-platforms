@@ -30,6 +30,8 @@
   gArmTokenSpaceGuid.PcdGenericWatchdogRefreshBase|0x2390000
   gArmTokenSpaceGuid.PcdGenericWatchdogEl2IntrNum|28
 
+  gEfiMdePkgTokenSpaceGuid.PcdUartDefaultReceiveFifoDepth|0
+
   #
   # ARM L2x0 PCDs
   gArmTokenSpaceGuid.PcdL2x0ControllerBase|0x10900000
