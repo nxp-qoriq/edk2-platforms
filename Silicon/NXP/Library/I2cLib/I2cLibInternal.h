@@ -76,7 +76,7 @@
 #define I2C_BUS_NO_TEST_RX_ACK  !I2C_BUS_TEST_RX_ACK
 
 #define ARRAY_LAST_ELEM(x)      (x)[ARRAY_SIZE (x) - 1]
-#define I2C_NUM_RETRIES         100
+#define I2C_NUM_RETRIES         500
 
 typedef struct _I2C_REGS {
   UINT8 Ibad; // I2c Bus Address Register
