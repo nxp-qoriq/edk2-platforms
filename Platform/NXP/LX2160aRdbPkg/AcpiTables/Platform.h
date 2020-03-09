@@ -127,6 +127,8 @@
 #define FSPI0_BASE 0x20c0000
 #define FSPI_LEN   0x10000
 #define FSPI_IT    57
+#define FSPIMM_BASE 0x20000000
+#define FSPIMM_LEN  0x10000000
 
 // SD
 #define SDC0_BASE 0x2140000

@@ -6,7 +6,7 @@
 
   SPDX-License-Identifier: BSD-2-Clause-Patent
 
-  Based on the files under ArmPlatformPkg/ArmJunoPkg/AcpiTables/
+  Based on the files under Platform/ARM/JunoPkg/AcpiTables/
 
 **/
 Scope(_SB)
@@ -37,7 +37,6 @@ Scope(_SB)
       Local0 = SCLK * PRAT
       Local0 /= 2
       Store(Local0, CLK)
-      _REG(RCWS, 0)
     }
   }
 } // end of device PCLK
