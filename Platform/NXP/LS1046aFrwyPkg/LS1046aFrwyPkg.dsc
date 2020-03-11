@@ -27,6 +27,9 @@
   PLATFORM_GUID                  = 79adaa48-5f50-49f0-aa9a-544ac9260ef8
   OUTPUT_DIRECTORY               = Build/LS1046aFrwyPkg
   FLASH_DEFINITION               = Platform/NXP/LS1046aFrwyPkg/LS1046aFrwyPkg.fdf
+  DEFINE NETWORK_TLS_ENABLE             = FALSE
+  DEFINE NETWORK_HTTP_BOOT_ENABLE       = FALSE
+  DEFINE NETWORK_ISCSI_ENABLE           = FALSE
 
 !include Platform/NXP/NxpQoriqLs.dsc
 !include Silicon/NXP/Chassis/Chassis2/Chassis2.dsc
@@ -154,6 +157,12 @@
   Silicon/NXP/Drivers/LanIntelE1000Dxe/LanIntelE1000Dxe.inf
 
   Silicon/NXP/Drivers/QspiDxe/QspiDxe.inf
+
+  #
+  # Networking stack
+  #
+!include NetworkPkg/Network.dsc.inc
+
   Silicon/NXP/Drivers/SpiBusDxe/SpiBusDxe.inf
   Silicon/NXP/Drivers/SpiNorFlashDxe/SpiNorFlashDxe.inf
   Silicon/NXP/Drivers/SpiConfigurationDxe/SpiConfigurationDxe.inf
