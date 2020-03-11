@@ -91,10 +91,21 @@ StartRequest (
 {
   UINTN                    I2cBase;
   EFI_STATUS               Status;
+  EFI_TPL                  Tpl;
+  BOOLEAN                  AtRuntime;
+
+  AtRuntime = EfiAtRuntime ();
+  if (!AtRuntime) {
+    Tpl = gBS->RaiseTPL (TPL_HIGH_LEVEL);
+  }
 
   I2cBase = mI2cRegs;
 
   Status = I2cBusXfer (I2cBase, SlaveAddress, RequestPacket);
+
+  if (!AtRuntime) {
+    gBS->RestoreTPL (Tpl);
+  }
 
   return Status;
 }
