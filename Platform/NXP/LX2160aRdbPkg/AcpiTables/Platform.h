@@ -207,6 +207,10 @@
 #define FTM_LEN  0x10000
 #define FTM_IT   76
 
+//Rcpm
+#define RCPM_BASE 0x1e34040
+#define RCPM_LEN  0x1000
+
 // Stream IDs
 #define NXP_DPAA2_STREAM_ID_START       23
 #define NXP_DPAA2_STREAM_ID_COUNT       40
