@@ -141,9 +141,9 @@ Scope(_SB)
         Name(_UID, 1)
         Method (_LPI, 0, NotSerialized) {
           return(PLPI)
-          }
         }
       }
+    }
 
     Device (CLU1) { // Cluster1 state
       Name(_HID, "ACPI0010")
@@ -730,7 +730,7 @@ Scope(_SB)
       Name(PLPI, Package() {
         0, // Version
         1, // Level Index
-        1, // Count
+        2, // Count
         Package() { // WFI for CPU
           1, // Min residency (uS)
           1, // Wake latency (uS)
@@ -767,7 +767,7 @@ Scope(_SB)
             Register (FFixedHW,
               0x20,               // Bit Width
               0x00,               // Bit Offset
-              0x00000000,         // Address
+              0x0,                // Address
               0x03,               // Access Size
               )
           },
