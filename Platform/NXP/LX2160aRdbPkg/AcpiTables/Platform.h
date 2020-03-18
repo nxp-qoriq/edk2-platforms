@@ -202,6 +202,15 @@
 #define LX2160A_PCI_SEG1_RC_CONFIG_BASE  0x3800000
 #define LX2160A_PCI_SEG1_RC_CONFIG_SIZE  0x100000
 
+//Ftm
+#define FTM_BASE 0x2800000
+#define FTM_LEN  0x10000
+#define FTM_IT   76
+
+//Rcpm
+#define RCPM_BASE 0x1e34040
+#define RCPM_LEN  0x1000
+
 // Stream IDs
 #define NXP_DPAA2_STREAM_ID_START       23
 #define NXP_DPAA2_STREAM_ID_COUNT       40
