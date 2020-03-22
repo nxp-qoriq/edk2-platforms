@@ -7,7 +7,7 @@
 *
 *  SPDX-License-Identifier: BSD-2-Clause-Patent
 *
-*  Based on the files under ArmPlatformPkg/ArmJunoPkg/AcpiTables/
+*  Based on the files under Platform/ARM/JunoPkg/AcpiTables/
 *
 **/
 
@@ -71,7 +71,7 @@
 #define UART_LEN                 0x10000
 #define SPCR_FLOW_CONTROL_NONE   0
 
-// I2C 
+// I2C
 #define I2C0_BASE 0x2000000
 #define I2C1_BASE 0x2010000
 #define I2C2_BASE 0x2020000
@@ -81,7 +81,7 @@
 #define I2C6_BASE 0x2060000
 #define I2C7_BASE 0x2070000
 #define I2C_LEN   0x10000
-#define I2C0_IT   66 
+#define I2C0_IT   66
 #define I2C1_IT   66
 #define I2C2_IT   67
 #define I2C3_IT   67
@@ -115,6 +115,31 @@
 #define USB_LEN   0x10000
 #define USB0_IT   112
 #define USB1_IT   113
+
+// TMU
+#define TMU_BASE                 0x1f80000   // TMU CCSR space base address
+#define TMU_LEN                  0x10000     // TMU CCSR space length
+#define TMU_TEMP_RANGE_0         0x800000E6  // 230K
+#define TMU_TEMP_RANGE_1         0x8001017D  // 381K
+#define TMU_SITES_MAX            7           // Max TMU remote sensor
+#define TMU_ACTIVE               0           // Cooling policy active
+#define TMU_PASSIVE              1           // Cooling policy passive
+#define TMU_PASSIVE_THERSHOLD    3582        // Passive Thershold
+#define TMU_CRITICAL_THERSHOLD   3682        // Critical Thershold
+#define TMU_TIER_DISABLE_ALL     0x00        // Disable all interrupt
+#define TMU_TIDR_DISABLE_ALL     0x00        // Clear all interrupt
+#define TMU_TMR_DISABLE          0x00        // Disable TMU IP Monitoring mode
+#define TMU_TMR_ENABLE           0x8C000000  // Enable TMU IP in monitoring mode
+#define TMU_TMTMIR_DEFAULT       0x00000008  // Monitoring interval ~2second
+#define TMU_THERMAL_COFFICIENT_1 1           // Thermal cofficient 1 value as per the TMU datasheet
+#define TMU_THERMAL_COFFICIENT_2 1           // Thermal cofficient 2 value as per the TMU datasheet
+#define TMU_TZ_POLLING_PERIOD    5000        // ThermalZone polling frequency ~500second
+#define TMU_TZ_SAMPLING_PERIOD   1000        // ThermalZone sampling frequency ~100second
+#define TMU_SENSOR_ENABLE_ALL    0x0000007F  // Enable all sensor for active monitoring
+#define TMU_POINT_0_TEMP_CFG     0x00000000  // TMU calibration data, point 0 @230K(-43)
+#define TMU_POINT_0_SENSOR_CFG   0x00000035  // TMU calibration data, point 0 @230K(-43)
+#define TMU_POINT_1_TEMP_CFG     0x00010001  // TMU calibration data, point 1 @381K(103C)
+#define TMU_POINT_1_SENSOR_CFG   0x00000154  // TMU calibration data, point 0 @381K(103C)
 
 // DSPI
 #define SPI0_BASE 0x2100000
