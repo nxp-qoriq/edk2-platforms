@@ -102,6 +102,15 @@ READ_LOCK_STATUS   = TRUE
   INF RuleOverride = DTB Platform/NXP/LS1046aRdbPkg/DeviceTree/DeviceTree.inf
   INF Silicon/NXP/Drivers/DtPlatformDxe/DtPlatformDxe.inf
 
+  #
+  # ACPI
+  #
+  INF RuleOverride=ACPITABLE Platform/NXP/LS1046aRdbPkg/AcpiTables/AcpiTables.inf
+  INF MdeModulePkg/Universal/Acpi/AcpiTableDxe/AcpiTableDxe.inf
+  INF Silicon/NXP/Drivers/NxpAcpiPlatformDxe/AcpiPlatformDxe.inf
+
+
+
   INF Silicon/NXP/Drivers/SpiBusDxe/SpiBusDxe.inf
   INF Silicon/NXP/Drivers/SpiNorFlashDxe/SpiNorFlashDxe.inf
   INF Silicon/NXP/Drivers/SpiConfigurationDxe/SpiConfigurationDxe.inf
