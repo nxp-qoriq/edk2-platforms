@@ -86,8 +86,12 @@ SocGetSvr (
   return GurRead ( (UINTN)&GurBase->Svr);
 }
 
+/**
+  Enable PCie feature.
+**/
 VOID
 SocPcieCfgShift (
   )
 {
+    PcdSetBool(PcdPciCfgShiftEnable, TRUE);
 }
