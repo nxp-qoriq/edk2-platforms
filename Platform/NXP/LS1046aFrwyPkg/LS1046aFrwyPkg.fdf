@@ -152,6 +152,19 @@ READ_LOCK_STATUS   = TRUE
 
   INF ShellPkg/DynamicCommand/TftpDynamicCommand/TftpDynamicCommand.inf
 
+  INF MdeModulePkg/Bus/Pci/NonDiscoverablePciDeviceDxe/NonDiscoverablePciDeviceDxe.inf
+
+  #
+  # USB Support
+  #
+  INF MdeModulePkg/Bus/Pci/UhciDxe/UhciDxe.inf
+  INF MdeModulePkg/Bus/Pci/EhciDxe/EhciDxe.inf
+  INF MdeModulePkg/Bus/Pci/XhciDxe/XhciDxe.inf
+  INF MdeModulePkg/Bus/Usb/UsbBusDxe/UsbBusDxe.inf
+  INF MdeModulePkg/Bus/Usb/UsbMassStorageDxe/UsbMassStorageDxe.inf
+
+  INF Silicon/NXP/Drivers/UsbHcdInitDxe/UsbHcd.inf
+
   #
   # DPAA1 Ethernet driver
   #
