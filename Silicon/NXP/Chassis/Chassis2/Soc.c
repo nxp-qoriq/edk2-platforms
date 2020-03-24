@@ -31,6 +31,9 @@
 #include "Erratum.h"
 #include "Soc.h"
 
+extern VOID PrintBoardPersonality (VOID);
+extern UINTN GetBoardSysClk (VOID);
+
 /**
   Calculate the frequency of various controllers and
   populate the passed structure with frequuencies.
