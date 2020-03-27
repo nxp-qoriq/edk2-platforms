@@ -69,6 +69,7 @@
 #define WDT0_BASE    0x2ad0000
 #define WDT0_LENGTH  0x10000
 #define WDT0_IT      115
+
 // Mcfg
 #define LS1046A_PCI_SEG0_CONFIG_BASE 0x4000000000
 #define LS1046A_PCI_SEG0             0x0
@@ -117,6 +118,14 @@
 #define USB_LEN   0x10000
 #define USB0_IT   92
 #define USB1_IT   93
+
+// DSPI
+#define SPI0_BASE 0x2100000
+#define SPI1_BASE 0x2110000
+#define SPI2_BASE 0x2120000
+#define SPI_LEN   0x10000
+#define SPI_IT    58
+#define SPI_UUID  "daffd814-6eba-4d8c-8a91-bc9bbf4aa301"
 
 // PCLK : Dynamic Clock
 #define DCFG_BASE   0x1EE0000  /* Device configuration data Base Address */

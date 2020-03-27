@@ -19,4 +19,5 @@ DefinitionBlock("DsdtTable.aml", "DSDT", 1, "NXP  ", "LS1046  ", EFI_ACPI_ARM_OE
   include ("Pci.asl")
   include ("imx-wdt.asl")
   include ("Usb.asl")
+  include ("SPI.asl")
 }
