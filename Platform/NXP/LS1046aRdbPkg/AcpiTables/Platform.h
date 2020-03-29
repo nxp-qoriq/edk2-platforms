@@ -272,4 +272,199 @@
 #define CPU_DOMAIN_0               0
 #define CPU_CLK_CSSR_REG           0x01EE1000 // Core cluster clock control/status register
 
+// DPAA1 Hardware Architecture
+#define MDIO_0_REG_BASE         0x1afc000
+#define MDIO_1_REG_BASE         0x1afd000
+#define MDIO_REG_BASE_SZ        0x1000
+
+#define FMAN_REG_BASE           0x1a00000
+#define FMAN_REG_BASE_SZ        0xfe000
+#define FMAN_IRQ1               77
+#define FMAN_IRQ2               78
+
+#define QMAN_CHANNEL_BASE       0x800
+#define QMAN_CHANNEL_BASE_SZ    0x10
+
+#define FMAN_MURAM_BASE         0x1a00000
+#define FMAN_MURAM_BASE_SZ      0x60000
+
+#define FMAN_BMI_BASE           0x1a80000
+#define FMAN_BMI_BASE_SZ        0x400
+
+#define FMAN_QMI_BASE           0x1a80400
+#define FMAN_QMI_BASE_SZ        0x400
+
+#define FMAN_PLICER_BASE        0x1ac0000
+#define FMAN_PLICER_BASE_SZ     0x1000
+
+#define FMAN_KEYGEN_BASE        0x1ac1000
+#define FMAN_KEYGEN_BASE_SZ     0x1000
+
+#define FMAN_DMA_BASE           0x1ac2000
+#define FMAN_DMA_BASE_SZ        0x1000
+
+#define FMAN_FPM_BASE           0x1ac3000
+#define FMAN_FPM_BASE_SZ        0x1000
+
+#define FMAN_PARSER_BASE        0x1ac7000
+#define FMAN_PARSER_BASE_SZ     0x1000
+
+#define FMAN_VSP_BASE           0x1adc000
+#define FMAN_VSP_BASE_SZ        0x1000
+
+#define BMAN_REG_BASE           0x1890000
+#define BMAN_REG_BASE_SZ        0x10000
+#define BMAN_PRIVATE_MEM_SZ     0x1000000
+#define BMAN_PRIVATE_MEM_AL     0x1000000
+#define QBMAN_IRQ               77
+#define QMAN_REG_BASE           0x1880000
+#define QMAN_REG_BASE_SZ        0x10000
+#define QMAN_PRIVATE_MEM1_SZ    0x800000
+#define QMAN_PRIVATE_MEM1_AL    0x800000
+#define QMAN_PRIVATE_MEM2_SZ    0x2000000
+#define QMAN_PRIVATE_MEM2_AL    0x2000000
+
+#define QBMAN_PORTAL_ADD_LEN    0x4000
+
+#define BMAN_PORTAL1_MIN_ADD1   0x508000000
+#define BMAN_PORTAL1_MAX_ADD1   0x508003FFF
+#define BMAN_PORTAL1_MIN_ADD2   0x50C000000
+#define BMAN_PORTAL1_MAX_ADD2   0x50C003FFF
+
+#define BMAN_PORTAL2_MIN_ADD1   0x508010000
+#define BMAN_PORTAL2_MAX_ADD1   0x508013FFF
+#define BMAN_PORTAL2_MIN_ADD2   0x50C010000
+#define BMAN_PORTAL2_MAX_ADD2   0x50C013FFF
+
+#define BMAN_PORTAL3_MIN_ADD1   0x508020000
+#define BMAN_PORTAL3_MAX_ADD1   0x508023FFF
+#define BMAN_PORTAL3_MIN_ADD2   0x50C020000
+#define BMAN_PORTAL3_MAX_ADD2   0x50C023FFF
+
+#define BMAN_PORTAL4_MIN_ADD1   0x508030000
+#define BMAN_PORTAL4_MAX_ADD1   0x508033FFF
+#define BMAN_PORTAL4_MIN_ADD2   0x50C030000
+#define BMAN_PORTAL4_MAX_ADD2   0x50C033FFF
+
+#define BMAN_PORTAL5_MIN_ADD1   0x508040000
+#define BMAN_PORTAL5_MAX_ADD1   0x508043FFF
+#define BMAN_PORTAL5_MIN_ADD2   0x50C040000
+#define BMAN_PORTAL5_MAX_ADD2   0x50C043FFF
+
+#define BMAN_PORTAL6_MIN_ADD1   0x508050000
+#define BMAN_PORTAL6_MAX_ADD1   0x508053FFF
+#define BMAN_PORTAL6_MIN_ADD2   0x50C050000
+#define BMAN_PORTAL6_MAX_ADD2   0x50C053FFF
+
+#define BMAN_PORTAL7_MIN_ADD1   0x508060000
+#define BMAN_PORTAL7_MAX_ADD1   0x508063FFF
+#define BMAN_PORTAL7_MIN_ADD2   0x50C060000
+#define BMAN_PORTAL7_MAX_ADD2   0x50C063FFF
+
+#define BMAN_PORTAL8_MIN_ADD1   0x508070000
+#define BMAN_PORTAL8_MAX_ADD1   0x508073FFF
+#define BMAN_PORTAL8_MIN_ADD2   0x50C070000
+#define BMAN_PORTAL8_MAX_ADD2   0x50C073FFF
+
+#define BMAN_PORTAL9_MIN_ADD1   0x508080000
+#define BMAN_PORTAL9_MAX_ADD1   0x508083FFF
+#define BMAN_PORTAL9_MIN_ADD2   0x50C080000
+#define BMAN_PORTAL9_MAX_ADD2   0x50C083FFF
+
+#define BMAN_PORTAL10_MIN_ADD1  0x508090000
+#define BMAN_PORTAL10_MAX_ADD1  0x508093FFF
+#define BMAN_PORTAL10_MIN_ADD2  0x50C090000
+#define BMAN_PORTAL10_MAX_ADD2  0x50C093FFF
+
+#define BMAN_PORTAL_IRQ1        205
+#define BMAN_PORTAL_IRQ2        207
+#define BMAN_PORTAL_IRQ3        209
+#define BMAN_PORTAL_IRQ4        211
+#define BMAN_PORTAL_IRQ5        213
+#define BMAN_PORTAL_IRQ6        215
+#define BMAN_PORTAL_IRQ7        217
+#define BMAN_PORTAL_IRQ8        219
+#define BMAN_PORTAL_IRQ9        221
+#define BMAN_PORTAL_IRQ10       223
+
+#define QMAN_PORTAL_IRQ1        204
+#define QMAN_PORTAL_IRQ2        206
+#define QMAN_PORTAL_IRQ3        208
+#define QMAN_PORTAL_IRQ4        210
+#define QMAN_PORTAL_IRQ5        212
+#define QMAN_PORTAL_IRQ6        214
+#define QMAN_PORTAL_IRQ7        216
+#define QMAN_PORTAL_IRQ8        218
+#define QMAN_PORTAL_IRQ9        220
+#define QMAN_PORTAL_IRQ10       222
+
+#define QMAN_PORTAL1_MIN_ADD1   0x500000000
+#define QMAN_PORTAL1_MAX_ADD1   0x500003FFF
+#define QMAN_PORTAL1_MIN_ADD2   0x504000000
+#define QMAN_PORTAL1_MAX_ADD2   0x504003FFF
+
+#define QMAN_PORTAL2_MIN_ADD1   0x500010000
+#define QMAN_PORTAL2_MAX_ADD1   0x500013FFF
+#define QMAN_PORTAL2_MIN_ADD2   0x504010000
+#define QMAN_PORTAL2_MAX_ADD2   0x504013FFF
+
+#define QMAN_PORTAL3_MIN_ADD1   0x500020000
+#define QMAN_PORTAL3_MAX_ADD1   0x500023FFF
+#define QMAN_PORTAL3_MIN_ADD2   0x504020000
+#define QMAN_PORTAL3_MAX_ADD2   0x504023FFF
+
+#define QMAN_PORTAL4_MIN_ADD1   0x500030000
+#define QMAN_PORTAL4_MAX_ADD1   0x500033FFF
+#define QMAN_PORTAL4_MIN_ADD2   0x504030000
+#define QMAN_PORTAL4_MAX_ADD2   0x504033FFF
+
+#define QMAN_PORTAL5_MIN_ADD1   0x500040000
+#define QMAN_PORTAL5_MAX_ADD1   0x500043FFF
+#define QMAN_PORTAL5_MIN_ADD2   0x504040000
+#define QMAN_PORTAL5_MAX_ADD2   0x504043FFF
+
+#define QMAN_PORTAL6_MIN_ADD1   0x500050000
+#define QMAN_PORTAL6_MAX_ADD1   0x500053FFF
+#define QMAN_PORTAL6_MIN_ADD2   0x504050000
+#define QMAN_PORTAL6_MAX_ADD2   0x504053FFF
+
+#define QMAN_PORTAL7_MIN_ADD1   0x500060000
+#define QMAN_PORTAL7_MAX_ADD1   0x500063FFF
+#define QMAN_PORTAL7_MIN_ADD2   0x504060000
+#define QMAN_PORTAL7_MAX_ADD2   0x504063FFF
+
+#define QMAN_PORTAL8_MIN_ADD1   0x500070000
+#define QMAN_PORTAL8_MAX_ADD1   0x500073FFF
+#define QMAN_PORTAL8_MIN_ADD2   0x504070000
+#define QMAN_PORTAL8_MAX_ADD2   0x504073FFF
+
+#define QMAN_PORTAL9_MIN_ADD1   0x500080000
+#define QMAN_PORTAL9_MAX_ADD1   0x500083FFF
+#define QMAN_PORTAL9_MIN_ADD2   0x504080000
+#define QMAN_PORTAL9_MAX_ADD2   0x504083FFF
+
+#define QMAN_PORTAL10_MIN_ADD1  0x500090000
+#define QMAN_PORTAL10_MAX_ADD1  0x500093FFF
+#define QMAN_PORTAL10_MIN_ADD2  0x504090000
+#define QMAN_PORTAL10_MAX_ADD2  0x504093FFF
+
+#define DPAA_PORTAL(A,B)  QwordMemory (           \
+                            ResourceConsumer,     \
+                            PosDecode,            \
+                            MinFixed,             \
+                            MaxFixed,             \
+                            NonCacheable,         \
+                            ReadWrite,            \
+                            0,                    \
+                            A,                    \
+                            B,                    \
+                            0,                    \
+                            QBMAN_PORTAL_ADD_LEN, \
+                          ,)                      \
+
+// QorIQ Clk
+#define PTP_CLK_BASE            0x1afe000
+#define PTP_CLK_BASE_SZ         0x1000
+#define PTP_CLK_IRQ             76
+
 #endif
