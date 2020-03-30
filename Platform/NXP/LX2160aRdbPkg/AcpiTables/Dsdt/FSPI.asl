@@ -16,6 +16,9 @@ Scope(_SB)
   Device(FPI0) {
     Name(_HID, "NXP0009")
     Name(_UID, 0)
+    Method (_STA) {
+      Return (0x01)
+    }
     Name(_CRS, ResourceTemplate() {
       Memory32Fixed(ReadWrite, FSPI0_BASE, FSPI_LEN,)
       Memory32Fixed(ReadWrite, FSPIMM_BASE, FSPIMM_LEN,)
