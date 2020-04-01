@@ -131,4 +131,11 @@
 #define DCFG_BASE   0x1EE0000  /* Device configuration data Base Address */
 #define DCFG_LEN    0xFFF      /* Device configuration data length */
 
+//Quad SPI
+#define QSPI0_BASE 0x1550000    /* QSPI CSSR Base Address */
+#define QSPI_LEN   0x10000      /* QSPI CSSR Memory length */
+#define QSPI_IT    131          /* QSPI Interrupt Identifier */
+#define QSPIMM_BASE 0x40000000  /* QSPI Fixed Memory Map Base Address */
+#define QSPIMM_LEN  0x20000000  /* QSPI Fixed Memory Map Length */
+
 #endif
