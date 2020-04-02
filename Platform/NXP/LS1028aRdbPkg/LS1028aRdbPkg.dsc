@@ -27,6 +27,9 @@
   PLATFORM_GUID                  = 60c34c2b-31b8-4896-acad-6ff20f3a3846
   OUTPUT_DIRECTORY               = Build/LS1028aRdbPkg
   FLASH_DEFINITION               = Platform/NXP/LS1028aRdbPkg/LS1028aRdbPkg.fdf
+  DEFINE NETWORK_TLS_ENABLE             = FALSE
+  DEFINE NETWORK_HTTP_BOOT_ENABLE       = FALSE
+  DEFINE NETWORK_ISCSI_ENABLE           = FALSE
 
 !include Platform/NXP/NxpQoriqLs.dsc
 !include Silicon/NXP/Chassis/Chassis3/Chassis3.dsc
@@ -98,6 +101,11 @@
   gNxpQoriqLsTokenSpaceGuid.PcdPcieLutDbg|0x407FC
 
   #
+  # Make VariableRuntimeDxe work at emulated non-volatile variable mode.
+  #
+  gEfiMdeModulePkgTokenSpaceGuid.PcdEmuVariableNvModeEnable|TRUE
+
+  #
   # SATA Pcds
   #
   gNxpQoriqLsTokenSpaceGuid.PcdSataErratumA009185|TRUE
@@ -113,7 +121,10 @@
   #
   # Architectural Protocols
   #
-  MdeModulePkg/Universal/Variable/EmuRuntimeDxe/EmuVariableRuntimeDxe.inf
+  MdeModulePkg/Universal/Variable/RuntimeDxe/VariableRuntimeDxe.inf{
+     <LibraryClasses>
+     NULL|MdeModulePkg/Library/VarCheckUefiLib/VarCheckUefiLib.inf
+  }
   MdeModulePkg/Universal/FaultTolerantWriteDxe/FaultTolerantWriteDxe.inf
 
   Silicon/NXP/Drivers/WatchDog/WatchDogDxe.inf
@@ -127,6 +138,11 @@
   MdeModulePkg/Bus/Pci/PciBusDxe/PciBusDxe.inf
 
   Silicon/NXP/Drivers/LanIntelE1000Dxe/LanIntelE1000Dxe.inf
+
+  #
+  # Networking stack
+  #
+!include NetworkPkg/Network.dsc.inc
 
   Silicon/NXP/Drivers/FlexSpiDxe/FspiDxe.inf
   Silicon/NXP/Drivers/SpiBusDxe/SpiBusDxe.inf
