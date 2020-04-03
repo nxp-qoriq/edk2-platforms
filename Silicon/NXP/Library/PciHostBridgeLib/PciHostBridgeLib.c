@@ -1486,31 +1486,12 @@ PciHostBridgeGetRootBridges (
         mPciRootBridges[Loop].Io.Limit              = PCI_SEG_PORTIO_MAX +
                                                       (PciEnabled[Loop] *
                                                        SEG_IO_SIZE);
-        mPciRootBridges[Loop].Mem.Base              = PCI_SEG_MMIO32_MIN +
-                                                      (PciEnabled[Loop] *
-                                                       PCI_SEG_MMIO32_DIFF);
-        mPciRootBridges[Loop].Mem.Limit             = PCI_SEG_MMIO32_MAX +
-                                                      (PciEnabled[Loop] *
-                                                      PCI_SEG_MMIO32_DIFF);
-
-        /* TODO: Fixme: This is a temporary fix to avoid PCIe using NOR flash range
-         * for MMIO access. For LS1043 Platform, NOR flash starts at 0x60000000 and
-         * reserve RUN_TIME memory from this region. If PCIe uses this memory for MMIO
-         * access then it will overwrite the RUN_TIME region reserved in NOR Flash.
-         */
-        if ((PciEnabled[Loop] == 0x2) && ((PcdGet32(PcdSocSvr) & SVR_LS1043A_MASK) == SVR_LS1043A)) {
-          mPciRootBridges[Loop].Mem.Base += PCI_SEG_MMIO32_DIFF;
-          mPciRootBridges[Loop].Mem.Limit += PCI_SEG_MMIO32_DIFF;
-        }
-
-        /* TODO: Fixme: This is a temporary fix to avoid PEX5 in LX2160 to use DDR
-         * region (starting from 0x80000000) and adjust the range to from 0x7000000
-         * for it's MMIO access.
-         */
-        if ((PciEnabled[Loop] == 0x4) && ((PcdGet32(PcdSocSvr) & SVR_LX2160A_MASK) == SVR_LX2160A)) {
-          mPciRootBridges[Loop].Mem.Base -= PCI_SEG_MMIO32_DIFF;
-          mPciRootBridges[Loop].Mem.Limit -= PCI_SEG_MMIO32_DIFF;
-        }
+        mPciRootBridges[Loop].Mem.Base              = SEG_MEM_SIZE;
+        mPciRootBridges[Loop].Mem.Limit             = SEG_MEM_LIMIT;
+        mPciRootBridges[Loop].Mem.Translation       = MAX_UINT64 -
+                                                      (PCI_SEG0_MMIO_MEMBASE +
+                                                      (PCI_BASE_DIFF *
+                                                      PciEnabled[Loop])) + 1;
 
         mPciRootBridges[Loop].MemAbove4G.Base       = MAX_UINT64;
         mPciRootBridges[Loop].MemAbove4G.Limit      = 0;
