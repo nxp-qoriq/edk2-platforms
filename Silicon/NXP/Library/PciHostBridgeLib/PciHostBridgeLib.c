@@ -628,16 +628,14 @@ PcieSetupAtu (
                             SEG_MEM_BUS,
                             SEG_MEM_SIZE);
 
-  if (!CFG_SHIFT_ENABLE) {
-    //
-    // iATU 3 : OUTBOUND WINDOW 3: IO
-    //
-    PcieOutboundSet (Pcie, IATU_REGION_INDEX3,
-            IATU_REGION_CTRL_1_OFF_OUTBOUND_0_TYPE_IO,
-            IoBase,
-            SEG_IO_BUS,
-            SEG_IO_SIZE);
-  }
+  //
+  // iATU 3 : OUTBOUND WINDOW 3: IO
+  //
+  PcieOutboundSet (Pcie, IATU_REGION_INDEX3,
+          IATU_REGION_CTRL_1_OFF_OUTBOUND_0_TYPE_IO,
+          IoBase,
+          SEG_IO_BUS,
+          SEG_IO_SIZE);
 }
 
 /**
@@ -1481,11 +1479,15 @@ PciHostBridgeGetRootBridges (
 
         mPciRootBridges[Loop].Bus.Base              = PCI_SEG_BUSNUM_MIN;
         mPciRootBridges[Loop].Bus.Limit             = PCI_SEG_BUSNUM_MAX;
-        mPciRootBridges[Loop].Io.Base               = PciEnabled[Loop] *
-                                                      SEG_IO_SIZE;
-        mPciRootBridges[Loop].Io.Limit              = PCI_SEG_PORTIO_MAX +
-                                                      (PciEnabled[Loop] *
-                                                       SEG_IO_SIZE);
+
+        mPciRootBridges[Loop].Io.Base               = PCI_SEG_PORTIO_MIN;
+        mPciRootBridges[Loop].Io.Limit              = PCI_SEG_PORTIO_MAX;
+        mPciRootBridges[Loop].Io.Translation        = MAX_UINT64 -
+                                                      (PCI_SEG0_MMIO_MEMBASE +
+                                                      (PCI_BASE_DIFF *
+                                                      (PciEnabled[Loop] + 1)) -
+                                                      SEG_IO_SIZE) + 1;
+
         mPciRootBridges[Loop].Mem.Base              = SEG_MEM_SIZE;
         mPciRootBridges[Loop].Mem.Limit             = SEG_MEM_LIMIT;
         mPciRootBridges[Loop].Mem.Translation       = MAX_UINT64 -

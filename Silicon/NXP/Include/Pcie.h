@@ -3,7 +3,7 @@
 
   Copyright 2018-2020 NXP
 
-  SPDX-License-Identifier: BSD-2-Clause
+  SPDX-License-Identifier: BSD-2-Clause-Patent
 **/
 
 #ifndef __PCI_H__
@@ -77,6 +77,7 @@
 // Segment configuration
 #define PCI_SEG_BUSNUM_MIN        0x0
 #define PCI_SEG_BUSNUM_MAX        0xff
+#define PCI_SEG_PORTIO_MIN        0x0
 #define PCI_SEG_PORTIO_MAX        0xffff
 #define PCI_SEG_MMIO32_MIN        0x40000000UL
 #define PCI_SEG_MMIO32_MAX        0x4fffffffUL
@@ -87,16 +88,15 @@
 #define SEG_MEM_SIZE              0x40000000
 #define SEG_MEM_LIMIT             0x7fffffff
 #define SEG_MEM_BUS               0x40000000
-#define SEG_IO_SIZE               0x00010000
-#define SEG_IO_BUS                0x00000000
-#define PCI_SEG_PORTIO_LIMIT      (NUM_PCIE_CONTROLLER * SEG_IO_SIZE) + \
-                                  PCI_SEG_PORTIO_MAX
+#define SEG_IO_SIZE               0x10000
+#define SEG_IO_BUS                0xffff0000
+#define PCI_SEG_PORTIO_LIMIT      PCI_SEG0_MMIO_MEMBASE + (PCI_BASE_DIFF * NUM_PCIE_CONTROLLER)
 #define PCI_BASE_DIFF             0x800000000
 #define PCI_DBI_SIZE_DIFF         0x100000
 #define PCI_SEG0_PHY_CFG0_BASE    PCI_SEG0_MMIO_MEMBASE
 #define PCI_SEG0_PHY_CFG1_BASE    PCI_SEG0_PHY_CFG0_BASE + SEG_CFG_SIZE
 #define PCI_SEG0_PHY_MEM_BASE     PCI_SEG0_MMIO64_MIN
-#define PCI_SEG0_PHY_IO_BASE      PCI_SEG0_MMIO_MEMBASE + SEG_IO_SIZE
+#define PCI_SEG0_PHY_IO_BASE      PCI_SEG0_MMIO_MEMBASE + PCI_BASE_DIFF - SEG_IO_SIZE
 
 #define IATU_REGION_INDEX0        0x0
 #define IATU_REGION_INDEX1        0x1
