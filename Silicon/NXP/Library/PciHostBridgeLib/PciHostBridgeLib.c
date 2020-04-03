@@ -3,7 +3,7 @@
 
   Copyright 2018-2020 NXP
 
-  SPDX-License-Identifier: BSD-2-Clause
+  SPDX-License-Identifier: BSD-2-Clause-Patent
 **/
 
 #include <PiDxe.h>
@@ -1512,9 +1512,9 @@ PciHostBridgeGetRootBridges (
           mPciRootBridges[Loop].Mem.Limit -= PCI_SEG_MMIO32_DIFF;
         }
 
-        mPciRootBridges[Loop].MemAbove4G.Base       = PciPhyMemAddr[PciEnabled[Loop]];
-        mPciRootBridges[Loop].MemAbove4G.Limit      = PciPhyMemAddr[PciEnabled[Loop]] +
-                                                      PCI_SEG_MMIO64_MAX_DIFF;
+        mPciRootBridges[Loop].MemAbove4G.Base       = MAX_UINT64;
+        mPciRootBridges[Loop].MemAbove4G.Limit      = 0;
+
 
         //
         // No separate ranges for prefetchable and non-prefetchable BARs
