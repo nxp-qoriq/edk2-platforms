@@ -27,3 +27,41 @@ SocPcieCfgShift (
     PcdSetBool(PcdPciCfgShiftEnable, TRUE);
   }
 }
+
+/**
+  Get PCIe controller type based on SoC Version
+
+**/
+VOID
+SocGetPcieCtrl (
+  )
+{
+  CCSR_GUR     *GurBase;
+  UINT32        Svr;
+
+  GurBase = (VOID *)PcdGet64 (PcdGutsBaseAddr);
+  Svr = GurRead ((UINTN)&GurBase->Svr);
+
+  if ((Svr & SVR_LX2160A_REV_MASK) == SVR_LX2160A_REV1) {
+    PcdSetBool(PcdPciLsGen4Ctrl, TRUE);
+  }
+}
+
+/**
+  Get StreamId Allocation Scheme
+
+**/
+VOID
+SocGetStreamIdAllocationScheme (
+  )
+{
+  CCSR_GUR     *GurBase;
+  UINT32        Svr;
+
+  GurBase = (VOID *)PcdGet64 (PcdGutsBaseAddr);
+  Svr = GurRead ((UINTN)&GurBase->Svr);
+
+  if (((Svr & SVR_LX2160A_REV_MASK) >> 8) == SVR_LX2160A) {
+    PcdSetBool(PcdPciStreamIdPerCtrl, TRUE);
+  }
+}

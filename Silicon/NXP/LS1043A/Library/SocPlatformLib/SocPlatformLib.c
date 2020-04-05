@@ -18,3 +18,23 @@ SocPcieCfgShift (
   )
 {
 }
+
+/**
+  Get PCIe controller type based on SoC Version
+
+**/
+VOID
+SocGetPcieCtrl (
+  )
+{
+}
+
+/**
+  Get StreamId Allocation Scheme
+
+**/
+VOID
+SocGetStreamIdAllocationScheme (
+  )
+{
+}

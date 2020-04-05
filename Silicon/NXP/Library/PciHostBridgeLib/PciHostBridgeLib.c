@@ -336,7 +336,7 @@ PcieOutboundSet (
   IN UINT64 Size
   )
 {
-  if (((UINT32)PcdGet32(PcdSocSvr) & SVR_LX2160A_REV_MASK) == SVR_LX2160A_REV1_1) {
+  if (PCI_LS_GEN4_CTRL) {
     UINT32 Val;
     Size = ~(Size -1 );
 
@@ -410,7 +410,7 @@ PcieLinkState (
   UINT32 State;
   UINT32 LtssmMask;
 
-  if (((UINT32)PcdGet32(PcdSocSvr) & SVR_LX2160A_REV_MASK) == SVR_LX2160A_REV1_1) {
+  if (PCI_LS_GEN4_CTRL) {
       LtssmMask = 0x7f;
   } else {
       LtssmMask = 0x3f;
@@ -660,7 +660,7 @@ PcieSetupCntrl (
 {
   UINT32 Val;
 
-  if (((UINT32)PcdGet32(PcdSocSvr) & SVR_LX2160A_REV_MASK) == SVR_LX2160A_REV1_1) {
+  if (PCI_LS_GEN4_CTRL) {
 
     // Set ACK Latency Timeout
     Val = CcsrRead32 ((UINTN)Pcie, GPEX_ACK_REPLAY_TO);
@@ -812,9 +812,7 @@ PcieGetStreamId (LS_PCIE  *LsPcie)
   STATIC INT32 NextStreamid = FixedPcdGet32 (PcdPcieStreamIdStart);
   INT32        StreamId;
 
-  if ((!AsciiStrCmp ( (CHAR8 *)PcdGetPtr (PcdPciFdtCompatible),
-                  "fsl,lx2160a-pcie")) || (((UINT32)PcdGet32(PcdSocSvr) & SVR_LX2160A_REV_MASK)
-                  == SVR_LX2160A_REV1_2)) {
+  if (PCI_STREAMID_PER_CTRL) {
     StreamId = LsPcie->CurrentStreamId;
     if (StreamId > FixedPcdGet32 (PcdPcieStreamIdEnd)) {
       return -1;

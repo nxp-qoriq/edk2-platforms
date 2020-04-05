@@ -27,6 +27,8 @@
 
 [Pcd]
   gNxpQoriqLsTokenSpaceGuid.PcdPciCfgShiftEnable
+  gNxpQoriqLsTokenSpaceGuid.PcdPciLsGen4Ctrl
+  gNxpQoriqLsTokenSpaceGuid.PcdPciStreamIdPerCtrl
 
 [Depex]
   TRUE

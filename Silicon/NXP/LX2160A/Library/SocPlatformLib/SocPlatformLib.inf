@@ -34,3 +34,5 @@
 
 [Pcd]
   gNxpQoriqLsTokenSpaceGuid.PcdPciCfgShiftEnable
+  gNxpQoriqLsTokenSpaceGuid.PcdPciStreamIdPerCtrl
+  gNxpQoriqLsTokenSpaceGuid.PcdPciLsGen4Ctrl

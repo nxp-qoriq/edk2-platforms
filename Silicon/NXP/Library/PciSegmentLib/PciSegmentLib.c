@@ -34,7 +34,7 @@ typedef enum {
   ASSERT (((A) & (0xffff0000f0000000ULL | (M))) == 0)
 
 static UINT8 WriteFixedData;
-static UINT32 SocSvr;
+static BOOLEAN PciLsGen4Ctrl;
 static BOOLEAN CfgShiftEnable;
 
 /**
@@ -113,10 +113,6 @@ PciSegmentLibGetConfigBase (
   UINT32 Target;
   UINT32 CfgAddr;
 
-  if (SocSvr == 0) {
-      SocSvr = (UINT32)PcdGet32 (PcdSocSvr);
-  }
-
   if (CfgShiftEnable) {
       CfgAddr = (UINT32)Address;
   } else {
@@ -146,7 +142,7 @@ PciSegmentLibGetConfigBase (
     case PCI_SEG2_NUM:
       // Reading bus number(bits 20-27)
       if ((Address >> 20) & 1) {
-        if ((SocSvr & SVR_LX2160A_REV_MASK) == SVR_LX2160A_REV1_1) {
+        if (PciLsGen4Ctrl) {
           Target = ((((Address >> 20) & 0xFF) << 24) |
                    (((Address >> 15) & 0x1F) << 19) |
                    (((Address >> 12) & 0x7) << 16));;
@@ -154,7 +150,7 @@ PciSegmentLibGetConfigBase (
         }
         return (PCI_SEG2_MMIO_MEMBASE + CfgAddr);
       } else {
-          if ((SocSvr & SVR_LX2160A_REV_MASK) == SVR_LX2160A_REV1_1) {
+          if (PciLsGen4Ctrl) {
             if (CfgAddr < INDIRECT_ADDR_BNDRY) {
               CcsrSetPg (PCI_SEG2_DBI_BASE, 0);
               if (CfgAddr == 4)  {
@@ -182,7 +178,7 @@ PciSegmentLibGetConfigBase (
     case PCI_SEG4_NUM:
       // Reading bus number(bits 20-27)
       if ((Address >> 20) & 1) {
-        if ((SocSvr & SVR_LX2160A_REV_MASK) == SVR_LX2160A_REV1_1) {
+        if (PciLsGen4Ctrl) {
           Target = ((((Address >> 20) & 0xFF) << 24) |
                    (((Address >> 15) & 0x1F) << 19) |
                    (((Address >> 12) & 0x7) << 16));;
@@ -190,7 +186,7 @@ PciSegmentLibGetConfigBase (
         }
         return (PCI_SEG4_MMIO_MEMBASE + CfgAddr);
       } else {
-          if ((SocSvr & SVR_LX2160A_REV_MASK) == SVR_LX2160A_REV1_1) {
+          if (PciLsGen4Ctrl) {
             if (CfgAddr < INDIRECT_ADDR_BNDRY) {
               CcsrSetPg (PCI_SEG4_DBI_BASE, 0);
               if (CfgAddr == 4)  {
@@ -733,5 +729,6 @@ PciSegLibInit (
   )
 {
   CfgShiftEnable = CFG_SHIFT_ENABLE;
+  PciLsGen4Ctrl = PCI_LS_GEN4_CTRL;
   return EFI_SUCCESS;
 }

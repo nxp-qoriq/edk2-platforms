@@ -28,6 +28,12 @@ PlatformDxeEntryPoint (
   // Enable/disable PCIe CFG Shift Feature
   SocPcieCfgShift ();
 
+  // Get PCIe controller type
+  SocGetPcieCtrl ();
+
+  // Get StreamId Allocation Scheme
+  SocGetStreamIdAllocationScheme ();
+
   return EFI_SUCCESS;
 }
 

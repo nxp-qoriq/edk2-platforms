@@ -3,7 +3,7 @@
 #
 #  Copyright 2018-2020 NXP
 #
-#  SPDX-License-Identifier: BSD-2-Clause
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
 ##
 
 [Defines]
@@ -35,5 +35,5 @@
   gNxpQoriqLsTokenSpaceGuid.PcdPciExp4BaseAddr
   gNxpQoriqLsTokenSpaceGuid.PcdPciExp5BaseAddr
   gNxpQoriqLsTokenSpaceGuid.PcdPciExp6BaseAddr
-  gNxpQoriqLsTokenSpaceGuid.PcdSocSvr
+  gNxpQoriqLsTokenSpaceGuid.PcdPciLsGen4Ctrl
   gNxpQoriqLsTokenSpaceGuid.PcdPciCfgShiftEnable

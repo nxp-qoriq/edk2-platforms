@@ -294,3 +294,5 @@
   gNxpQoriqLsTokenSpaceGuid.PcdIortTablePtr|0|UINT64|0x00000401
   gNxpQoriqLsTokenSpaceGuid.PcdPciFdtCompatible|""|VOID*|0x00000402
   gNxpQoriqLsTokenSpaceGuid.PcdPciCfgShiftEnable|FALSE|BOOLEAN|0x000001DB
+  gNxpQoriqLsTokenSpaceGuid.PcdPciLsGen4Ctrl|FALSE|BOOLEAN|0x000001DC
+  gNxpQoriqLsTokenSpaceGuid.PcdPciStreamIdPerCtrl|FALSE|BOOLEAN|0x000001DD
