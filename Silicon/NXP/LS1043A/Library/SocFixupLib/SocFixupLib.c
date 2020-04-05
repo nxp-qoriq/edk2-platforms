@@ -2,7 +2,7 @@
 
  Copyright 2018-2020 NXP
 
- SPDX-License-Identifier: BSD-2-Clause
+ SPDX-License-Identifier: BSD-2-Clause-Patent
 **/
 
 #include <libfdt.h>
@@ -211,10 +211,4 @@ SocGetSvr (
   PcdSet32(PcdSocSvr, (UINT32)Svr);
 
   return Svr;
-}
-
-VOID
-SocPcieCfgShift (
-  )
-{
 }
