@@ -123,7 +123,7 @@ PciSegmentLibGetConfigBase (
     // Root Complex 1
     case PCI_SEG0_NUM:
       // Reading bus number(bits 20-27)
-      if ((Address >> 20) & 1) {
+      if ((CfgAddr >> 20) > 0) {
         return (PCI_SEG0_MMIO_MEMBASE + CfgAddr);
       } else {
         // On Bus 0 RCs are connected
@@ -132,7 +132,7 @@ PciSegmentLibGetConfigBase (
     // Root Complex 2
     case PCI_SEG1_NUM:
       // Reading bus number(bits 20-27)
-      if ((Address >> 20) & 1) {
+      if ((CfgAddr >> 20) > 0) {
         return (PCI_SEG1_MMIO_MEMBASE + CfgAddr);
       } else {
         // On Bus 0 RCs are connected
@@ -141,7 +141,7 @@ PciSegmentLibGetConfigBase (
     // Root Complex 3
     case PCI_SEG2_NUM:
       // Reading bus number(bits 20-27)
-      if ((Address >> 20) & 1) {
+      if ((CfgAddr >> 20) > 0) {
         if (PciLsGen4Ctrl) {
           Target = ((((Address >> 20) & 0xFF) << 24) |
                    (((Address >> 15) & 0x1F) << 19) |
@@ -168,7 +168,7 @@ PciSegmentLibGetConfigBase (
     // Root Complex 4
     case PCI_SEG3_NUM:
       // Reading bus number(bits 20-27)
-      if ((Address >> 20) & 1) {
+      if ((CfgAddr >> 20) > 0) {
         return (PCI_SEG3_MMIO_MEMBASE + CfgAddr);
       } else {
         // On Bus 0 RCs are connected
@@ -177,7 +177,7 @@ PciSegmentLibGetConfigBase (
     // Root Complex 5
     case PCI_SEG4_NUM:
       // Reading bus number(bits 20-27)
-      if ((Address >> 20) & 1) {
+      if ((CfgAddr >> 20) > 0) {
         if (PciLsGen4Ctrl) {
           Target = ((((Address >> 20) & 0xFF) << 24) |
                    (((Address >> 15) & 0x1F) << 19) |
@@ -204,7 +204,7 @@ PciSegmentLibGetConfigBase (
     // Root Complex 6
     case PCI_SEG5_NUM:
       // Reading bus number(bits 20-27)
-      if ((Address >> 20) & 1) {
+      if ((CfgAddr >> 20) > 0) {
         return (PCI_SEG5_MMIO_MEMBASE + CfgAddr);
       } else {
         // On Bus 0 RCs are connected
