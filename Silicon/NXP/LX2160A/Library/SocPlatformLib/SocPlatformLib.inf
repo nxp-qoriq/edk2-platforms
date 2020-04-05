@@ -1,0 +1,36 @@
+#@file
+#
+#  Component description file for SocPlatformLib module
+#
+#  Copyright 2020 NXP
+#
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+
+
+[Defines]
+  INF_VERSION                     = 0x0001000A
+  BASE_NAME                       = SocPlatformLib
+  FILE_GUID                       = 12A92E32-7749-11EA-BC55-0242AC130003
+  MODULE_TYPE                     = BASE
+  VERSION_STRING                  = 1.0
+  LIBRARY_CLASS                   = SocPlatformLib
+
+[Sources.common]
+  SocPlatformLib.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  Silicon/NXP/NxpQoriqLs.dec
+  Silicon/NXP/Chassis/Chassis3V2/Chassis3V2.dec
+
+[LibraryClasses]
+  DebugLib
+  SocLib
+
+[FixedPcd]
+  gNxpQoriqLsTokenSpaceGuid.PcdGutsBaseAddr
+
+[Pcd]
+  gNxpQoriqLsTokenSpaceGuid.PcdPciCfgShiftEnable
