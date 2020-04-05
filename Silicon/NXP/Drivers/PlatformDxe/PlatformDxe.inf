@@ -22,7 +22,11 @@
   Silicon/NXP/NxpQoriqLs.dec
 
 [LibraryClasses]
+  SocPlatformLib
   UefiDriverEntryPoint
+
+[Pcd]
+  gNxpQoriqLsTokenSpaceGuid.PcdPciCfgShiftEnable
 
 [Depex]
   TRUE

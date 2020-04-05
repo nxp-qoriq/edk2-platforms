@@ -3,7 +3,7 @@
 
   Copyright 2018-2020 NXP
 
-  SPDX-License-Identifier: BSD-2-Clause
+  SPDX-License-Identifier: BSD-2-Clause-Patent
 **/
 #include <PiDxe.h>
 #include <Base.h>
@@ -732,8 +732,6 @@ PciSegLibInit (
   IN EFI_SYSTEM_TABLE  *SystemTable
   )
 {
-  // Enable SoC Specific PCIe feature
-  SocPcieCfgShift ();
   CfgShiftEnable = CFG_SHIFT_ENABLE;
   return EFI_SUCCESS;
 }

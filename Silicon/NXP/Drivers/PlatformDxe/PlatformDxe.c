@@ -6,6 +6,7 @@
 **/
 
 #include <Library/DebugLib.h>
+#include <Pcie.h>
 
 /**
   The entry point for PlatformDxe driver. This driver
@@ -24,6 +25,9 @@ PlatformDxeEntryPoint (
   IN EFI_SYSTEM_TABLE             *SystemTable
   )
 {
+  // Enable/disable PCIe CFG Shift Feature
+  SocPcieCfgShift ();
+
   return EFI_SUCCESS;
 }
 
