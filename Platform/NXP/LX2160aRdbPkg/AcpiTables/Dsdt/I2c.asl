@@ -3,7 +3,7 @@
 
   Copyright (c) 2014, ARM Ltd. All rights reserved.<BR>
   Copyright (c) 2015, Linaro Limited. All rights reserved.<BR>
-  Copyright 2017-2019 NXP
+  Copyright 2017-2020 NXP
 
   This program and the accompanying materials
   are licensed and made available under the terms and conditions of the BSD License
@@ -43,14 +43,19 @@ Scope(_SB)
   Device(I2C0) {
     Name(_HID, "NXP0001")
     Name(_UID, 0)
+    Name(CLK, 0)
     Name(_CRS, ResourceTemplate() {
       Memory32Fixed(ReadWrite, I2C0_BASE, I2C_LEN)
       Interrupt(ResourceConsumer, Level, ActiveHigh, Shared) { I2C0_IT }
     }) // end of _CRS for i2c0 device
+    Method(_INI, 0, NotSerialized) {
+      Store(\_SB.PCLK.CLK, CLK)
+      Divide(CLK, 8, Local0, CLK)
+    }
     Name (_DSD, Package () {
       ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
       Package () {
-         Package () {"clock-frequency", DEFAULT_PLAT_FREQ}, //This is device specific data, Need to see how to pass clk stuff
+         Package () {"clock-frequency", CLK},
       }
     })
     Device(MUX0) {
@@ -114,14 +119,19 @@ Scope(_SB)
   Device(I2C4) {
     Name(_HID, "NXP0001")
     Name(_UID, 4)
+    Name(CLK, 0)
     Name(_CRS, ResourceTemplate() {
       Memory32Fixed(ReadWrite, I2C4_BASE, I2C_LEN)
       Interrupt(ResourceConsumer, Level, ActiveHigh, Shared) { I2C4_IT }
     }) // end of _CRS for i2c4 device
+    Method(_INI, 0, NotSerialized) {
+      Store(\_SB.PCLK.CLK, CLK)
+      Divide(CLK, 8, Local0, CLK)
+    }
     Name (_DSD, Package () {
       ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
       Package () {
-         Package () {"clock-frequency", DEFAULT_PLAT_FREQ}, //This is device specific data, Need to see how to pass clk stuff
+         Package () {"clock-frequency", CLK},
       }
     })
   } // end of i2c device
