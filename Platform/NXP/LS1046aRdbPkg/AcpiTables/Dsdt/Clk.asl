@@ -13,8 +13,6 @@ Scope(_SB)
 {
   Device(PCLK) {
     Name(_HID, "NXP0017")
-    Name(OSCL, 166667)
-    Name(SCLK, 0)
     Name(CLK, 0)
     Name(AVBL, 0)
     OperationRegion(RCWS, SystemMemory, DCFG_BASE, DCFG_LEN)
@@ -43,9 +41,9 @@ Scope(_SB)
 
     Method(_INI, 0, NotSerialized) {
       Local0 = (HFRQ<<2 | LFRQ) // Concatinating LFRQ at end of HFRQ
-      SCLK = OSCL * Local0      // System clock = 166.667KHZ * SYSCLK_FREQ
-      Local0 = SCLK * PRAT
-      Local0 /= 2
+      Multiply(Local0, 500000, Local0)
+      Multiply(Local0, PRAT, Local0)
+      Divide(Local0, 3, Local1, Local0)
       Store(Local0, CLK)
     }
   } // end of device PCLK
