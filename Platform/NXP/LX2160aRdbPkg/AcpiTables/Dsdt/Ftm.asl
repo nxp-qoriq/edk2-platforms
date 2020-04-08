@@ -14,7 +14,7 @@
 Scope(_SB)
 {
   Device(FTM) {
-    Name(_HID, "NXP0011")
+    Name(_HID, "NXP0014")
     Name(_UID, 0)
     Name(_CRS, ResourceTemplate() {
       Memory32Fixed(ReadWrite, FTM_BASE, FTM_LEN)

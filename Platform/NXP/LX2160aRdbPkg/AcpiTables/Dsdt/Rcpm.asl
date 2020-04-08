@@ -14,7 +14,7 @@
 Scope(_SB)
 {
   Device(RCPM) {
-    Name(_HID, "NXP0012")
+    Name(_HID, "NXP0015")
     Name(_UID, 0)
     Name(_CRS, ResourceTemplate() {
       Memory32Fixed(ReadWrite, RCPM_BASE, RCPM_LEN)
