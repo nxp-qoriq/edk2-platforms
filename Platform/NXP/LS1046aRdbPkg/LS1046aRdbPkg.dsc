@@ -67,6 +67,7 @@
   gArmTokenSpaceGuid.PcdSystemMemoryBase|0x80000000
   gArmTokenSpaceGuid.PcdSystemMemorySize|0x007BE00000
   gArmPlatformTokenSpaceGuid.PcdSystemMemoryUefiRegionSize|0x02000000
+  gEfiMdeModulePkgTokenSpaceGuid.PcdAcpiExposedTableVersions|0x20
 
   #
   # Board Specific Pcds
@@ -186,4 +187,13 @@
   Silicon/NXP/Drivers/RngDxe/RngDxe.inf
   Silicon/NXP/Drivers/Dpaa1EthernetDxe/Dpaa1EthernetDxe.inf
 
+  #
+  # Acpi Support
+  #
+  Silicon/NXP/Drivers/NxpAcpiPlatformDxe/AcpiPlatformDxe.inf
+
+  #
+  # Platform
+  #
+  Platform/NXP/LS1046aRdbPkg/AcpiTables/AcpiTables.inf
  ##

@@ -1,0 +1,73 @@
+/** @file
+*  Generic Timer Description Table (GTDT)
+*  This table does not caputre watchdog as the one on ls1046
+*  is not SBSA complaint and thus finds a place in DSDT.
+*
+*  Copyright 2019-2020 NXP
+*
+*  Copyright 2020 Puresoftware Ltd
+*
+*  SPDX-License-Identifier: BSD-2-Clause-Patent
+*
+*  Based on the files under JunoPkg in Platform/ARM
+**/
+
+#include "Platform.h"
+
+#include <Library/AcpiLib.h>
+#include <Library/PcdLib.h>
+#include <IndustryStandard/Acpi.h>
+
+/*
+ * GTDT_GTIMER_FLAGS
+ * IT trigger (Level/Edge- Bit 0) and Polarity (Low/High) Bit 1
+ * Set bit-0 is 0 (Level trigger), Bit 1 1 (Active low)
+ */
+#define GTDT_GTIMER_FLAGS           (EFI_ACPI_6_1_GTDT_TIMER_FLAG_TIMER_INTERRUPT_POLARITY)
+
+#define PLATFORM_TIMER_COUNT        TIMER_BLOCK_COUNT
+
+/*
+ * Timer frame status
+ * Access - Secure or non secure <-- Bit 0
+ * State - Save (meaning always on) or Lose Context  <-- Bit 1
+ * Set Bit 0 1 as Secure and Bit 1 zero as lose context
+*/
+#define GTDT_FRAME_COMMON_FLAGS EFI_ACPI_6_1_GTDT_GT_BLOCK_COMMON_FLAG_SECURE_TIMER
+
+#pragma pack (1)
+
+typedef struct {
+  EFI_ACPI_6_1_GENERIC_TIMER_DESCRIPTION_TABLE          Gt;
+} EFI_ACPI_6_1_GENERIC_TIMER_DESCRIPTION_TABLES;
+
+#pragma pack ()
+
+EFI_ACPI_6_1_GENERIC_TIMER_DESCRIPTION_TABLES Gtdt = {
+  {
+    ARM_ACPI_HEADER(
+      EFI_ACPI_6_1_GENERIC_TIMER_DESCRIPTION_TABLE_SIGNATURE,
+      EFI_ACPI_6_1_GENERIC_TIMER_DESCRIPTION_TABLES,
+      EFI_ACPI_6_1_GENERIC_TIMER_DESCRIPTION_TABLE_REVISION
+    ),
+    TIMER_BASE_ADDRESS,                                     // UINT64  PhysicalAddress
+    EFI_ACPI_RESERVED_DWORD,                                // UINT32  Reserved
+    TIMER_SEC_IT,                                           // UINT32  SecurePL1TimerGSIV
+    GTDT_GTIMER_FLAGS,                                      // UINT32  SecurePL1TimerFlags
+    TIMER_NON_SEC_IT,                                       // UINT32  NonSecurePL1TimerGSIV
+    GTDT_GTIMER_FLAGS,                                      // UINT32  NonSecurePL1TimerFlags
+    TIMER_VIRT_IT,                                          // UINT32  VirtualTimerGSIV
+    GTDT_GTIMER_FLAGS,                                      // UINT32  VirtualTimerFlags
+    TIMER_HYP_IT,                                           // UINT32  NonSecurePL2TimerGSIV
+    GTDT_GTIMER_FLAGS,                                      // UINT32  NonSecurePL2TimerFlags
+    TIMER_READ_BASE_ADDRESS,                                // UINT64  CntReadBasePhysicalAddress
+    PLATFORM_TIMER_COUNT,                                   // UINT32  PlatformTimerCount
+    sizeof (EFI_ACPI_6_1_GENERIC_TIMER_DESCRIPTION_TABLE)   // UINT32  PlatfromTimerOffset
+  }, // end of Gtdt.Gt
+};
+
+//
+// Reference the table being generated to prevent the optimizer from removing the
+// data structure from the executable
+//
+VOID* CONST ReferenceAcpiTable = &Gtdt;
