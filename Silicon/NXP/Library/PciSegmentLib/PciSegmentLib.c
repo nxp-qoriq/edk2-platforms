@@ -90,6 +90,96 @@ PcieCfgSetTarget (
     CcsrWrite32 ((UINTN)Dbi, PAB_AXI_AMAP_PEX_WIN_H(0), 0);
 }
 
+STATIC
+UINT64
+PciLsGen4GetConfigBase (
+  IN  UINT64      Address,
+  IN  UINT16      Segment,
+  IN  UINT16      Offset,
+  IN  UINT8       Bus
+  )
+{
+  UINT32 Target;
+
+  if (Bus) {
+    Target = ((((Address >> 20) & 0xFF) << 24) |
+             (((Address >> 15) & 0x1F) << 19) |
+             (((Address >> 12) & 0x7) << 16));
+
+    PcieCfgSetTarget ((PCI_SEG0_DBI_BASE + PCI_DBI_SIZE_DIFF* Segment), Target);
+    return PCI_SEG0_MMIO_MEMBASE + Offset + PCI_BASE_DIFF * Segment;
+  } else {
+      if (Offset < INDIRECT_ADDR_BNDRY) {
+        CcsrSetPg (PCI_SEG0_DBI_BASE + PCI_DBI_SIZE_DIFF * Segment, 0);
+        if (Offset == 4)  {
+          WriteFixedData = 1;
+        }
+        return (PCI_SEG0_DBI_BASE + PCI_DBI_SIZE_DIFF * Segment + Offset);
+      }
+      CcsrSetPg (PCI_SEG0_DBI_BASE + PCI_DBI_SIZE_DIFF * Segment, OFFSET_TO_PAGE_IDX (Offset));
+      Offset = OFFSET_TO_PAGE_ADDR (Offset);
+      return (PCI_SEG0_DBI_BASE + PCI_DBI_SIZE_DIFF * Segment + Offset);
+  }
+}
+
+STATIC
+UINT64
+PciLsCfgTarget (
+  IN  EFI_PHYSICAL_ADDRESS Dbi,
+  IN  UINT64               Address,
+  IN  UINT16               Segment,
+  IN  UINT8                Bus,
+  IN  UINT16               Offset
+  )
+{
+  UINT32 Target;
+
+  Target = ((((Address >> 20) & 0xFF) << 24) |
+           (((Address >> 15) & 0x1F) << 19) |
+           (((Address >> 12) & 0x7) << 16));
+
+  if (Bus > 1) {
+    MmioWrite32 ((UINTN)Dbi + IATU_VIEWPORT_OFF, IATU_VIEWPORT_OUTBOUND | IATU_REGION_INDEX1);
+  } else {
+    MmioWrite32 ((UINTN)Dbi + IATU_VIEWPORT_OFF, IATU_VIEWPORT_OUTBOUND | IATU_REGION_INDEX0);
+  }
+
+  MmioWrite32 ((UINTN)Dbi + IATU_LWR_TARGET_ADDR_OFF_OUTBOUND_0, Target);
+
+  if (Bus > 1) {
+    return PCI_SEG0_MMIO_MEMBASE + PCI_BASE_DIFF * Segment + SEG_CFG_SIZE + Offset;
+  } else {
+    return PCI_SEG0_MMIO_MEMBASE + PCI_BASE_DIFF * Segment + Offset;
+  }
+}
+
+STATIC
+UINT64
+PciLsGetConfigBase (
+  IN  UINT64      Address,
+  IN  UINT16      Segment,
+  IN  UINT16      Offset,
+  IN  UINT8       Bus
+  )
+{
+  UINT32 CfgAddr;
+
+  if (CfgShiftEnable) {
+    CfgAddr = (UINT32)Address;
+    if (Bus) {
+      return PCI_SEG0_MMIO_MEMBASE + PCI_BASE_DIFF * Segment + CfgAddr;
+    } else {
+      return PCI_SEG0_DBI_BASE + PCI_DBI_SIZE_DIFF * Segment + CfgAddr;
+    }
+  } else {
+    CfgAddr = (UINT16)Offset;
+    if (Bus) {
+      return PciLsCfgTarget (PCI_SEG0_DBI_BASE + PCI_DBI_SIZE_DIFF * Segment, Address, Segment, Bus, Offset);
+    } else {
+      return PCI_SEG0_DBI_BASE + PCI_DBI_SIZE_DIFF * Segment + CfgAddr;
+    }
+  }
+}
 /**
   Function to return PCIe Physical Address(PCIe view) or Controller
   Address(CPU view) for different RCs
@@ -109,111 +199,15 @@ PciSegmentLibGetConfigBase (
   IN  UINT16      Offset
   )
 {
+  UINT8  Bus;
 
-  UINT32 Target;
-  UINT32 CfgAddr;
+  Bus = ((UINT32)Address >> 20) & 0xff;
 
-  if (CfgShiftEnable) {
-      CfgAddr = (UINT32)Address;
+  if (PciLsGen4Ctrl) {
+    return PciLsGen4GetConfigBase (Address, Segment, Offset, Bus);
   } else {
-      CfgAddr = (UINT16)Offset;
+    return PciLsGetConfigBase (Address, Segment, Offset, Bus);
   }
-
-  switch (Segment) {
-    // Root Complex 1
-    case PCI_SEG0_NUM:
-      // Reading bus number(bits 20-27)
-      if ((CfgAddr >> 20) > 0) {
-        return (PCI_SEG0_MMIO_MEMBASE + CfgAddr);
-      } else {
-        // On Bus 0 RCs are connected
-        return (PCI_SEG0_DBI_BASE + CfgAddr);
-      }
-    // Root Complex 2
-    case PCI_SEG1_NUM:
-      // Reading bus number(bits 20-27)
-      if ((CfgAddr >> 20) > 0) {
-        return (PCI_SEG1_MMIO_MEMBASE + CfgAddr);
-      } else {
-        // On Bus 0 RCs are connected
-        return (PCI_SEG1_DBI_BASE + CfgAddr);
-      }
-    // Root Complex 3
-    case PCI_SEG2_NUM:
-      // Reading bus number(bits 20-27)
-      if ((CfgAddr >> 20) > 0) {
-        if (PciLsGen4Ctrl) {
-          Target = ((((Address >> 20) & 0xFF) << 24) |
-                   (((Address >> 15) & 0x1F) << 19) |
-                   (((Address >> 12) & 0x7) << 16));;
-          PcieCfgSetTarget (PCI_SEG2_DBI_BASE, Target);
-        }
-        return (PCI_SEG2_MMIO_MEMBASE + CfgAddr);
-      } else {
-          if (PciLsGen4Ctrl) {
-            if (CfgAddr < INDIRECT_ADDR_BNDRY) {
-              CcsrSetPg (PCI_SEG2_DBI_BASE, 0);
-              if (CfgAddr == 4)  {
-                WriteFixedData = 1;
-              }
-              return (PCI_SEG2_DBI_BASE + CfgAddr);
-            }
-
-            CcsrSetPg (PCI_SEG2_DBI_BASE, OFFSET_TO_PAGE_IDX (CfgAddr));
-            CfgAddr = OFFSET_TO_PAGE_ADDR (CfgAddr);
-            }
-        // On Bus 0 RCs are connected
-        return (PCI_SEG2_DBI_BASE + CfgAddr);
-      }
-    // Root Complex 4
-    case PCI_SEG3_NUM:
-      // Reading bus number(bits 20-27)
-      if ((CfgAddr >> 20) > 0) {
-        return (PCI_SEG3_MMIO_MEMBASE + CfgAddr);
-      } else {
-        // On Bus 0 RCs are connected
-        return (PCI_SEG3_DBI_BASE + CfgAddr);
-      }
-    // Root Complex 5
-    case PCI_SEG4_NUM:
-      // Reading bus number(bits 20-27)
-      if ((CfgAddr >> 20) > 0) {
-        if (PciLsGen4Ctrl) {
-          Target = ((((Address >> 20) & 0xFF) << 24) |
-                   (((Address >> 15) & 0x1F) << 19) |
-                   (((Address >> 12) & 0x7) << 16));;
-          PcieCfgSetTarget (PCI_SEG4_DBI_BASE, Target);
-        }
-        return (PCI_SEG4_MMIO_MEMBASE + CfgAddr);
-      } else {
-          if (PciLsGen4Ctrl) {
-            if (CfgAddr < INDIRECT_ADDR_BNDRY) {
-              CcsrSetPg (PCI_SEG4_DBI_BASE, 0);
-              if (CfgAddr == 4)  {
-                WriteFixedData = 1;
-              }
-              return (PCI_SEG4_DBI_BASE + CfgAddr);
-            }
-
-            CcsrSetPg (PCI_SEG4_DBI_BASE, OFFSET_TO_PAGE_IDX (CfgAddr));
-            CfgAddr = OFFSET_TO_PAGE_ADDR (CfgAddr);
-            }
-        // On Bus 0 RCs are connected
-        return (PCI_SEG4_DBI_BASE + CfgAddr);
-      }
-    // Root Complex 6
-    case PCI_SEG5_NUM:
-      // Reading bus number(bits 20-27)
-      if ((CfgAddr >> 20) > 0) {
-        return (PCI_SEG5_MMIO_MEMBASE + CfgAddr);
-      } else {
-        // On Bus 0 RCs are connected
-        return (PCI_SEG5_DBI_BASE + CfgAddr);
-      }
-    default:
-      return 0;
-  }
-
 }
 
 /**
