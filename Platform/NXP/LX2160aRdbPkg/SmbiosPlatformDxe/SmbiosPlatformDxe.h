@@ -4,15 +4,7 @@
   Copyright (c) 2015, ARM Limited. All rights reserved.
   Copyright 2019-2020 NXP
 
-  This program and the accompanying materials
-  are licensed and made available under the terms and conditions of the BSD License
-  which accompanies this distribution.  The full text of the license may be found at
-  http://opensource.org/licenses/bsd-license.php
-
-  THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "AS IS" BASIS,
-  WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
-
-  Based on the files under ARM/JunoPkg/SmbiosPlatformDxe
+  SPDX-License-Identifier: BSD-2-Clause-Patent
 
 **/
 
@@ -69,6 +61,9 @@
 #define TYPE32_STRINGS                             \
   "\0"                               /* nothing */
 
+#define TYPE9_STRING                    \
+  "PCIe-Slot1\0"                        \
+  "PCIe-Slot2\0"
 
 /**
  * Type definition and contents of the default SMBIOS table.
@@ -101,6 +96,10 @@ typedef struct {
   UINT8              Strings [sizeof (TYPE7_STRINGS)];
 } ARM_TYPE7;
 
+typedef struct {
+  SMBIOS_TABLE_TYPE9 Base;
+  UINT8              Strings [];
+} ARM_TYPE9;
 
 typedef struct {
   SMBIOS_TABLE_TYPE16 Base;
