@@ -1,6 +1,6 @@
 /** @file
 *  Differentiated System Description Table Fields (DSDT)
-*  Implement Acpi Thermal Management
+*  Implement ACPI Thermal Management
 *
 *  Copyright 2020 NXP
 *  Copyright 2020 Puresoftware Ltd
@@ -76,16 +76,32 @@ Scope(_TZ)
     offset(0x160),
     ISR6, 32,
     ASR6, 32,
+    offset(0x304),
+    SAR0, 32,
+    offset(0x314),
+    SAR1, 32,
+    offset(0x324),
+    SAR2, 32,
+    offset(0x334),
+    SAR3, 32,
+    offset(0x344),
+    SAR4, 32,
+    offset(0x354),
+    SAR5, 32,
+    offset(0x364),
+    SAR6, 32,
+    offset(0XF00),
+    EMR0, 32,
     offset(0xF08),
-    TEMR, 32,
-    offset(0xF10),
+    EMR1, 32,
+    EMR2, 32,
     TCR0, 32,
     TCR1, 32,
     TCR2, 32,
     TCR3, 32
   }
 
-  //Method to read the sensors current temperature
+  // Method to read the sensors current temperature
   Method(GTMP, 1, Serialized) {
     Switch (Arg0) {
       Case (0) { Local0 = ISR0 }
@@ -97,7 +113,7 @@ Scope(_TZ)
       Case (6) { Local0 = ISR6 }
       Default  { Local0 = ISR0 }
     }
-    // Adjustment according to the linux kelvin_offset
+    // Adjustment according to the linux kelvin_offset(2732)
     Local0 = Local0 * 10 + 2
     Return (Local0)
   }
@@ -110,8 +126,6 @@ Scope(_TZ)
       // Disable interrupt, using polling instead
       Store(TMU_TIDR_DISABLE_ALL, TIDR)
       Store(TMU_TIER_DISABLE_ALL, TIER)
-      // Set update_interval
-      Store(TMU_TMTMIR_DEFAULT, TMIR)
       // Disable monitoring
       Store(TMU_TMR_DISABLE, TMR)
       // Init temperature range registers
@@ -122,6 +136,17 @@ Scope(_TZ)
       Store(TMU_POINT_0_SENSOR_CFG, SCFG)
       Store(TMU_POINT_1_TEMP_CFG, TCFG)
       Store(TMU_POINT_1_SENSOR_CFG, SCFG)
+      Store(TMU_ENGINEERING_MODE_0, EMR0)
+      Store(TMU_ENGINEERING_MODE_2, EMR2)
+      // Set update_interval
+      Store(TMU_TMTMIR_DEFAULT, TMIR)
+      Store(TMU_SENSOR_READ_ADJUST, SAR0)
+      Store(TMU_SENSOR_READ_ADJUST, SAR1)
+      Store(TMU_SENSOR_READ_ADJUST, SAR2)
+      Store(TMU_SENSOR_READ_ADJUST, SAR3)
+      Store(TMU_SENSOR_READ_ADJUST, SAR4)
+      Store(TMU_SENSOR_READ_ADJUST, SAR5)
+      Store(TMU_SENSOR_READ_ADJUST, SAR6)
       Store(TMU_SENSOR_ENABLE_ALL, TMSR)
       // Enable Monitoring
       Store(TMU_TMR_ENABLE, TMR)
