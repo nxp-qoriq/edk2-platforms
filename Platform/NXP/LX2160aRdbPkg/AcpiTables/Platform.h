@@ -129,17 +129,20 @@
 #define TMU_TIER_DISABLE_ALL     0x00        // Disable all interrupt
 #define TMU_TIDR_DISABLE_ALL     0x00        // Clear all interrupt
 #define TMU_TMR_DISABLE          0x00        // Disable TMU IP Monitoring mode
-#define TMU_TMR_ENABLE           0x8C000000  // Enable TMU IP in monitoring mode
-#define TMU_TMTMIR_DEFAULT       0x00000008  // Monitoring interval ~2second
+#define TMU_TMR_ENABLE           0x80000000  // Enable TMU IP in monitoring mode
+#define TMU_TMTMIR_DEFAULT       0x00000007  // Monitoring interval ~2second
 #define TMU_THERMAL_COFFICIENT_1 1           // Thermal cofficient 1 value as per the TMU datasheet
 #define TMU_THERMAL_COFFICIENT_2 1           // Thermal cofficient 2 value as per the TMU datasheet
-#define TMU_TZ_POLLING_PERIOD    5000        // ThermalZone polling frequency ~500second
-#define TMU_TZ_SAMPLING_PERIOD   1000        // ThermalZone sampling frequency ~100second
+#define TMU_TZ_POLLING_PERIOD    150         // ThermalZone polling frequency ~500second
+#define TMU_TZ_SAMPLING_PERIOD   50          // ThermalZone sampling frequency ~100second
 #define TMU_SENSOR_ENABLE_ALL    0x0000007F  // Enable all sensor for active monitoring
 #define TMU_POINT_0_TEMP_CFG     0x00000000  // TMU calibration data, point 0 @230K(-43)
 #define TMU_POINT_0_SENSOR_CFG   0x00000035  // TMU calibration data, point 0 @230K(-43)
-#define TMU_POINT_1_TEMP_CFG     0x00010001  // TMU calibration data, point 1 @381K(103C)
+#define TMU_POINT_1_TEMP_CFG     0x00000001  // TMU calibration data, point 1 @381K(103C)
 #define TMU_POINT_1_SENSOR_CFG   0x00000154  // TMU calibration data, point 0 @381K(103C)
+#define TMU_SENSOR_READ_ADJUST   0x0000000E  // TMU sensor reading adjustment
+#define TMU_ENGINEERING_MODE_0   0x51009C00  // TEUMR0 register
+#define TMU_ENGINEERING_MODE_2   0x0800FFFE  // TEUMR2 register
 
 // DSPI
 #define SPI0_BASE 0x2100000
