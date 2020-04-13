@@ -65,3 +65,22 @@ SocGetStreamIdAllocationScheme (
     PcdSetBool(PcdPciStreamIdPerCtrl, TRUE);
   }
 }
+
+/**
+  Set RootPort Hide Option
+
+**/
+VOID
+SocSetPciRootPort (
+  )
+{
+  CCSR_GUR     *GurBase;
+  UINT32        Svr;
+
+  GurBase = (VOID *)PcdGet64 (PcdGutsBaseAddr);
+  Svr = GurRead ((UINTN)&GurBase->Svr);
+
+  if ((Svr & SVR_LX2160A_REV_MASK) == SVR_LX2160A_REV2) {
+    PcdSetBool(PcdPciHideRootPort, TRUE);
+  }
+}

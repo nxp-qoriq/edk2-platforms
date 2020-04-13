@@ -35,4 +35,5 @@
 [Pcd]
   gNxpQoriqLsTokenSpaceGuid.PcdPciCfgShiftEnable
   gNxpQoriqLsTokenSpaceGuid.PcdPciStreamIdPerCtrl
+  gNxpQoriqLsTokenSpaceGuid.PcdPciHideRootPort
   gNxpQoriqLsTokenSpaceGuid.PcdPciLsGen4Ctrl

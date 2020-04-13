@@ -39,3 +39,13 @@ SocGetStreamIdAllocationScheme (
   )
 {
 }
+
+/**
+  Set RootPort Hide Option
+
+**/
+VOID
+SocSetPciRootPort (
+  )
+{
+}
