@@ -6,9 +6,8 @@
 
   SPDX-License-Identifier: BSD-2-Clause-Patent
 
-  Based on the files under Arm/JunoPkg/AcpiTables/
-
 **/
+
 Scope(_SB)
 {
   Device(SPI0) {
