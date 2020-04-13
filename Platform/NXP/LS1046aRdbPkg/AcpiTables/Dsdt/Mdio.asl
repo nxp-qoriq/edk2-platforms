@@ -68,7 +68,7 @@ Scope(\_SB.FMN0)
     Device(PHY0) {
       Name (_ADR, 0x0)
       Name(_CRS, ResourceTemplate() {
-        Interrupt(ResourceConsumer, Level, ActiveHigh, Shared) {163}
+        Interrupt(ResourceConsumer, Level, ActiveHigh, Shared) {PHY_C45_10G_IRQ}
       }) // end of _CRS for PHY0
       Name (_DSD, Package () {
         ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),

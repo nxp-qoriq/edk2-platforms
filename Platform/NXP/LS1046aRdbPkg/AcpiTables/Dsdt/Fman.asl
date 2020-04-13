@@ -15,14 +15,14 @@ Scope(_SB)
     Name(_UID, 0)
     Name(_CRS, ResourceTemplate() {
       Memory32Fixed(ReadWrite, FMAN_REG_BASE, FMAN_REG_BASE_SZ)
-      Interrupt(ResourceConsumer, Level, ActiveHigh, Exclusive) { FMAN_IRQ1, FMAN_IRQ2 }
+      Interrupt(ResourceConsumer, Level, ActiveHigh, Exclusive) {FMAN_IRQ1, FMAN_IRQ2}
     }) // end of _CRS for FMAN0
     Name (_DSD, Package () {
       ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
       Package () {
         Package () {"little-endian", 1},
         Package () {"cell-index", 0},
-        Package () {"fsl,qman-channel-range", Package () { QMAN_CHANNEL_BASE, QMAN_CHANNEL_BASE_SZ }},
+        Package () {"fsl,qman-channel-range", Package () {QMAN_CHANNEL_BASE, QMAN_CHANNEL_BASE_SZ}},
         Package () {"clock-frequency", ^PCLK.CLK},
         Package () {"ptimer-handle", \_SB.PTP0},
       }
@@ -152,7 +152,7 @@ Scope(_SB)
     Name(_UID, 0)
     Name(_CRS, ResourceTemplate() {
       Memory32Fixed(ReadWrite, PTP_CLK_BASE, PTP_CLK_BASE_SZ)
-      Interrupt(ResourceConsumer, Level, ActiveHigh, Exclusive) { PTP_CLK_IRQ }
+      Interrupt(ResourceConsumer, Level, ActiveHigh, Exclusive) {PTP_CLK_IRQ}
     }) // end of _CRS for PTP0
     Name (_DSD, Package () {
       ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),

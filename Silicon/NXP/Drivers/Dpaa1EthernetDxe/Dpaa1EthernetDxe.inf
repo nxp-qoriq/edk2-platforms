@@ -1,6 +1,7 @@
 ## @file
 #
 #  Copyright 2018, 2020 NXP
+#  Copyright 2020 Puresoftware Ltd.
 #
 #  This program and the accompanying materials are licensed and made
 #  available under the terms and conditions of the BSD License which
@@ -49,6 +50,10 @@
   SysEepromLib
   UefiBootServicesTableLib
   UefiDriverEntryPoint
+
+[Protocols]
+  gEfiAcpiSdtProtocolGuid
+  gEfiAcpiTableProtocolGuid
 
 [Guids]
   gFdtTableGuid

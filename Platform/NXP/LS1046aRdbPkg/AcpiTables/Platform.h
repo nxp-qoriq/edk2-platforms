@@ -462,6 +462,8 @@
                             QBMAN_PORTAL_ADD_LEN, \
                           ,)                      \
 
+#define PHY_C45_10G_IRQ         163
+
 // QorIQ Clk
 #define PTP_CLK_BASE            0x1afe000
 #define PTP_CLK_BASE_SZ         0x1000

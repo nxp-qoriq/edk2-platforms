@@ -3,6 +3,7 @@
 #  LS1046ARDB Board package.
 #
 #  Copyright 2017, 2020 NXP
+#  Copyright 2020 Puresoftware Ltd.
 #
 #  SPDX-License-Identifier: BSD-2-Clause-Patent
 #
@@ -51,6 +52,9 @@
   Dpaa1EthernetMacLib|Silicon/NXP/Library/Dpaa1EthernetMacLib/Dpaa1EthernetMacLib.inf
   Dpaa1EthernetPhyLib|Silicon/NXP/Library/Dpaa1EthernetPhyLib/Dpaa1EthernetPhyLib.inf
   Dpaa1BoardLib|Platform/NXP/LS1046aRdbPkg/Library/Dpaa1BoardLib/Dpaa1BoardLib.inf
+
+[PcdsFeatureFlag.common]
+  gEfiMdeModulePkgTokenSpaceGuid.PcdInstallAcpiSdtProtocol|TRUE
 
 [PcdsFixedAtBuild.common]
 

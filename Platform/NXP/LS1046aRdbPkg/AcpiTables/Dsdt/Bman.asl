@@ -17,7 +17,7 @@ Scope(_SB)
     //TODO: Reserved Memory Region Handling
     Name(_CRS, ResourceTemplate() {
       Memory32Fixed(ReadWrite, BMAN_REG_BASE, BMAN_REG_BASE_SZ)
-      Interrupt(ResourceConsumer, Level, ActiveHigh, Exclusive) { QBMAN_IRQ }
+      Interrupt(ResourceConsumer, Level, ActiveHigh, Exclusive) {QBMAN_IRQ}
     }) // end of _CRS for bman device
     Name (_DSD, Package () {
       ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),

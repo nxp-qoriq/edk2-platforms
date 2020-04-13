@@ -1,6 +1,7 @@
 /** @file
 *
 *  Copyright 2018 NXP
+*  Copyright 2020 Puresoftware Ltd.
 *
 *  This program and the accompanying materials
 *  are licensed and made available under the terms and conditions of the BSD License
@@ -60,6 +61,31 @@ typedef struct _QeFirmware {
   // CRC32 Should Be Located Here, After The Microcode Binaries
 } QeFirmware;
 #pragma pack ()
+
+//
+// DPAA1 DSDT Fixups
+//
+//#define ACPI_DEBUG
+#ifdef ACPI_DEBUG
+#define DBG(arg...) DEBUG((EFI_D_ERROR,## arg))
+#else
+#define DBG(arg...)
+#endif
+
+#define EFI_ACPI_MAX_NUM_TABLES   20
+#define DSDT_SIGNATURE            0x54445344
+#define ACPI_BMAN_HID             "NXP0021"
+#define ACPI_QMAN_HID             "NXP0028"
+#define ACPI_MAC_HID              "NXP0025"
+#define ACPI_RESERVED_MEM_KEY     "mem-base"
+#define ACPI_MAC_ADD_KEY          "mac-address"
+
+enum dev_id_type {
+  QMAN_DEV,
+  BMAN_DEV,
+  MAC_DEV,
+  MAX_DEV,
+};
 
 #endif // __DPAA1_ETHERNET_DXE_H__
 

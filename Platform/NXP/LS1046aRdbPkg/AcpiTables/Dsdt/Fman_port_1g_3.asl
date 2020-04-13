@@ -10,7 +10,7 @@
 
 Scope(\_SB.FMN0)
 {
-  Device(MAC3) {
+  Device(MAC1) {
     Name(_HID, "NXP0025")
     Name(_UID, 3)
     Name(_CCA, 1) // Cache Coherency Attribute
@@ -20,11 +20,12 @@ Scope(\_SB.FMN0)
     Name (_DSD, Package () {
       ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
       Package () {
+        Package () {"mac-address", Package (6) {11, 22, 33, 44, 55, 66}},
         Package () {"cell-index", 0x3},
         Package () {"phy-handle", \_SB.FMN0.MDI0.PHY2},
         Package () {"phy-connection-type", "rgmii-txid"},
         Package () {"compatible", "fman-memac"},
-        Package () {"fsl,fman-ports", Package () {\_SB.FMN0.PRX3,\_SB.FMN0.PTX3}},
+        Package () {"fsl,fman-ports", Package () {\_SB.FMN0.PRX3, \_SB.FMN0.PTX3}},
         Package () {"pcsphy-handle", \_SB.FMN0.MDI3.PCS3}
       }
     })
