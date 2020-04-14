@@ -592,7 +592,11 @@ PcieSetupAtu (
     Cfg1BaseAddr = Cfg0Base + SIZE_2MB;
     Cfg0BusAddress = SIZE_1MB;
     Cfg1BusAddress = SIZE_2MB;
-    Cfg0Size = SIZE_1MB;
+    if (PcdGetBool (PcdPciHideRootPort)) {
+      Cfg0Size = SIZE_32KB;
+    } else {
+      Cfg0Size = SIZE_1MB;
+    }
     Cfg1Size = (SIZE_256MB - SIZE_1MB); // 255MB
 
   } else {

@@ -200,4 +200,5 @@ BOOLEAN IsSerDesLaneProtocolConfigured (UINT64, UINT16);
 VOID SocPcieCfgShift ();
 VOID SocGetPcieCtrl ();
 VOID SocGetStreamIdAllocationScheme ();
+VOID SocSetPciRootPort ();
 #endif

@@ -34,6 +34,9 @@ PlatformDxeEntryPoint (
   // Get StreamId Allocation Scheme
   SocGetStreamIdAllocationScheme ();
 
+  // Set Pcie Root Port hide option
+  SocSetPciRootPort ();
+
   return EFI_SUCCESS;
 }
 

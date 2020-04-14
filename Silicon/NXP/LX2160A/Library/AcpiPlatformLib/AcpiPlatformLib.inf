@@ -26,8 +26,11 @@
   Silicon/NXP/Chassis/Chassis3V2/Chassis3V2.dec
 
 [LibraryClasses]
+  BaseLib
+  BaseMemoryLib
   DebugLib
 
 [Pcd]
   gNxpQoriqLsTokenSpaceGuid.PcdSocSvr
+  gNxpQoriqLsTokenSpaceGuid.PcdPciHideRootPort
 
