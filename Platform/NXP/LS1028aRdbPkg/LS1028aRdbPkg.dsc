@@ -40,8 +40,7 @@
   ResetSystemLib|ArmPkg/Library/ArmSmcPsciResetSystemLib/ArmSmcPsciResetSystemLib.inf
   SerialPortLib|Silicon/NXP/Library/DUartPortLib/DUartPortLib.inf
   SocLib|Silicon/NXP/Chassis/LS1028aSocLib.inf
-#  RealTimeClockLib|Silicon/NXP/Library/Pcf2129RtcLib/Pcf2129RtcLib.inf
-  RealTimeClockLib|EmbeddedPkg/Library/TemplateRealTimeClockLib/TemplateRealTimeClockLib.inf
+  RealTimeClockLib|Silicon/NXP/Library/Pcf2129RtcLib/Pcf2129RtcLib.inf
   FpgaLib|Platform/NXP/LS1028aRdbPkg/Library/FpgaLib/FpgaLib.inf
   PciSegmentLib|Silicon/NXP/Library/PciSegmentLib/PciSegmentLib.inf
   PciHostBridgeLib|Silicon/NXP/Library/PciHostBridgeLib/PciHostBridgeLib.inf
@@ -87,11 +86,11 @@
   # RTC Pcds
   #
   gNxpQoriqLsTokenSpaceGuid.PcdI2cSlaveAddress|0x51
-#  gNxpQoriqLsTokenSpaceGuid.PcdIsRtcDeviceMuxed|TRUE
-#  gNxpQoriqLsTokenSpaceGuid.PcdMuxDeviceAddress|0x77
-#  gNxpQoriqLsTokenSpaceGuid.PcdMuxControlRegOffset|0x09
-#  gNxpQoriqLsTokenSpaceGuid.PcdMuxRtcChannelValue|0x09
-#  gNxpQoriqLsTokenSpaceGuid.PcdMuxDefaultChannelValue|0x08
+  gNxpQoriqLsTokenSpaceGuid.PcdIsRtcDeviceMuxed|TRUE
+  gNxpQoriqLsTokenSpaceGuid.PcdMuxDeviceAddress|0x77
+  gNxpQoriqLsTokenSpaceGuid.PcdMuxControlRegOffset|0x0B
+  gNxpQoriqLsTokenSpaceGuid.PcdMuxRtcChannelValue|0x0B
+  gNxpQoriqLsTokenSpaceGuid.PcdMuxDefaultChannelValue|0x08
 
   #
   # PCI PCDs.
