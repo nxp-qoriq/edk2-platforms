@@ -69,6 +69,7 @@ SocGetClock (
       break;
     case IP_DUART:
     case IP_ESDHC:
+    case IP_I2C:
       ReturnValue = ((UINT64)Rcw->SysPllRat * SysClkHz) >> 2;
       break;
     default:
