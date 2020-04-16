@@ -41,7 +41,7 @@
   gNxpQoriqLsTokenSpaceGuid.PcdSdxcBaseAddr|0x02140000
   gNxpQoriqLsTokenSpaceGuid.PcdI2c0BaseAddr|0x02000000
   gNxpQoriqLsTokenSpaceGuid.PcdI2cSize|0x10000
-  gNxpQoriqLsTokenSpaceGuid.PcdNumI2cController|6
+  gNxpQoriqLsTokenSpaceGuid.PcdNumI2cController|8
   gNxpQoriqLsTokenSpaceGuid.PcdQspiRegionBaseAddr|0x20000000
   gNxpQoriqLsTokenSpaceGuid.PcdQspiRegionSize|0x10000000
   gNxpQoriqLsTokenSpaceGuid.PcdNumPciController|2
