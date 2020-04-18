@@ -28,71 +28,771 @@ Scope(_SB)
     //
     // A72x16 Processor core declaration
     //
-    Device(CPU0) {
-      Name(_HID, "ACPI0007")
-      Name(_UID, 0)
-      Method (_STA) {
-        Return (0x0F)
+    Method (_OSC, 4, Serialized)  { // _OSC: Operating System Capabilities
+      CreateDWordField (Arg3, 0x00, STS0)
+      CreateDWordField (Arg3, 0x04, CAP0)
+      If ((Arg0 == ToUUID ("0811b06e-4a27-44f9-8d60-3cbbc22e7b48") /* Platform-wide Capabilities */)) {
+        If (!(Arg1 == One)) {
+          STS0 &= ~0x1F
+          STS0 |= 0x0A
+        } Else {
+          If ((CAP0 & 0x100)) {
+            CAP0 &= ~0x100 /* No support for OS Initiated LPI */
+            STS0 &= ~0x1F
+            STS0 |= 0x12
+          }
+        }
+      } Else {
+        STS0 &= ~0x1F
+        STS0 |= 0x06
+      }
+      Return (Arg3)
+    }
+
+    Device (CLU0) { // Cluster0 state
+      Name(_HID, "ACPI0010")
+      Name(_UID, 1)
+      Name (_LPI, Package() {
+        0, // Version
+        0, // Level Index
+        1, // Count
+        Package() { // Power Gating state for Cluster
+          6000, // Min residency (uS)
+          2000, // Wake latency (uS)
+          1, // Flags
+          1, // Arch Context Flags
+          100, //Residency Counter Frequency
+          0, // No Parent State
+          0x01000000, // Integer Entry method
+          ResourceTemplate() { // Null Residency Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          ResourceTemplate() { // Null Usage Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          "CluPwrDn"
+        },
+      })
+      Name(PLPI, Package() {
+        0, // Version
+        1, // Level Index
+        2, // Count
+        Package() { // WFI for CPU
+          1, // Min residency (uS)
+          1, // Wake latency (uS)
+          1, // Flags
+          0, // Arch Context Flags
+          100, //Residency Counter Frequency
+          0, // No parent state
+          ResourceTemplate () {
+            // Register Entry method
+            Register (FFixedHW,
+              0x20,               // Bit Width
+              0x00,               // Bit Offset
+              0xFFFFFFFF,         // Address
+              0x03,               // Access Size
+              )
+          },
+          ResourceTemplate() { // Null Residency Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          ResourceTemplate() { // Null Usage Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          "WFI",
+        },
+        Package() { // Power Gating state for CPU
+          150, // Min residency (uS)
+          350, // Wake latency (uS)
+          1, // Flags
+          1, // Arch Context Flags
+          100, //Residency Counter Frequency
+          1, // Parent node can be in any state
+          ResourceTemplate () {
+            // Register Entry method
+            Register (FFixedHW,
+              0x20,               // Bit Width
+              0x00,               // Bit Offset
+              0x0,                // Address
+              0x03,               // Access Size
+              )
+          },
+          ResourceTemplate() { // Null Residency Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          ResourceTemplate() { // Null Usage Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          "CorePwrDn"
+        },
+      })
+      Device(CPU0) { // A72-0: Cluster 0, Cpu 0
+        Name(_HID, "ACPI0007")
+        Name(_UID, 0)
+        Method (_STA) {
+          Return (0x0F)
+        }
+        Method (_LPI, 0, NotSerialized) {
+          return(PLPI)
+        }
+      }
+      Device(CPU1) { // A72-1: Cluster 0, Cpu 1
+        Name(_HID, "ACPI0007")
+        Name(_UID, 1)
+        Method (_LPI, 0, NotSerialized) {
+          return(PLPI)
+        }
       }
     }
-    Device(CPU1) {
-      Name(_HID, "ACPI0007")
-      Name(_UID, 1)
-    }
-    Device(CPU2) {
-      Name(_HID, "ACPI0007")
+
+    Device (CLU1) { // Cluster1 state
+      Name(_HID, "ACPI0010")
       Name(_UID, 2)
+      Name (_LPI, Package() {
+        0, // Version
+        0, // Level Index
+        1, // Count
+        Package() { // Power Gating state for Cluster
+          6000, // Min residency (uS)
+          2000, // Wake latency (uS)
+          1, // Flags
+          1, // Arch Context Flags
+          100, //Residency Counter Frequency
+          0, // No Parent State
+          0x01000000, // Integer Entry method
+          ResourceTemplate() { // Null Residency Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          ResourceTemplate() { // Null Usage Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          "CluPwrDn"
+        },
+      })
+      Name(PLPI, Package() {
+        0, // Version
+        1, // Level Index
+        2, // Count
+        Package() { // WFI for CPU
+          1, // Min residency (uS)
+          1, // Wake latency (uS)
+          1, // Flags
+          0, // Arch Context Flags
+          100, //Residency Counter Frequency
+          0, // No parent state
+          ResourceTemplate () {
+            // Register Entry method
+            Register (FFixedHW,
+              0x20,               // Bit Width
+              0x00,               // Bit Offset
+              0xFFFFFFFF,         // Address
+              0x03,               // Access Size
+              )
+          },
+          ResourceTemplate() { // Null Residency Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          ResourceTemplate() { // Null Usage Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          "WFI",
+        },
+        Package() { // Power Gating state for CPU
+          150, // Min residency (uS)
+          350, // Wake latency (uS)
+          1, // Flags
+          1, // Arch Context Flags
+          100, //Residency Counter Frequency
+          1, // Parent node can be in any state
+          ResourceTemplate () {
+            // Register Entry method
+            Register (FFixedHW,
+              0x20,               // Bit Width
+              0x00,               // Bit Offset
+              0x0,                // Address
+              0x03,               // Access Size
+              )
+          },
+          ResourceTemplate() { // Null Residency Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          ResourceTemplate() { // Null Usage Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          "CorePwrDn"
+        },
+      })
+      Device(CPU2) { // A72-0: Cluster 1, Cpu 0
+        Name(_HID, "ACPI0007")
+        Name(_UID, 2)
+        Method (_LPI, 0, NotSerialized) {
+          return(PLPI)
+        }
+      }
+      Device(CPU3) { // A72-1: Cluster 1, Cpu 1
+        Name(_HID, "ACPI0007")
+        Name(_UID, 3)
+        Method (_LPI, 0, NotSerialized) {
+          return(PLPI)
+        }
+      }
     }
-    Device(CPU3) {
-      Name(_HID, "ACPI0007")
+
+    Device (CLU2) { // Cluster2 state
+      Name(_HID, "ACPI0010")
       Name(_UID, 3)
+      Name (_LPI, Package() {
+        0, // Version
+        0, // Level Index
+        1, // Count
+        Package() { // Power Gating state for Cluster
+          6000, // Min residency (uS)
+          2000, // Wake latency (uS)
+          1, // Flags
+          1, // Arch Context Flags
+          100, //Residency Counter Frequency
+          0, // No Parent State
+          0x01000000, // Integer Entry method
+          ResourceTemplate() { // Null Residency Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          ResourceTemplate() { // Null Usage Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          "CluPwrDn"
+        },
+      })
+      Name(PLPI, Package() {
+        0, // Version
+        1, // Level Index
+        2, // Count
+        Package() { // WFI for CPU
+          1, // Min residency (uS)
+          1, // Wake latency (uS)
+          1, // Flags
+          0, // Arch Context Flags
+          100, //Residency Counter Frequency
+          0, // No parent state
+          ResourceTemplate () {
+            // Register Entry method
+            Register (FFixedHW,
+              0x20,               // Bit Width
+              0x00,               // Bit Offset
+              0xFFFFFFFF,         // Address
+              0x03,               // Access Size
+              )
+          },
+          ResourceTemplate() { // Null Residency Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          ResourceTemplate() { // Null Usage Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          "WFI",
+        },
+        Package() { // Power Gating state for CPU
+          150, // Min residency (uS)
+          350, // Wake latency (uS)
+          1, // Flags
+          1, // Arch Context Flags
+          100, //Residency Counter Frequency
+          1, // Parent node can be in any state
+          ResourceTemplate () {
+            // Register Entry method
+            Register (FFixedHW,
+              0x20,               // Bit Width
+              0x00,               // Bit Offset
+              0x0,                // Address
+              0x03,               // Access Size
+              )
+          },
+          ResourceTemplate() { // Null Residency Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          ResourceTemplate() { // Null Usage Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          "CorePwrDn"
+        },
+      })
+      Device(CPU4) { // A72-0: Cluster 2, Cpu 0
+        Name(_HID, "ACPI0007")
+        Name(_UID, 4)
+        Method (_LPI, 0, NotSerialized) {
+          return(PLPI)
+        }
+      }
+      Device(CPU5) { // A72-1: Cluster 2, Cpu 1
+        Name(_HID, "ACPI0007")
+        Name(_UID, 5)
+        Method (_LPI, 0, NotSerialized) {
+          return(PLPI)
+        }
+      }
     }
-    Device(CPU4) {
-      Name(_HID, "ACPI0007")
+
+    Device (CLU3) { // Cluster3 state
+      Name(_HID, "ACPI0010")
       Name(_UID, 4)
+      Name (_LPI, Package() {
+        0, // Version
+        0, // Level Index
+        1, // Count
+        Package() { // Power Gating state for Cluster
+          6000, // Min residency (uS)
+          2000, // Wake latency (uS)
+          1, // Flags
+          1, // Arch Context Flags
+          100, //Residency Counter Frequency
+          0, // No Parent State
+          0x01000000, // Integer Entry method
+          ResourceTemplate() { // Null Residency Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          ResourceTemplate() { // Null Usage Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          "CluPwrDn"
+        },
+      })
+      Name(PLPI, Package() {
+        0, // Version
+        1, // Level Index
+        2, // Count
+        Package() { // WFI for CPU
+          1, // Min residency (uS)
+          1, // Wake latency (uS)
+          1, // Flags
+          0, // Arch Context Flags
+          100, //Residency Counter Frequency
+          0, // No parent state
+          ResourceTemplate () {
+            // Register Entry method
+            Register (FFixedHW,
+              0x20,               // Bit Width
+              0x00,               // Bit Offset
+              0xFFFFFFFF,         // Address
+              0x03,               // Access Size
+              )
+          },
+          ResourceTemplate() { // Null Residency Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          ResourceTemplate() { // Null Usage Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          "WFI",
+        },
+        Package() { // Power Gating state for CPU
+          150, // Min residency (uS)
+          350, // Wake latency (uS)
+          1, // Flags
+          1, // Arch Context Flags
+          100, //Residency Counter Frequency
+          1, // Parent node can be in any state
+          ResourceTemplate () {
+            // Register Entry method
+            Register (FFixedHW,
+              0x20,               // Bit Width
+              0x00,               // Bit Offset
+              0x0,                // Address
+              0x03,               // Access Size
+              )
+          },
+          ResourceTemplate() { // Null Residency Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          ResourceTemplate() { // Null Usage Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          "CorePwrDn"
+        },
+      })
+      Device(CPU6) { // A72-0: Cluster 3, Cpu 0
+        Name(_HID, "ACPI0007")
+        Name(_UID, 6)
+        Method (_LPI, 0, NotSerialized) {
+          return(PLPI)
+        }
+      }
+      Device(CPU7) { // A72-1: Cluster 3, Cpu 1
+        Name(_HID, "ACPI0007")
+        Name(_UID, 7)
+        Method (_LPI, 0, NotSerialized) {
+          return(PLPI)
+        }
+      }
     }
-    Device(CPU5) {
-      Name(_HID, "ACPI0007")
+
+    Device (CLU4) { // Cluster4 state
+      Name(_HID, "ACPI0010")
       Name(_UID, 5)
+      Name (_LPI, Package() {
+        0, // Version
+        0, // Level Index
+        1, // Count
+        Package() { // Power Gating state for Cluster
+          6000, // Min residency (uS)
+          2000, // Wake latency (uS)
+          1, // Flags
+          1, // Arch Context Flags
+          100, //Residency Counter Frequency
+          0, // No Parent State
+          0x01000000, // Integer Entry method
+          ResourceTemplate() { // Null Residency Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          ResourceTemplate() { // Null Usage Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          "CluPwrDn"
+        },
+      })
+      Name(PLPI, Package() {
+        0, // Version
+        1, // Level Index
+        2, // Count
+        Package() { // WFI for CPU
+          1, // Min residency (uS)
+          1, // Wake latency (uS)
+          1, // Flags
+          0, // Arch Context Flags
+          100, //Residency Counter Frequency
+          0, // No parent state
+          ResourceTemplate () {
+            // Register Entry method
+            Register (FFixedHW,
+              0x20,               // Bit Width
+              0x00,               // Bit Offset
+              0xFFFFFFFF,         // Address
+              0x03,               // Access Size
+              )
+          },
+          ResourceTemplate() { // Null Residency Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          ResourceTemplate() { // Null Usage Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          "WFI",
+        },
+        Package() { // Power Gating state for CPU
+          150, // Min residency (uS)
+          350, // Wake latency (uS)
+          1, // Flags
+          1, // Arch Context Flags
+          100, //Residency Counter Frequency
+          1, // Parent node can be in any state
+          ResourceTemplate () {
+            // Register Entry method
+            Register (FFixedHW,
+              0x20,               // Bit Width
+              0x00,               // Bit Offset
+              0x0,                // Address
+              0x03,               // Access Size
+              )
+          },
+          ResourceTemplate() { // Null Residency Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          ResourceTemplate() { // Null Usage Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          "CorePwrDn"
+        },
+      })
+      Device(CPU8) { // A72-0: Cluster 4, Cpu 0
+        Name(_HID, "ACPI0007")
+        Name(_UID, 8)
+        Method (_LPI, 0, NotSerialized) {
+          return(PLPI)
+        }
+      }
+      Device(CPU9) { // A72-1: Cluster 4, Cpu 1
+        Name(_HID, "ACPI0007")
+        Name(_UID, 9)
+        Method (_LPI, 0, NotSerialized) {
+          return(PLPI)
+        }
+      }
     }
-    Device(CPU6) {
-      Name(_HID, "ACPI0007")
+
+    Device (CLU5) { // Cluster5 state
+      Name(_HID, "ACPI0010")
       Name(_UID, 6)
+      Name (_LPI, Package() {
+        0, // Version
+        0, // Level Index
+        1, // Count
+        Package() { // Power Gating state for Cluster
+          6000, // Min residency (uS)
+          2000, // Wake latency (uS)
+          1, // Flags
+          1, // Arch Context Flags
+          100, //Residency Counter Frequency
+          0, // No Parent State
+          0x01000000, // Integer Entry method
+          ResourceTemplate() { // Null Residency Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          ResourceTemplate() { // Null Usage Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          "CluPwrDn"
+        },
+      })
+      Name(PLPI, Package() {
+        0, // Version
+        1, // Level Index
+        2, // Count
+        Package() { // WFI for CPU
+          1, // Min residency (uS)
+          1, // Wake latency (uS)
+          1, // Flags
+          0, // Arch Context Flags
+          100, //Residency Counter Frequency
+          0, // No parent state
+          ResourceTemplate () {
+            // Register Entry method
+            Register (FFixedHW,
+              0x20,               // Bit Width
+              0x00,               // Bit Offset
+              0xFFFFFFFF,         // Address
+              0x03,               // Access Size
+              )
+          },
+          ResourceTemplate() { // Null Residency Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          ResourceTemplate() { // Null Usage Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          "WFI",
+        },
+        Package() { // Power Gating state for CPU
+          150, // Min residency (uS)
+          350, // Wake latency (uS)
+          1, // Flags
+          1, // Arch Context Flags
+          100, //Residency Counter Frequency
+          1, // Parent node can be in any state
+          ResourceTemplate () {
+            // Register Entry method
+            Register (FFixedHW,
+              0x20,               // Bit Width
+              0x00,               // Bit Offset
+              0x0,                // Address
+              0x03,               // Access Size
+              )
+          },
+          ResourceTemplate() { // Null Residency Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          ResourceTemplate() { // Null Usage Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          "CorePwrDn"
+        },
+      })
+      Device(CP10) { // A72-0: Cluster 5, Cpu 0
+        Name(_HID, "ACPI0007")
+        Name(_UID, 10)
+        Method (_LPI, 0, NotSerialized) {
+          return(PLPI)
+        }
+      }
+      Device(CP11) { // A72-1: Cluster 5, Cpu 1
+        Name(_HID, "ACPI0007")
+        Name(_UID, 11)
+        Method (_LPI, 0, NotSerialized) {
+          return(PLPI)
+        }
+      }
     }
-    Device(CPU7) {
-      Name(_HID, "ACPI0007")
+
+    Device (CLU6) { // Cluster6 state
+      Name(_HID, "ACPI0010")
       Name(_UID, 7)
+      Name (_LPI, Package() {
+        0, // Version
+        0, // Level Index
+        1, // Count
+        Package() { // Power Gating state for Cluster
+          6000, // Min residency (uS)
+          2000, // Wake latency (uS)
+          1, // Flags
+          1, // Arch Context Flags
+          100, //Residency Counter Frequency
+          0, // No Parent State
+          0x01000000, // Integer Entry method
+          ResourceTemplate() { // Null Residency Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          ResourceTemplate() { // Null Usage Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          "CluPwrDn"
+        },
+      })
+      Name(PLPI, Package() {
+        0, // Version
+        1, // Level Index
+        2, // Count
+        Package() { // WFI for CPU
+          1, // Min residency (uS)
+          1, // Wake latency (uS)
+          1, // Flags
+          0, // Arch Context Flags
+          100, //Residency Counter Frequency
+          0, // No parent state
+          ResourceTemplate () {
+            // Register Entry method
+            Register (FFixedHW,
+              0x20,               // Bit Width
+              0x00,               // Bit Offset
+              0xFFFFFFFF,         // Address
+              0x03,               // Access Size
+              )
+          },
+          ResourceTemplate() { // Null Residency Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          ResourceTemplate() { // Null Usage Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          "WFI",
+        },
+        Package() { // Power Gating state for CPU
+          150, // Min residency (uS)
+          350, // Wake latency (uS)
+          1, // Flags
+          1, // Arch Context Flags
+          100, //Residency Counter Frequency
+          1, // Parent node can be in any state
+          ResourceTemplate () {
+            // Register Entry method
+            Register (FFixedHW,
+              0x20,               // Bit Width
+              0x00,               // Bit Offset
+              0x0,                // Address
+              0x03,               // Access Size
+              )
+          },
+          ResourceTemplate() { // Null Residency Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          ResourceTemplate() { // Null Usage Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          "CorePwrDn"
+        },
+      })
+      Device(CP12) { // A72-0: Cluster 6, Cpu 0
+        Name(_HID, "ACPI0007")
+        Name(_UID, 12)
+        Method (_LPI, 0, NotSerialized) {
+          return(PLPI)
+        }
+      }
+      Device(CP13) { // A72-1: Cluster 6, Cpu 1
+        Name(_HID, "ACPI0007")
+        Name(_UID, 13)
+        Method (_LPI, 0, NotSerialized) {
+          return(PLPI)
+        }
+      }
     }
-    Device(CPU8) {
-      Name(_HID, "ACPI0007")
+
+    Device (CLU7) { // Cluster7 state
+      Name(_HID, "ACPI0010")
       Name(_UID, 8)
-    }
-    Device(CPU9) {
-      Name(_HID, "ACPI0007")
-      Name(_UID, 9)
-    }
-    Device(CP10) {
-      Name(_HID, "ACPI0007")
-      Name(_UID, 10)
-    }
-    Device(CP11) {
-      Name(_HID, "ACPI0007")
-      Name(_UID, 11)
-    }
-    Device(CP12) {
-      Name(_HID, "ACPI0007")
-      Name(_UID, 12)
-    }
-    Device(CP13) {
-      Name(_HID, "ACPI0007")
-      Name(_UID, 13)
-    }
-    Device(CP14) {
-      Name(_HID, "ACPI0007")
-      Name(_UID, 14)
-    }
-    Device(CP15) {
-      Name(_HID, "ACPI0007")
-      Name(_UID, 15)
+      Name (_LPI, Package() {
+        0, // Version
+        0, // Level Index
+        1, // Count
+        Package() { // Power Gating state for Cluster
+          6000, // Min residency (uS)
+          2000, // Wake latency (uS)
+          1, // Flags
+          1, // Arch Context Flags
+          100, //Residency Counter Frequency
+          0, // No Parent State
+          0x01000000, // Integer Entry method
+          ResourceTemplate() { // Null Residency Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          ResourceTemplate() { // Null Usage Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          "CluPwrDn"
+        },
+      })
+      Name(PLPI, Package() {
+        0, // Version
+        1, // Level Index
+        2, // Count
+        Package() { // WFI for CPU
+          1, // Min residency (uS)
+          1, // Wake latency (uS)
+          1, // Flags
+          0, // Arch Context Flags
+          100, //Residency Counter Frequency
+          0, // No parent state
+          ResourceTemplate () {
+            // Register Entry method
+            Register (FFixedHW,
+              0x20,               // Bit Width
+              0x00,               // Bit Offset
+              0xFFFFFFFF,         // Address
+              0x03,               // Access Size
+              )
+          },
+          ResourceTemplate() { // Null Residency Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          ResourceTemplate() { // Null Usage Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          "WFI",
+        },
+        Package() { // Power Gating state for CPU
+          150, // Min residency (uS)
+          350, // Wake latency (uS)
+          1, // Flags
+          1, // Arch Context Flags
+          100, //Residency Counter Frequency
+          1, // Parent node can be in any state
+          ResourceTemplate () {
+            // Register Entry method
+            Register (FFixedHW,
+              0x20,               // Bit Width
+              0x00,               // Bit Offset
+              0x0,                // Address
+              0x03,               // Access Size
+              )
+          },
+          ResourceTemplate() { // Null Residency Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          ResourceTemplate() { // Null Usage Counter
+            Register (SystemMemory, 0, 0, 0, 0)
+          },
+          "CorePwrDn"
+        },
+      })
+      Device(CP14) { // A72-0: Cluster 7, Cpu 0
+        Name(_HID, "ACPI0007")
+        Name(_UID, 14)
+        Method (_LPI, 0, NotSerialized) {
+          return(PLPI)
+        }
+      }
+      Device(CP15) { // A72-1: Cluster 7, Cpu 1
+        Name(_HID, "ACPI0007")
+        Name(_UID, 15)
+        Method (_LPI, 0, NotSerialized) {
+          return(PLPI)
+        }
+      }
     }
 }

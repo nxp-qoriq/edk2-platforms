@@ -162,10 +162,10 @@ Scope(_TZ)
     Name(_TC2, TMU_THERMAL_COFFICIENT_2)
     // Passive cooling device list
     Name(_PSL, Package() {
-      \_SB.CP12,
-      \_SB.CP13,
-      \_SB.CP14,
-      \_SB.CP15
+      \_SB.CLU6.CP12,
+      \_SB.CLU6.CP13,
+      \_SB.CLU7.CP14,
+      \_SB.CLU7.CP15
     })
 
     Method(_SCP, 1) {
@@ -199,8 +199,8 @@ Scope(_TZ)
     Name(_TC2, TMU_THERMAL_COFFICIENT_2)
     // Passive cooling device list
     Name(_PSL, Package() {
-      \_SB.CP10,
-      \_SB.CP11
+      \_SB.CLU5.CP10,
+      \_SB.CLU5.CP11
     })
 
     Method(_SCP, 1) {
@@ -324,8 +324,8 @@ Scope(_TZ)
     Name(_TC2, TMU_THERMAL_COFFICIENT_2)
     // Passive cooling device list
     Name(_PSL, Package() {
-      \_SB.CPU8,
-      \_SB.CPU9,
+      \_SB.CLU4.CPU8,
+      \_SB.CLU4.CPU9,
     })
 
     Method(_SCP, 1) {
@@ -359,10 +359,10 @@ Scope(_TZ)
     Name(_TC2, TMU_THERMAL_COFFICIENT_2)
     // Passive cooling device list
     Name(_PSL, Package() {
-      \_SB.CPU4,
-      \_SB.CPU5,
-      \_SB.CPU6,
-      \_SB.CPU7
+      \_SB.CLU2.CPU4,
+      \_SB.CLU2.CPU5,
+      \_SB.CLU3.CPU6,
+      \_SB.CLU3.CPU7
     })
 
     Method(_SCP, 1) {

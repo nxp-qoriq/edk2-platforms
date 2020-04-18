@@ -78,4 +78,10 @@
   gNxpQoriqLsTokenSpaceGuid.PcdUsbPhy1BaseAddress|0x084F0000
   gNxpQoriqLsTokenSpaceGuid.PcdUsbPhy2BaseAddress|0x08500000
   gNxpQoriqLsTokenSpaceGuid.PcdUsbPhy3BaseAddress|0x08510000
+
+  gNxpQoriqLsTokenSpaceGuid.PcdNumGpioController|0x04
+  gNxpQoriqLsTokenSpaceGuid.PcdGpioModuleBaseAddress|0x02300000
+  gNxpQoriqLsTokenSpaceGuid.PcdGpioControllerOffset|0x10000
+  gNxpQoriqLsTokenSpaceGuid.PcdGpioControllerBigEndian|TRUE
+
 ##

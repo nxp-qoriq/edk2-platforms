@@ -248,6 +248,14 @@
   gNxpQoriqLsTokenSpaceGuid.PcdQspiErratumA008886|FALSE|BOOLEAN|0x00000319
 
   #
+  # GpioControllers' Pcds
+  #
+  gNxpQoriqLsTokenSpaceGuid.PcdNumGpioController|0|UINT32|0x00000325
+  gNxpQoriqLsTokenSpaceGuid.PcdGpioModuleBaseAddress|0|UINT64|0x00000326
+  gNxpQoriqLsTokenSpaceGuid.PcdGpioControllerOffset|0|UINT64|0x00000327
+  gNxpQoriqLsTokenSpaceGuid.PcdGpioControllerBigEndian|TRUE|BOOLEAN|0x00000328
+
+  #
   # SATA PCDs
   #
   gNxpQoriqLsTokenSpaceGuid.PcdNumSataController|0x0|UINT32|0x00000350

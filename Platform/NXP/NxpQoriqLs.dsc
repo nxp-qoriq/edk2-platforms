@@ -106,6 +106,7 @@
   ReportStatusCodeLib|MdeModulePkg/Library/DxeReportStatusCodeLib/DxeReportStatusCodeLib.inf
   BmpSupportLib|MdeModulePkg/Library/BaseBmpSupportLib/BaseBmpSupportLib.inf
   SafeIntLib|MdePkg/Library/BaseSafeIntLib/BaseSafeIntLib.inf
+  GpioLib|Silicon/NXP/Library/GpioLib/GpioLib.inf
 
 [LibraryClasses.common.SEC]
   PcdLib|MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf

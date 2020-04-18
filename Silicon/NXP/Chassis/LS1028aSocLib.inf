@@ -43,7 +43,6 @@
 [Sources.common]
   Chassis.c
   Chassis3/Soc.c
-  ErrataCh3Vx.c
   SerDes.c
   SocHelper.S
 

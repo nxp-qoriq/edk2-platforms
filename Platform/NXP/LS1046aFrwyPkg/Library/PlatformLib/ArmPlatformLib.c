@@ -1,27 +1,30 @@
-/** ArmPlatformLib.c
-*
-*  Contains board initialization functions.
-*
-*  Based on BeagleBoardPkg/Library/BeagleBoardLib/BeagleBoard.c
-*
-*  Copyright (c) 2011-2012, ARM Limited. All rights reserved.
-*  Copyright (c) 2016, Freescale Semiconductor, Inc. All rights reserved.
-*  Copyright 2017-2019 NXP
-*
-*  This program and the accompanying materials
-*  are licensed and made available under the terms and conditions of the BSD License
-*  which accompanies this distribution.  The full text of the license may be found at
-*  http://opensource.org/licenses/bsd-license.php
-*
-*  THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "AS IS" BASIS,
-*  WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
-*
+/** @file
+
+ Copyright 2019-2020 NXP
+
+ SPDX-License-Identifier: BSD-2-Clause-Patent
 **/
 
 #include <Library/ArmPlatformLib.h>
 #include <Ppi/ArmMpCoreInfo.h>
+#include <Library/IoLib.h>
+#include <Library/GpioLib.h>
+#include "ArmPlatformInternalLib.h"
 
 extern VOID SocInit (VOID);
+
+/**
+  FRWY-LS1046A GPIO 23 use for USB2
+  mux seclection
+**/
+STATIC VOID  MuxSelectUsb2(VOID)
+{
+
+  SetDir (GPIO3,USB2_MUX_SEL_GPIO,OUTPUT);
+  SetData (GPIO3,USB2_MUX_SEL_GPIO,HIGH);
+
+  return;
+}
 
 /**
   Return the current Boot Mode
@@ -46,6 +49,7 @@ ArmPlatformInitialize (
   )
 {
  SocInit ();
+ MuxSelectUsb2();
 
  return EFI_SUCCESS;
 }
