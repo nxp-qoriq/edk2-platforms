@@ -144,7 +144,7 @@
   #MdeModulePkg/Universal/Variable/EmuRuntimeDxe/EmuVariableRuntimeDxe.inf
   MdeModulePkg/Universal/FaultTolerantWriteDxe/FaultTolerantWriteDxe.inf
 
-  Silicon/NXP/Drivers/WatchDog/WatchDogDxe.inf
+  MdeModulePkg/Universal/WatchdogTimerDxe/WatchdogTimer.inf
   Silicon/NXP/Drivers/I2cDxe/I2cDxe.inf
   EmbeddedPkg/RealTimeClockRuntimeDxe/RealTimeClockRuntimeDxe.inf
   Silicon/NXP/Drivers/UsbHcdInitDxe/UsbHcd.inf
