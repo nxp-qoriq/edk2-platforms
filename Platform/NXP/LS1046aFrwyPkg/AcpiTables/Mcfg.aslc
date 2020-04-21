@@ -30,7 +30,7 @@ typedef struct {
 
 typedef struct {
    EFI_MCFG_TABLE_CONFIG Acpi_Table_Mcfg;
-   EFI_MCFG_CONFIG_STRUCTURE Config_Structure[3];
+   EFI_MCFG_CONFIG_STRUCTURE Config_Structure[2];
 } EFI_PCI_EXPRESS_MEMORY_MAPPED_CONFIGURATION_SPACE_TABLE;
 
 #pragma pack()
@@ -51,13 +51,6 @@ EFI_PCI_EXPRESS_MEMORY_MAPPED_CONFIGURATION_SPACE_TABLE Mcfg= {
       EFI_ACPI_RESERVED_QWORD,                                 //Reserved
   },
   {
-    {
-      LS1046A_PCI_SEG0_CONFIG_BASE,
-      LS1046A_PCI_SEG0,
-      LS1046A_PCI_SEG_BUSNUM_MIN,
-      LS1046A_PCI_SEG_BUSNUM_MAX,
-      EFI_ACPI_RESERVED_DWORD,
-    },
     {
       LS1046A_PCI_SEG1_CONFIG_BASE,
       LS1046A_PCI_SEG1,
