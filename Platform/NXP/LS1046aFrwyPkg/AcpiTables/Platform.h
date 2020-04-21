@@ -116,4 +116,8 @@
 #define USB0_IT   92
 #define USB1_IT   93
 
+// PCLK : Dynamic Clock
+#define DCFG_BASE   0x1EE0000  /* Device configuration data Base Address */
+#define DCFG_LEN    0xFFF      /* Device configuration data length */
+
 #endif
