@@ -127,4 +127,11 @@
 #define SPI_LEN   0x10000
 #define SPI_IT    58
 
+//Quad SPI
+#define QSPI0_BASE 0x1550000    /* QSPI CSSR Base Address */
+#define QSPI_LEN   0x10000      /* QSPI CSSR Memory length */
+#define QSPI_IT    131          /* QSPI Interrupt Identifier */
+#define QSPIMM_BASE 0x40000000  /* QSPI Fixed Memory Map Base Address */
+#define QSPIMM_LEN  0x20000000  /* QSPI Fixed Memory Map Length */
+
 #endif
