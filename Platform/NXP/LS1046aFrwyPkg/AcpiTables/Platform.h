@@ -120,4 +120,11 @@
 #define DCFG_BASE   0x1EE0000  /* Device configuration data Base Address */
 #define DCFG_LEN    0xFFF      /* Device configuration data length */
 
+// DSPI
+#define SPI0_BASE 0x2100000
+#define SPI1_BASE 0x2110000
+#define SPI2_BASE 0x2120000
+#define SPI_LEN   0x10000
+#define SPI_IT    58
+
 #endif
