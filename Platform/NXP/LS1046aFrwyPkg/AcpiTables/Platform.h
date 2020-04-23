@@ -134,4 +134,15 @@
 #define QSPIMM_BASE 0x40000000  /* QSPI Fixed Memory Map Base Address */
 #define QSPIMM_LEN  0x20000000  /* QSPI Fixed Memory Map Length */
 
+// I2C
+#define I2C0_BASE 0x2180000
+#define I2C1_BASE 0x2190000
+#define I2C2_BASE 0x21A0000
+#define I2C3_BASE 0x21B0000
+#define I2C_LEN   0x10000
+#define I2C0_IT   88
+#define I2C1_IT   89
+#define I2C2_IT   90
+#define I2C3_IT   91
+
 #endif
