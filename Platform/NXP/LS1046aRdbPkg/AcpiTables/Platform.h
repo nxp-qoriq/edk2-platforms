@@ -48,6 +48,17 @@
 #define UART0_LENGTH             0x100
 #define SPCR_FLOW_CONTROL_NONE   0
 
+// I2C
+#define I2C0_BASE 0x2180000
+#define I2C1_BASE 0x2190000
+#define I2C2_BASE 0x21A0000
+#define I2C3_BASE 0x21B0000
+#define I2C_LEN   0x10000
+#define I2C0_IT   88
+#define I2C1_IT   89
+#define I2C2_IT   90
+#define I2C3_IT   91
+
 // Timer
 #define TIMER_BLOCK_COUNT            1
 #define TIMER_FRAME_COUNT            4
