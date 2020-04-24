@@ -45,6 +45,41 @@
     EFI_ACPI_ARM_CREATOR_REVISION   /* UINT32  CreatorRevision */ \
   }
 
+// CPU
+#define CPU_CLK1CSR_BASE        0x1370000
+#define CPU_CLK2CSR_BASE        0x1370020
+#define CPU_CLK3CSR_BASE        0x1370040
+#define CPU_CLK4CSR_BASE        0x1370060
+#define CPU_CLK5CSR_BASE        0x1370080
+#define CPU_CLK6CSR_BASE        0x13700A0
+#define CPU_CLK7CSR_BASE        0x13700C0
+#define CPU_CLK8CSR_BASE        0x13700E0
+#define CPU_CGA_PLL_DIV_1       0x00000000
+#define CPU_CGA_PLL_DIV_2       0x08000000
+#define CPU_CGA_PLL_DIV_4       0x10000000
+#define CPU_CGB_PLL_DIV_1       0x20000000
+#define CPU_CGB_PLL_DIV_2       0x28000000
+#define CPU_CGB_PLL_DIV_4       0x30000000
+#define CPU_PLL_TRNS_LATENCY    0
+#define CPU_PWR_DISSP_PLL_DIV_1 200
+#define CPU_PWR_DISSP_PLL_DIV_2 100
+#define CPU_PWR_DISSP_PLL_DIV_4 50
+#define CPU_FREQ_100_PRCNT      100
+#define CPU_FREQ_50_PRCNT       50
+#define CPU_FREQ_25_PRCNT       25
+#define CPU_DWORD_ACCESS        3
+#define CPU_NUM_ENTRIES         5
+#define CPU_SW_ANY_CORD         0xFD
+#define CPU_NUM_PROCESSOR       2
+#define CPU_DOMAIN_0            0
+#define CPU_DOMAIN_1            1
+#define CPU_DOMAIN_2            2
+#define CPU_DOMAIN_3            3
+#define CPU_DOMAIN_4            4
+#define CPU_DOMAIN_5            5
+#define CPU_DOMAIN_6            6
+#define CPU_DOMAIN_7            7
+
 // PCLK
 #define DCFG_BASE   0x1E00000
 #define DCFG_LEN    0x1FFFF
