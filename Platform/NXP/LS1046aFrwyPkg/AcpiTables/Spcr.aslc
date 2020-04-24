@@ -26,7 +26,7 @@ STATIC EFI_ACPI_SERIAL_PORT_CONSOLE_REDIRECTION_TABLE Spcr = {
     EFI_ACPI_RESERVED_BYTE,
     EFI_ACPI_RESERVED_BYTE
   },                                                                   //Reserved1
-  ARM_GAS32 (UART0_BASE),                                              //BaseAddress
+  ARM_GAS8 (UART0_BASE),                                              //BaseAddress
   EFI_ACPI_SERIAL_PORT_CONSOLE_REDIRECTION_TABLE_INTERRUPT_TYPE_GIC,   //InterruptType
   0,                                                                   // irq Not used on ARM
   UART0_IT,                                                            //GlobalSystemInterrupt
