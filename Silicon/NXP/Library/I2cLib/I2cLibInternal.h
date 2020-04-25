@@ -80,7 +80,7 @@
 
 typedef struct _I2C_REGS {
   UINT8 Ibad; // I2c Bus Address Register
-  UINT8 Ibfd; // I2c Bus Frequency Dividor Register
+  UINT8 Ibfd; // I2c Bus Frequency Divider Register
   UINT8 Ibcr; // I2c Bus Control Register
   UINT8 Ibsr; // I2c Bus Status Register
   UINT8 Ibdr; // I2C Bus Data I/O Register
@@ -93,7 +93,7 @@ typedef struct _I2C_REGS {
  */
 typedef struct _I2C_CLOCK_DIVISOR_PAIR {
   UINT16  Divisor;
-  UINT16  Ibfd; // I2c Bus Frequency Dividor Register value
+  UINT8   Ibfd; // I2c Bus Frequency Divider Register value
 } I2C_CLOCK_DIVISOR_PAIR;
 
 typedef struct {
