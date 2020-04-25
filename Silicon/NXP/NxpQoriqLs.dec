@@ -45,6 +45,14 @@
   gNxpQoriqLsTokenSpaceGuid.PcdI2cSpeed|0|UINT32|0x00000002
   gNxpQoriqLsTokenSpaceGuid.PcdNumI2cController|0|UINT32|0x00000003
   gNxpQoriqLsTokenSpaceGuid.PcdI2cSlaveAddress|0|UINT32|0x00000004
+  # The I2cDivisor is determined like this
+  # I2cDivisor = (I2cClock + I2cSpeed - 1) / I2cSpeed
+  # I2cClock is the input clock to I2c controller, I2cSpeed is the I2c bus speed
+  # In early init phase when we don't know the I2cClock, we need to setup the
+  # I2c controller to be able to read SysClock (and hence I2cClock) from the
+  # clock generator or FPGA connected to I2c bus.
+  # Therefore, this Pcd selects the Divisor to use in early init phase.
+  gNxpQoriqLsTokenSpaceGuid.PcdI2cEarlyDivisor|6144|UINT16|0x00000362
 
   #
   # Pcds for Pcf2129 I2C MUX 

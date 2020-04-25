@@ -120,6 +120,42 @@ I2cReset (
   return EFI_SUCCESS;
 }
 
+STATIC
+UINT8
+I2cGetIbfd (
+  IN UINTN  Base,
+  IN UINT16 ClockDivisor
+  )
+{
+  I2C_REGS                       *Regs;
+  UINT8                          Ibfd; // I2c Bus Frequency Divider Register
+  CONST I2C_CLOCK_DIVISOR_PAIR   *ClockDivisorPair;
+  UINT32                         ClockDivisorPairSize;
+  UINT32                         Index;
+
+  Regs = (I2C_REGS *)Base;
+
+  if (MmioRead8 ((UINTN)&Regs->Ibdbg) & I2C_IBDBG_GLFLT_EN) {
+    ClockDivisorPair = mI2cClockDivisorGlitchEnabled;
+    ClockDivisorPairSize = ARRAY_SIZE (mI2cClockDivisorGlitchEnabled);
+  } else {
+    ClockDivisorPair = mI2cClockDivisorGlitchDisabled;
+    ClockDivisorPairSize = ARRAY_SIZE (mI2cClockDivisorGlitchDisabled);
+  }
+
+  if (ClockDivisor > ClockDivisorPair[ClockDivisorPairSize - 1].Divisor) {
+    Ibfd = ClockDivisorPair[ClockDivisorPairSize - 1].Ibfd;
+  } else {
+    for (Index = 0; Index < ClockDivisorPairSize; Index++) {
+      if (ClockDivisorPair[Index].Divisor >= ClockDivisor) {
+        Ibfd = ClockDivisorPair[Index].Ibfd;
+        break;
+      }
+    }
+  }
+
+  return Ibfd;
+}
 /**
   Early init I2C for reading the sysclk from I2c slave device.
   I2c bus clock is determined from the clock input to I2c controller.
@@ -149,10 +185,14 @@ I2cEarlyInitialize (
     I2cErratumA009203 (Base);
   }
 
-  if (MmioRead8 ((UINTN)&Regs->Ibdbg) & I2C_IBDBG_GLFLT_EN) {
-    Ibfd = ARRAY_LAST_ELEM (mI2cClockDivisorGlitchEnabled).Ibfd;
+  if (FixedPcdGet16 (PcdI2cEarlyDivisor) != 0) {
+    Ibfd = I2cGetIbfd (Base, FixedPcdGet16 (PcdI2cEarlyDivisor));
   } else {
-    Ibfd = ARRAY_LAST_ELEM (mI2cClockDivisorGlitchDisabled).Ibfd;
+    if (MmioRead8 ((UINTN)&Regs->Ibdbg) & I2C_IBDBG_GLFLT_EN) {
+      Ibfd = ARRAY_LAST_ELEM (mI2cClockDivisorGlitchEnabled).Ibfd;
+    } else {
+      Ibfd = ARRAY_LAST_ELEM (mI2cClockDivisorGlitchDisabled).Ibfd;
+    }
   }
 
   MmioWrite8 ((UINTN)&Regs->Ibfd, Ibfd);
@@ -180,10 +220,7 @@ I2cInitialize (
 {
   I2C_REGS                       *Regs;
   UINT16                         ClockDivisor;
-  UINT8                          Ibfd; // I2c Bus Frequency Dividor Register
-  CONST I2C_CLOCK_DIVISOR_PAIR   *ClockDivisorPair;
-  UINT32                         ClockDivisorPairSize;
-  UINT32                         Index;
+  UINT8                          Ibfd; // I2c Bus Frequency Divider Register
 
   Regs = (I2C_REGS *)Base;
   if (FeaturePcdGet (PcdI2cErratumA009203)) {
@@ -192,25 +229,7 @@ I2cInitialize (
 
   Ibfd = 0;
   ClockDivisor = (I2cBusClock + Speed - 1) / Speed;
-
-  if (MmioRead8 ((UINTN)&Regs->Ibdbg) & I2C_IBDBG_GLFLT_EN) {
-    ClockDivisorPair = mI2cClockDivisorGlitchEnabled;
-    ClockDivisorPairSize = ARRAY_SIZE (mI2cClockDivisorGlitchEnabled);
-  } else {
-    ClockDivisorPair = mI2cClockDivisorGlitchDisabled;
-    ClockDivisorPairSize = ARRAY_SIZE (mI2cClockDivisorGlitchDisabled);
-  }
-
-  if (ClockDivisor > ClockDivisorPair[ClockDivisorPairSize - 1].Divisor) {
-    Ibfd = ClockDivisorPair[ClockDivisorPairSize - 1].Ibfd;
-  } else {
-    for (Index = 0; Index < ClockDivisorPairSize; Index++) {
-      if (ClockDivisorPair[Index].Divisor >= ClockDivisor) {
-        Ibfd = ClockDivisorPair[Index].Ibfd;
-        break;
-      }
-    }
-  }
+  Ibfd = I2cGetIbfd (Base, ClockDivisor);
 
   MmioWrite8 ((UINTN)&Regs->Ibfd, Ibfd);
 
