@@ -157,7 +157,7 @@
 #define TMU_SITES_MAX            16          // Max TMU remote sensor// Using 5
 #define TMU_ACTIVE               0           // Cooling policy active
 #define TMU_PASSIVE              1           // Cooling policy passive
-#define TMU_PASSIVE_THRESHOLD    3582        // Passive Threshold: 84.8 degree C
+#define TMU_PASSIVE_THRESHOLD    3282        // Passive Threshold: 54.8 degree C
 #define TMU_CRITICAL_THRESHOLD   3682        // Critical Threshold: 94.8 degree C
 #define TMU_TIER_DISABLE_ALL     0x00000000  // Disable all interrupts
 #define TMU_TIDR_DISABLE_ALL     0x00000000  // Clear all interrupts
@@ -252,5 +252,20 @@
 #define TMU_POINT_4_6_SENSOR_CFG   0x0000004C
 #define TMU_POINT_4_7_TEMP_CFG     0x00030007
 #define TMU_POINT_4_7_SENSOR_CFG   0x00000056
+
+// CPU
+#define CPU_CGA_PLL_DIV_1          0x00000000
+#define CPU_CGA_PLL_DIV_2          0x00000010
+#define CPU_PLL_TRNS_LATENCY       0
+#define CPU_PWR_DISSP_PLL_DIV_1    200
+#define CPU_PWR_DISSP_PLL_DIV_2    100
+#define CPU_FREQ_100_PRCNT         100
+#define CPU_FREQ_50_PRCNT          50
+#define CPU_DWORD_ACCESS           3
+#define CPU_NUM_ENTRIES            5
+#define CPU_SW_ANY_CORD            0xFD
+#define CPU_NUM_PROCESSOR          4
+#define CPU_DOMAIN_0               0
+#define CPU_CLK_CSSR_REG           0x01EE1000 // Core cluster clock control/status register
 
 #endif
