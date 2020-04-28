@@ -53,10 +53,12 @@
 #define PCI_SEG_MMIO32_MAX        0x4fffffffUL
 #define SEG_CFG_SIZE              0x00001000
 #define SEG_CFG_BUS               0x00000000
-#define SEG_MEM_SIZE              0x40000000
-#define SEG_MEM_LIMIT             0x7fffffff
+#define SEG_MEM_BASE              0x40000000
+#define SEG_MEM_SIZE              0xC0000000
+#define SEG_MEM_LIMIT             SEG_MEM_BASE + (SEG_MEM_SIZE -1)
 #define SEG_MEM_BUS               0x40000000
 #define SEG_IO_BASE               0x10000000
+#define SEG_MEM64_BASE            0x400000000
 #define SEG_IO_SIZE               0x10000
 #define SEG_IO_BUS                0x10000000
 #define PCI_SEG_PORTIO_LIMIT      PCI_SEG0_MMIO_MEMBASE + (PCI_BASE_DIFF * NUM_PCIE_CONTROLLER)
@@ -64,13 +66,18 @@
 #define PCI_DBI_SIZE_DIFF         0x100000
 #define PCI_SEG0_PHY_CFG0_BASE    PCI_SEG0_MMIO_MEMBASE
 #define PCI_SEG0_PHY_CFG1_BASE    PCI_SEG0_PHY_CFG0_BASE + SEG_CFG_SIZE
-#define PCI_SEG0_PHY_MEM_BASE     PCI_SEG0_MMIO_MEMBASE + SEG_MEM_SIZE
+#define PCI_SEG0_PHY_MEM_BASE     PCI_SEG0_MMIO_MEMBASE + SEG_MEM_BASE
+#define PCI_SEG0_PHY_MEM64_BASE   PCI_SEG0_MMIO_MEMBASE + SEG_MEM64_BASE
 #define PCI_SEG0_PHY_IO_BASE      PCI_SEG0_MMIO_MEMBASE + SEG_IO_BASE
 
 #define IATU_REGION_INDEX0        0x0
 #define IATU_REGION_INDEX1        0x1
 #define IATU_REGION_INDEX2        0x2
 #define IATU_REGION_INDEX3        0x3
+#define IATU_REGION_INDEX4        0x4
+#define IATU_REGION_INDEX5        0x5
+#define IATU_REGION_INDEX6        0x6
+#define IATU_REGION_INDEX7        0x7
 
 // PCIe Controller configuration
 #define NUM_PCIE_CONTROLLER       FixedPcdGet32 (PcdNumPciController)

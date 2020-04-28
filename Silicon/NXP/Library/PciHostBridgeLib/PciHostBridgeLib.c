@@ -513,29 +513,61 @@ PcieSetupWindow (
   IN EFI_PHYSICAL_ADDRESS Cfg0Base,
   IN EFI_PHYSICAL_ADDRESS Cfg1Base,
   IN EFI_PHYSICAL_ADDRESS MemBase,
+  IN EFI_PHYSICAL_ADDRESS Mem64Base,
   IN EFI_PHYSICAL_ADDRESS IoBase
   )
 {
-  // ATU 0 : OUTBOUND : CFG0
+  // ATU : OUTBOUND WINDOW 1 : CFG0
   PcieOutboundSet (Pcie, IATU_REGION_INDEX0,
                          PAB_AXI_TYPE_CFG,
                          Cfg0Base,
                          SEG_CFG_BUS,
                          SEG_CFG_SIZE);
 
-  // ATU 2 : OUTBOUND : IO
+  // ATU : OUTBOUND WINDOW 2 : IO
   PcieOutboundSet (Pcie, IATU_REGION_INDEX1,
                          PAB_AXI_TYPE_IO,
                          IoBase,
                          SEG_IO_BUS,
                          SEG_IO_SIZE);
 
-  // ATU 3 : OUTBOUND : MEM
+  // ATU : OUTBOUND WINDOW 3 : MEM
   PcieOutboundSet (Pcie, IATU_REGION_INDEX2,
                          PAB_AXI_TYPE_MEM,
                          MemBase,
                          SEG_MEM_BUS,
                          SEG_MEM_SIZE);
+
+  // ATU : OUTBOUND WINDOW 4 : MMIO64
+  PcieOutboundSet (Pcie, IATU_REGION_INDEX3,
+                            PAB_AXI_TYPE_MEM,
+                            Mem64Base,
+                            Mem64Base,
+                            SIZE_4GB);
+  Mem64Base += SIZE_4GB;
+
+  // ATU : OUTBOUND WINDOW 5 : MMIO64
+  PcieOutboundSet (Pcie, IATU_REGION_INDEX4,
+                            PAB_AXI_TYPE_MEM,
+                            Mem64Base,
+                            Mem64Base,
+                            SIZE_4GB);
+  Mem64Base += SIZE_4GB;
+
+  // ATU : OUTBOUND WINDOW 6 : MMIO64
+  PcieOutboundSet (Pcie, IATU_REGION_INDEX5,
+                            PAB_AXI_TYPE_MEM,
+                            Mem64Base,
+                            Mem64Base,
+                            SIZE_4GB);
+  Mem64Base += SIZE_4GB;
+
+  // ATU : OUTBOUND WINDOW 7 : MMIO64
+  PcieOutboundSet (Pcie, IATU_REGION_INDEX6,
+                            PAB_AXI_TYPE_MEM,
+                            Mem64Base,
+                            Mem64Base,
+                            SIZE_4GB);
 
   if (FeaturePcdGet (PcdPciDebug) == TRUE) {
     INTN Cnt;
@@ -566,6 +598,7 @@ PcieSetupWindow (
   @param Cfg0Base PCIe controller phy address Type0 Configuration Space.
   @param Cfg1Base PCIe controller phy address Type1 Configuration Space.
   @param MemBase  PCIe controller phy address Memory Space.
+  @param Mem64Base PCIe controller phy address MMIO64 Space.
   @param IoBase   PCIe controller phy address IO Space.
 **/
 STATIC
@@ -575,6 +608,7 @@ PcieSetupAtu (
   IN EFI_PHYSICAL_ADDRESS Cfg0Base,
   IN EFI_PHYSICAL_ADDRESS Cfg1Base,
   IN EFI_PHYSICAL_ADDRESS MemBase,
+  IN EFI_PHYSICAL_ADDRESS Mem64Base,
   IN EFI_PHYSICAL_ADDRESS IoBase
   )
 {
@@ -607,7 +641,7 @@ PcieSetupAtu (
       Cfg1Size = SEG_CFG_SIZE;
   }
   //
-  // iATU : OUTBOUND WINDOW 0 : CFG0
+  // iATU : OUTBOUND WINDOW 1 : CFG0
   //
   PcieOutboundSet (Pcie, IATU_REGION_INDEX0,
                             IATU_REGION_CTRL_1_OFF_OUTBOUND_0_TYPE_CFG0,
@@ -616,14 +650,15 @@ PcieSetupAtu (
                             Cfg0Size);
 
   //
-  // iATU : OUTBOUND WINDOW 1 : CFG1
+  // iATU : OUTBOUND WINDOW 2 : CFG1
   PcieOutboundSet (Pcie, IATU_REGION_INDEX1,
                             IATU_REGION_CTRL_1_OFF_OUTBOUND_0_TYPE_CFG1,
                             Cfg1BaseAddr,
                             Cfg1BusAddress,
                             Cfg1Size);
+
   //
-  // iATU 2 : OUTBOUND WINDOW 2 : MEM
+  // iATU : OUTBOUND WINDOW 3 : MEM
   //
   PcieOutboundSet (Pcie, IATU_REGION_INDEX2,
                             IATU_REGION_CTRL_1_OFF_OUTBOUND_0_TYPE_MEM,
@@ -632,9 +667,49 @@ PcieSetupAtu (
                             SEG_MEM_SIZE);
 
   //
-  // iATU 3 : OUTBOUND WINDOW 3: IO
+  // iATU : OUTBOUND WINDOW 4 : MMIO64
   //
   PcieOutboundSet (Pcie, IATU_REGION_INDEX3,
+                            IATU_REGION_CTRL_1_OFF_OUTBOUND_0_TYPE_MEM,
+                            Mem64Base,
+                            Mem64Base,
+                            SIZE_4GB);
+  Mem64Base += SIZE_4GB;
+
+  //
+  // iATU : OUTBOUND WINDOW 5 : MMIO64
+  //
+  PcieOutboundSet (Pcie, IATU_REGION_INDEX4,
+                            IATU_REGION_CTRL_1_OFF_OUTBOUND_0_TYPE_MEM,
+                            Mem64Base,
+                            Mem64Base,
+                            SIZE_4GB);
+  Mem64Base += SIZE_4GB;
+
+  //
+  // iATU : OUTBOUND WINDOW 6 : MMIO64
+  //
+  PcieOutboundSet (Pcie, IATU_REGION_INDEX5,
+                            IATU_REGION_CTRL_1_OFF_OUTBOUND_0_TYPE_MEM,
+                            Mem64Base,
+                            Mem64Base,
+                            SIZE_4GB);
+  Mem64Base += SIZE_4GB;
+
+  //
+  // iATU : OUTBOUND WINDOW 7 : MMIO64
+  //
+  PcieOutboundSet (Pcie, IATU_REGION_INDEX6,
+                            IATU_REGION_CTRL_1_OFF_OUTBOUND_0_TYPE_MEM,
+                            Mem64Base,
+                            Mem64Base,
+                            SIZE_4GB);
+
+  //
+  //
+  // iATU : OUTBOUND WINDOW 8: IO
+  //
+  PcieOutboundSet (Pcie, IATU_REGION_INDEX7,
           IATU_REGION_CTRL_1_OFF_OUTBOUND_0_TYPE_IO,
           IoBase,
           SEG_IO_BUS,
@@ -649,6 +724,7 @@ PcieSetupAtu (
   @param Cfg1Base PCIe controller phy address Type1 Configuration Space.
   @param MemBase  PCIe controller phy address Memory Space.
   @param IoBase   PCIe controller phy address IO Space.
+  @param Mem64Base  PCIe controller phy address MMIO64 Space.
 
 **/
 STATIC
@@ -658,6 +734,7 @@ PcieSetupCntrl (
   IN EFI_PHYSICAL_ADDRESS Cfg0Base,
   IN EFI_PHYSICAL_ADDRESS Cfg1Base,
   IN EFI_PHYSICAL_ADDRESS MemBase,
+  IN EFI_PHYSICAL_ADDRESS Mem64Base,
   IN EFI_PHYSICAL_ADDRESS IoBase
   )
 {
@@ -691,7 +768,7 @@ PcieSetupCntrl (
     }
 
     PciSetupInBoundWin (Pcie, 0, PAB_AXI_TYPE_MEM, 0 , 0, SIZE_1TB);
-    PcieSetupWindow (Pcie, Cfg0Base, Cfg1Base, MemBase, IoBase);
+    PcieSetupWindow (Pcie, Cfg0Base, Cfg1Base, MemBase, Mem64Base, IoBase);
 
     // Enable AMBA & PEX PIO
     // PEX PIO is used to generate PIO traffic from PCIe Link to AXI
@@ -709,7 +786,7 @@ PcieSetupCntrl (
     //
     // iATU outbound set-up
     //
-    PcieSetupAtu (Pcie, Cfg0Base, Cfg1Base, MemBase, IoBase);
+    PcieSetupAtu (Pcie, Cfg0Base, Cfg1Base, MemBase, Mem64Base, IoBase);
 
     //
     // program correct class for RC
@@ -1370,6 +1447,7 @@ PciHostBridgeGetRootBridges (
   UINTN  Loop;
   INTN   LinkUp;
   UINT64 PciPhyMemAddr[NUM_PCIE_CONTROLLER];
+  UINT64 PciPhyMem64Addr[NUM_PCIE_CONTROLLER];
   UINT64 PciPhyCfg0Addr[NUM_PCIE_CONTROLLER];
   UINT64 PciPhyCfg1Addr[NUM_PCIE_CONTROLLER];
   UINT64 PciPhyIoAddr[NUM_PCIE_CONTROLLER];
@@ -1394,6 +1472,7 @@ PciHostBridgeGetRootBridges (
   //
   for  (Idx = 0; Idx < NUM_PCIE_CONTROLLER; Idx++) {
     PciPhyMemAddr[Idx] = PCI_SEG0_PHY_MEM_BASE + (PCI_BASE_DIFF * Idx);
+    PciPhyMem64Addr[Idx] = PCI_SEG0_PHY_MEM64_BASE + (PCI_BASE_DIFF * Idx);
     PciPhyCfg0Addr[Idx] = PCI_SEG0_PHY_CFG0_BASE + (PCI_BASE_DIFF * Idx);
     PciPhyCfg1Addr[Idx] = PCI_SEG0_PHY_CFG1_BASE + (PCI_BASE_DIFF * Idx);
     PciPhyIoAddr [Idx] =  PCI_SEG0_PHY_IO_BASE + (PCI_BASE_DIFF * Idx);
@@ -1456,6 +1535,7 @@ PciHostBridgeGetRootBridges (
                     PciPhyCfg0Addr[Idx],
                     PciPhyCfg1Addr[Idx],
                     PciPhyMemAddr[Idx],
+                    PciPhyMem64Addr[Idx],
                     PciPhyIoAddr[Idx]);
 
     //
@@ -1473,7 +1553,7 @@ PciHostBridgeGetRootBridges (
         mPciRootBridges[Loop].Segment               = PciEnabled[Loop];
         mPciRootBridges[Loop].Supports              = PCI_SUPPORT_ATTRIBUTES;
         mPciRootBridges[Loop].Attributes            = PCI_SUPPORT_ATTRIBUTES;
-        mPciRootBridges[Loop].DmaAbove4G            = FALSE;
+        mPciRootBridges[Loop].DmaAbove4G            = TRUE;
         mPciRootBridges[Loop].NoExtendedConfigSpace = FALSE;
         mPciRootBridges[Loop].ResourceAssigned      = FALSE;
         mPciRootBridges[Loop].AllocationAttributes  = PCI_ALLOCATION_ATTRIBUTES;
@@ -1489,15 +1569,16 @@ PciHostBridgeGetRootBridges (
                                                       (PciEnabled[Loop])) +
                                                       SEG_IO_BASE) + 1;
 
-        mPciRootBridges[Loop].Mem.Base              = SEG_MEM_SIZE;
+        mPciRootBridges[Loop].Mem.Base              = SEG_MEM_BASE;
         mPciRootBridges[Loop].Mem.Limit             = SEG_MEM_LIMIT;
         mPciRootBridges[Loop].Mem.Translation       = MAX_UINT64 -
                                                       (PCI_SEG0_MMIO_MEMBASE +
                                                       (PCI_BASE_DIFF *
                                                       PciEnabled[Loop])) + 1;
 
-        mPciRootBridges[Loop].MemAbove4G.Base       = MAX_UINT64;
-        mPciRootBridges[Loop].MemAbove4G.Limit      = 0;
+        mPciRootBridges[Loop].MemAbove4G.Base       = PciPhyMem64Addr[PciEnabled[Loop]];
+        mPciRootBridges[Loop].MemAbove4G.Limit      = PciPhyMem64Addr[PciEnabled[Loop]] +
+                                                      (SIZE_16GB - 1);
 
 
         //

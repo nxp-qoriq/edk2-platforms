@@ -31,6 +31,20 @@ Scope(_SB)
           0,                           // AddressTranslation
           LX2160A_PCI_SEG_BUSNUM_RANGE // RangeLength - # of Busses
         )
+        QWordMemory ( // 32-bit BAR Windows
+          ResourceProducer,
+          PosDecode,
+          MinFixed,
+          MaxFixed,
+          NonCacheable,
+          ReadWrite,
+          0x0,                           // Granularity
+          LX2160A_PCI_SEG0_MMIO32_MIN,   // Min Base Address
+          LX2160A_PCI_SEG0_MMIO32_MAX,   // Max Base Address
+          LX2160A_PCI_SEG0_MMIO32_XLATE, // Translate
+          LX2160A_PCI_SEG0_MMIO32_SIZE   // Length
+        )
+
         QWordMemory ( // 64-bit BAR Windows
           ResourceProducer,
           PosDecode,
@@ -41,9 +55,10 @@ Scope(_SB)
           0x0,                           // Granularity
           LX2160A_PCI_SEG0_MMIO64_MIN,   // Min Base Address
           LX2160A_PCI_SEG0_MMIO64_MAX,   // Max Base Address
-          LX2160A_PCI_SEG0_MMIO64_XLATE, // Translate
+          0x0,                           // Translate
           LX2160A_PCI_SEG0_MMIO64_SIZE   // Length
         )
+
         QWordIO ( // IO window
           ResourceProducer,
           MinFixed,
@@ -140,6 +155,19 @@ Scope(_SB)
           0,                           // AddressTranslation
           LX2160A_PCI_SEG_BUSNUM_RANGE // RangeLength - # of Busses
         )
+        QWordMemory ( // 32-bit BAR Windows
+          ResourceProducer,
+          PosDecode,
+          MinFixed,
+          MaxFixed,
+          NonCacheable,
+          ReadWrite,
+          0x0,                           // Granularity
+          LX2160A_PCI_SEG1_MMIO32_MIN,   // Min Base Address
+          LX2160A_PCI_SEG1_MMIO32_MAX,   // Max Base Address
+          LX2160A_PCI_SEG1_MMIO32_XLATE, // Translate
+          LX2160A_PCI_SEG1_MMIO32_SIZE   // Length
+        )
         QWordMemory ( // 64-bit BAR Windows
           ResourceProducer,
           PosDecode,
@@ -150,7 +178,7 @@ Scope(_SB)
           0x0,                           // Granularity
           LX2160A_PCI_SEG1_MMIO64_MIN,   // Min Base Address
           LX2160A_PCI_SEG1_MMIO64_MAX,   // Max Base Address
-          LX2160A_PCI_SEG1_MMIO64_XLATE, // Translate
+          0x0,                           // Translate
           LX2160A_PCI_SEG1_MMIO64_SIZE   // Length
         )
         QWordIO ( // IO window
