@@ -8,6 +8,78 @@
 *  SPDX-License-Identifier: BSD-2-Clause-Patent
 *
 **/
+Scope(_SB.I2C0)
+{
+  Name (SDB0, ResourceTemplate() {
+    I2CSerialBus(0x77, ControllerInitiated, 100000, AddressingMode7Bit,
+                 "\\_SB.I2C0", 0, ResourceConsumer, ,)
+  })
+
+  Name (SDB1, ResourceTemplate() {
+    I2CSerialBus(0x4C, ControllerInitiated, 100000, AddressingMode7Bit,
+                 "\\_SB.I2C0", 0, ResourceConsumer, ,)
+  })
+
+  Name (AVBL, Zero)
+  // _REG: Region Availability
+  Method (_REG, 2, NotSerialized) {
+    If (LEqual (Arg0, 0x09)) {
+       Store (Arg1, AVBL)
+    }
+  }
+
+  OperationRegion(TOP1, GenericSerialBus, 0x00, 0x100)
+  Field(TOP1, BufferAcc, NoLock, Preserve) {
+    Connection(SDB0),
+    AccessAs (BufferAcc, AttribByte),
+    FLD0, 8,                           // Virtual register at command value 0x00
+    Connection(SDB1),
+    offset(0x01),                      // sa56004fd remote sensor temperature register offset
+    AccessAs (BufferAcc, AttribByte),
+    FLD1, 8                            // Virtual register at command value 0x01
+  }
+
+  Name(BUFF, Buffer(34){})
+  CreateByteField(BUFF, 0x00, STAT)
+  CreateByteField(BUFF, 0x01, LEN)
+  CreateByteField(BUFF, 0x02, DATA)
+
+  // Method to set pca9546 channel id
+  Method (SCHN, 1, Serialized) {
+    Switch (Arg0) {
+      case (0) {
+        Store(0x01, DATA)
+      }
+      case (1) {
+        Store(0x02, DATA)
+      }
+      case (2) {
+        Store(0x04, DATA)
+      }
+      case (3) {
+        Store(0x08, DATA)
+      }
+      Default {
+        Store(0x01, DATA)
+      }
+    }
+    Store(One, LEN)
+    Store(BUFF, FLD0)
+    Return (STAT)
+  }
+
+  // Method to read temperature from remote sensor
+  Method (STMP, 0, Serialized) {
+    Store(Zero, Local0)
+    SCHN(I2C0_MUX_CHANNEL_0)
+    Store(One, LEN)
+    Store(FLD1, BUFF)
+    If (LEqual(STAT, 0x00)) {
+      Local0 = DATA
+    }
+    Return (Local0)
+  }
+}
 
 Scope(_TZ)
 {
@@ -19,6 +91,7 @@ Scope(_TZ)
   Name(PLC2, TMU_PASSIVE)
   Name(PLC3, TMU_PASSIVE)
   Name(PLC4, TMU_PASSIVE)
+  Name(PLC5, TMU_PASSIVE)
 
   // TMU hardware registers
   OperationRegion(TMUR, SystemMemory, TMU_BASE, TMU_LEN)
@@ -404,6 +477,35 @@ Scope(_TZ)
     // Thermal Object: Passive
     Method(_PSV, 0) {
       Return (TRP1)
+    }
+  }
+
+  ThermalZone(THM5) {
+    Name(_STR, Unicode("system-thermal-zone-5"))
+    Name(_TZP, TMU_TZ_POLLING_PERIOD)
+    Name(_TSP, TMU_TZ_SAMPLING_PERIOD)
+    Name(_TC1, TMU_THERMAL_COFFICIENT_1)
+    Name(_TC2, TMU_THERMAL_COFFICIENT_2)
+
+    Method(_SCP, 1, Serialized) {
+      If (Arg0) {
+        Store(1, PLC4)
+      } Else {
+        Store(0, PLC4)
+      }
+    }
+
+    Method(_TMP, 0, Serialized) {
+      Store(\_SB.I2C0.STMP(), Local0)
+      // Temperature is stored in Degree Celcius.
+      // Adjustment according to the linux kelvin_offset(2732)
+      Local0 += 273
+      Local0 = Local0 * 10 + 2
+      Return (Local0)
+    }
+
+    Method(_CRT, 0, Serialized) {
+      Return(TRPC)
     }
   }
 } //end of Scope _TZ

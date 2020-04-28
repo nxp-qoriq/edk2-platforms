@@ -144,6 +144,10 @@
 #define I2C1_IT   89
 #define I2C2_IT   90
 #define I2C3_IT   91
+#define I2C0_MUX_CHANNEL_0 0
+#define I2C0_MUX_CHANNEL_1 1
+#define I2C0_MUX_CHANNEL_2 2
+#define I2C0_MUX_CHANNEL_3 3
 
 // TMU
 #define TMU_BASE                 0x1F00000   // TMU CCSR space base address
