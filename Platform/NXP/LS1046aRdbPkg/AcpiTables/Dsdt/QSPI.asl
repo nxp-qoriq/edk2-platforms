@@ -14,6 +14,9 @@ Scope(_SB)
   Device(QPI0) {
     Name(_HID, "NXP0020")
     Name(_UID, 0)
+    Method (_STA) {
+      Return (0x01)
+    }
     Name(_CRS, ResourceTemplate() {
       Memory32Fixed(ReadWrite, QSPI0_BASE, QSPI_LEN,)
       Memory32Fixed(ReadWrite, QSPIMM_BASE, QSPIMM_LEN,)
