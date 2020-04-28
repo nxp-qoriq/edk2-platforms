@@ -516,14 +516,13 @@ PcieSetupWindow (
   IN EFI_PHYSICAL_ADDRESS IoBase
   )
 {
-  IoBase = Cfg0Base + LX_PEX_CFG_SIZE;
-
   // ATU 0 : OUTBOUND : CFG0
   PcieOutboundSet (Pcie, IATU_REGION_INDEX0,
                          PAB_AXI_TYPE_CFG,
                          Cfg0Base,
                          SEG_CFG_BUS,
                          SEG_CFG_SIZE);
+
   // ATU 2 : OUTBOUND : IO
   PcieOutboundSet (Pcie, IATU_REGION_INDEX1,
                          PAB_AXI_TYPE_IO,
@@ -1487,8 +1486,8 @@ PciHostBridgeGetRootBridges (
         mPciRootBridges[Loop].Io.Translation        = MAX_UINT64 -
                                                       (PCI_SEG0_MMIO_MEMBASE +
                                                       (PCI_BASE_DIFF *
-                                                      (PciEnabled[Loop] + 1)) -
-                                                      SEG_IO_SIZE) + 1;
+                                                      (PciEnabled[Loop])) +
+                                                      SEG_IO_BASE) + 1;
 
         mPciRootBridges[Loop].Mem.Base              = SEG_MEM_SIZE;
         mPciRootBridges[Loop].Mem.Limit             = SEG_MEM_LIMIT;
