@@ -36,7 +36,7 @@ Scope(_SB)
       Name (_DSD, Package () {
         ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
         Package() {
-          Package() {"compatible", "spansion,m25p80"},
+          Package() {"compatible", "spansion,s25fs512s"},
         }
       })
     } // end of mtd 0 device
@@ -54,7 +54,7 @@ Scope(_SB)
       Name (_DSD, Package () {
         ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
         Package() {
-          Package() {"compatible", "spansion,m25p80"},
+          Package() {"compatible", "spansion,s25fs512s"},
         }
       })
     } // end of mtd 1 device
