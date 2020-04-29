@@ -50,7 +50,7 @@ Scope(_SB)
     }) // end of _CRS for i2c0 device
     Method(_INI, 0, NotSerialized) {
       Store(\_SB.PCLK.CLK, CLK)
-      Divide(CLK, 8, Local0, CLK)
+      Divide(CLK, 8, , CLK)
     }
     Name (_DSD, Package () {
       ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
@@ -126,7 +126,7 @@ Scope(_SB)
     }) // end of _CRS for i2c4 device
     Method(_INI, 0, NotSerialized) {
       Store(\_SB.PCLK.CLK, CLK)
-      Divide(CLK, 8, Local0, CLK)
+      Divide(CLK, 8, , CLK)
     }
     Name (_DSD, Package () {
       ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
