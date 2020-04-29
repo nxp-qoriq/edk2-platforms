@@ -2,7 +2,7 @@
 
  Copyright 2018-2020 NXP
 
- SPDX-License-Identifier: BSD-2-Clause
+ SPDX-License-Identifier: BSD-2-Clause-Patent
 **/
 
 #include <libfdt.h>
@@ -173,16 +173,4 @@ SocGetSvr (
   PcdSet32(PcdSocSvr, (UINT32)Svr);
 
   return Svr;
-}
-
-/**
-  Enable PCie feature based on SoC revision
-
-**/
-VOID
-SocPcieCfgShift (
-  )
-{
-  if (((UINT32)SocGetSvr() & SVR_LX2160A_REV_MASK) == SVR_LX2160A_REV2)
-    PcdSetBool(PcdPciCfgShiftEnable, TRUE);
 }

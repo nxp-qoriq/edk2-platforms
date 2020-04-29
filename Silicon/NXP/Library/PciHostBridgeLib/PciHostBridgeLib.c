@@ -3,7 +3,7 @@
 
   Copyright 2018-2020 NXP
 
-  SPDX-License-Identifier: BSD-2-Clause
+  SPDX-License-Identifier: BSD-2-Clause-Patent
 **/
 
 #include <PiDxe.h>
@@ -336,7 +336,7 @@ PcieOutboundSet (
   IN UINT64 Size
   )
 {
-  if (((UINT32)PcdGet32(PcdSocSvr) & SVR_LX2160A_REV_MASK) == SVR_LX2160A_REV1_1) {
+  if (PCI_LS_GEN4_CTRL) {
     UINT32 Val;
     Size = ~(Size -1 );
 
@@ -410,7 +410,7 @@ PcieLinkState (
   UINT32 State;
   UINT32 LtssmMask;
 
-  if (((UINT32)PcdGet32(PcdSocSvr) & SVR_LX2160A_REV_MASK) == SVR_LX2160A_REV1_1) {
+  if (PCI_LS_GEN4_CTRL) {
       LtssmMask = 0x7f;
   } else {
       LtssmMask = 0x3f;
@@ -513,30 +513,61 @@ PcieSetupWindow (
   IN EFI_PHYSICAL_ADDRESS Cfg0Base,
   IN EFI_PHYSICAL_ADDRESS Cfg1Base,
   IN EFI_PHYSICAL_ADDRESS MemBase,
+  IN EFI_PHYSICAL_ADDRESS Mem64Base,
   IN EFI_PHYSICAL_ADDRESS IoBase
   )
 {
-  IoBase = Cfg0Base + LX_PEX_CFG_SIZE;
-
-  // ATU 0 : OUTBOUND : CFG0
+  // ATU : OUTBOUND WINDOW 1 : CFG0
   PcieOutboundSet (Pcie, IATU_REGION_INDEX0,
                          PAB_AXI_TYPE_CFG,
                          Cfg0Base,
                          SEG_CFG_BUS,
                          SEG_CFG_SIZE);
-  // ATU 2 : OUTBOUND : IO
+
+  // ATU : OUTBOUND WINDOW 2 : IO
   PcieOutboundSet (Pcie, IATU_REGION_INDEX1,
                          PAB_AXI_TYPE_IO,
                          IoBase,
                          SEG_IO_BUS,
                          SEG_IO_SIZE);
 
-  // ATU 3 : OUTBOUND : MEM
+  // ATU : OUTBOUND WINDOW 3 : MEM
   PcieOutboundSet (Pcie, IATU_REGION_INDEX2,
                          PAB_AXI_TYPE_MEM,
                          MemBase,
                          SEG_MEM_BUS,
                          SEG_MEM_SIZE);
+
+  // ATU : OUTBOUND WINDOW 4 : MMIO64
+  PcieOutboundSet (Pcie, IATU_REGION_INDEX3,
+                            PAB_AXI_TYPE_MEM,
+                            Mem64Base,
+                            Mem64Base,
+                            SIZE_4GB);
+  Mem64Base += SIZE_4GB;
+
+  // ATU : OUTBOUND WINDOW 5 : MMIO64
+  PcieOutboundSet (Pcie, IATU_REGION_INDEX4,
+                            PAB_AXI_TYPE_MEM,
+                            Mem64Base,
+                            Mem64Base,
+                            SIZE_4GB);
+  Mem64Base += SIZE_4GB;
+
+  // ATU : OUTBOUND WINDOW 6 : MMIO64
+  PcieOutboundSet (Pcie, IATU_REGION_INDEX5,
+                            PAB_AXI_TYPE_MEM,
+                            Mem64Base,
+                            Mem64Base,
+                            SIZE_4GB);
+  Mem64Base += SIZE_4GB;
+
+  // ATU : OUTBOUND WINDOW 7 : MMIO64
+  PcieOutboundSet (Pcie, IATU_REGION_INDEX6,
+                            PAB_AXI_TYPE_MEM,
+                            Mem64Base,
+                            Mem64Base,
+                            SIZE_4GB);
 
   if (FeaturePcdGet (PcdPciDebug) == TRUE) {
     INTN Cnt;
@@ -567,6 +598,7 @@ PcieSetupWindow (
   @param Cfg0Base PCIe controller phy address Type0 Configuration Space.
   @param Cfg1Base PCIe controller phy address Type1 Configuration Space.
   @param MemBase  PCIe controller phy address Memory Space.
+  @param Mem64Base PCIe controller phy address MMIO64 Space.
   @param IoBase   PCIe controller phy address IO Space.
 **/
 STATIC
@@ -576,6 +608,7 @@ PcieSetupAtu (
   IN EFI_PHYSICAL_ADDRESS Cfg0Base,
   IN EFI_PHYSICAL_ADDRESS Cfg1Base,
   IN EFI_PHYSICAL_ADDRESS MemBase,
+  IN EFI_PHYSICAL_ADDRESS Mem64Base,
   IN EFI_PHYSICAL_ADDRESS IoBase
   )
 {
@@ -592,7 +625,11 @@ PcieSetupAtu (
     Cfg1BaseAddr = Cfg0Base + SIZE_2MB;
     Cfg0BusAddress = SIZE_1MB;
     Cfg1BusAddress = SIZE_2MB;
-    Cfg0Size = SIZE_1MB;
+    if (PcdGetBool (PcdPciHideRootPort)) {
+      Cfg0Size = SIZE_32KB;
+    } else {
+      Cfg0Size = SIZE_1MB;
+    }
     Cfg1Size = (SIZE_256MB - SIZE_1MB); // 255MB
 
   } else {
@@ -604,7 +641,7 @@ PcieSetupAtu (
       Cfg1Size = SEG_CFG_SIZE;
   }
   //
-  // iATU : OUTBOUND WINDOW 0 : CFG0
+  // iATU : OUTBOUND WINDOW 1 : CFG0
   //
   PcieOutboundSet (Pcie, IATU_REGION_INDEX0,
                             IATU_REGION_CTRL_1_OFF_OUTBOUND_0_TYPE_CFG0,
@@ -613,14 +650,15 @@ PcieSetupAtu (
                             Cfg0Size);
 
   //
-  // iATU : OUTBOUND WINDOW 1 : CFG1
+  // iATU : OUTBOUND WINDOW 2 : CFG1
   PcieOutboundSet (Pcie, IATU_REGION_INDEX1,
                             IATU_REGION_CTRL_1_OFF_OUTBOUND_0_TYPE_CFG1,
                             Cfg1BaseAddr,
                             Cfg1BusAddress,
                             Cfg1Size);
+
   //
-  // iATU 2 : OUTBOUND WINDOW 2 : MEM
+  // iATU : OUTBOUND WINDOW 3 : MEM
   //
   PcieOutboundSet (Pcie, IATU_REGION_INDEX2,
                             IATU_REGION_CTRL_1_OFF_OUTBOUND_0_TYPE_MEM,
@@ -628,16 +666,54 @@ PcieSetupAtu (
                             SEG_MEM_BUS,
                             SEG_MEM_SIZE);
 
-  if (!CFG_SHIFT_ENABLE) {
-    //
-    // iATU 3 : OUTBOUND WINDOW 3: IO
-    //
-    PcieOutboundSet (Pcie, IATU_REGION_INDEX3,
-            IATU_REGION_CTRL_1_OFF_OUTBOUND_0_TYPE_IO,
-            IoBase,
-            SEG_IO_BUS,
-            SEG_IO_SIZE);
-  }
+  //
+  // iATU : OUTBOUND WINDOW 4 : MMIO64
+  //
+  PcieOutboundSet (Pcie, IATU_REGION_INDEX3,
+                            IATU_REGION_CTRL_1_OFF_OUTBOUND_0_TYPE_MEM,
+                            Mem64Base,
+                            Mem64Base,
+                            SIZE_4GB);
+  Mem64Base += SIZE_4GB;
+
+  //
+  // iATU : OUTBOUND WINDOW 5 : MMIO64
+  //
+  PcieOutboundSet (Pcie, IATU_REGION_INDEX4,
+                            IATU_REGION_CTRL_1_OFF_OUTBOUND_0_TYPE_MEM,
+                            Mem64Base,
+                            Mem64Base,
+                            SIZE_4GB);
+  Mem64Base += SIZE_4GB;
+
+  //
+  // iATU : OUTBOUND WINDOW 6 : MMIO64
+  //
+  PcieOutboundSet (Pcie, IATU_REGION_INDEX5,
+                            IATU_REGION_CTRL_1_OFF_OUTBOUND_0_TYPE_MEM,
+                            Mem64Base,
+                            Mem64Base,
+                            SIZE_4GB);
+  Mem64Base += SIZE_4GB;
+
+  //
+  // iATU : OUTBOUND WINDOW 7 : MMIO64
+  //
+  PcieOutboundSet (Pcie, IATU_REGION_INDEX6,
+                            IATU_REGION_CTRL_1_OFF_OUTBOUND_0_TYPE_MEM,
+                            Mem64Base,
+                            Mem64Base,
+                            SIZE_4GB);
+
+  //
+  //
+  // iATU : OUTBOUND WINDOW 8: IO
+  //
+  PcieOutboundSet (Pcie, IATU_REGION_INDEX7,
+          IATU_REGION_CTRL_1_OFF_OUTBOUND_0_TYPE_IO,
+          IoBase,
+          SEG_IO_BUS,
+          SEG_IO_SIZE);
 }
 
 /**
@@ -648,6 +724,7 @@ PcieSetupAtu (
   @param Cfg1Base PCIe controller phy address Type1 Configuration Space.
   @param MemBase  PCIe controller phy address Memory Space.
   @param IoBase   PCIe controller phy address IO Space.
+  @param Mem64Base  PCIe controller phy address MMIO64 Space.
 
 **/
 STATIC
@@ -657,12 +734,13 @@ PcieSetupCntrl (
   IN EFI_PHYSICAL_ADDRESS Cfg0Base,
   IN EFI_PHYSICAL_ADDRESS Cfg1Base,
   IN EFI_PHYSICAL_ADDRESS MemBase,
+  IN EFI_PHYSICAL_ADDRESS Mem64Base,
   IN EFI_PHYSICAL_ADDRESS IoBase
   )
 {
   UINT32 Val;
 
-  if (((UINT32)PcdGet32(PcdSocSvr) & SVR_LX2160A_REV_MASK) == SVR_LX2160A_REV1_1) {
+  if (PCI_LS_GEN4_CTRL) {
 
     // Set ACK Latency Timeout
     Val = CcsrRead32 ((UINTN)Pcie, GPEX_ACK_REPLAY_TO);
@@ -690,7 +768,7 @@ PcieSetupCntrl (
     }
 
     PciSetupInBoundWin (Pcie, 0, PAB_AXI_TYPE_MEM, 0 , 0, SIZE_1TB);
-    PcieSetupWindow (Pcie, Cfg0Base, Cfg1Base, MemBase, IoBase);
+    PcieSetupWindow (Pcie, Cfg0Base, Cfg1Base, MemBase, Mem64Base, IoBase);
 
     // Enable AMBA & PEX PIO
     // PEX PIO is used to generate PIO traffic from PCIe Link to AXI
@@ -708,7 +786,7 @@ PcieSetupCntrl (
     //
     // iATU outbound set-up
     //
-    PcieSetupAtu (Pcie, Cfg0Base, Cfg1Base, MemBase, IoBase);
+    PcieSetupAtu (Pcie, Cfg0Base, Cfg1Base, MemBase, Mem64Base, IoBase);
 
     //
     // program correct class for RC
@@ -814,9 +892,7 @@ PcieGetStreamId (LS_PCIE  *LsPcie)
   STATIC INT32 NextStreamid = FixedPcdGet32 (PcdPcieStreamIdStart);
   INT32        StreamId;
 
-  if ((!AsciiStrCmp ( (CHAR8 *)PcdGetPtr (PcdPciFdtCompatible),
-                  "fsl,lx2160a-pcie")) || (((UINT32)PcdGet32(PcdSocSvr) & SVR_LX2160A_REV_MASK)
-                  == SVR_LX2160A_REV1_2)) {
+  if (PCI_STREAMID_PER_CTRL) {
     StreamId = LsPcie->CurrentStreamId;
     if (StreamId > FixedPcdGet32 (PcdPcieStreamIdEnd)) {
       return -1;
@@ -1371,6 +1447,7 @@ PciHostBridgeGetRootBridges (
   UINTN  Loop;
   INTN   LinkUp;
   UINT64 PciPhyMemAddr[NUM_PCIE_CONTROLLER];
+  UINT64 PciPhyMem64Addr[NUM_PCIE_CONTROLLER];
   UINT64 PciPhyCfg0Addr[NUM_PCIE_CONTROLLER];
   UINT64 PciPhyCfg1Addr[NUM_PCIE_CONTROLLER];
   UINT64 PciPhyIoAddr[NUM_PCIE_CONTROLLER];
@@ -1395,6 +1472,7 @@ PciHostBridgeGetRootBridges (
   //
   for  (Idx = 0; Idx < NUM_PCIE_CONTROLLER; Idx++) {
     PciPhyMemAddr[Idx] = PCI_SEG0_PHY_MEM_BASE + (PCI_BASE_DIFF * Idx);
+    PciPhyMem64Addr[Idx] = PCI_SEG0_PHY_MEM64_BASE + (PCI_BASE_DIFF * Idx);
     PciPhyCfg0Addr[Idx] = PCI_SEG0_PHY_CFG0_BASE + (PCI_BASE_DIFF * Idx);
     PciPhyCfg1Addr[Idx] = PCI_SEG0_PHY_CFG1_BASE + (PCI_BASE_DIFF * Idx);
     PciPhyIoAddr [Idx] =  PCI_SEG0_PHY_IO_BASE + (PCI_BASE_DIFF * Idx);
@@ -1457,6 +1535,7 @@ PciHostBridgeGetRootBridges (
                     PciPhyCfg0Addr[Idx],
                     PciPhyCfg1Addr[Idx],
                     PciPhyMemAddr[Idx],
+                    PciPhyMem64Addr[Idx],
                     PciPhyIoAddr[Idx]);
 
     //
@@ -1474,47 +1553,33 @@ PciHostBridgeGetRootBridges (
         mPciRootBridges[Loop].Segment               = PciEnabled[Loop];
         mPciRootBridges[Loop].Supports              = PCI_SUPPORT_ATTRIBUTES;
         mPciRootBridges[Loop].Attributes            = PCI_SUPPORT_ATTRIBUTES;
-        mPciRootBridges[Loop].DmaAbove4G            = FALSE;
+        mPciRootBridges[Loop].DmaAbove4G            = TRUE;
         mPciRootBridges[Loop].NoExtendedConfigSpace = FALSE;
         mPciRootBridges[Loop].ResourceAssigned      = FALSE;
         mPciRootBridges[Loop].AllocationAttributes  = PCI_ALLOCATION_ATTRIBUTES;
 
         mPciRootBridges[Loop].Bus.Base              = PCI_SEG_BUSNUM_MIN;
         mPciRootBridges[Loop].Bus.Limit             = PCI_SEG_BUSNUM_MAX;
-        mPciRootBridges[Loop].Io.Base               = PciEnabled[Loop] *
-                                                      SEG_IO_SIZE;
-        mPciRootBridges[Loop].Io.Limit              = PCI_SEG_PORTIO_MAX +
-                                                      (PciEnabled[Loop] *
-                                                       SEG_IO_SIZE);
-        mPciRootBridges[Loop].Mem.Base              = PCI_SEG_MMIO32_MIN +
-                                                      (PciEnabled[Loop] *
-                                                       PCI_SEG_MMIO32_DIFF);
-        mPciRootBridges[Loop].Mem.Limit             = PCI_SEG_MMIO32_MAX +
-                                                      (PciEnabled[Loop] *
-                                                      PCI_SEG_MMIO32_DIFF);
 
-        /* TODO: Fixme: This is a temporary fix to avoid PCIe using NOR flash range
-         * for MMIO access. For LS1043 Platform, NOR flash starts at 0x60000000 and
-         * reserve RUN_TIME memory from this region. If PCIe uses this memory for MMIO
-         * access then it will overwrite the RUN_TIME region reserved in NOR Flash.
-         */
-        if ((PciEnabled[Loop] == 0x2) && ((PcdGet32(PcdSocSvr) & SVR_LS1043A_MASK) == SVR_LS1043A)) {
-          mPciRootBridges[Loop].Mem.Base += PCI_SEG_MMIO32_DIFF;
-          mPciRootBridges[Loop].Mem.Limit += PCI_SEG_MMIO32_DIFF;
-        }
+        mPciRootBridges[Loop].Io.Base               = PCI_SEG_PORTIO_MIN;
+        mPciRootBridges[Loop].Io.Limit              = PCI_SEG_PORTIO_MAX;
+        mPciRootBridges[Loop].Io.Translation        = MAX_UINT64 -
+                                                      (PCI_SEG0_MMIO_MEMBASE +
+                                                      (PCI_BASE_DIFF *
+                                                      (PciEnabled[Loop])) +
+                                                      SEG_IO_BASE) + 1;
 
-        /* TODO: Fixme: This is a temporary fix to avoid PEX5 in LX2160 to use DDR
-         * region (starting from 0x80000000) and adjust the range to from 0x7000000
-         * for it's MMIO access.
-         */
-        if ((PciEnabled[Loop] == 0x4) && ((PcdGet32(PcdSocSvr) & SVR_LX2160A_MASK) == SVR_LX2160A)) {
-          mPciRootBridges[Loop].Mem.Base -= PCI_SEG_MMIO32_DIFF;
-          mPciRootBridges[Loop].Mem.Limit -= PCI_SEG_MMIO32_DIFF;
-        }
+        mPciRootBridges[Loop].Mem.Base              = SEG_MEM_BASE;
+        mPciRootBridges[Loop].Mem.Limit             = SEG_MEM_LIMIT;
+        mPciRootBridges[Loop].Mem.Translation       = MAX_UINT64 -
+                                                      (PCI_SEG0_MMIO_MEMBASE +
+                                                      (PCI_BASE_DIFF *
+                                                      PciEnabled[Loop])) + 1;
 
-        mPciRootBridges[Loop].MemAbove4G.Base       = PciPhyMemAddr[PciEnabled[Loop]];
-        mPciRootBridges[Loop].MemAbove4G.Limit      = PciPhyMemAddr[PciEnabled[Loop]] +
-                                                      PCI_SEG_MMIO64_MAX_DIFF;
+        mPciRootBridges[Loop].MemAbove4G.Base       = PciPhyMem64Addr[PciEnabled[Loop]];
+        mPciRootBridges[Loop].MemAbove4G.Limit      = PciPhyMem64Addr[PciEnabled[Loop]] +
+                                                      (SIZE_16GB - 1);
+
 
         //
         // No separate ranges for prefetchable and non-prefetchable BARs

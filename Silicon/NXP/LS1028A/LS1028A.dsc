@@ -3,7 +3,7 @@
 #
 #  Copyright 2019-2020 NXP
 #
-#  SPDX-License-Identifier: BSD-2-Clause
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
 #
 
 ################################################################################
@@ -22,6 +22,7 @@
 [LibraryClasses.common]
   SocClockLib|Silicon/NXP/LS1028A/Library/SocClockLib/SocClockLib.inf
   SocFixupLib|Silicon/NXP/LS1028A/Library/SocFixupLib/SocFixupLib.inf
+  SocPlatformLib|Silicon/NXP/LS1028A/Library/SocPlatformLib/SocPlatformLib.inf
 
 [PcdsFixedAtBuild.common]
 

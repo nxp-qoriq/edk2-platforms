@@ -3,9 +3,9 @@
 
   Copyright (c) 2009 - 2012, Intel Corporation. All rights reserved.<BR>
   Copyright (c) 2016, Linaro Ltd. All rights reserved.<BR>
-  Copyright 2018-2019 NXP
+  Copyright 2018-2020 NXP
 
-  SPDX-License-Identifier: BSD-2-Clause
+  SPDX-License-Identifier: BSD-2-Clause-Patent
 **/
 
 #include <Library/BaseLib.h>
@@ -22,7 +22,6 @@
 // Handle for the CPU I/O 2 Protocol
 //
 STATIC EFI_HANDLE  mHandle;
-static UINT32 SocSvr;
 
 //
 // Lookup table for increment values based on transfer widths
@@ -239,50 +238,6 @@ CpuMemoryServiceRead (
     return Status;
   }
 
-  if (SocSvr == 0) {
-    SocSvr = (UINT32)PcdGet32 (PcdSocSvr);
-  }
-
-  if ((Address >= PCI_SEG0_MMIO32_MIN) &&
-      (Address <= PCI_SEG0_MMIO32_MAX)) {
-    Address += PCI_SEG0_MMIO_MEMBASE;
-  } else if ((Address >= PCI_SEG1_MMIO32_MIN) &&
-             (Address <= PCI_SEG1_MMIO32_MAX)) {
-    Address += PCI_SEG1_MMIO_MEMBASE;
-  } else if ((Address >= PCI_SEG2_MMIO32_MIN) &&
-             (Address <= PCI_SEG2_MMIO32_MAX)) {
-    Address += PCI_SEG2_MMIO_MEMBASE;
-  } else if ((Address >= PCI_SEG3_MMIO32_MIN) &&
-             (Address <= PCI_SEG3_MMIO32_MAX)) {
-
-    /* TODO: Fixme: This is a temporary fix to avoid PCIe using NOR flash range
-     * for MMIO access. For LS1043 Platform, NOR flash starts at 0x60000000 and
-     * reserve RUN_TIME memory from this region. If PCIe uses this memory for MMIO
-     * access then it will overwrite the RUN_TIME region reserved in NOR Flash.
-     */
-    if ((PcdGet32(PcdSocSvr) & SVR_LS1043A_MASK) == SVR_LS1043A) {
-      Address += PCI_SEG2_MMIO_MEMBASE;
-    } else if ((PcdGet32(PcdSocSvr) & SVR_LX2160A_MASK) == SVR_LX2160A) {
-      /* TODO: Fixme: This is a temporary fix to avoid LX2 PCIe controller using
-      * DDR region region 0x80000000 for it's MMIO access. In PciHostBridgeLib
-      * We are mapping 0x70000000 with PEX5 for its MMIO access, here we reverse
-      * map the 0x70000000 address range to PEX5.
-      */
-      Address += PCI_SEG4_MMIO_MEMBASE;
-    } else
-       Address += PCI_SEG3_MMIO_MEMBASE;
-
-  } else if ((Address >= PCI_SEG4_MMIO32_MIN) &&
-             (Address <= PCI_SEG4_MMIO32_MAX)) {
-    Address += PCI_SEG4_MMIO_MEMBASE;
-  } else if ((Address >= PCI_SEG5_MMIO32_MIN) &&
-             (Address <= PCI_SEG5_MMIO32_MAX)) {
-    Address += PCI_SEG5_MMIO_MEMBASE;
-  } else {
-    ASSERT (FALSE);
-    return EFI_INVALID_PARAMETER;
-  }
-
   //
   // Select loop based on the width of the transfer
   //
@@ -361,50 +316,6 @@ CpuMemoryServiceWrite (
   Status = CpuIoCheckParameter (TRUE, Width, Address, Count, Buffer);
   if (EFI_ERROR (Status)) {
     return Status;
-  }
-
-  if (SocSvr == 0) {
-    SocSvr = (UINT32)PcdGet32 (PcdSocSvr);
-  }
-
-  if ((Address >= PCI_SEG0_MMIO32_MIN) &&
-      (Address <= PCI_SEG0_MMIO32_MAX)) {
-    Address += PCI_SEG0_MMIO_MEMBASE;
-  } else if ((Address >= PCI_SEG1_MMIO32_MIN) &&
-             (Address <= PCI_SEG1_MMIO32_MAX)) {
-    Address += PCI_SEG1_MMIO_MEMBASE;
-  } else if ((Address >= PCI_SEG2_MMIO32_MIN) &&
-             (Address <= PCI_SEG2_MMIO32_MAX)) {
-    Address += PCI_SEG2_MMIO_MEMBASE;
-  } else if ((Address >= PCI_SEG3_MMIO32_MIN) &&
-             (Address <= PCI_SEG3_MMIO32_MAX)) {
-
-    /* TODO: Fixme: This is a temporary fix to avoid PCIe using NOR flash range
-     * for MMIO access. For LS1043 Platform, NOR flash starts at 0x60000000 and
-     * reserve RUN_TIME memory from this region. If PCIe uses this memory for MMIO
-     * access then it will overwrite the RUN_TIME region reserved in NOR Flash.
-     */
-    if ((PcdGet32(PcdSocSvr) & SVR_LS1043A_MASK) == SVR_LS1043A) {
-      Address += PCI_SEG2_MMIO_MEMBASE;
-    } else if ((PcdGet32(PcdSocSvr) & SVR_LX2160A_MASK) == SVR_LX2160A) {
-      /* TODO: Fixme: This is a temporary fix to avoid LX2 PCIe controller using
-      * DDR region region 0x80000000 for it's MMIO access. In PciHostBridgeLib
-      * We are mapping 0x70000000 with PEX5 for its MMIO access, here we reverse
-      * map the 0x70000000 address range to PEX5.
-      */
-      Address += PCI_SEG4_MMIO_MEMBASE;
-    } else
-       Address += PCI_SEG3_MMIO_MEMBASE;
-
-  } else if ((Address >= PCI_SEG4_MMIO32_MIN) &&
-             (Address <= PCI_SEG4_MMIO32_MAX)) {
-    Address += PCI_SEG4_MMIO_MEMBASE;
-  } else if ((Address >= PCI_SEG5_MMIO32_MIN) &&
-             (Address <= PCI_SEG5_MMIO32_MAX)) {
-    Address += PCI_SEG5_MMIO_MEMBASE;
-  } else {
-    ASSERT (FALSE);
-    return EFI_INVALID_PARAMETER;
   }
 
   //

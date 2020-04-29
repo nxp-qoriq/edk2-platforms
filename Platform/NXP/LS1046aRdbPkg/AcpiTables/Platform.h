@@ -125,7 +125,6 @@
 #define SPI2_BASE 0x2120000
 #define SPI_LEN   0x10000
 #define SPI_IT    58
-#define SPI_UUID  "daffd814-6eba-4d8c-8a91-bc9bbf4aa301"
 
 // PCLK : Dynamic Clock
 #define DCFG_BASE   0x1EE0000  /* Device configuration data Base Address */

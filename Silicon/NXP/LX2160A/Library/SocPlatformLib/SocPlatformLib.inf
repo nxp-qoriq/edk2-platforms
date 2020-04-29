@@ -1,6 +1,6 @@
 #@file
 #
-#  Component description file for AcpiPlatformLib module
+#  Component description file for SocPlatformLib module
 #
 #  Copyright 2020 NXP
 #
@@ -10,14 +10,14 @@
 
 [Defines]
   INF_VERSION                     = 0x0001000A
-  BASE_NAME                       = AcpiPlatformLib
-  FILE_GUID                       = f62948e9-c671-41c2-a6b8-8a7990b5bc8b
+  BASE_NAME                       = SocPlatformLib
+  FILE_GUID                       = 12A92E32-7749-11EA-BC55-0242AC130003
   MODULE_TYPE                     = BASE
   VERSION_STRING                  = 1.0
-  LIBRARY_CLASS                   = AcpiPlatformLib
+  LIBRARY_CLASS                   = SocPlatformLib
 
 [Sources.common]
-  AcpiPlatformLib.c
+  SocPlatformLib.c
 
 [Packages]
   MdePkg/MdePkg.dec
@@ -26,11 +26,14 @@
   Silicon/NXP/Chassis/Chassis3V2/Chassis3V2.dec
 
 [LibraryClasses]
-  BaseLib
-  BaseMemoryLib
   DebugLib
+  SocLib
+
+[FixedPcd]
+  gNxpQoriqLsTokenSpaceGuid.PcdGutsBaseAddr
 
 [Pcd]
-  gNxpQoriqLsTokenSpaceGuid.PcdSocSvr
+  gNxpQoriqLsTokenSpaceGuid.PcdPciCfgShiftEnable
+  gNxpQoriqLsTokenSpaceGuid.PcdPciStreamIdPerCtrl
   gNxpQoriqLsTokenSpaceGuid.PcdPciHideRootPort
-
+  gNxpQoriqLsTokenSpaceGuid.PcdPciLsGen4Ctrl

@@ -4,7 +4,7 @@
 #
 #  Copyright 2018-2020 NXP
 #
-#  SPDX-License-Identifier: BSD-2-Clause
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
 #
 
 
@@ -39,7 +39,6 @@
 [Pcd]
   gNxpQoriqLsTokenSpaceGuid.PcdSocSvr
   gNxpQoriqLsTokenSpaceGuid.PcdPciFdtCompatible
-  gNxpQoriqLsTokenSpaceGuid.PcdPciCfgShiftEnable
 
 [Guids]
   gDtPlatformDefaultDtbFileGuid

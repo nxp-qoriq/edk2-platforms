@@ -3,7 +3,7 @@
 #
 #  Copyright 2018-2020 NXP
 #
-#  SPDX-License-Identifier: BSD-2-Clause
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
 #
 
 ################################################################################
@@ -23,6 +23,7 @@
 [LibraryClasses.common]
   SocClockLib|Silicon/NXP/LX2160A/Library/SocClockLib/SocClockLib.inf
   SocFixupLib|Silicon/NXP/LX2160A/Library/SocFixupLib/SocFixupLib.inf
+  SocPlatformLib|Silicon/NXP/LX2160A/Library/SocPlatformLib/SocPlatformLib.inf
   AcpiPlatformLib|Silicon/NXP/LX2160A/Library/AcpiPlatformLib/AcpiPlatformLib.inf
 
 [PcdsFixedAtBuild.common]

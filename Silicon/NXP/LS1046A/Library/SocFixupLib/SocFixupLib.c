@@ -2,7 +2,7 @@
 
  Copyright 2018-2020 NXP
 
- SPDX-License-Identifier: BSD-2-Clause
+ SPDX-License-Identifier: BSD-2-Clause-Patent
 **/
 
 #include <libfdt.h>
@@ -84,14 +84,4 @@ SocGetSvr (
   ASSERT (GurBase != NULL);
 
   return GurRead ( (UINTN)&GurBase->Svr);
-}
-
-/**
-  Enable PCie feature.
-**/
-VOID
-SocPcieCfgShift (
-  )
-{
-    PcdSetBool(PcdPciCfgShiftEnable, TRUE);
 }
