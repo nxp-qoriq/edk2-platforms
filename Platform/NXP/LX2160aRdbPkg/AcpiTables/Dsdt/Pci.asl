@@ -3,9 +3,9 @@
 *
 *  Copyright (c) 2011-2015, ARM Limited. All rights reserved.
 *  Copyright (c) 2016, Linaro Limited. All rights reserved.
-*  Copyright 2019 NXP
+*  Copyright 2019-2020 NXP
 *
-*  SPDX-License-Identifier: BSD-2-Clause
+*  SPDX-License-Identifier: BSD-2-Clause-Patent
 *
 *  Based on the files under ArmPlatformPkg/ArmJunoPkg/AcpiTables/
 *
@@ -31,6 +31,20 @@ Scope(_SB)
           0,                           // AddressTranslation
           LX2160A_PCI_SEG_BUSNUM_RANGE // RangeLength - # of Busses
         )
+        QWordMemory ( // 32-bit BAR Windows
+          ResourceProducer,
+          PosDecode,
+          MinFixed,
+          MaxFixed,
+          NonCacheable,
+          ReadWrite,
+          0x0,                           // Granularity
+          LX2160A_PCI_SEG0_MMIO32_MIN,   // Min Base Address
+          LX2160A_PCI_SEG0_MMIO32_MAX,   // Max Base Address
+          LX2160A_PCI_SEG0_MMIO32_XLATE, // Translate
+          LX2160A_PCI_SEG0_MMIO32_SIZE   // Length
+        )
+
         QWordMemory ( // 64-bit BAR Windows
           ResourceProducer,
           PosDecode,
@@ -41,8 +55,21 @@ Scope(_SB)
           0x0,                           // Granularity
           LX2160A_PCI_SEG0_MMIO64_MIN,   // Min Base Address
           LX2160A_PCI_SEG0_MMIO64_MAX,   // Max Base Address
-          LX2160A_PCI_SEG0_MMIO64_XLATE, // Translate
+          0x0,                           // Translate
           LX2160A_PCI_SEG0_MMIO64_SIZE   // Length
+        )
+
+        QWordIO ( // IO window
+          ResourceProducer,
+          MinFixed,
+          MaxFixed,
+          PosDecode,
+          EntireRange,
+          0x0,                            // Granularity
+          LX2160A_PCI_SEG0_IO64_MIN,      // Min Base Address
+          LX2160A_PCI_SEG0_IO64_MAX,      // Max Base Address
+          LX2160A_PCI_SEG0_IO64_XLATE,    // Translate
+          LX2160A_PCI_SEG0_IO64_SIZE      // Length
         )
       })
       Return (RBUF)
@@ -128,6 +155,19 @@ Scope(_SB)
           0,                           // AddressTranslation
           LX2160A_PCI_SEG_BUSNUM_RANGE // RangeLength - # of Busses
         )
+        QWordMemory ( // 32-bit BAR Windows
+          ResourceProducer,
+          PosDecode,
+          MinFixed,
+          MaxFixed,
+          NonCacheable,
+          ReadWrite,
+          0x0,                           // Granularity
+          LX2160A_PCI_SEG1_MMIO32_MIN,   // Min Base Address
+          LX2160A_PCI_SEG1_MMIO32_MAX,   // Max Base Address
+          LX2160A_PCI_SEG1_MMIO32_XLATE, // Translate
+          LX2160A_PCI_SEG1_MMIO32_SIZE   // Length
+        )
         QWordMemory ( // 64-bit BAR Windows
           ResourceProducer,
           PosDecode,
@@ -138,8 +178,20 @@ Scope(_SB)
           0x0,                           // Granularity
           LX2160A_PCI_SEG1_MMIO64_MIN,   // Min Base Address
           LX2160A_PCI_SEG1_MMIO64_MAX,   // Max Base Address
-          LX2160A_PCI_SEG1_MMIO64_XLATE, // Translate
+          0x0,                           // Translate
           LX2160A_PCI_SEG1_MMIO64_SIZE   // Length
+        )
+        QWordIO ( // IO window
+          ResourceProducer,
+          MinFixed,
+          MaxFixed,
+          PosDecode,
+          EntireRange,
+          0x0,                            // Granularity
+          LX2160A_PCI_SEG1_IO64_MIN,      // Min Base Address
+          LX2160A_PCI_SEG1_IO64_MAX,      // Max Base Address
+          LX2160A_PCI_SEG1_IO64_XLATE,    // Translate
+          LX2160A_PCI_SEG1_IO64_SIZE      // Length
         )
       })
       Return (RBUF)

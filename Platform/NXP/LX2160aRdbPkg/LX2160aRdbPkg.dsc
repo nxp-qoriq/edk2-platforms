@@ -4,7 +4,7 @@
 #
 #  Copyright 2018-2020 NXP
 #
-#  SPDX-License-Identifier: BSD-2-Clause
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
 #
 
 ################################################################################
@@ -198,6 +198,10 @@
   Silicon/NXP/Drivers/MmcHostDxe/MmcHostDxe.inf
   Silicon/NXP/Drivers/Dpaa2EthernetDxe/Dpaa2EthernetDxe.inf
   Silicon/NXP/Drivers/RngDxe/RngDxe.inf
+
+  # Platform DXE Driver
+  Silicon/NXP/Drivers/PlatformDxe/PlatformDxe.inf
+
   #
   # DT support
   #

@@ -4,16 +4,7 @@
   Copyright (c) 2015, ARM Limited. All rights reserved.
   Copyright 2019-2020 NXP
 
-  This program and the accompanying materials
-  are licensed and made available under the terms and conditions of the BSD License
-  which accompanies this distribution.  The full text of the license may be found at
-  http://opensource.org/licenses/bsd-license.php
-
-  THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "AS IS" BASIS,
-  WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
-
-  Based on the files under ARM/JunoPkg/SmbiosPlatformDxe
-
+  SPDX-License-Identifier: BSD-2-Clause-Patent
 **/
 
 #include "SmbiosPlatformDxe.h"
@@ -267,6 +258,50 @@ STATIC CONST ARM_TYPE32 mArmDefaultType32 = {
   TYPE32_STRINGS
 };
 
+STATIC CONST ARM_TYPE9 mArmDefaultType9_1 = {
+  {
+    { // SMBIOS_STRUCTURE Hdr
+      EFI_SMBIOS_TYPE_SYSTEM_SLOTS, // UINT8 Type
+      sizeof (SMBIOS_TABLE_TYPE9),  // UINT8 Length
+      SMBIOS_HANDLE_PI_RESERVED,
+    },
+    1,
+    SlotTypePciExpressGen3X4,
+    SlotDataBusWidth4X,
+    SlotUsageAvailable,
+    SlotLengthShort,
+    0,                 // SlotId
+    {1},               // unknown
+    {1,0,0},           // PME and SMBUS
+    0x0,               // Segment
+    0x0,               // Bus
+    0x0,               // DevFunc
+  },
+  TYPE9_STRING
+};
+
+STATIC CONST ARM_TYPE9 mArmDefaultType9_2 = {
+  {
+    { // SMBIOS_STRUCTURE Hdr
+      EFI_SMBIOS_TYPE_SYSTEM_SLOTS, // UINT8 Type
+      sizeof (SMBIOS_TABLE_TYPE9),  // UINT8 Length
+      SMBIOS_HANDLE_PI_RESERVED,
+    },
+    2,
+    SlotTypePciExpressGen3X8,
+    SlotDataBusWidth8X,
+    SlotUsageAvailable,
+    SlotLengthShort,
+    0,                // SlotId
+    {1},              // unknown
+    {1,0,0},          // PME and SMBUS
+    0x1,              // Segment
+    0x0,              // Bus
+    0x0,              // DevFunc
+  },
+  TYPE9_STRING
+};
+
 STATIC CONST VOID *LX2Tables[] =
 {
     &mArmDefaultType0,
@@ -278,6 +313,8 @@ STATIC CONST VOID *LX2Tables[] =
     &mArmDefaultType17,
     &mArmDefaultType19,
     &mArmDefaultType32,
+    &mArmDefaultType9_1,
+    &mArmDefaultType9_2,
      NULL
 };
 /**
