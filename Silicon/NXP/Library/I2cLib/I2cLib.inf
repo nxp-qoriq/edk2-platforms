@@ -29,3 +29,5 @@
 [FeaturePcd]
   gNxpQoriqLsTokenSpaceGuid.PcdI2cErratumA009203
 
+[FixedPcd]
+  gNxpQoriqLsTokenSpaceGuid.PcdI2cEarlyDivisor

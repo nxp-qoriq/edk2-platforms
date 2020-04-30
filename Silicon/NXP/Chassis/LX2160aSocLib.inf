@@ -40,6 +40,7 @@
   FpgaLib
   I2cLib
   SerialPortLib
+  SocClockLib
 
 [Sources.common]
   Chassis.c
@@ -65,4 +66,5 @@
   gNxpQoriqLsTokenSpaceGuid.PcdDpaa2McLowRamSize
   gNxpQoriqLsTokenSpaceGuid.PcdI2c0BaseAddr
   gNxpQoriqLsTokenSpaceGuid.PcdI2cSize
+  gNxpQoriqLsTokenSpaceGuid.PcdI2cSpeed
   gNxpQoriqLsTokenSpaceGuid.PcdNumI2cController

@@ -24,6 +24,7 @@
 #include <Library/IoLib.h>
 #include <Library/PcdLib.h>
 #include <Library/PrintLib.h>
+#include <Library/SocClockLib.h>
 #include <Library/SerialPortLib.h>
 
 #include "Soc.h"
@@ -183,8 +184,12 @@ SocInit (
   UINT32 ExternalITPolarity
   )
 {
-  CHAR8 Buffer[100];
-  UINTN CharCount;
+  CHAR8        Buffer[100];
+  UINTN        CharCount;
+  UINTN        I2cBase;
+  UINT64       I2cClock;
+
+  I2cBase = FixedPcdGet64 (PcdI2c0BaseAddr);
 
   //
   // Initialize SMMU
@@ -194,7 +199,14 @@ SocInit (
   //
   // Early init i2c, needed to read Fpga register for Serial initialization.
   //
-  I2cEarlyInitialize (FixedPcdGet64 (PcdI2c0BaseAddr));
+  I2cEarlyInitialize (I2cBase);
+
+  //
+  // Setup correct I2c bus frequency
+  //
+  I2cClock = SocGetClock (IP_I2C, 0);
+
+  (VOID)I2cInitialize(I2cBase, I2cClock, PcdGet32(PcdI2cSpeed));
 
   //
   // Initialize the Serial Port.
