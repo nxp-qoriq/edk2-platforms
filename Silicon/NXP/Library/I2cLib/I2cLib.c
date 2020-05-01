@@ -133,6 +133,7 @@ I2cGetIbfd (
   UINT32                         ClockDivisorPairSize;
   UINT32                         Index;
 
+  Ibfd = 0;
   Regs = (I2C_REGS *)Base;
 
   if (MmioRead8 ((UINTN)&Regs->Ibdbg) & I2C_IBDBG_GLFLT_EN) {
