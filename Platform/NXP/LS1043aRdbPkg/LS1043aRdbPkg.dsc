@@ -136,7 +136,7 @@
   }
   MdeModulePkg/Universal/FaultTolerantWriteDxe/FaultTolerantWriteDxe.inf
 
-  Silicon/NXP/Drivers/WatchDog/WatchDogDxe.inf
+  MdeModulePkg/Universal/WatchdogTimerDxe/WatchdogTimer.inf
   Silicon/NXP/Drivers/I2cDxe/I2cDxe.inf
   Silicon/NXP/Drivers/NorFlashDxe/NorFlashDxe.inf
   Silicon/NXP/Drivers/PciCpuIo2Dxe/PciCpuIo2Dxe.inf

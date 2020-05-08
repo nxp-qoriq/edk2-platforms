@@ -98,6 +98,13 @@ READ_LOCK_STATUS   = TRUE
   INF RuleOverride = DTB Platform/NXP/LS1046aFrwyPkg/DeviceTree/DeviceTree.inf
   INF Silicon/NXP/Drivers/DtPlatformDxe/DtPlatformDxe.inf
 
+  #
+  # ACPI
+  #
+  INF RuleOverride=ACPITABLE Platform/NXP/LS1046aFrwyPkg/AcpiTables/AcpiTables.inf
+  INF MdeModulePkg/Universal/Acpi/AcpiTableDxe/AcpiTableDxe.inf
+  INF Silicon/NXP/Drivers/NxpAcpiPlatformDxe/AcpiPlatformDxe.inf
+
   INF Silicon/NXP/Drivers/SpiBusDxe/SpiBusDxe.inf
   INF Silicon/NXP/Drivers/SpiNorFlashDxe/SpiNorFlashDxe.inf
   INF Silicon/NXP/Drivers/SpiConfigurationDxe/SpiConfigurationDxe.inf
@@ -106,7 +113,7 @@ READ_LOCK_STATUS   = TRUE
   INF MdeModulePkg/Core/RuntimeDxe/RuntimeDxe.inf
   INF ArmPkg/Drivers/ArmGic/ArmGicDxe.inf
   INF ArmPkg/Drivers/TimerDxe/TimerDxe.inf
-  INF Silicon/NXP/Drivers/WatchDog/WatchDogDxe.inf
+  INF MdeModulePkg/Universal/WatchdogTimerDxe/WatchdogTimer.inf
   INF MdeModulePkg/Universal/SecurityStubDxe/SecurityStubDxe.inf
   INF MdeModulePkg/Universal/CapsuleRuntimeDxe/CapsuleRuntimeDxe.inf
   INF MdeModulePkg/Universal/HiiDatabaseDxe/HiiDatabaseDxe.inf
@@ -119,6 +126,7 @@ READ_LOCK_STATUS   = TRUE
   INF Silicon/NXP/Drivers/I2cDxe/I2cDxe.inf
 
   INF  EmbeddedPkg/RealTimeClockRuntimeDxe/RealTimeClockRuntimeDxe.inf
+
 
   #
   # Multiple Console IO support

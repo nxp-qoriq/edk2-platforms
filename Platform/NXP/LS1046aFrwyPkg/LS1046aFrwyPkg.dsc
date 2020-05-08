@@ -61,6 +61,7 @@
   gArmTokenSpaceGuid.PcdSystemMemoryBase|0x80000000
   gArmTokenSpaceGuid.PcdSystemMemorySize|0x007BE00000
   gArmPlatformTokenSpaceGuid.PcdSystemMemoryUefiRegionSize|0x02000000
+  gEfiMdeModulePkgTokenSpaceGuid.PcdAcpiExposedTableVersions|0x20
 
   #
   # Board Specific Pcds
@@ -138,7 +139,7 @@
   #MdeModulePkg/Universal/Variable/EmuRuntimeDxe/EmuVariableRuntimeDxe.inf
   MdeModulePkg/Universal/FaultTolerantWriteDxe/FaultTolerantWriteDxe.inf
 
-  Silicon/NXP/Drivers/WatchDog/WatchDogDxe.inf
+  MdeModulePkg/Universal/WatchdogTimerDxe/WatchdogTimer.inf
   Silicon/NXP/Drivers/I2cDxe/I2cDxe.inf
   EmbeddedPkg/RealTimeClockRuntimeDxe/RealTimeClockRuntimeDxe.inf
   Silicon/NXP/Drivers/UsbHcdInitDxe/UsbHcd.inf
@@ -179,3 +180,13 @@
   Silicon/NXP/Drivers/Dpaa1EthernetDxe/Dpaa1EthernetDxe.inf
 
  ##
+  #
+  # Acpi Support
+  #
+  Silicon/NXP/Drivers/NxpAcpiPlatformDxe/AcpiPlatformDxe.inf
+
+  #
+  # Platform
+  #
+  Platform/NXP/LS1046aFrwyPkg/AcpiTables/AcpiTables.inf
+  ##

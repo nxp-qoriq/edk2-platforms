@@ -1,0 +1,75 @@
+/** @file
+*  Memory Mapped Configuration Space Base Address Description Table (MCFG)
+*
+*  Copyright 2019-2020 NXP
+*  Copyright 2020 Puresoftware Ltd
+*
+*  SPDX-License-Identifier: BSD-2-Clause-Patent
+*
+**/
+
+#include <IndustryStandard/Acpi.h>
+#include "Platform.h"
+
+#define MCFG_VERSION  0x1
+
+#pragma pack(1)
+
+typedef struct {
+   UINT64 BaseAddress; // Base Address
+   UINT16 SegGroupNum; // Segment Group Number
+   UINT8  StartBusNum; // Start Bus Number
+   UINT8  EndBusNum;  // End Bus Number
+   UINT32 Reserved2;
+} EFI_MCFG_CONFIG_STRUCTURE;
+
+typedef struct {
+   EFI_ACPI_DESCRIPTION_HEADER Header;
+   UINT64 Reserved1;
+} EFI_MCFG_TABLE_CONFIG;
+
+typedef struct {
+   EFI_MCFG_TABLE_CONFIG Acpi_Table_Mcfg;
+   EFI_MCFG_CONFIG_STRUCTURE Config_Structure[2];
+} EFI_PCI_EXPRESS_MEMORY_MAPPED_CONFIGURATION_SPACE_TABLE;
+
+#pragma pack()
+
+EFI_PCI_EXPRESS_MEMORY_MAPPED_CONFIGURATION_SPACE_TABLE Mcfg= {
+  {
+      {
+        EFI_ACPI_6_1_PCI_EXPRESS_MEMORY_MAPPED_CONFIGURATION_SPACE_BASE_ADDRESS_DESCRIPTION_TABLE_SIGNATURE,
+        sizeof (EFI_PCI_EXPRESS_MEMORY_MAPPED_CONFIGURATION_SPACE_TABLE),
+        MCFG_VERSION,
+        0x00,                                                     // Checksum will be updated at runtime
+        {EFI_ACPI_ARM_OEM_ID},
+        EFI_ACPI_ARM_OEM_TABLE_ID,
+        EFI_ACPI_ARM_OEM_REVISION,
+        EFI_ACPI_ARM_CREATOR_ID,
+        EFI_ACPI_ARM_CREATOR_REVISION
+      },
+      EFI_ACPI_RESERVED_QWORD,                                 //Reserved
+  },
+  {
+    {
+      LS1046A_PCI_SEG1_CONFIG_BASE,
+      LS1046A_PCI_SEG1,
+      LS1046A_PCI_SEG_BUSNUM_MIN,
+      LS1046A_PCI_SEG_BUSNUM_MAX,
+      EFI_ACPI_RESERVED_DWORD,
+    },
+    {
+      LS1046A_PCI_SEG2_CONFIG_BASE,
+      LS1046A_PCI_SEG2,
+      LS1046A_PCI_SEG_BUSNUM_MIN,
+      LS1046A_PCI_SEG_BUSNUM_MAX,
+      EFI_ACPI_RESERVED_DWORD,
+    }
+   }
+};
+
+//
+// Reference the table being generated to prevent the optimizer from removing the
+// data structure from the executable
+//
+VOID* CONST ReferenceAcpiTable = &Mcfg;

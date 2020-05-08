@@ -1,11 +1,10 @@
-/** Serial Port Console Redirection Table (SPCR)
+/** @file
+*  Serial Port Console Redirection Table (SPCR)
 *
 *  Copyright 2019-2020 NXP
-*
 *  Copyright 2020 Puresoftware Ltd
 *
 *  SPDX-License-Identifier: BSD-2-Clause-Patent
-*  Based on the files under Arm/JunoPkg/AcpiTables/
 *
 **/
 
