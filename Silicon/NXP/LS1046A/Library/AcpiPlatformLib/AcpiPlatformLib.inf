@@ -22,10 +22,13 @@
   MdePkg/MdePkg.dec
   EmbeddedPkg/EmbeddedPkg.dec
   Silicon/NXP/NxpQoriqLs.dec
-  Silicon/NXP/Chassis/Chassis3V2/Chassis3V2.dec
+  Silicon/NXP/Chassis/Chassis2/Chassis2.dec
 
 [LibraryClasses]
+  BaseLib
+  BaseMemoryLib
   DebugLib
 
 [Pcd]
   gNxpQoriqLsTokenSpaceGuid.PcdSocSvr
+  gNxpQoriqLsTokenSpaceGuid.PcdPciHideRootPort

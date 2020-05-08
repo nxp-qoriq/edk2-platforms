@@ -48,4 +48,5 @@ VOID
 SocSetPciRootPort (
   )
 {
+  PcdSetBool(PcdPciHideRootPort, TRUE);
 }
