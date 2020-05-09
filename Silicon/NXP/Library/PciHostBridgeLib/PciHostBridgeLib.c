@@ -1049,7 +1049,7 @@ FdtPcieSetUp (
   if (PcieNodeOffset < 0) {
     DEBUG ((
       DEBUG_WARN,
-      "Pcie node with regs address %p node found in Dtb\n",
+      "Pcie node with regs address %p not found in Dtb\n",
       LsPcie[SegmentNumber].ControllerAddress
       ));
     return EFI_NOT_FOUND;
@@ -1349,8 +1349,12 @@ OnPlatformHasPciIo (
 /**
   Fixup the pcie controller status disabled or okay in device tree
 
-  @param[in] Dtb         Device tree to fixup
-  @param[in] LsPcie      Array of type LS_PCIE for all PCIE controllers in SOC
+  @param[in] Dtb      Device tree to fixup
+  @param[in] LsPcie   pointer to a particular LS_PCIE node in array of all
+                      controllers
+  @param[in] Enabled  Weather the PCIE controller is enabled or not (by serdes
+                      protocol)? based on this the status property in controller
+                      node is set as "disabled" or "okay".
 
   @retval EFI_SUCCESS       Controller status set successfully
   @retval EFI_DEVICE_ERROR  Couldn't set the status
@@ -1359,10 +1363,10 @@ OnPlatformHasPciIo (
 EFI_STATUS
 FdtFixupPcieStatus (
   IN  VOID      *Dtb,
-  IN  LS_PCIE   *LsPcie
+  IN  LS_PCIE   *LsPcie,
+  IN  BOOLEAN   Enabled
   )
 {
-  UINTN       Idx;
   INTN        PcieNodeOffset;
   INT32       FdtStatus;
   INT32       StreamId;
@@ -1371,54 +1375,52 @@ FdtFixupPcieStatus (
 
   Status = EFI_SUCCESS;
 
-  for  (Idx = 0; Idx < NUM_PCIE_CONTROLLER; Idx++) {
-    PcieNodeOffset = FdtFindPcie (Dtb, LsPcie[Idx].ControllerAddress);
-    if (PcieNodeOffset < 0) {
-      DEBUG ((
-        DEBUG_WARN,
-        "Pcie node with regs address %p node found in Dtb\n",
-        LsPcie[Idx].ControllerAddress
-        ));
-      continue;
-    }
+  PcieNodeOffset = FdtFindPcie (Dtb, LsPcie->ControllerAddress);
+  if (PcieNodeOffset < 0) {
+    DEBUG ((
+      DEBUG_WARN,
+      "Pcie node with regs address %p not found in Dtb\n",
+      LsPcie->ControllerAddress
+      ));
+    return EFI_DEVICE_ERROR;
+  }
 
-    if (IsPcieNumEnabled (Idx)) {
-      FdtStatus = fdt_setprop_string (Dtb, PcieNodeOffset, "status", "okay");
-      // set the MSI interrupt map and IO MMU map for BusDevFunc = 0
-      // In the current fixup, RC is also assigned a steam ID
-      // because in theory we can access the RC itself config space on PCIe link
-      LutIndex = PcieNextLutIndex (&LsPcie[Idx]);
-      if (LutIndex < 0) {
-        DEBUG ((DEBUG_WARN, "No free Lut Index for Pcie\n"));
-        continue;
-      }
-
-      // Get a free StreamId from pool, if not found we are done
-      StreamId = PcieGetStreamId (&LsPcie[Idx]);
-      if (StreamId < 0) {
-        DEBUG ((DEBUG_WARN, "No free StreamId for Pcie\n"));
-        continue;
-      }
-
-      Status = FdtPcieSetIommuMapEntry (Dtb, PcieNodeOffset, 0, StreamId);
-      if (EFI_ERROR (Status) && (Status != EFI_NOT_FOUND)) {
-        break;
-      }
-
-      Status = FdtPcieSetMsiMapEntry (Dtb, PcieNodeOffset, 0, StreamId);
-      if (EFI_ERROR (Status) && (Status != EFI_NOT_FOUND)) {
-        break;
-      }
-
-      PcieLutSetMapping (&LsPcie[Idx], LutIndex, 0, StreamId);
-    } else {
-      FdtStatus = fdt_setprop_string (Dtb, PcieNodeOffset, "status", "disabled");
-    }
-
-    if (FdtStatus) {
-      DEBUG ((DEBUG_ERROR, "Error: couldn't set the status %a!\n", fdt_strerror (FdtStatus)));
+  if (Enabled == TRUE) {
+    FdtStatus = fdt_setprop_string (Dtb, PcieNodeOffset, "status", "okay");
+    // set the MSI interrupt map and IO MMU map for BusDevFunc = 0
+    // In the current fixup, RC is also assigned a steam ID
+    // because in theory we can access the RC itself config space on PCIe link
+    LutIndex = PcieNextLutIndex (LsPcie);
+    if (LutIndex < 0) {
+      DEBUG ((DEBUG_WARN, "No free Lut Index for Pcie\n"));
       return EFI_DEVICE_ERROR;
     }
+
+    // Get a free StreamId from pool, if not found we are done
+    StreamId = PcieGetStreamId (LsPcie);
+    if (StreamId < 0) {
+      DEBUG ((DEBUG_WARN, "No free StreamId for Pcie\n"));
+      return EFI_DEVICE_ERROR;
+    }
+
+    Status = FdtPcieSetIommuMapEntry (Dtb, PcieNodeOffset, 0, StreamId);
+    if (EFI_ERROR (Status) && (Status != EFI_NOT_FOUND)) {
+      return Status;
+    }
+
+    Status = FdtPcieSetMsiMapEntry (Dtb, PcieNodeOffset, 0, StreamId);
+    if (EFI_ERROR (Status) && (Status != EFI_NOT_FOUND)) {
+      return Status;
+    }
+
+    PcieLutSetMapping (LsPcie, LutIndex, 0, StreamId);
+  } else {
+    FdtStatus = fdt_setprop_string (Dtb, PcieNodeOffset, "status", "disabled");
+  }
+
+  if (FdtStatus) {
+    DEBUG ((DEBUG_ERROR, "Error: couldn't set the status %a!\n", fdt_strerror (FdtStatus)));
+    return EFI_DEVICE_ERROR;
   }
 
   return Status;
@@ -1438,16 +1440,14 @@ PciHostBridgeGetRootBridges (
   OUT UINTN     *Count
   )
 {
-  UINTN  Idx;
-  UINTN  Loop;
-  INTN   LinkUp;
-  UINT64 PciPhyMemAddr[NUM_PCIE_CONTROLLER];
-  UINT64 PciPhyMem64Addr[NUM_PCIE_CONTROLLER];
-  UINT64 PciPhyCfg0Addr[NUM_PCIE_CONTROLLER];
-  UINT64 PciPhyCfg1Addr[NUM_PCIE_CONTROLLER];
-  UINT64 PciPhyIoAddr[NUM_PCIE_CONTROLLER];
-  UINT64 Regs[NUM_PCIE_CONTROLLER];
-  UINT8  PciEnabled[NUM_PCIE_CONTROLLER];
+  UINTN         Idx;
+  INTN          LinkUp;
+  UINT64        PciPhyMemAddr;
+  UINT64        PciPhyMem64Addr;
+  UINT64        PciPhyCfg0Addr;
+  UINT64        PciPhyCfg1Addr;
+  UINT64        PciPhyIoAddr;
+  UINT64        Regs;
   LS_PCIE       *LsPcie;
   EFI_STATUS    Status;
   VOID          *Dtb;
@@ -1460,33 +1460,9 @@ PciHostBridgeGetRootBridges (
     return NULL;
   }
 
-  //
-  // Filling local array for
-  // PCIe controller Physical address space for Cfg0,Cfg1,Mem,IO
-  // Host Contoller address
-  //
-  for  (Idx = 0; Idx < NUM_PCIE_CONTROLLER; Idx++) {
-    PciPhyMemAddr[Idx] = PCI_SEG0_PHY_MEM_BASE + (PCI_BASE_DIFF * Idx);
-    PciPhyMem64Addr[Idx] = PCI_SEG0_PHY_MEM64_BASE + (PCI_BASE_DIFF * Idx);
-    PciPhyCfg0Addr[Idx] = PCI_SEG0_PHY_CFG0_BASE + (PCI_BASE_DIFF * Idx);
-    PciPhyCfg1Addr[Idx] = PCI_SEG0_PHY_CFG1_BASE + (PCI_BASE_DIFF * Idx);
-    PciPhyIoAddr [Idx] =  PCI_SEG0_PHY_IO_BASE + (PCI_BASE_DIFF * Idx);
-    Regs[Idx] =  PCI_SEG0_DBI_BASE + (PCI_DBI_SIZE_DIFF * Idx);
-    LsPcie[Idx].ControllerAddress = Regs[Idx];
-    LsPcie[Idx].NextLutIndex = 0;
-    LsPcie[Idx].LsPcieLut = (LS_PCIE_LUT *)(LsPcie[Idx].ControllerAddress + PCI_LUT_BASE);
-    LsPcie[Idx].ControllerIndex = Idx;
-    LsPcie[Idx].CurrentStreamId = 0;
-  }
-
   Status = EfiGetSystemConfigurationTable (&gFdtTableGuid, &Dtb);
   if (EFI_ERROR (Status)) {
     DEBUG ((DEBUG_ERROR, "Did not find the Dtb Blob.\n"));
-  } else {
-    Status = FdtFixupPcieStatus (Dtb, LsPcie);
-    if (EFI_ERROR (Status)) {
-      DEBUG ((DEBUG_ERROR, "Could not set Pcie status retval %r\n", Status));
-    }
   }
 
   if (PcdGet64 (PcdIortTablePtr) == 0) {
@@ -1494,27 +1470,59 @@ PciHostBridgeGetRootBridges (
   }
 
   for (Idx = 0; Idx < NUM_PCIE_CONTROLLER; Idx++) {
+    PciPhyMemAddr = PCI_SEG0_PHY_MEM_BASE + (PCI_BASE_DIFF * Idx);
+    PciPhyMem64Addr = PCI_SEG0_PHY_MEM64_BASE + (PCI_BASE_DIFF * Idx);
+    PciPhyCfg0Addr = PCI_SEG0_PHY_CFG0_BASE + (PCI_BASE_DIFF * Idx);
+    PciPhyCfg1Addr = PCI_SEG0_PHY_CFG1_BASE + (PCI_BASE_DIFF * Idx);
+    PciPhyIoAddr  =  PCI_SEG0_PHY_IO_BASE + (PCI_BASE_DIFF * Idx);
+    Regs =  PCI_SEG0_DBI_BASE + (PCI_DBI_SIZE_DIFF * Idx);
+
+    // Filling local array for
+    // PCIe controller Physical address space for Host Contoller address
+    //
+    LsPcie[Idx].ControllerAddress = Regs;
+    LsPcie[Idx].NextLutIndex = 0;
+    LsPcie[Idx].LsPcieLut = (LS_PCIE_LUT *)(Regs + PCI_LUT_BASE);
+    LsPcie[Idx].ControllerIndex = Idx;
+    LsPcie[Idx].CurrentStreamId = 0;
+
     //
     // Verify PCIe controller is enabled in Soc Serdes Map
     //
     if (!IsPcieNumEnabled (Idx)) {
       DEBUG ((DEBUG_ERROR, "PCIE%d is disabled\n", (Idx + BIT0)));
+
+      if (Dtb != NULL) {
+        Status = FdtFixupPcieStatus (Dtb, &LsPcie[Idx], FALSE);
+        if (EFI_ERROR (Status)) {
+          DEBUG ((DEBUG_ERROR, "Could not set Pcie status retval %r\n", Status));
+        }
+      }
+
       //
       // Continue with other PCIe controller
       //
       continue;
     }
+
     DEBUG ((DEBUG_INFO, "PCIE%d is Enabled\n", Idx + BIT0));
+
+    if (Dtb != NULL) {
+      Status = FdtFixupPcieStatus (Dtb, &LsPcie[Idx], TRUE);
+      if (EFI_ERROR (Status)) {
+        DEBUG ((DEBUG_ERROR, "Could not set Pcie status retval %r\n", Status));
+      }
+    }
 
     //
     // Verify PCIe controller LTSSM state
     //
-    LinkUp = PcieLinkUp(Regs[Idx]);
+    LinkUp = PcieLinkUp(Regs);
     if (!LinkUp) {
       //
       // Let the user know there's no PCIe link
       //
-      DEBUG ((DEBUG_INFO,"no link, regs @ 0x%lx\n", Regs[Idx]));
+      DEBUG ((DEBUG_INFO,"no link, regs @ 0x%lx\n", Regs));
       //
       // Continue with other PCIe controller
       //
@@ -1526,74 +1534,66 @@ PciHostBridgeGetRootBridges (
     // Function to set up address translation unit outbound window for
     // PCIe Controller
     //
-    PcieSetupCntrl (Regs[Idx],
-                    PciPhyCfg0Addr[Idx],
-                    PciPhyCfg1Addr[Idx],
-                    PciPhyMemAddr[Idx],
-                    PciPhyMem64Addr[Idx],
-                    PciPhyIoAddr[Idx]);
+    PcieSetupCntrl (Regs,
+                    PciPhyCfg0Addr,
+                    PciPhyCfg1Addr,
+                    PciPhyMemAddr,
+                    PciPhyMem64Addr,
+                    PciPhyIoAddr);
+
+    mPciRootBridges[*Count].Segment               = Idx;
+    mPciRootBridges[*Count].Supports              = PCI_SUPPORT_ATTRIBUTES;
+    mPciRootBridges[*Count].Attributes            = PCI_SUPPORT_ATTRIBUTES;
+    mPciRootBridges[*Count].DmaAbove4G            = TRUE;
+    mPciRootBridges[*Count].NoExtendedConfigSpace = FALSE;
+    mPciRootBridges[*Count].ResourceAssigned      = FALSE;
+    mPciRootBridges[*Count].AllocationAttributes  = PCI_ALLOCATION_ATTRIBUTES;
+
+    mPciRootBridges[*Count].Bus.Base              = PCI_SEG_BUSNUM_MIN;
+    mPciRootBridges[*Count].Bus.Limit             = PCI_SEG_BUSNUM_MAX;
+
+    mPciRootBridges[*Count].Io.Base               = PCI_SEG_PORTIO_MIN;
+    mPciRootBridges[*Count].Io.Limit              = PCI_SEG_PORTIO_MAX;
+    mPciRootBridges[*Count].Io.Translation        = MAX_UINT64 -
+                                                    (SEG_IO_SIZE * Idx) + 1;
+
+    mPciRootBridges[*Count].Mem.Base              = SEG_MEM_BASE;
+    mPciRootBridges[*Count].Mem.Limit             = SEG_MEM_LIMIT;
+    mPciRootBridges[*Count].Mem.Translation       = MAX_UINT64 -
+                                                    (PCI_SEG0_MMIO_MEMBASE +
+                                                    (PCI_BASE_DIFF * Idx)) + 1;
+
+    mPciRootBridges[*Count].MemAbove4G.Base       = PciPhyMem64Addr;
+    mPciRootBridges[*Count].MemAbove4G.Limit      = PciPhyMem64Addr +
+                                                    (SIZE_16GB - 1);
 
     //
-    // Local array to index all enable PCIe controllers
+    // No separate ranges for prefetchable and non-prefetchable BARs
     //
-    PciEnabled[*Count] = Idx;
+    mPciRootBridges[*Count].PMem.Base             = MAX_UINT64;
+    mPciRootBridges[*Count].PMem.Limit            = 0;
+    mPciRootBridges[*Count].PMemAbove4G.Base      = MAX_UINT64;
+    mPciRootBridges[*Count].PMemAbove4G.Limit     = 0;
+    mPciRootBridges[*Count].DevicePath            = (EFI_DEVICE_PATH_PROTOCOL *)&mEfiPciRootBridgeDevicePath[Idx];
 
-    *Count += BIT0;
+    ++*Count;
   }
 
   if (*Count == 0) {
-     return NULL;
-  } else {
-     for (Loop = 0; Loop < *Count; Loop++) {
-        mPciRootBridges[Loop].Segment               = PciEnabled[Loop];
-        mPciRootBridges[Loop].Supports              = PCI_SUPPORT_ATTRIBUTES;
-        mPciRootBridges[Loop].Attributes            = PCI_SUPPORT_ATTRIBUTES;
-        mPciRootBridges[Loop].DmaAbove4G            = TRUE;
-        mPciRootBridges[Loop].NoExtendedConfigSpace = FALSE;
-        mPciRootBridges[Loop].ResourceAssigned      = FALSE;
-        mPciRootBridges[Loop].AllocationAttributes  = PCI_ALLOCATION_ATTRIBUTES;
-
-        mPciRootBridges[Loop].Bus.Base              = PCI_SEG_BUSNUM_MIN;
-        mPciRootBridges[Loop].Bus.Limit             = PCI_SEG_BUSNUM_MAX;
-
-        mPciRootBridges[Loop].Io.Base               = PCI_SEG_PORTIO_MIN;
-        mPciRootBridges[Loop].Io.Limit              = PCI_SEG_PORTIO_MAX;
-        mPciRootBridges[Loop].Io.Translation        = MAX_UINT64 -
-                                                      (SEG_IO_SIZE * PciEnabled[Loop]) + 1;
-
-        mPciRootBridges[Loop].Mem.Base              = SEG_MEM_BASE;
-        mPciRootBridges[Loop].Mem.Limit             = SEG_MEM_LIMIT;
-        mPciRootBridges[Loop].Mem.Translation       = MAX_UINT64 -
-                                                      (PCI_SEG0_MMIO_MEMBASE +
-                                                      (PCI_BASE_DIFF *
-                                                      PciEnabled[Loop])) + 1;
-
-        mPciRootBridges[Loop].MemAbove4G.Base       = PciPhyMem64Addr[PciEnabled[Loop]];
-        mPciRootBridges[Loop].MemAbove4G.Limit      = PciPhyMem64Addr[PciEnabled[Loop]] +
-                                                      (SIZE_16GB - 1);
-
-
-        //
-        // No separate ranges for prefetchable and non-prefetchable BARs
-        //
-        mPciRootBridges[Loop].PMem.Base             = MAX_UINT64;
-        mPciRootBridges[Loop].PMem.Limit            = 0;
-        mPciRootBridges[Loop].PMemAbove4G.Base      = MAX_UINT64;
-        mPciRootBridges[Loop].PMemAbove4G.Limit     = 0;
-        mPciRootBridges[Loop].DevicePath            = (EFI_DEVICE_PATH_PROTOCOL *)&mEfiPciRootBridgeDevicePath[PciEnabled[Loop]];
-     }
-
-    if (!PlatformHasPciIoEvent) {
-      PlatformHasPciIoEvent = EfiCreateProtocolNotifyEvent (
-                                &gEfiPciIoProtocolGuid,
-                                TPL_CALLBACK,
-                                OnPlatformHasPciIo,
-                                LsPcie,
-                                &PlatformHasPciIoNotifyReg
-                                );
-    }
-     return mPciRootBridges;
+    return NULL;
   }
+
+  if (!PlatformHasPciIoEvent) {
+    PlatformHasPciIoEvent = EfiCreateProtocolNotifyEvent (
+                              &gEfiPciIoProtocolGuid,
+                              TPL_CALLBACK,
+                              OnPlatformHasPciIo,
+                              LsPcie,
+                              &PlatformHasPciIoNotifyReg
+                              );
+  }
+
+  return mPciRootBridges;
 }
 
 /**
