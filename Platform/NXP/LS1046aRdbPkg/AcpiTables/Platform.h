@@ -147,6 +147,10 @@
 #define QSPIMM_BASE 0x40000000  /* QSPI Fixed Memory Map Base Address */
 #define QSPIMM_LEN  0x20000000  /* QSPI Fixed Memory Map Length */
 
+//Rcpm
+#define RCPM_BASE 0x1ee2000
+#define RCPM_LEN  0x1000
+
 // TMU
 #define TMU_BASE                 0x1F00000   // TMU CCSR space base address
 #define TMU_LEN                  0x10000     // TMU CCSR space length
