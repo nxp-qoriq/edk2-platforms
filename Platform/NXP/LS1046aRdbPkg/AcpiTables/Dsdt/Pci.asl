@@ -30,6 +30,19 @@ Scope(_SB)
              0,                           // AddressTranslation
              LS1046A_PCI_SEG_BUSNUM_RANGE // RangeLength - # of Busses
         )
+        QWordMemory ( // 32-bit BAR Windows
+            ResourceProducer,
+            PosDecode,
+            MinFixed,
+            MaxFixed,
+            NonCacheable,
+            ReadWrite,
+            0x0,                           // Granularity
+            LS1046A_PCI_SEG0_MMIO32_MIN,   // Min Base Address
+            LS1046A_PCI_SEG0_MMIO32_MAX,   // Max Base Address
+            LS1046A_PCI_SEG0_MMIO32_XLATE, // Translate
+            LS1046A_PCI_SEG0_MMIO32_SIZE   // Length
+        )
 
         QWordMemory ( // 64-bit BAR Windows
             ResourceProducer,
@@ -41,7 +54,7 @@ Scope(_SB)
             0x0,                           // Granularity
             LS1046A_PCI_SEG0_MMIO64_MIN,   // Min Base Address
             LS1046A_PCI_SEG0_MMIO64_MAX,   // Max Base Address
-            LS1046A_PCI_SEG0_MMIO64_XLATE, // Translate
+            0x0, // Translate
             LS1046A_PCI_SEG0_MMIO64_SIZE   // Length
         )
       }) // Name (RBUF)
@@ -125,6 +138,20 @@ Scope(_SB)
           0,                           // AddressTranslation
           LS1046A_PCI_SEG_BUSNUM_RANGE // RangeLength - # of Busses
         )
+        QWordMemory ( // 32-bit BAR Windows
+          ResourceProducer,
+          PosDecode,
+          MinFixed,
+          MaxFixed,
+          NonCacheable,
+          ReadWrite,
+          0x0,                           // Granularity
+          LS1046A_PCI_SEG1_MMIO32_MIN,   // Min Base Address
+          LS1046A_PCI_SEG1_MMIO32_MAX,   // Max Base Address
+          LS1046A_PCI_SEG1_MMIO32_XLATE, // Translate
+          LS1046A_PCI_SEG1_MMIO32_SIZE   // Length
+        )
+ 
         QWordMemory ( // 64-bit BAR Windows
           ResourceProducer,
           PosDecode,
@@ -135,7 +162,7 @@ Scope(_SB)
           0x0,                           // Granularity
           LS1046A_PCI_SEG1_MMIO64_MIN,   // Min Base Address
           LS1046A_PCI_SEG1_MMIO64_MAX,   // Max Base Address
-          LS1046A_PCI_SEG1_MMIO64_XLATE, // Translate
+          0x0, // Translate
           LS1046A_PCI_SEG1_MMIO64_SIZE   // Length
         )
       })
@@ -225,11 +252,26 @@ Scope(_SB)
           NonCacheable,
           ReadWrite,
           0x0,                           // Granularity
+          LS1046A_PCI_SEG2_MMIO32_MIN,   // Min Base Address
+          LS1046A_PCI_SEG2_MMIO32_MAX,   // Max Base Address
+          LS1046A_PCI_SEG2_MMIO32_XLATE, // Translate
+          LS1046A_PCI_SEG2_MMIO32_SIZE   // Length
+        )
+
+        QWordMemory ( // 64-bit BAR Windows
+          ResourceProducer,
+          PosDecode,
+          MinFixed,
+          MaxFixed,
+          NonCacheable,
+          ReadWrite,
+          0x0,                           // Granularity
           LS1046A_PCI_SEG2_MMIO64_MIN,   // Min Base Address
           LS1046A_PCI_SEG2_MMIO64_MAX,   // Max Base Address
-          LS1046A_PCI_SEG2_MMIO64_XLATE, // Translate
+          0x0, // Translate
           LS1046A_PCI_SEG2_MMIO64_SIZE   // Length
         )
+
       })
       Return (RBUF)
     }
