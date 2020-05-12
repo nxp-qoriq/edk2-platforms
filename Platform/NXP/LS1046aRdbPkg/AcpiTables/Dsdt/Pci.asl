@@ -57,6 +57,20 @@ Scope(_SB)
             0x0, // Translate
             LS1046A_PCI_SEG0_MMIO64_SIZE   // Length
         )
+
+        QWordIO ( // IO Window
+            ResourceProducer,
+            MinFixed,
+            MaxFixed,
+            PosDecode,
+            EntireRange,
+            0x0,                           // Granularity
+            LS1046A_PCI_SEG0_IO64_MIN,   // Min Base Address
+            LS1046A_PCI_SEG0_IO64_MAX,   // Max Base Address
+            LS1046A_PCI_SEG0_IO64_XLATE, // Translate
+            LS1046A_PCI_SEG0_IO64_SIZE   // Length
+        )
+
       }) // Name (RBUF)
       Return (RBUF)
     }
@@ -165,6 +179,18 @@ Scope(_SB)
           0x0, // Translate
           LS1046A_PCI_SEG1_MMIO64_SIZE   // Length
         )
+        QWordIO ( // IO Window
+            ResourceProducer,
+            MinFixed,
+            MaxFixed,
+            PosDecode,
+            EntireRange,
+            0x0,                           // Granularity
+            LS1046A_PCI_SEG1_IO64_MIN,   // Min Base Address
+            LS1046A_PCI_SEG1_IO64_MAX,   // Max Base Address
+            LS1046A_PCI_SEG1_IO64_XLATE, // Translate
+            LS1046A_PCI_SEG1_IO64_SIZE   // Length
+        )
       })
       Return (RBUF)
     }
@@ -271,7 +297,19 @@ Scope(_SB)
           0x0, // Translate
           LS1046A_PCI_SEG2_MMIO64_SIZE   // Length
         )
-
+        QWordIO ( // IO Window
+            ResourceProducer,
+            MinFixed,
+            MaxFixed,
+            PosDecode,
+            EntireRange,
+            0x0,                           // Granularity
+            LS1046A_PCI_SEG2_IO64_MIN,   // Min Base Address
+            LS1046A_PCI_SEG2_IO64_MAX,   // Max Base Address
+            LS1046A_PCI_SEG2_IO64_XLATE, // Translate
+            LS1046A_PCI_SEG2_IO64_SIZE   // Length
+        )
+ 
       })
       Return (RBUF)
     }
