@@ -2,7 +2,7 @@
 
   Functions for providing Library interface APIs.
 
-  Copyright 2017 NXP
+  Copyright 2017, 2020 NXP
 
   This program and the accompanying materials
   are licensed and made available under the terms and conditions of the BSD
@@ -21,7 +21,9 @@
 #include <Library/MmcLib.h>
 #include <Library/SocClockLib.h>
 #include <Library/TimerLib.h>
+#include <Library/UefiLib.h>
 #include <Protocol/MmcHost.h>
+#include <libfdt.h>
 
 #include "MmcInternal.h"
 
@@ -471,6 +473,58 @@ SetIos (
   }
 
   return EFI_SUCCESS;
+}
+
+/**
+Workaround for hardware 3.3v IO reliability issue
+
+When eSDHC operates at 3.3v, damage can accumulate in an internal
+level shifter at a higher than expected rate. The faster the interface
+runs, the more damage accumulates. This issue now is found on LX2160A
+eSDHC1 for only SD card.
+
+Recommended hardware workaround is to use an on-board level shifter
+that is 1.8v on SoC side and 3.3v on SD card side.
+
+For boards without hardware workaround,
+ensuring 1.8v IO voltage and disabling eSDHC if no card.
+This option assumes no hotplug, and UEFI has to make all the way to
+linux to use 1.8v UHS-I speed mode if has card.
+
+**/
+
+VOID
+ImplementWorkaround (
+  IN  VOID    *BaseAddress
+  )
+{
+  EFI_STATUS  Status;
+  SDXC_REGS   *Regs;
+  INT32       NodeOffset;
+  INT32       FdtStatus;
+  VOID        *Dtb;
+
+  Regs = BaseAddress;
+
+  MmcWrite ((UINTN)&Regs->Proctl, PROCTL_1_8_VOLT_SEL);
+
+  Status = EfiGetSystemConfigurationTable (&gFdtTableGuid, &Dtb);
+  if (EFI_ERROR (Status)) {
+    DEBUG ((DEBUG_ERROR, "Did not find the Dtb Blob.\n"));
+    return;
+  }
+
+  NodeOffset = fdt_node_offset_by_compatible (Dtb, -1, "fsl,esdhc");
+  // if node not found, silently return
+  if (NodeOffset < 0) {
+    return;
+  }
+
+  FdtStatus = fdt_setprop_string (Dtb, NodeOffset, "status", "disabled");
+  if (FdtStatus) {
+    DEBUG ((DEBUG_ERROR, "Failed to disable esdhc in dtb %a!!\n", fdt_strerror (FdtStatus)));
+    return;
+  }
 }
 
 /**
