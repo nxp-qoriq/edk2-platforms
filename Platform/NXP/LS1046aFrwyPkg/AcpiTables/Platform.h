@@ -161,6 +161,8 @@
 #define TMU_PASSIVE              1           // Cooling policy passive
 #define TMU_PASSIVE_THRESHOLD    3282        // Passive Threshold: 54.8 degree C
 #define TMU_CRITICAL_THRESHOLD   3682        // Critical Threshold: 94.8 degree C
+#define TMU_ACTIVE_LOW_THRESHOLD  3232       // Active low Thershold (50C)
+#define TMU_ACTIVE_HIGH_THRESHOLD 3432       // Active high Thershold (70C)
 #define TMU_TIER_DISABLE_ALL     0x00000000  // Disable all interrupts
 #define TMU_TIDR_DISABLE_ALL     0x00000000  // Clear all interrupts
 #define TMU_TMR_DISABLE          0x00000000  // Disable TMU IP Monitoring mode
@@ -172,6 +174,14 @@
 #define TMU_TZ_POLLING_PERIOD    150         // ThermalZone polling frequency ~15 seconds
 #define TMU_TZ_SAMPLING_PERIOD   50          // ThermalZone sampling frequency ~5 seconds
 #define TMU_ENGINEERING_MODE     0x8000007F  // TEUMR0 register
+#define TMU_FAN_1                 1          // FAN 1
+#define TMU_FAN_2                 2          // FAN 2
+#define TMU_FAN_3                 3          // FAN 3
+#define TMU_FAN_4                 4          // FAN 4
+#define TMU_FAN_5                 5          // FAN 5
+#define TMU_FAN_OFF_SPEED         0x80       // FAN off speed value at 50% PWM (Default)
+#define TMU_FAN_LOW_SPEED         0xBF       // FAN low speed value at 75% PWM
+#define TMU_FAN_HIGH_SPEED        0xF0       // FAN high speed value at 95% PWM
 
 /*Calibration data group 1 : TTR0CR, 12 points ar 0°C*/
 #define TMU_POINT_1_0_TEMP_CFG     0x00000000
