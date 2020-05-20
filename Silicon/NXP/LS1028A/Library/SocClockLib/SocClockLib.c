@@ -47,6 +47,7 @@ SocGetClock (
   RCW_FIELDS   *Rcw;
   UINT64       ReturnValue;
   UINT64       SysClkHz;
+  UINT64       PlatformClk;
 
   if (IpModule >= IP_MAX) {
     return 0;
@@ -61,6 +62,7 @@ SocGetClock (
   // get system clock from board
   SysClkHz = GetBoardSysClk ();
   ASSERT (SysClkHz != 0);
+  PlatformClk = ((UINT64)Rcw->SysPllRat * SysClkHz) >> 1;
 
   switch (IpModule) {
     case IP_SYSCLK:
@@ -69,8 +71,13 @@ SocGetClock (
       break;
     case IP_DUART:
     case IP_ESDHC:
+      ReturnValue = PlatformClk >> 1;
+      break;
     case IP_I2C:
-      ReturnValue = ((UINT64)Rcw->SysPllRat * SysClkHz) >> 2;
+      ReturnValue = PlatformClk >> 2;
+      break;
+    case IP_FLEX_SPI:
+      ReturnValue = PlatformClk >> 3;
       break;
     default:
       break;
