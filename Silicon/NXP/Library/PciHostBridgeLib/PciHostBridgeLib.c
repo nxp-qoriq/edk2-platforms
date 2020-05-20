@@ -1564,10 +1564,7 @@ PciHostBridgeGetRootBridges (
         mPciRootBridges[Loop].Io.Base               = PCI_SEG_PORTIO_MIN;
         mPciRootBridges[Loop].Io.Limit              = PCI_SEG_PORTIO_MAX;
         mPciRootBridges[Loop].Io.Translation        = MAX_UINT64 -
-                                                      (PCI_SEG0_MMIO_MEMBASE +
-                                                      (PCI_BASE_DIFF *
-                                                      (PciEnabled[Loop])) +
-                                                      SEG_IO_BASE) + 1;
+                                                      (SEG_IO_SIZE * PciEnabled[Loop]) + 1;
 
         mPciRootBridges[Loop].Mem.Base              = SEG_MEM_BASE;
         mPciRootBridges[Loop].Mem.Limit             = SEG_MEM_LIMIT;
