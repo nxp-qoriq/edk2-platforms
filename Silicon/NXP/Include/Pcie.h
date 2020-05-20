@@ -45,6 +45,25 @@
 #define PCI_SEG5_DBI_BASE         0x03900000
 
 // Segment configuration
+#define PCI_SEG0_PORTIO_MIN        0x0
+#define PCI_SEG0_PORTIO_MAX        0xffff
+#define PCI_SEG0_PORTIO_OFFSET     0x0
+#define PCI_SEG1_PORTIO_MIN        0x0
+#define PCI_SEG1_PORTIO_MAX        0xffff
+#define PCI_SEG1_PORTIO_OFFSET     0x10000
+#define PCI_SEG2_PORTIO_MIN        0x0
+#define PCI_SEG2_PORTIO_MAX        0xffff
+#define PCI_SEG2_PORTIO_OFFSET     0x20000
+#define PCI_SEG3_PORTIO_MIN        0x0
+#define PCI_SEG3_PORTIO_MAX        0xffff
+#define PCI_SEG3_PORTIO_OFFSET     0x30000
+#define PCI_SEG4_PORTIO_MIN        0x0
+#define PCI_SEG4_PORTIO_MAX        0xffff
+#define PCI_SEG4_PORTIO_OFFSET     0x40000
+#define PCI_SEG5_PORTIO_MIN        0x0
+#define PCI_SEG5_PORTIO_MAX        0xffff
+#define PCI_SEG5_PORTIO_OFFSET     0x50000
+
 #define PCI_SEG_BUSNUM_MIN        0x0
 #define PCI_SEG_BUSNUM_MAX        0xff
 #define PCI_SEG_PORTIO_MIN        0x0
@@ -60,8 +79,8 @@
 #define SEG_IO_BASE               0x10000000
 #define SEG_MEM64_BASE            0x400000000
 #define SEG_IO_SIZE               0x10000
-#define SEG_IO_BUS                0x10000000
-#define PCI_SEG_PORTIO_LIMIT      PCI_SEG0_MMIO_MEMBASE + (PCI_BASE_DIFF * NUM_PCIE_CONTROLLER)
+#define SEG_IO_BUS                0x0
+#define PCI_SEG_PORTIO_LIMIT      PCI_SEG5_PORTIO_MAX + PCI_SEG5_PORTIO_OFFSET
 #define PCI_BASE_DIFF             0x800000000
 #define PCI_DBI_SIZE_DIFF         0x100000
 #define PCI_SEG0_PHY_CFG0_BASE    PCI_SEG0_MMIO_MEMBASE

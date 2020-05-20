@@ -243,7 +243,7 @@
 !endif
 
   gEfiMdePkgTokenSpaceGuid.PcdReportStatusCodePropertyMask|0x06
-  gEmbeddedTokenSpaceGuid.PcdPrePiCpuIoSize|40
+  gEmbeddedTokenSpaceGuid.PcdPrePiCpuIoSize|20
 
   #
   # Optional feature to help prevent EFI memory map fragments
