@@ -1331,7 +1331,6 @@ OnPlatformHasPciIo (
       break;
     }
 
-    // TODO: remove this if check, when all platforms have IORT table
     if (PcdGet64 (PcdIortTablePtr) != 0) {
       Status = IortPcieSetUp ((VOID *)PcdGet64 (PcdIortTablePtr), SegmentNumber,
                               BusDevFuc, StreamId);
