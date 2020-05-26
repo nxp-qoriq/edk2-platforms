@@ -7,6 +7,7 @@
 **/
 #include <PiDxe.h>
 #include <Base.h>
+#include <IndustryStandard/Pci22.h>
 #include <Library/PciSegmentLib.h>
 #include <Library/BaseLib.h>
 #include <Library/DebugLib.h>
@@ -33,7 +34,6 @@ typedef enum {
 #define ASSERT_INVALID_PCI_SEGMENT_ADDRESS(A,M) \
   ASSERT (((A) & (0xffff0000f0000000ULL | (M))) == 0)
 
-static UINT8 WriteFixedData;
 static BOOLEAN PciLsGen4Ctrl;
 static BOOLEAN CfgShiftEnable;
 
@@ -63,6 +63,22 @@ CcsrSetPg (
 }
 
 STATIC
+INTN
+CcsrRead32 (
+ IN EFI_PHYSICAL_ADDRESS Dbi,
+ IN UINT32 Offset
+  )
+{
+  if (Offset < INDIRECT_ADDR_BNDRY) {
+    CcsrSetPg (Dbi, 0);
+    return MmioRead32 (Dbi + Offset);
+  } else {
+    CcsrSetPg (Dbi, OFFSET_TO_PAGE_IDX (Offset));
+    return MmioRead32 (Dbi + OFFSET_TO_PAGE_ADDR (Offset));
+  }
+}
+
+STATIC
 VOID
 CcsrWrite32 (
  IN EFI_PHYSICAL_ADDRESS Dbi,
@@ -77,6 +93,21 @@ CcsrWrite32 (
   } else {
     CcsrSetPg (Dbi, OFFSET_TO_PAGE_IDX (Offset));
     MmioWrite32 ((UINTN)Dbi + OFFSET_TO_PAGE_ADDR (Offset), Value);
+  }
+}
+
+STATIC
+VOID
+PciLsGen4SetBusMaster (
+  IN EFI_PHYSICAL_ADDRESS Dbi
+  )
+{
+  UINT32 Val;
+
+  /* Make sure the Master Enable bit not cleared */
+  Val = CcsrRead32 ((UINTN)Dbi, PCI_COMMAND_OFFSET);
+  if (!(Val & EFI_PCI_COMMAND_BUS_MASTER)) {
+    CcsrWrite32 ((UINTN)Dbi, PCI_COMMAND_OFFSET, Val | EFI_PCI_COMMAND_BUS_MASTER);
   }
 }
 
@@ -102,6 +133,8 @@ PciLsGen4GetConfigBase (
   UINT32 Target;
 
   if (Bus) {
+    PciLsGen4SetBusMaster (PCI_SEG0_DBI_BASE + PCI_DBI_SIZE_DIFF* Segment);
+
     Target = ((((Address >> 20) & 0xFF) << 24) |
              (((Address >> 15) & 0x1F) << 19) |
              (((Address >> 12) & 0x7) << 16));
@@ -111,9 +144,6 @@ PciLsGen4GetConfigBase (
   } else {
       if (Offset < INDIRECT_ADDR_BNDRY) {
         CcsrSetPg (PCI_SEG0_DBI_BASE + PCI_DBI_SIZE_DIFF * Segment, 0);
-        if (Offset == 4)  {
-          WriteFixedData = 1;
-        }
         return (PCI_SEG0_DBI_BASE + PCI_DBI_SIZE_DIFF * Segment + Offset);
       }
       CcsrSetPg (PCI_SEG0_DBI_BASE + PCI_DBI_SIZE_DIFF * Segment, OFFSET_TO_PAGE_IDX (Offset));
@@ -315,10 +345,6 @@ PciSegmentLibWriteWorker (
   //
   if ((Address & 0xfe00000) == 0 && (Address & 0xf8000) != 0) {
     return MAX_UINT32;
-  }
-
-  if (WriteFixedData && (Data == 0)) {
-    Data = 6;
   }
 
   switch (Width) {

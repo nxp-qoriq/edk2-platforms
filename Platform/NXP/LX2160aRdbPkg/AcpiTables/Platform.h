@@ -204,11 +204,11 @@
 
 // Mcfg
 #define LX2160A_PCI_SEG0_CONFIG_BASE 0x9000000000
-#define LX2160A_PCI_SEG0             0x0
+#define LX2160A_PCI_SEG0             0x2
 #define LX2160A_PCI_SEG_BUSNUM_MIN   0x0
 #define LX2160A_PCI_SEG_BUSNUM_MAX   0xff
 #define LX2160A_PCI_SEG1_CONFIG_BASE 0xA000000000
-#define LX2160A_PCI_SEG1             0x1
+#define LX2160A_PCI_SEG1             0x4
 
 // Pci
 #define LX2160A_PCI_SEG0_CONFIG_BASE_MAX 0x900fffffff

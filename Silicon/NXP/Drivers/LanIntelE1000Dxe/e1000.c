@@ -1540,7 +1540,6 @@ Returns:
 --*/
 {
   UINT32  TempReg;
-  UINT32  *MemPtr;
   UINT16  i;
 
   DEBUGPRINT(E1000, ("e1000_TxRxConfigure\n"));
@@ -1595,18 +1594,7 @@ Returns:
   //
   E1000_WRITE_REG (&GigAdapter->hw, E1000_RDBAL(0), (UINT32) (UINTN) (GigAdapter->rx_ring));
 
-#if 0 //OM
-  //
-  // Set the MemPtr to the high dword of the rx_ring so we can store it in RDBAH0.
-  // Right shifts do not seem to work with the EFI compiler so we do it like this for now.
-  //
-  MemAddr = (UINT64) (UINTN) GigAdapter->rx_ring;
-  MemPtr  = &((UINT32) MemAddr);
-  MemPtr++;
-#else
-  MemPtr  = (UINT32*)(((UINTN)GigAdapter->rx_ring) >> 32);
-#endif
-  E1000_WRITE_REG (&GigAdapter->hw, E1000_RDBAH(0), *MemPtr);
+  E1000_WRITE_REG (&GigAdapter->hw, E1000_RDBAH(0),(UINT32) ((((UINTN)GigAdapter->rx_ring) >> 32)));
 
   E1000_WRITE_REG (&GigAdapter->hw, E1000_RDLEN(0), (sizeof (E1000_RECEIVE_DESCRIPTOR) * DEFAULT_RX_DESCRIPTORS));
 
@@ -1677,15 +1665,8 @@ Returns:
   E1000_WRITE_REG (&GigAdapter->hw, E1000_MRQC, 0);
 
   E1000_WRITE_REG (&GigAdapter->hw, E1000_TDBAL(0), (UINT32) (UINTN) (GigAdapter->tx_ring));
-#if 0 //OM
-  MemAddr = (UINT64) (UINTN) GigAdapter->tx_ring;
-  MemPtr  = &((UINT32) MemAddr);
-  MemPtr++;
-#else
-  MemPtr  = (UINT32*)(((UINTN)GigAdapter->tx_ring) >> 32);
-#endif
-  E1000_WRITE_REG (&GigAdapter->hw, E1000_TDBAH(0), *MemPtr);
-  DEBUGPRINT(E1000, ("TdBah0 %X\n", *MemPtr));
+  E1000_WRITE_REG (&GigAdapter->hw, E1000_TDBAH(0),(UINT32) ((((UINTN)GigAdapter->tx_ring) >> 32)));
+  DEBUGPRINT(E1000, ("TdBah0 %X\n", (UINT32) ((((UINTN)GigAdapter->tx_ring) >> 32))));
   DEBUGWAIT(E1000);
   E1000_WRITE_REG (&GigAdapter->hw, E1000_TDLEN(0), (sizeof (E1000_TRANSMIT_DESCRIPTOR) * DEFAULT_TX_DESCRIPTORS));
 

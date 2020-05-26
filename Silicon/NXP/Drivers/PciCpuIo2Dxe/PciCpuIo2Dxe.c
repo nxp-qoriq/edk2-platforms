@@ -21,7 +21,7 @@
 //
 // Handle for the CPU I/O 2 Protocol
 //
-STATIC EFI_HANDLE  mHandle;
+STATIC EFI_HANDLE  mHandle = NULL;
 
 //
 // Lookup table for increment values based on transfer widths
@@ -338,6 +338,75 @@ CpuMemoryServiceWrite (
   return EFI_SUCCESS;
 }
 
+STATIC
+EFI_STATUS
+TranslateIoAddress (
+  IN  OUT UINT64                 *Address
+  )
+{
+  UINT64 Start;
+  UINT64 End;
+  UINT64 Shift;
+  UINT64 SegIoHostAddressBase;
+
+  SegIoHostAddressBase = PCI_SEG0_PHY_IO_BASE;
+  Start = PCI_SEG0_PORTIO_MIN + PCI_SEG0_PORTIO_OFFSET;
+  End   = PCI_SEG0_PORTIO_MAX + PCI_SEG0_PORTIO_OFFSET;
+  Shift = SegIoHostAddressBase - PCI_SEG0_PORTIO_OFFSET;
+
+  if (*Address >= Start && *Address <= End) {
+    *Address += Shift;
+    return EFI_SUCCESS;
+  }
+
+  Start = PCI_SEG1_PORTIO_MIN + PCI_SEG1_PORTIO_OFFSET;
+  End   = PCI_SEG1_PORTIO_MAX + PCI_SEG1_PORTIO_OFFSET;
+  Shift = (SegIoHostAddressBase + (PCI_BASE_DIFF * 1)) - PCI_SEG1_PORTIO_OFFSET;
+
+  if (*Address >= Start && *Address <= End) {
+    *Address += Shift;
+    return EFI_SUCCESS;
+  }
+
+  Start = PCI_SEG2_PORTIO_MIN + PCI_SEG2_PORTIO_OFFSET;
+  End   = PCI_SEG2_PORTIO_MAX + PCI_SEG2_PORTIO_OFFSET;
+  Shift = (SegIoHostAddressBase + (PCI_BASE_DIFF * 2)) - PCI_SEG2_PORTIO_OFFSET;
+
+  if (*Address >= Start && *Address <= End) {
+    *Address += Shift;
+    return EFI_SUCCESS;
+  }
+
+  Start = PCI_SEG3_PORTIO_MIN + PCI_SEG3_PORTIO_OFFSET;
+  End   = PCI_SEG3_PORTIO_MAX + PCI_SEG3_PORTIO_OFFSET;
+  Shift = (SegIoHostAddressBase + (PCI_BASE_DIFF * 3)) - PCI_SEG3_PORTIO_OFFSET;
+
+  if (*Address >= Start && *Address <= End) {
+    *Address += Shift;
+    return EFI_SUCCESS;
+  }
+
+  Start = PCI_SEG4_PORTIO_MIN + PCI_SEG4_PORTIO_OFFSET;
+  End   = PCI_SEG4_PORTIO_MAX + PCI_SEG4_PORTIO_OFFSET;
+  Shift = (SegIoHostAddressBase + (PCI_BASE_DIFF * 4)) - PCI_SEG4_PORTIO_OFFSET;
+
+  if (*Address >= Start && *Address <= End) {
+    *Address += Shift;
+    return EFI_SUCCESS;
+  }
+
+  Start = PCI_SEG5_PORTIO_MIN + PCI_SEG5_PORTIO_OFFSET;
+  End   = PCI_SEG5_PORTIO_MAX + PCI_SEG5_PORTIO_OFFSET;
+  Shift = (SegIoHostAddressBase + (PCI_BASE_DIFF * 5)) - PCI_SEG5_PORTIO_OFFSET;
+
+  if (*Address >= Start && *Address <= End) {
+    *Address += Shift;
+    return EFI_SUCCESS;
+  }
+  ASSERT (FALSE);
+  return EFI_INVALID_PARAMETER;
+}
+
 /**
   Reads I/O registers.
 
@@ -387,6 +456,40 @@ CpuIoServiceRead (
   OUT VOID                       *Buffer
   )
 {
+  EFI_STATUS                 Status;
+  UINT8                      InStride;
+  UINT8                      OutStride;
+  EFI_CPU_IO_PROTOCOL_WIDTH  OperationWidth;
+  UINT8                      *Uint8Buffer;
+
+  Status = CpuIoCheckParameter (FALSE, Width, Address, Count, Buffer);
+  if (EFI_ERROR (Status)) {
+    return Status;
+  }
+
+  Status = TranslateIoAddress (&Address);
+  if (EFI_ERROR (Status)) {
+    return Status;
+  }
+
+  //
+  // Select loop based on the width of the transfer
+  //
+  InStride = mInStride[Width];
+  OutStride = mOutStride[Width];
+  OperationWidth = (EFI_CPU_IO_PROTOCOL_WIDTH)(Width & 0x03);
+
+  for (Uint8Buffer = Buffer; Count > 0;
+       Address += InStride, Uint8Buffer += OutStride, Count--) {
+    if (OperationWidth == EfiCpuIoWidthUint8) {
+      *Uint8Buffer = MmioRead8 ((UINTN)Address);
+    } else if (OperationWidth == EfiCpuIoWidthUint16) {
+      *((UINT16 *)Uint8Buffer) = MmioRead16 ((UINTN)Address);
+    } else if (OperationWidth == EfiCpuIoWidthUint32) {
+      *((UINT32 *)Uint8Buffer) = MmioRead32 ((UINTN)Address);
+    }
+  }
+
   return EFI_SUCCESS;
 }
 
@@ -439,6 +542,43 @@ CpuIoServiceWrite (
   IN VOID                       *Buffer
   )
 {
+  EFI_STATUS                 Status;
+  UINT8                      InStride;
+  UINT8                      OutStride;
+  EFI_CPU_IO_PROTOCOL_WIDTH  OperationWidth;
+  UINT8                      *Uint8Buffer;
+
+  //
+  // Make sure the parameters are valid
+  //
+  Status = CpuIoCheckParameter (FALSE, Width, Address, Count, Buffer);
+  if (EFI_ERROR (Status)) {
+    return Status;
+  }
+
+  Status = TranslateIoAddress (&Address);
+  if (EFI_ERROR (Status)) {
+    return Status;
+  }
+
+  //
+  // Select loop based on the width of the transfer
+  //
+  InStride = mInStride[Width];
+  OutStride = mOutStride[Width];
+  OperationWidth = (EFI_CPU_IO_PROTOCOL_WIDTH) (Width & 0x03);
+
+  for (Uint8Buffer = (UINT8 *)Buffer; Count > 0;
+       Address += InStride, Uint8Buffer += OutStride, Count--) {
+    if (OperationWidth == EfiCpuIoWidthUint8) {
+      MmioWrite8 ((UINTN)Address, *Uint8Buffer);
+    } else if (OperationWidth == EfiCpuIoWidthUint16) {
+      MmioWrite16 ((UINTN)Address, *((UINT16 *)Uint8Buffer));
+    } else if (OperationWidth == EfiCpuIoWidthUint32) {
+      MmioWrite32 ((UINTN)Address, *((UINT32 *)Uint8Buffer));
+    }
+  }
+
   return EFI_SUCCESS;
 }
 

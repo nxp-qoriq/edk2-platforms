@@ -18,7 +18,7 @@ Scope(_SB)
   {
     Name (_HID, "PNP0A08") // PCI Express Root Bridge
     Name (_CID, "PNP0A03") // Compatible PCI Root Bridge
-    Name(_SEG, 0) // Segment of this Root complex
+    Name(_SEG, LX2160A_PCI_SEG0) // Segment of this Root complex
     Name(_BBN, 0) // Base Bus Number
     Name(_CCA, 1) // Cache Coherency Attribute
     Method (_CRS, 0, Serialized) { // Root complex resources
@@ -131,7 +131,7 @@ Scope(_SB)
   {
     Name (_HID, "NXP0016") // NXP PCIe RC config base address
     Name (_CID, "PNP0C02") // Motherboard reserved resource
-    Name (_UID, 0x0)  //  Unique ID
+    Name (_UID, LX2160A_PCI_SEG0)  //  Unique ID
     Name (_CRS, ResourceTemplate (){
       Memory32Fixed (ReadWrite, LX2160A_PCI_SEG0_RC_CONFIG_BASE,
               LX2160A_PCI_SEG0_RC_CONFIG_SIZE)
@@ -142,7 +142,7 @@ Scope(_SB)
   {
     Name (_HID, "PNP0A08") // PCI Express Root Bridge
     Name (_CID, "PNP0A03") // Compatible PCI Root Bridge
-    Name(_SEG, 1) // Segment of this Root complex
+    Name(_SEG, LX2160A_PCI_SEG1) // Segment of this Root complex
     Name(_BBN, 0) // Base Bus Number
     Name(_CCA, 1) // Cache Coherency Attribute
     Method (_CRS, 0, Serialized) { // Root complex resources
@@ -253,7 +253,7 @@ Scope(_SB)
   {
     Name (_HID, "NXP0016") // NXP PCIe RC config base address
     Name (_CID, "PNP0C02") // Motherboard reserved resource
-    Name (_UID, 0x1)  //  Unique ID
+    Name (_UID, LX2160A_PCI_SEG1)  //  Unique ID
     Name (_CRS, ResourceTemplate (){
       Memory32Fixed (ReadWrite, LX2160A_PCI_SEG1_RC_CONFIG_BASE,
               LX2160A_PCI_SEG1_RC_CONFIG_SIZE)

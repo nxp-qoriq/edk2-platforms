@@ -1331,14 +1331,9 @@ OnPlatformHasPciIo (
       break;
     }
 
-    // TODO: remove this if check, when all platforms have IORT table
     if (PcdGet64 (PcdIortTablePtr) != 0) {
-      if (SegmentNumber == 2) {
-        Status = IortPcieSetUp ((VOID *)PcdGet64 (PcdIortTablePtr), 0, BusDevFuc, StreamId);
-      }
-      if (SegmentNumber == 4) {
-        Status = IortPcieSetUp ((VOID *)PcdGet64 (PcdIortTablePtr), 1, BusDevFuc, StreamId);
-      }
+      Status = IortPcieSetUp ((VOID *)PcdGet64 (PcdIortTablePtr), SegmentNumber,
+                              BusDevFuc, StreamId);
       if (EFI_ERROR (Status) && Status != EFI_NOT_FOUND) {
         break;
       }
@@ -1564,10 +1559,7 @@ PciHostBridgeGetRootBridges (
         mPciRootBridges[Loop].Io.Base               = PCI_SEG_PORTIO_MIN;
         mPciRootBridges[Loop].Io.Limit              = PCI_SEG_PORTIO_MAX;
         mPciRootBridges[Loop].Io.Translation        = MAX_UINT64 -
-                                                      (PCI_SEG0_MMIO_MEMBASE +
-                                                      (PCI_BASE_DIFF *
-                                                      (PciEnabled[Loop])) +
-                                                      SEG_IO_BASE) + 1;
+                                                      (SEG_IO_SIZE * PciEnabled[Loop]) + 1;
 
         mPciRootBridges[Loop].Mem.Base              = SEG_MEM_BASE;
         mPciRootBridges[Loop].Mem.Limit             = SEG_MEM_LIMIT;
