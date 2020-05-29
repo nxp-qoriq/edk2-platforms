@@ -1,14 +1,15 @@
 /** @file
-
-  Differentiated System Description Table Fields (DSDT)
-
-  Copyright 2020 NXP
-
-  SPDX-License-Identifier: BSD-2-Clause-Patent
-
-  Derived from:
-   ArmPlatformPkg/ArmJunoPkg/AcpiTables/Dsdt.asl
-
+*
+*  Differentiated System Description Table Fields (DSDT)
+*
+*  Copyright 2020 NXP
+*  Copyright 2020 Puresoftware Ltd
+*
+*  SPDX-License-Identifier: BSD-2-Clause-Patent
+*
+*  Derived from:
+*   LX2160aRdbPkg/AcpiTables/Dsdt/Ftm.asl
+*
 **/
 
 Scope(_SB)
@@ -24,7 +25,9 @@ Scope(_SB)
     Name (_DSD, Package () {
       ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
       Package () {
-         Package () {"little-endian", 1},
+         //Add FlexTimer1 as excpetion IP for LPM20
+         Package () {"fsl,rcpm-wakeup", Package () {0, 0x20000} },
+         Package () {"big-endian", 1},
       }
     })
   } // end of Flex Timer device
