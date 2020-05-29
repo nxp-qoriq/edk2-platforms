@@ -20,6 +20,7 @@ Scope(\_SB.FMN0)
     Name (_DSD, Package () {
       ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
       Package () {
+        Package () {"mac-address", Package (6) {11, 22, 33, 44, 55, 66}},
         Package () {"cell-index", 0x4},
         Package () {"phy-handle", \_SB.FMN0.MDI0.PHY2},
         Package () {"phy-connection-type", "qsgmii"},
