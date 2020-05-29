@@ -7,7 +7,6 @@
 *
 *  SPDX-License-Identifier: BSD-2-Clause-Patent
 *
-*
 **/
 
 #ifndef _LS1046ARDB_PLATFORM_H_
@@ -48,6 +47,17 @@
 #define UART0_IT                 86
 #define UART0_LENGTH             0x100
 #define SPCR_FLOW_CONTROL_NONE   0
+
+// I2C
+#define I2C0_BASE 0x2180000
+#define I2C1_BASE 0x2190000
+#define I2C2_BASE 0x21A0000
+#define I2C3_BASE 0x21B0000
+#define I2C_LEN   0x10000
+#define I2C0_IT   88
+#define I2C1_IT   89
+#define I2C2_IT   90
+#define I2C3_IT   91
 
 // Timer
 #define TIMER_BLOCK_COUNT            1
@@ -136,5 +146,130 @@
 #define QSPI_IT    131          /* QSPI Interrupt Identifier */
 #define QSPIMM_BASE 0x40000000  /* QSPI Fixed Memory Map Base Address */
 #define QSPIMM_LEN  0x20000000  /* QSPI Fixed Memory Map Length */
+
+//Rcpm
+#define RCPM_BASE 0x1ee2000
+#define RCPM_LEN  0x1000
+
+// TMU
+#define TMU_BASE                 0x1F00000   // TMU CCSR space base address
+#define TMU_LEN                  0x10000     // TMU CCSR space length
+#define TMU_TEMP_RANGE_0         0x000B0000  // Temp range register 0
+#define TMU_TEMP_RANGE_1         0x0009002A  // Temp range register 1
+#define TMU_TEMP_RANGE_2         0x0006004C  // Temp range register 2
+#define TMU_TEMP_RANGE_3         0x00070062  // Temp range register 3
+#define TMU_SITES_MAX            16          // Max TMU remote sensor// Using 5
+#define TMU_ACTIVE               0           // Cooling policy active
+#define TMU_PASSIVE              1           // Cooling policy passive
+#define TMU_PASSIVE_THRESHOLD    3282        // Passive Threshold: 54.8 degree C
+#define TMU_CRITICAL_THRESHOLD   3682        // Critical Threshold: 94.8 degree C
+#define TMU_TIER_DISABLE_ALL     0x00000000  // Disable all interrupts
+#define TMU_TIDR_DISABLE_ALL     0x00000000  // Clear all interrupts
+#define TMU_TMR_DISABLE          0x00000000  // Disable TMU IP Monitoring mode
+#define TMU_TMR_SITES_ENABLE     0x0000F800  // Enable Monitoring Sites in TMU
+#define TMU_TMR_ENABLE           0x8000F800  // Enable TMU IP in Monitoring mode
+#define TMU_TMTMIR_DEFAULT       0x00000007  // Monitoring interval ~1.79seconds
+#define TMU_THERMAL_COFFICIENT_1 1           // Thermal cofficient 1
+#define TMU_THERMAL_COFFICIENT_2 1           // Thermal cofficient 2
+#define TMU_TZ_POLLING_PERIOD    150         // ThermalZone polling frequency ~15 seconds
+#define TMU_TZ_SAMPLING_PERIOD   50          // ThermalZone sampling frequency ~5 seconds
+#define TMU_ENGINEERING_MODE     0x8000007F  // TEUMR0 register
+
+/*Calibration data group 1 : TTR0CR, 12 points ar 0°C*/
+#define TMU_POINT_1_0_TEMP_CFG     0x00000000
+#define TMU_POINT_1_0_SENSOR_CFG   0x00000023
+#define TMU_POINT_1_1_TEMP_CFG     0x00000001
+#define TMU_POINT_1_1_SENSOR_CFG   0x00000029
+#define TMU_POINT_1_2_TEMP_CFG     0x00000002
+#define TMU_POINT_1_2_SENSOR_CFG   0x0000002F
+#define TMU_POINT_1_3_TEMP_CFG     0x00000003
+#define TMU_POINT_1_3_SENSOR_CFG   0x00000036
+#define TMU_POINT_1_4_TEMP_CFG     0x00000004
+#define TMU_POINT_1_4_SENSOR_CFG   0x0000003C
+#define TMU_POINT_1_5_TEMP_CFG     0x00000005
+#define TMU_POINT_1_5_SENSOR_CFG   0x00000042
+#define TMU_POINT_1_6_TEMP_CFG     0x00000006
+#define TMU_POINT_1_6_SENSOR_CFG   0x00000049
+#define TMU_POINT_1_7_TEMP_CFG     0x00000007
+#define TMU_POINT_1_7_SENSOR_CFG   0x0000004F
+#define TMU_POINT_1_8_TEMP_CFG     0x00000008
+#define TMU_POINT_1_8_SENSOR_CFG   0x00000055
+#define TMU_POINT_1_9_TEMP_CFG     0x00000009
+#define TMU_POINT_1_9_SENSOR_CFG   0x0000005C
+#define TMU_POINT_1_10_TEMP_CFG     0x0000000A
+#define TMU_POINT_1_10_SENSOR_CFG   0x00000062
+#define TMU_POINT_1_11_TEMP_CFG     0x0000000B
+#define TMU_POINT_1_11_SENSOR_CFG   0x00000068
+
+/*Calibration data group 2 : TTR1CR, 10 points at 42°C*/
+#define TMU_POINT_2_0_TEMP_CFG     0x00010000
+#define TMU_POINT_2_0_SENSOR_CFG   0x00000022
+#define TMU_POINT_2_1_TEMP_CFG     0x00010001
+#define TMU_POINT_2_1_SENSOR_CFG   0x0000002A
+#define TMU_POINT_2_2_TEMP_CFG     0x00010002
+#define TMU_POINT_2_2_SENSOR_CFG   0x00000032
+#define TMU_POINT_2_3_TEMP_CFG     0x00010003
+#define TMU_POINT_2_3_SENSOR_CFG   0x0000003A
+#define TMU_POINT_2_4_TEMP_CFG     0x00010004
+#define TMU_POINT_2_4_SENSOR_CFG   0x00000042
+#define TMU_POINT_2_5_TEMP_CFG     0x00010005
+#define TMU_POINT_2_5_SENSOR_CFG   0x0000004A
+#define TMU_POINT_2_6_TEMP_CFG     0x00010006
+#define TMU_POINT_2_6_SENSOR_CFG   0x00000052
+#define TMU_POINT_2_7_TEMP_CFG     0x00010007
+#define TMU_POINT_2_7_SENSOR_CFG   0x0000005A
+#define TMU_POINT_2_8_TEMP_CFG     0x00010008
+#define TMU_POINT_2_8_SENSOR_CFG   0x00000062
+#define TMU_POINT_2_9_TEMP_CFG     0x00010009
+#define TMU_POINT_2_9_SENSOR_CFG   0x0000006A
+
+/*Calibration data group 3 : TTR2CR, 7 points at 76°C */
+#define TMU_POINT_3_0_TEMP_CFG     0x00020000
+#define TMU_POINT_3_0_SENSOR_CFG   0x00000021
+#define TMU_POINT_3_1_TEMP_CFG     0x00020001
+#define TMU_POINT_3_1_SENSOR_CFG   0x0000002B
+#define TMU_POINT_3_2_TEMP_CFG     0x00020002
+#define TMU_POINT_3_2_SENSOR_CFG   0x00000035
+#define TMU_POINT_3_3_TEMP_CFG     0x00020003
+#define TMU_POINT_3_3_SENSOR_CFG   0x0000003E
+#define TMU_POINT_3_4_TEMP_CFG     0x00020004
+#define TMU_POINT_3_4_SENSOR_CFG   0x00000048
+#define TMU_POINT_3_5_TEMP_CFG     0x00020005
+#define TMU_POINT_3_5_SENSOR_CFG   0x00000052
+#define TMU_POINT_3_6_TEMP_CFG     0x00020006
+#define TMU_POINT_3_6_SENSOR_CFG   0x0000005C
+
+/*Calibration data group 4 : TTR3CR, 8 points at 98°C */
+#define TMU_POINT_4_0_TEMP_CFG     0x00030000
+#define TMU_POINT_4_0_SENSOR_CFG   0x00000011
+#define TMU_POINT_4_1_TEMP_CFG     0x00030001
+#define TMU_POINT_4_1_SENSOR_CFG   0x0000001A
+#define TMU_POINT_4_2_TEMP_CFG     0x00030002
+#define TMU_POINT_4_2_SENSOR_CFG   0x00000024
+#define TMU_POINT_4_3_TEMP_CFG     0x00030003
+#define TMU_POINT_4_3_SENSOR_CFG   0x0000002E
+#define TMU_POINT_4_4_TEMP_CFG     0x00030004
+#define TMU_POINT_4_4_SENSOR_CFG   0x00000038
+#define TMU_POINT_4_5_TEMP_CFG     0x00030005
+#define TMU_POINT_4_5_SENSOR_CFG   0x00000042
+#define TMU_POINT_4_6_TEMP_CFG     0x00030006
+#define TMU_POINT_4_6_SENSOR_CFG   0x0000004C
+#define TMU_POINT_4_7_TEMP_CFG     0x00030007
+#define TMU_POINT_4_7_SENSOR_CFG   0x00000056
+
+// CPU
+#define CPU_CGA_PLL_DIV_1          0x00000000
+#define CPU_CGA_PLL_DIV_2          0x00000010
+#define CPU_PLL_TRNS_LATENCY       0
+#define CPU_PWR_DISSP_PLL_DIV_1    200
+#define CPU_PWR_DISSP_PLL_DIV_2    100
+#define CPU_FREQ_100_PRCNT         100
+#define CPU_FREQ_50_PRCNT          50
+#define CPU_DWORD_ACCESS           3
+#define CPU_NUM_ENTRIES            5
+#define CPU_SW_ANY_CORD            0xFD
+#define CPU_NUM_PROCESSOR          4
+#define CPU_DOMAIN_0               0
+#define CPU_CLK_CSSR_REG           0x01EE1000 // Core cluster clock control/status register
 
 #endif

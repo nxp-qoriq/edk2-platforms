@@ -135,6 +135,27 @@ Scope(_SB)
         Method (_LPI, 0, NotSerialized) {
           return(PLPI)
         }
+        Name(_PTC, Package () {
+          ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK1CSR_BASE,
+                              CPU_DWORD_ACCESS)},
+          ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK1CSR_BASE,
+                              CPU_DWORD_ACCESS)}
+        })
+        Name(_TSS, Package() {
+          Package() {CPU_FREQ_100_PRCNT, CPU_PWR_DISSP_PLL_DIV_1,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_1, CPU_CGA_PLL_DIV_1},
+          Package() {CPU_FREQ_50_PRCNT, CPU_PWR_DISSP_PLL_DIV_2,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_2, CPU_CGA_PLL_DIV_2},
+          Package() {CPU_FREQ_25_PRCNT, CPU_PWR_DISSP_PLL_DIV_4,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_4, CPU_CGA_PLL_DIV_4}
+        })
+        Method(_TPC, 0) {
+          Return (Zero)
+        }
+        Name (_TSD, Package() {
+          Package(){CPU_NUM_ENTRIES, 0, CPU_DOMAIN_0, CPU_SW_ANY_CORD,
+                    CPU_NUM_PROCESSOR}
+        })
       }
       Device(CPU1) { // A72-1: Cluster 0, Cpu 1
         Name(_HID, "ACPI0007")
@@ -142,6 +163,27 @@ Scope(_SB)
         Method (_LPI, 0, NotSerialized) {
           return(PLPI)
         }
+        Name(_PTC, Package () {
+          ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK1CSR_BASE,
+                              CPU_DWORD_ACCESS)},
+          ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK1CSR_BASE,
+                              CPU_DWORD_ACCESS)}
+        })
+        Name(_TSS, Package() {
+          Package() {CPU_FREQ_100_PRCNT, CPU_PWR_DISSP_PLL_DIV_1,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_1, CPU_CGA_PLL_DIV_1},
+          Package() {CPU_FREQ_50_PRCNT, CPU_PWR_DISSP_PLL_DIV_2,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_2, CPU_CGA_PLL_DIV_2},
+          Package() {CPU_FREQ_25_PRCNT, CPU_PWR_DISSP_PLL_DIV_4,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_4, CPU_CGA_PLL_DIV_4}
+        })
+        Method(_TPC, 0) {
+          Return (Zero)
+        }
+        Name (_TSD, Package() {
+          Package(){CPU_NUM_ENTRIES, 0, CPU_DOMAIN_0, CPU_SW_ANY_CORD,
+                    CPU_NUM_PROCESSOR}
+        })
       }
     }
 
@@ -228,6 +270,27 @@ Scope(_SB)
         Method (_LPI, 0, NotSerialized) {
           return(PLPI)
         }
+        Name(_PTC, Package () {
+          ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK2CSR_BASE,
+                              CPU_DWORD_ACCESS)},
+          ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK2CSR_BASE,
+                              CPU_DWORD_ACCESS)}
+        })
+        Name(_TSS, Package() {
+          Package() {CPU_FREQ_100_PRCNT, CPU_PWR_DISSP_PLL_DIV_1,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_1, CPU_CGA_PLL_DIV_1},
+          Package() {CPU_FREQ_50_PRCNT, CPU_PWR_DISSP_PLL_DIV_2,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_2, CPU_CGA_PLL_DIV_2},
+          Package() {CPU_FREQ_25_PRCNT, CPU_PWR_DISSP_PLL_DIV_4,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_4, CPU_CGA_PLL_DIV_4}
+        })
+        Method(_TPC, 0) {
+          Return (Zero)
+        }
+        Name (_TSD, Package() {
+          Package(){CPU_NUM_ENTRIES, 0, CPU_DOMAIN_1, CPU_SW_ANY_CORD,
+                    CPU_NUM_PROCESSOR}
+        })
       }
       Device(CPU3) { // A72-1: Cluster 1, Cpu 1
         Name(_HID, "ACPI0007")
@@ -235,6 +298,27 @@ Scope(_SB)
         Method (_LPI, 0, NotSerialized) {
           return(PLPI)
         }
+        Name(_PTC, Package () {
+          ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK2CSR_BASE,
+                              CPU_DWORD_ACCESS)},
+          ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK2CSR_BASE,
+                              CPU_DWORD_ACCESS)}
+        })
+        Name(_TSS, Package() {
+          Package() {CPU_FREQ_100_PRCNT, CPU_PWR_DISSP_PLL_DIV_1,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_1, CPU_CGA_PLL_DIV_1},
+          Package() {CPU_FREQ_50_PRCNT, CPU_PWR_DISSP_PLL_DIV_2,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_2, CPU_CGA_PLL_DIV_2},
+          Package() {CPU_FREQ_25_PRCNT, CPU_PWR_DISSP_PLL_DIV_4,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_4, CPU_CGA_PLL_DIV_4}
+        })
+        Method(_TPC, 0) {
+          Return (Zero)
+        }
+        Name (_TSD, Package() {
+          Package(){CPU_NUM_ENTRIES, 0, CPU_DOMAIN_1, CPU_SW_ANY_CORD,
+                    CPU_NUM_PROCESSOR}
+        })
       }
     }
 
@@ -321,6 +405,27 @@ Scope(_SB)
         Method (_LPI, 0, NotSerialized) {
           return(PLPI)
         }
+        Name(_PTC, Package () {
+          ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK3CSR_BASE,
+                              CPU_DWORD_ACCESS)},
+          ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK3CSR_BASE,
+                              CPU_DWORD_ACCESS)}
+        })
+        Name(_TSS, Package() {
+          Package() {CPU_FREQ_100_PRCNT, CPU_PWR_DISSP_PLL_DIV_1,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_1, CPU_CGA_PLL_DIV_1},
+          Package() {CPU_FREQ_50_PRCNT, CPU_PWR_DISSP_PLL_DIV_2,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_2, CPU_CGA_PLL_DIV_2},
+          Package() {CPU_FREQ_25_PRCNT, CPU_PWR_DISSP_PLL_DIV_4,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_4, CPU_CGA_PLL_DIV_4}
+        })
+        Method(_TPC, 0) {
+          Return (Zero)
+        }
+        Name (_TSD, Package() {
+          Package(){CPU_NUM_ENTRIES, 0, CPU_DOMAIN_2, CPU_SW_ANY_CORD,
+                    CPU_NUM_PROCESSOR}
+        })
       }
       Device(CPU5) { // A72-1: Cluster 2, Cpu 1
         Name(_HID, "ACPI0007")
@@ -328,6 +433,27 @@ Scope(_SB)
         Method (_LPI, 0, NotSerialized) {
           return(PLPI)
         }
+        Name(_PTC, Package () {
+          ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK3CSR_BASE,
+                              CPU_DWORD_ACCESS)},
+          ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK3CSR_BASE,
+                              CPU_DWORD_ACCESS)}
+        })
+        Name(_TSS, Package() {
+          Package() {CPU_FREQ_100_PRCNT, CPU_PWR_DISSP_PLL_DIV_1,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_1, CPU_CGA_PLL_DIV_1},
+          Package() {CPU_FREQ_50_PRCNT, CPU_PWR_DISSP_PLL_DIV_2,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_2, CPU_CGA_PLL_DIV_2},
+          Package() {CPU_FREQ_25_PRCNT, CPU_PWR_DISSP_PLL_DIV_4,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_4, CPU_CGA_PLL_DIV_4}
+        })
+        Method(_TPC, 0) {
+          Return (Zero)
+        }
+        Name (_TSD, Package() {
+          Package(){CPU_NUM_ENTRIES, 0, CPU_DOMAIN_2, CPU_SW_ANY_CORD,
+                    CPU_NUM_PROCESSOR}
+        })
       }
     }
 
@@ -414,6 +540,27 @@ Scope(_SB)
         Method (_LPI, 0, NotSerialized) {
           return(PLPI)
         }
+        Name(_PTC, Package () {
+          ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK4CSR_BASE,
+                              CPU_DWORD_ACCESS)},
+          ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK4CSR_BASE,
+                              CPU_DWORD_ACCESS)}
+        })
+        Name(_TSS, Package() {
+          Package() {CPU_FREQ_100_PRCNT, CPU_PWR_DISSP_PLL_DIV_1,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_1, CPU_CGA_PLL_DIV_1},
+          Package() {CPU_FREQ_50_PRCNT, CPU_PWR_DISSP_PLL_DIV_2,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_2, CPU_CGA_PLL_DIV_2},
+          Package() {CPU_FREQ_25_PRCNT, CPU_PWR_DISSP_PLL_DIV_4,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_4, CPU_CGA_PLL_DIV_4}
+        })
+        Method(_TPC, 0) {
+          Return (Zero)
+        }
+        Name (_TSD, Package() {
+          Package(){CPU_NUM_ENTRIES, 0, CPU_DOMAIN_3, CPU_SW_ANY_CORD,
+                    CPU_NUM_PROCESSOR}
+        })
       }
       Device(CPU7) { // A72-1: Cluster 3, Cpu 1
         Name(_HID, "ACPI0007")
@@ -421,6 +568,27 @@ Scope(_SB)
         Method (_LPI, 0, NotSerialized) {
           return(PLPI)
         }
+        Name(_PTC, Package () {
+          ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK4CSR_BASE,
+                              CPU_DWORD_ACCESS)},
+          ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK4CSR_BASE,
+                              CPU_DWORD_ACCESS)}
+        })
+        Name(_TSS, Package() {
+          Package() {CPU_FREQ_100_PRCNT, CPU_PWR_DISSP_PLL_DIV_1,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_1, CPU_CGA_PLL_DIV_1},
+          Package() {CPU_FREQ_50_PRCNT, CPU_PWR_DISSP_PLL_DIV_2,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_2, CPU_CGA_PLL_DIV_2},
+          Package() {CPU_FREQ_25_PRCNT, CPU_PWR_DISSP_PLL_DIV_4,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_4, CPU_CGA_PLL_DIV_4}
+        })
+        Method(_TPC, 0) {
+          Return (Zero)
+        }
+        Name (_TSD, Package() {
+          Package(){CPU_NUM_ENTRIES, 0, CPU_DOMAIN_3, CPU_SW_ANY_CORD,
+                    CPU_NUM_PROCESSOR}
+        })
       }
     }
 
@@ -507,6 +675,27 @@ Scope(_SB)
         Method (_LPI, 0, NotSerialized) {
           return(PLPI)
         }
+        Name(_PTC, Package () {
+          ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK5CSR_BASE,
+                              CPU_DWORD_ACCESS)},
+          ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK5CSR_BASE,
+                              CPU_DWORD_ACCESS)}
+        })
+        Name(_TSS, Package() {
+          Package() {CPU_FREQ_100_PRCNT, CPU_PWR_DISSP_PLL_DIV_1,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_1, CPU_CGB_PLL_DIV_1},
+          Package() {CPU_FREQ_50_PRCNT, CPU_PWR_DISSP_PLL_DIV_2,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_2, CPU_CGB_PLL_DIV_2},
+          Package() {CPU_FREQ_25_PRCNT, CPU_PWR_DISSP_PLL_DIV_4,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_4, CPU_CGB_PLL_DIV_4}
+        })
+        Method(_TPC, 0) {
+          Return (Zero)
+        }
+        Name (_TSD, Package() {
+          Package(){CPU_NUM_ENTRIES, 0, CPU_DOMAIN_4, CPU_SW_ANY_CORD,
+                    CPU_NUM_PROCESSOR}
+        })
       }
       Device(CPU9) { // A72-1: Cluster 4, Cpu 1
         Name(_HID, "ACPI0007")
@@ -514,6 +703,27 @@ Scope(_SB)
         Method (_LPI, 0, NotSerialized) {
           return(PLPI)
         }
+        Name(_PTC, Package () {
+          ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK5CSR_BASE,
+                              CPU_DWORD_ACCESS)},
+          ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK5CSR_BASE,
+                              CPU_DWORD_ACCESS)}
+        })
+        Name(_TSS, Package() {
+          Package() {CPU_FREQ_100_PRCNT, CPU_PWR_DISSP_PLL_DIV_1,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_1, CPU_CGB_PLL_DIV_1},
+          Package() {CPU_FREQ_50_PRCNT, CPU_PWR_DISSP_PLL_DIV_2,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_2, CPU_CGB_PLL_DIV_2},
+          Package() {CPU_FREQ_25_PRCNT, CPU_PWR_DISSP_PLL_DIV_4,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_4, CPU_CGB_PLL_DIV_4}
+        })
+        Method(_TPC, 0) {
+          Return (Zero)
+        }
+        Name (_TSD, Package() {
+          Package(){CPU_NUM_ENTRIES, 0, CPU_DOMAIN_4, CPU_SW_ANY_CORD,
+                    CPU_NUM_PROCESSOR}
+        })
       }
     }
 
@@ -600,6 +810,27 @@ Scope(_SB)
         Method (_LPI, 0, NotSerialized) {
           return(PLPI)
         }
+        Name(_PTC, Package () {
+          ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK6CSR_BASE,
+                              CPU_DWORD_ACCESS)},
+          ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK6CSR_BASE,
+                              CPU_DWORD_ACCESS)}
+        })
+        Name(_TSS, Package() {
+          Package() {CPU_FREQ_100_PRCNT, CPU_PWR_DISSP_PLL_DIV_1,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_1, CPU_CGB_PLL_DIV_1},
+          Package() {CPU_FREQ_50_PRCNT, CPU_PWR_DISSP_PLL_DIV_2,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_2, CPU_CGB_PLL_DIV_2},
+          Package() {CPU_FREQ_25_PRCNT, CPU_PWR_DISSP_PLL_DIV_4,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_4, CPU_CGB_PLL_DIV_4}
+        })
+        Method(_TPC, 0) {
+          Return (Zero)
+        }
+        Name (_TSD, Package() {
+          Package(){CPU_NUM_ENTRIES, 0, CPU_DOMAIN_5, CPU_SW_ANY_CORD,
+                    CPU_NUM_PROCESSOR}
+        })
       }
       Device(CP11) { // A72-1: Cluster 5, Cpu 1
         Name(_HID, "ACPI0007")
@@ -607,6 +838,27 @@ Scope(_SB)
         Method (_LPI, 0, NotSerialized) {
           return(PLPI)
         }
+        Name(_PTC, Package () {
+          ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK6CSR_BASE,
+                              CPU_DWORD_ACCESS)},
+          ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK6CSR_BASE,
+                              CPU_DWORD_ACCESS)}
+        })
+        Name(_TSS, Package() {
+          Package() {CPU_FREQ_100_PRCNT, CPU_PWR_DISSP_PLL_DIV_1,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_1, CPU_CGB_PLL_DIV_1},
+          Package() {CPU_FREQ_50_PRCNT, CPU_PWR_DISSP_PLL_DIV_2,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_2, CPU_CGB_PLL_DIV_2},
+          Package() {CPU_FREQ_25_PRCNT, CPU_PWR_DISSP_PLL_DIV_4,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_4, CPU_CGB_PLL_DIV_4}
+        })
+        Method(_TPC, 0) {
+          Return (Zero)
+        }
+        Name (_TSD, Package() {
+          Package(){CPU_NUM_ENTRIES, 0, CPU_DOMAIN_5, CPU_SW_ANY_CORD,
+                    CPU_NUM_PROCESSOR}
+        })
       }
     }
 
@@ -693,6 +945,27 @@ Scope(_SB)
         Method (_LPI, 0, NotSerialized) {
           return(PLPI)
         }
+        Name(_PTC, Package () {
+          ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK7CSR_BASE,
+                              CPU_DWORD_ACCESS)},
+          ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK7CSR_BASE,
+                              CPU_DWORD_ACCESS)}
+        })
+        Name(_TSS, Package() {
+          Package() {CPU_FREQ_100_PRCNT, CPU_PWR_DISSP_PLL_DIV_1,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_1, CPU_CGB_PLL_DIV_1},
+          Package() {CPU_FREQ_50_PRCNT, CPU_PWR_DISSP_PLL_DIV_2,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_2, CPU_CGB_PLL_DIV_2},
+          Package() {CPU_FREQ_25_PRCNT, CPU_PWR_DISSP_PLL_DIV_4,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_4, CPU_CGB_PLL_DIV_4}
+        })
+        Method(_TPC, 0) {
+          Return (Zero)
+        }
+        Name (_TSD, Package() {
+          Package(){CPU_NUM_ENTRIES, 0, CPU_DOMAIN_6, CPU_SW_ANY_CORD,
+                    CPU_NUM_PROCESSOR}
+        })
       }
       Device(CP13) { // A72-1: Cluster 6, Cpu 1
         Name(_HID, "ACPI0007")
@@ -700,6 +973,27 @@ Scope(_SB)
         Method (_LPI, 0, NotSerialized) {
           return(PLPI)
         }
+        Name(_PTC, Package () {
+          ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK7CSR_BASE,
+                              CPU_DWORD_ACCESS)},
+          ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK7CSR_BASE,
+                              CPU_DWORD_ACCESS)}
+        })
+        Name(_TSS, Package() {
+          Package() {CPU_FREQ_100_PRCNT, CPU_PWR_DISSP_PLL_DIV_1,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_1, CPU_CGB_PLL_DIV_1},
+          Package() {CPU_FREQ_50_PRCNT, CPU_PWR_DISSP_PLL_DIV_2,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_2, CPU_CGB_PLL_DIV_2},
+          Package() {CPU_FREQ_25_PRCNT, CPU_PWR_DISSP_PLL_DIV_4,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_4, CPU_CGB_PLL_DIV_4}
+        })
+        Method(_TPC, 0) {
+          Return (Zero)
+        }
+        Name (_TSD, Package() {
+          Package(){CPU_NUM_ENTRIES, 0, CPU_DOMAIN_6, CPU_SW_ANY_CORD,
+                    CPU_NUM_PROCESSOR}
+        })
       }
     }
 
@@ -786,6 +1080,27 @@ Scope(_SB)
         Method (_LPI, 0, NotSerialized) {
           return(PLPI)
         }
+        Name(_PTC, Package () {
+          ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK8CSR_BASE,
+                              CPU_DWORD_ACCESS)},
+          ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK8CSR_BASE,
+                              CPU_DWORD_ACCESS)}
+        })
+        Name(_TSS, Package() {
+          Package() {CPU_FREQ_100_PRCNT, CPU_PWR_DISSP_PLL_DIV_1,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_1, CPU_CGB_PLL_DIV_1},
+          Package() {CPU_FREQ_50_PRCNT, CPU_PWR_DISSP_PLL_DIV_2,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_2, CPU_CGB_PLL_DIV_2},
+          Package() {CPU_FREQ_25_PRCNT, CPU_PWR_DISSP_PLL_DIV_4,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_4, CPU_CGB_PLL_DIV_4}
+        })
+        Method(_TPC, 0) {
+          Return (Zero)
+        }
+        Name (_TSD, Package() {
+          Package(){CPU_NUM_ENTRIES, 0, CPU_DOMAIN_7, CPU_SW_ANY_CORD,
+                    CPU_NUM_PROCESSOR}
+        })
       }
       Device(CP15) { // A72-1: Cluster 7, Cpu 1
         Name(_HID, "ACPI0007")
@@ -793,6 +1108,27 @@ Scope(_SB)
         Method (_LPI, 0, NotSerialized) {
           return(PLPI)
         }
+        Name(_PTC, Package () {
+          ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK8CSR_BASE,
+                              CPU_DWORD_ACCESS)},
+          ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK8CSR_BASE,
+                              CPU_DWORD_ACCESS)}
+        })
+        Name(_TSS, Package() {
+          Package() {CPU_FREQ_100_PRCNT, CPU_PWR_DISSP_PLL_DIV_1,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_1, CPU_CGB_PLL_DIV_1},
+          Package() {CPU_FREQ_50_PRCNT, CPU_PWR_DISSP_PLL_DIV_2,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_2, CPU_CGB_PLL_DIV_2},
+          Package() {CPU_FREQ_25_PRCNT, CPU_PWR_DISSP_PLL_DIV_4,
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_4, CPU_CGB_PLL_DIV_4}
+        })
+        Method(_TPC, 0) {
+          Return (Zero)
+        }
+        Name (_TSD, Package() {
+          Package(){CPU_NUM_ENTRIES, 0, CPU_DOMAIN_7, CPU_SW_ANY_CORD,
+                    CPU_NUM_PROCESSOR}
+        })
       }
     }
 }

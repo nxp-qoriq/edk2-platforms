@@ -45,6 +45,41 @@
     EFI_ACPI_ARM_CREATOR_REVISION   /* UINT32  CreatorRevision */ \
   }
 
+// CPU
+#define CPU_CLK1CSR_BASE        0x1370000
+#define CPU_CLK2CSR_BASE        0x1370020
+#define CPU_CLK3CSR_BASE        0x1370040
+#define CPU_CLK4CSR_BASE        0x1370060
+#define CPU_CLK5CSR_BASE        0x1370080
+#define CPU_CLK6CSR_BASE        0x13700A0
+#define CPU_CLK7CSR_BASE        0x13700C0
+#define CPU_CLK8CSR_BASE        0x13700E0
+#define CPU_CGA_PLL_DIV_1       0x00000000
+#define CPU_CGA_PLL_DIV_2       0x08000000
+#define CPU_CGA_PLL_DIV_4       0x10000000
+#define CPU_CGB_PLL_DIV_1       0x20000000
+#define CPU_CGB_PLL_DIV_2       0x28000000
+#define CPU_CGB_PLL_DIV_4       0x30000000
+#define CPU_PLL_TRNS_LATENCY    0
+#define CPU_PWR_DISSP_PLL_DIV_1 200
+#define CPU_PWR_DISSP_PLL_DIV_2 100
+#define CPU_PWR_DISSP_PLL_DIV_4 50
+#define CPU_FREQ_100_PRCNT      100
+#define CPU_FREQ_50_PRCNT       50
+#define CPU_FREQ_25_PRCNT       25
+#define CPU_DWORD_ACCESS        3
+#define CPU_NUM_ENTRIES         5
+#define CPU_SW_ANY_CORD         0xFD
+#define CPU_NUM_PROCESSOR       2
+#define CPU_DOMAIN_0            0
+#define CPU_DOMAIN_1            1
+#define CPU_DOMAIN_2            2
+#define CPU_DOMAIN_3            3
+#define CPU_DOMAIN_4            4
+#define CPU_DOMAIN_5            5
+#define CPU_DOMAIN_6            6
+#define CPU_DOMAIN_7            7
+
 // PCLK
 #define DCFG_BASE   0x1E00000
 #define DCFG_LEN    0x1FFFF
@@ -72,23 +107,25 @@
 #define SPCR_FLOW_CONTROL_NONE   0
 
 // I2C
-#define I2C0_BASE 0x2000000
-#define I2C1_BASE 0x2010000
-#define I2C2_BASE 0x2020000
-#define I2C3_BASE 0x2030000
-#define I2C4_BASE 0x2040000
-#define I2C5_BASE 0x2050000
-#define I2C6_BASE 0x2060000
-#define I2C7_BASE 0x2070000
-#define I2C_LEN   0x10000
-#define I2C0_IT   66
-#define I2C1_IT   66
-#define I2C2_IT   67
-#define I2C3_IT   67
-#define I2C4_IT   106
-#define I2C5_IT   106
-#define I2C6_IT   107
-#define I2C7_IT   107
+#define I2C0_BASE          0x2000000
+#define I2C1_BASE          0x2010000
+#define I2C2_BASE          0x2020000
+#define I2C3_BASE          0x2030000
+#define I2C4_BASE          0x2040000
+#define I2C5_BASE          0x2050000
+#define I2C6_BASE          0x2060000
+#define I2C7_BASE          0x2070000
+#define I2C_LEN            0x10000
+#define I2C0_IT            66
+#define I2C1_IT            66
+#define I2C2_IT            67
+#define I2C3_IT            67
+#define I2C4_IT            106
+#define I2C5_IT            106
+#define I2C6_IT            107
+#define I2C7_IT            107
+#define I2C0_MUX_CHANNEL_1 1
+#define I2C0_MUX_CHANNEL_3 3
 
 // Sata
 #define SATA0_BASE 0x3200000
@@ -117,32 +154,42 @@
 #define USB1_IT   113
 
 // TMU
-#define TMU_BASE                 0x1f80000   // TMU CCSR space base address
-#define TMU_LEN                  0x10000     // TMU CCSR space length
-#define TMU_TEMP_RANGE_0         0x800000E6  // 230K
-#define TMU_TEMP_RANGE_1         0x8001017D  // 381K
-#define TMU_SITES_MAX            7           // Max TMU remote sensor
-#define TMU_ACTIVE               0           // Cooling policy active
-#define TMU_PASSIVE              1           // Cooling policy passive
-#define TMU_PASSIVE_THERSHOLD    3582        // Passive Thershold
-#define TMU_CRITICAL_THERSHOLD   3682        // Critical Thershold
-#define TMU_TIER_DISABLE_ALL     0x00        // Disable all interrupt
-#define TMU_TIDR_DISABLE_ALL     0x00        // Clear all interrupt
-#define TMU_TMR_DISABLE          0x00        // Disable TMU IP Monitoring mode
-#define TMU_TMR_ENABLE           0x80000000  // Enable TMU IP in monitoring mode
-#define TMU_TMTMIR_DEFAULT       0x00000007  // Monitoring interval ~2second
-#define TMU_THERMAL_COFFICIENT_1 1           // Thermal cofficient 1 value as per the TMU datasheet
-#define TMU_THERMAL_COFFICIENT_2 1           // Thermal cofficient 2 value as per the TMU datasheet
-#define TMU_TZ_POLLING_PERIOD    150         // ThermalZone polling frequency ~500second
-#define TMU_TZ_SAMPLING_PERIOD   50          // ThermalZone sampling frequency ~100second
-#define TMU_SENSOR_ENABLE_ALL    0x0000007F  // Enable all sensor for active monitoring
-#define TMU_POINT_0_TEMP_CFG     0x00000000  // TMU calibration data, point 0 @230K(-43)
-#define TMU_POINT_0_SENSOR_CFG   0x00000035  // TMU calibration data, point 0 @230K(-43)
-#define TMU_POINT_1_TEMP_CFG     0x00000001  // TMU calibration data, point 1 @381K(103C)
-#define TMU_POINT_1_SENSOR_CFG   0x00000154  // TMU calibration data, point 0 @381K(103C)
-#define TMU_SENSOR_READ_ADJUST   0x0000000E  // TMU sensor reading adjustment
-#define TMU_ENGINEERING_MODE_0   0x51009C00  // TEUMR0 register
-#define TMU_ENGINEERING_MODE_2   0x0800FFFE  // TEUMR2 register
+#define TMU_BASE                  0x1f80000   // TMU CCSR space base address
+#define TMU_LEN                   0x10000     // TMU CCSR space length
+#define TMU_TEMP_RANGE_0          0x800000E6  // 230K
+#define TMU_TEMP_RANGE_1          0x8001017D  // 381K
+#define TMU_SITES_MAX             7           // Max TMU remote sensor
+#define TMU_ACTIVE                0           // Cooling policy active
+#define TMU_PASSIVE               1           // Cooling policy passive
+#define TMU_PASSIVE_THERSHOLD     3582        // Passive Thershold (85C)
+#define TMU_CRITICAL_THERSHOLD    3682        // Critical Thershold (95C)
+#define TMU_ACTIVE_LOW_THERSHOLD  3232        // Active low Thershold (50C)
+#define TMU_ACTIVE_HIGH_THERSHOLD 3432        // Active high Thershold (70C)
+#define TMU_TIER_DISABLE_ALL      0x00        // Disable all interrupt
+#define TMU_TIDR_DISABLE_ALL      0x00        // Clear all interrupt
+#define TMU_TMR_DISABLE           0x00        // Disable TMU IP Monitoring mode
+#define TMU_TMR_ENABLE            0x80000000  // Enable TMU IP in monitoring mode
+#define TMU_TMTMIR_DEFAULT        0x00000007  // Monitoring interval ~2second
+#define TMU_THERMAL_COFFICIENT_1  1           // Thermal cofficient 1 value as per the TMU datasheet
+#define TMU_THERMAL_COFFICIENT_2  1           // Thermal cofficient 2 value as per the TMU datasheet
+#define TMU_TZ_POLLING_PERIOD     150         // ThermalZone polling frequency ~15second
+#define TMU_TZ_SAMPLING_PERIOD    50          // ThermalZone sampling frequency ~5second
+#define TMU_SENSOR_ENABLE_ALL     0x0000007F  // Enable all sensor for active monitoring
+#define TMU_POINT_0_TEMP_CFG      0x00000000  // TMU calibration data, point 0 @230K(-43)
+#define TMU_POINT_0_SENSOR_CFG    0x00000035  // TMU calibration data, point 0 @230K(-43)
+#define TMU_POINT_1_TEMP_CFG      0x00000001  // TMU calibration data, point 1 @381K(108C)
+#define TMU_POINT_1_SENSOR_CFG    0x00000154  // TMU calibration data, point 0 @381K(108C)
+#define TMU_SENSOR_READ_ADJUST    0x0000000E  // TMU sensor reading adjustment
+#define TMU_ENGINEERING_MODE_0    0x51009C00  // TEUMR0 register
+#define TMU_ENGINEERING_MODE_2    0x0800FFFE  // TEUMR2 register
+#define TMU_FAN_1                 1           // FAN 1
+#define TMU_FAN_2                 2           // FAN 2
+#define TMU_FAN_3                 3           // FAN 3
+#define TMU_FAN_4                 4           // FAN 4
+#define TMU_FAN_5                 5           // FAN 5
+#define TMU_FAN_OFF_SPEED         0x80        // FAN off speed value at 50% PWM (Default)
+#define TMU_FAN_LOW_SPEED         0xBF        // FAN low speed value at 75% PWM
+#define TMU_FAN_HIGH_SPEED        0xF0        // FAN high speed value at 95% PWM
 
 // DSPI
 #define SPI0_BASE 0x2100000
