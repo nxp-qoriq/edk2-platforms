@@ -24,6 +24,7 @@
   DEFINE NETWORK_TLS_ENABLE             = FALSE
   DEFINE NETWORK_HTTP_BOOT_ENABLE       = FALSE
   DEFINE NETWORK_ISCSI_ENABLE           = FALSE
+  DEFINE CAPSULE_ENABLE                 = TRUE
 
 !include Platform/NXP/NxpQoriqLs.dsc
 !include Silicon/NXP/Chassis/Chassis2/Chassis2.dsc
@@ -196,4 +197,11 @@
   # Platform
   #
   Platform/NXP/LS1046aRdbPkg/AcpiTables/AcpiTables.inf
+
+!if $(CAPSULE_ENABLE)
+  #
+  # Firmware update
+  #
+  Platform/NXP/LS1046aRdbPkg/SystemFirmwareDescriptor/SystemFirmwareDescriptor.inf
+!endif #$(CAPSULE_ENABLE)
  ##

@@ -1,0 +1,45 @@
+## @file
+#  System Firmware descriptor.
+#
+#  Copyright 2020 NXP
+#
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+##
+
+[Defines]
+  INF_VERSION                    = 0x0001001A
+  BASE_NAME                      = SystemFirmwareDescriptor
+  FILE_GUID                      = 90B2B846-CA6D-4D6E-A8D3-C140A8E110AC
+  MODULE_TYPE                    = DXE_DRIVER
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = SystemFirmwareDescriptorEntry
+
+[Sources]
+  SystemFirmwareDescriptorTable.aslc
+  SystemFirmwareDescriptor.c
+
+[Packages]
+  ArmPkg/ArmPkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  MdePkg/MdePkg.dec
+  SignedCapsulePkg/SignedCapsulePkg.dec
+
+[LibraryClasses]
+  DebugLib
+  PcdLib
+  UefiDriverEntryPoint
+  DxeServicesLib
+
+[FixedPcd]
+  gArmTokenSpaceGuid.PcdFdSize
+  gEfiMdeModulePkgTokenSpaceGuid.PcdFirmwareRevision
+
+[Pcd]
+  gEfiSignedCapsulePkgTokenSpaceGuid.PcdEdkiiSystemFirmwareImageDescriptor
+
+[Guids]
+  gEdkiiSystemFirmwareImageDescriptorFileGuid
+
+[Depex]
+  TRUE
