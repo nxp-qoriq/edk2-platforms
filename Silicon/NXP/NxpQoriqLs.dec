@@ -254,6 +254,7 @@
   gNxpQoriqLsTokenSpaceGuid.PcdDspiFdtCompatible|""|VOID*|0x00000317
   gNxpQoriqLsTokenSpaceGuid.PcdFlexSpiFdtCompatible|""|VOID*|0x00000318
   gNxpQoriqLsTokenSpaceGuid.PcdQspiErratumA008886|FALSE|BOOLEAN|0x00000319
+  gNxpQoriqLsTokenSpaceGuid.PcdSpiNorPageProgramToutUs|0x0|UINT64|0x00000320
 
   #
   # GpioControllers' Pcds
