@@ -940,12 +940,14 @@ Returns:
     goto UndiErrorDeleteDevicePath;
   }
 
-  Status = InitFirmwareManagementProtocol (GigUndiPrivateData);
-  if (EFI_ERROR (Status)) {
-    DEBUGPRINT (CRITICAL, ("Could not install Firmware Management protocol interfaces.  Error = %d %r\n", Status, Status));
-    DEBUGWAIT(CRITICAL);
-    goto UndiErrorDeleteDevicePath;
-  }
+  // FMP Protocol is not implemented as per UEFI Spec.
+  // GetImageInfo() is required function as per UEFI spec.
+  //Status = InitFirmwareManagementProtocol (GigUndiPrivateData);
+  //if (EFI_ERROR (Status)) {
+  //  DEBUGPRINT (CRITICAL, ("Could not install Firmware Management protocol interfaces.  Error = %d %r\n", Status, Status));
+  //  DEBUGWAIT(CRITICAL);
+  //  goto UndiErrorDeleteDevicePath;
+  //}
 
   //
   // Open For Child Device
@@ -1138,12 +1140,14 @@ Returns:
     return Status;
   }
 
-  DEBUGPRINT(INIT, ("UninstallFirmwareManagementProtocol\n"));
-  Status = UninstallFirmwareManagementProtocol (GigUndiPrivateData);
-  if (EFI_ERROR (Status)) {
-    DEBUGPRINT(CRITICAL, ("UninstallFirmwareManagementProtocol returns %r\n", Status));
-    DEBUGWAIT (CRITICAL);
-  }
+  // FMP Protocol is not implemented as per UEFI Spec.
+  // Installation removed from GigUndiDriverStart.
+  //DEBUGPRINT(INIT, ("UninstallFirmwareManagementProtocol\n"));
+  //Status = UninstallFirmwareManagementProtocol (GigUndiPrivateData);
+  //if (EFI_ERROR (Status)) {
+  //  DEBUGPRINT(CRITICAL, ("UninstallFirmwareManagementProtocol returns %r\n", Status));
+  //  DEBUGWAIT (CRITICAL);
+  //}
 
   DEBUGPRINT(INIT, ("UninstallMultipleProtocolInterfaces\n"));
   Status = gBS->UninstallMultipleProtocolInterfaces (
