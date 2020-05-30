@@ -124,6 +124,9 @@
 
   gNxpQoriqLsTokenSpaceGuid.PcdFdtAddress|0x40F00000
 
+  # DEFAULT_READY_WAIT_JIFFIES   40UL * HZ
+  gNxpQoriqLsTokenSpaceGuid.PcdSpiNorPageProgramToutUs|40000
+
 ################################################################################
 #
 # Components Section - list of all EDK II Modules needed by this Platform
