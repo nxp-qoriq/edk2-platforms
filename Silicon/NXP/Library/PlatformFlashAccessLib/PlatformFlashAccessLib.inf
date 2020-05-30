@@ -1,0 +1,36 @@
+## @file
+#  Platform flash device access library.
+#
+#  Copyright 2020 NXP
+#
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+##
+
+[Defines]
+  INF_VERSION                    = 0x0001001A
+  BASE_NAME                      = PlatformFlashAccessLib
+  FILE_GUID                      = 18CBF835-F102-43C9-8045-2A39E7643CEA
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = PlatformFlashAccessLib|DXE_DRIVER
+
+[Sources]
+  PlatformFlashAccessLib.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  SignedCapsulePkg/SignedCapsulePkg.dec
+
+[Protocols]
+  gEfiFirmwareVolumeBlockProtocolGuid
+
+[LibraryClasses]
+  BaseMemoryLib
+  DebugLib
+  DxeServicesTableLib
+  UefiBootServicesTableLib
+
+[FixedPcd]
+  gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageVariableBase64
