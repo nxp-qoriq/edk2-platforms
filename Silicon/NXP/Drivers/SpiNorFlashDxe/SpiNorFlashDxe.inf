@@ -60,6 +60,7 @@
   gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageFtwWorkingSize
   gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageVariableBase64
   gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageVariableSize
+  gNxpQoriqLsTokenSpaceGuid.PcdSpiNorPageProgramToutUs
 
 [Depex.common.DXE_RUNTIME_DRIVER]
   gEfiCpuArchProtocolGuid
