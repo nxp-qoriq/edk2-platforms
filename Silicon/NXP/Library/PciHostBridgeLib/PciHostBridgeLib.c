@@ -1160,7 +1160,7 @@ IortPcieSetIommuIdMapping (
 
   IdMapping->InputBase = InputId;
   IdMapping->NumIds = 0;
-  IdMapping->OutputBase = OutputId;
+  IdMapping->OutputBase = FixedPcdGet16 (PcdPcieTbuMask) | OutputId;
   IdMapping->OutputReference = OFFSET_OF (NXP_EFI_ACPI_6_0_IO_REMAPPING_TABLE, SmmuNode);
 
   PciRcNode->PciRcNode.Node.NumIdMappings += 1;

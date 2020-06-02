@@ -144,6 +144,7 @@
 
   #PCI IORT related
   gNxpQoriqLsTokenSpaceGuid.PcdNoITS|FALSE|BOOLEAN|0x000001DF
+  gNxpQoriqLsTokenSpaceGuid.PcdPcieTbuMask|0x0|UINT16|0x000001E0 
   #
   # IFC PCDs
   #

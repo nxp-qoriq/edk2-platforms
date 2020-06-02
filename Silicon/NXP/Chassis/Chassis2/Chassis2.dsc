@@ -51,3 +51,5 @@
   gNxpQoriqLsTokenSpaceGuid.PcdPcieStreamIdStart|11
   gNxpQoriqLsTokenSpaceGuid.PcdPcieStreamIdEnd|26
   gNxpQoriqLsTokenSpaceGuid.PcdNoITS|True
+#PcdPcieTbuMask is applied to requesterID before streamID is generated.
+  gNxpQoriqLsTokenSpaceGuid.PcdPcieTbuMask|0x400

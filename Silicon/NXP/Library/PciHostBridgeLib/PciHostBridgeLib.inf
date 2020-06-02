@@ -47,6 +47,7 @@
   gNxpQoriqLsTokenSpaceGuid.PcdPcieStreamIdStart
   gNxpQoriqLsTokenSpaceGuid.PcdPcieStreamIdEnd
   gNxpQoriqLsTokenSpaceGuid.PcdNoITS
+  gNxpQoriqLsTokenSpaceGuid.PcdPcieTbuMask
 
 [Pcd]
   gNxpQoriqLsTokenSpaceGuid.PcdPciLutBigEndian
