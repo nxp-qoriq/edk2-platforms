@@ -205,6 +205,7 @@
   # Platform
   #
   Platform/NXP/LS1046aRdbPkg/AcpiTables/AcpiTables.inf
+  Platform/NXP/LS1046aRdbPkg/AcpiTables/Icid.inf
 
 !if $(CAPSULE_ENABLE)
   #
