@@ -50,3 +50,4 @@
   # PCI - programmed in PEXn_LUT
   gNxpQoriqLsTokenSpaceGuid.PcdPcieStreamIdStart|11
   gNxpQoriqLsTokenSpaceGuid.PcdPcieStreamIdEnd|26
+  gNxpQoriqLsTokenSpaceGuid.PcdNoITS|True

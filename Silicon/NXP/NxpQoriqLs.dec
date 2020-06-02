@@ -142,6 +142,8 @@
   gNxpQoriqLsTokenSpaceGuid.PcdPcieExp5SysAddr|0x0|UINT64|0x000001D9
   gNxpQoriqLsTokenSpaceGuid.PcdPcieExp6SysAddr|0x0|UINT64|0x000001DA
 
+  #PCI IORT related
+  gNxpQoriqLsTokenSpaceGuid.PcdNoITS|FALSE|BOOLEAN|0x000001DF
   #
   # IFC PCDs
   #
@@ -306,3 +308,4 @@
   gNxpQoriqLsTokenSpaceGuid.PcdPciLsGen4Ctrl|FALSE|BOOLEAN|0x000001DC
   gNxpQoriqLsTokenSpaceGuid.PcdPciStreamIdPerCtrl|FALSE|BOOLEAN|0x000001DD
   gNxpQoriqLsTokenSpaceGuid.PcdPciHideRootPort|FALSE|BOOLEAN|0x000001DE
+
