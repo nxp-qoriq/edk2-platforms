@@ -21,6 +21,7 @@
 #define EFI_ACPI_ARM_CREATOR_ID         SIGNATURE_32('A','R','M', ' ')
 #define EFI_ACPI_ARM_CREATOR_REVISION   0x20151124
 
+#define NO_ITS_IO_REMAPPING_TABLE 1
 // A macro to initialise the common header part of EFI ACPI tables as defined by
 // EFI_ACPI_DESCRIPTION_HEADER structure.
 #define ARM_ACPI_HEADER(Signature, Type, Revision) {              \
