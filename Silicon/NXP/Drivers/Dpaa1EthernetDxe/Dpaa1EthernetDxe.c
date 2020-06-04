@@ -117,109 +117,6 @@ _FixMacAddress(
 }
 
 /**
-  Reserve the pages with correct alignment and mark them efi runtime service.
-  Fix fix the memory address dsdt property with these new allocations.
-
-  @param[in]      AcpiTableProtocol   Protocol handle.
-  @param[in]      ChildHandle         Child acpi object handle.
-  @param[in]      DevType             Type of dev node - Qman(0),Bman(1) etc.
-  @param[in]      DevID               ID of dev node - QMN0,QMN1,QMN2...etc.
-
-  @retval         EFI_SUCCESS         DSDT found and processed successfully.
-**/
-static
-EFI_STATUS
-_FixMemAddress(
-    IN EFI_ACPI_SDT_PROTOCOL  *AcpiTableProtocol,
-    IN EFI_ACPI_HANDLE        ChildHandle,
-    IN EFI_ACPI_HANDLE        CurrentHandle,
-    IN UINTN                  DevType,
-    IN UINTN                  DevID
-    )
-{
-  EFI_STATUS          Status;
-  EFI_ACPI_DATA_TYPE  DataType;
-  CONST UINT8         *Data;
-  CONST VOID          *Buffer;
-  UINTN               DataSize;
-  UINTN               Counter;
-  VOID                *QbmanHostAddres1 = NULL;
-  VOID                *QbmanHostAddres2 = NULL;
-  UINTN               AddressOffset = 0;
-
-  DBG("Reserve the pages and mark them as EfiRuntimeServicesData type\n");
-
-  if (DevType == QMAN_DEV) {
-    // These allocation will be used by Qman driver for private use
-    QbmanHostAddres1 = AllocateAlignedRuntimePages (EFI_SIZE_TO_PAGES(0x800000), BASE_8MB);
-    QbmanHostAddres2 = AllocateAlignedRuntimePages (EFI_SIZE_TO_PAGES(0x2000000), BASE_32MB);
-    if ((QbmanHostAddres1 == NULL) || (QbmanHostAddres2 == NULL)) {
-      Status = EFI_INVALID_PARAMETER;
-    }
-    Status = EFI_SUCCESS;
-  } else if (DevType == BMAN_DEV) {
-    // These allocation will be used by Bman driver for private use
-    QbmanHostAddres1 = AllocateAlignedRuntimePages (EFI_SIZE_TO_PAGES(0x1000000), BASE_16MB);
-    if (QbmanHostAddres1 == NULL) {
-      Status = EFI_INVALID_PARAMETER;
-    }
-    Status = EFI_SUCCESS;
-  } else {
-    DBG("EfiRuntimeServicesData DevType [%d] Invalid\n",DevType);
-    Status = EFI_INVALID_PARAMETER;
-  }
-
-  if (EFI_ERROR(Status)) {
-    DBG("EfiRuntimeServicesData Allocation failed [%d]\n",Status);
-    return Status;
-  }
-
-  DBG("Found Reserved Memory Pages : address1[%llx] address2[%llx]\n", (EFI_PHYSICAL_ADDRESS*)QbmanHostAddres1,
-      (EFI_PHYSICAL_ADDRESS*)QbmanHostAddres2);
-  for (Counter = 0; Counter < 2; Counter++) {
-    AddressOffset = Counter+1;
-
-    Status = AcpiTableProtocol->GetOption(CurrentHandle, 1, &DataType, &Buffer, &DataSize);
-    if (EFI_ERROR(Status)) {
-      break;
-    }
-
-    Data = Buffer;
-    DBG("_DSD Child Subnode Store Op Code 0x%02X 0x%02X %02X DataType 0x%X\n",
-        DataSize, Data[0], DataSize > 1 ? Data[1] : 0, DataType);
-
-    if (DataType != EFI_ACPI_DATA_TYPE_UINT) {
-      break;
-    }
-
-    // FIXME: Assume the CPU is little endian
-    if (AddressOffset == 1) {
-      Status = AcpiTableProtocol->SetOption(CurrentHandle, 1, (VOID *)&QbmanHostAddres1, sizeof(UINT32));
-      DEBUG ((EFI_D_ERROR, "Fixing Reserved Memory At Offset [%d] RAM Address [%llx] Status %r\n",
-             AddressOffset,(EFI_PHYSICAL_ADDRESS*)QbmanHostAddres1,Status));
-    } else if (AddressOffset == 2) {
-      Status = AcpiTableProtocol->SetOption(CurrentHandle, 1, (VOID *)&QbmanHostAddres2, sizeof(UINT32));
-      DEBUG ((EFI_D_ERROR, "Fixing Reserved Memory At Offset [%d] RAM Address [%llx] Status %r\n",
-             AddressOffset,(EFI_PHYSICAL_ADDRESS*)QbmanHostAddres2,Status));
-    }
-
-    if (EFI_ERROR(Status)) {
-      break;
-    }
-
-    Status = AcpiTableProtocol->GetChild(ChildHandle, &CurrentHandle);
-    if (EFI_ERROR(Status) || CurrentHandle == NULL) {
-      break;
-    }
-    if (DevType == BMAN_DEV) {
-      break;
-    }
-  }
-
-  return Status;
-}
-
-/**
   Get hold of Dev handle of each child ACPI objects of the specified table pointed by table handle.
   Start processing the Dev node of child object in loop until table reaches end.
   Skip all non-dev nodes types and just walk down with in device node only.
@@ -303,8 +200,6 @@ _SearchReplacePackageAddress (
     if (Level == 3 && *Found) {
       if (DevType == MAC_DEV) {
         Status = _FixMacAddress(AcpiTableProtocol, ChildHandle, CurrentHandle, DevType, DevID);
-       } else {
-        Status = _FixMemAddress(AcpiTableProtocol, ChildHandle, CurrentHandle, DevType, DevID);
       }
       // We are done updating the package
       break;
