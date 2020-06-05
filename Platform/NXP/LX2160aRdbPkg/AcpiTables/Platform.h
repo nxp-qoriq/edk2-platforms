@@ -199,6 +199,7 @@
 #define SPI_IT    58
 
 //Flex SPI
+#define FSPI_STATUS 0x0A
 #define FSPI0_BASE 0x20c0000
 #define FSPI_LEN   0x10000
 #define FSPI_IT    57
