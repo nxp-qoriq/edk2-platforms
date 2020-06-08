@@ -81,6 +81,7 @@
   gNxpQoriqLsTokenSpaceGuid.PcdSdxcBaseAddr|0x0|UINT64|0x00000106
   gNxpQoriqLsTokenSpaceGuid.PcdScfgBaseAddr|0x0|UINT64|0x00000107
   gNxpQoriqLsTokenSpaceGuid.PcdI2c0BaseAddr|0x0|UINT64|0x00000108
+  gNxpQoriqLsTokenSpaceGuid.PcdI2c5BaseAddr|0x0|UINT64|0x0000012F
   gNxpQoriqLsTokenSpaceGuid.PcdI2cSize|0x0|UINT32|0x00000109
   gNxpQoriqLsTokenSpaceGuid.PcdDcsrBaseAddr|0x0|UINT64|0x0000010A
   gNxpQoriqLsTokenSpaceGuid.PcdDcsrSize|0x0|UINT64|0x0000010B
