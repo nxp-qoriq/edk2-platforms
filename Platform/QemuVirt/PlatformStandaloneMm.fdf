@@ -20,7 +20,7 @@
 ################################################################################
 
 [FD.BL32_AP_MM]
-BaseAddress   = 0x0e100000|gArmTokenSpaceGuid.PcdFdBaseAddress  # UEFI in DRAM + 128MB.
+  BaseAddress   = 0x40004000|gArmTokenSpaceGuid.PcdFdBaseAddress  # UEFI in DRAM + 128MB.
 Size          = 0x00300000|gArmTokenSpaceGuid.PcdFdSize         # The size in bytes of the device (64MiB).
 ErasePolarity = 1
 

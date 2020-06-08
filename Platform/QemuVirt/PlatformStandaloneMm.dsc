@@ -57,7 +57,8 @@
   ArmLib|ArmPkg/Library/ArmLib/ArmBaseLib.inf
   StandaloneMmMmuLib|ArmPkg/Library/StandaloneMmMmuLib/ArmMmuStandaloneMmLib.inf
   ArmSvcLib|ArmPkg/Library/ArmSvcLib/ArmSvcLib.inf
-  CacheMaintenanceLib|ArmPkg/Library/ArmCacheMaintenanceLib/ArmCacheMaintenanceLib.inf
+  #CacheMaintenanceLib|ArmPkg/Library/ArmCacheMaintenanceLib/ArmCacheMaintenanceLib.inf
+  CacheMaintenanceLib|MdePkg/Library/CacheMaintenanceLibNull/CacheMaintenanceLibNull.inf
   PeCoffExtraActionLib|StandaloneMmPkg/Library/StandaloneMmPeCoffExtraActionLib/StandaloneMmPeCoffExtraActionLib.inf
 
   # ARM PL011 UART Driver
@@ -99,8 +100,10 @@
   gEfiMdePkgTokenSpaceGuid.PcdReportStatusCodePropertyMask|0x0f
 
   ## PL011 - Serial Terminal
-  gEfiMdeModulePkgTokenSpaceGuid.PcdSerialRegisterBase|0x09040000
+  gEfiMdeModulePkgTokenSpaceGuid.PcdSerialRegisterBase|0x40418000
   gEfiMdePkgTokenSpaceGuid.PcdUartDefaultBaudRate|115200
+  gArmPlatformTokenSpaceGuid.PL011UartClkInHz|0xA6E49C0
+  gEfiMdePkgTokenSpaceGuid.PcdUartDefaultReceiveFifoDepth|0
 
   gEfiMdePkgTokenSpaceGuid.PcdMaximumGuidedExtractHandler|0x2
 
