@@ -25,12 +25,15 @@
   DEFINE NETWORK_TLS_ENABLE             = FALSE
   DEFINE NETWORK_HTTP_BOOT_ENABLE       = FALSE
   DEFINE NETWORK_ISCSI_ENABLE           = FALSE
+  DEFINE X64EMU_ENABLE                  = FALSE
+  DEFINE AARCH64_GOP_ENABLE             = FALSE
 
 !include Platform/NXP/NxpQoriqLs.dsc
 !include Silicon/NXP/Chassis/Chassis2/Chassis2.dsc
 !include Silicon/NXP/LS1046A/LS1046A.dsc
 
 [LibraryClasses.common]
+  TpmMeasurementLib|SecurityPkg/Library/DxeTpmMeasurementLib/DxeTpmMeasurementLib.inf
   ArmPlatformLib|Platform/NXP/LS1046aFrwyPkg/Library/PlatformLib/ArmPlatformLib.inf
   ResetSystemLib|ArmPkg/Library/ArmSmcPsciResetSystemLib/ArmSmcPsciResetSystemLib.inf
   SerialPortLib|Silicon/NXP/Library/DUartPortLib/DUartPortLib.inf
@@ -66,6 +69,7 @@
   gArmTokenSpaceGuid.PcdSystemMemorySize|0x007BE00000
   gArmPlatformTokenSpaceGuid.PcdSystemMemoryUefiRegionSize|0x02000000
   gEfiMdeModulePkgTokenSpaceGuid.PcdAcpiExposedTableVersions|0x20
+  gEfiSecurityPkgTokenSpaceGuid.PcdOptionRomImageVerificationPolicy|0x00000001
 
   #
   # Board Specific Pcds
@@ -193,4 +197,14 @@
   # Platform
   #
   Platform/NXP/LS1046aFrwyPkg/AcpiTables/AcpiTables.inf
+
+  # GOP Support
+  #
+  edk2-non-osi/Drivers/OptionRomPkg/AMDGop/AMDGop.inf
+
+  #
+  # X86 Emulation Support
+  #
+  edk2-non-osi/Emulator/X86EmulatorDxe/X86EmulatorDxe.inf
+
   ##
