@@ -23,6 +23,8 @@
   FLASH_DEFINITION               = Platform/NXP/LX2160aRdbPkg/LX2160aRdbPkg.fdf
   DEFINE MC_HIGH_MEM             = TRUE
   DEFINE CAPSULE_ENABLE          = TRUE
+  DEFINE X64EMU_ENABLE           = TRUE
+  DEFINE AARCH64_GOP_ENABLE      = TRUE
 
   #
   # Network definition
@@ -36,6 +38,7 @@
 !include Silicon/NXP/LX2160A/LX2160A.dsc
 
 [LibraryClasses.common]
+  TpmMeasurementLib|SecurityPkg/Library/DxeTpmMeasurementLib/DxeTpmMeasurementLib.inf
   ArmPlatformLib|Platform/NXP/LX2160aRdbPkg/Library/PlatformLib/ArmPlatformLib.inf
   ResetSystemLib|ArmPkg/Library/ArmSmcPsciResetSystemLib/ArmSmcPsciResetSystemLib.inf
   PL011UartLib|ArmPlatformPkg/Library/PL011UartLib/PL011UartLib.inf
@@ -75,6 +78,7 @@
   gArmTokenSpaceGuid.PcdSystemMemorySize|0x0040000000             # 2G - 512MB - 66MB (ATF), 512 MB aligned
 !endif
   gArmPlatformTokenSpaceGuid.PcdSystemMemoryUefiRegionSize|0x02000000
+  gEfiSecurityPkgTokenSpaceGuid.PcdOptionRomImageVerificationPolicy|0x00000001
 
   #
   # Board Specific Pcds
@@ -237,5 +241,15 @@
   #
   Platform/NXP/LX2160aRdbPkg/SystemFirmwareDescriptor/SystemFirmwareDescriptor.inf
 !endif #$(CAPSULE_ENABLE)
+
+ #
+ # GOP Support
+ #
+ edk2-non-osi/Drivers/OptionRomPkg/AMDGop/AMDGop.inf
+
+ #
+ # X86 Emulation Support
+ #
+ edk2-non-osi/Emulator/X86EmulatorDxe/X86EmulatorDxe.inf
  ##
  ##
