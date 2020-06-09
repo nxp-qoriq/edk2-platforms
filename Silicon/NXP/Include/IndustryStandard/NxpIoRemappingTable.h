@@ -1,7 +1,7 @@
 /** @file
 *  I/O Remapping Table (Iort)
 *
-*  Copyright 2019 NXP
+*  Copyright 2019-2020 NXP
 *
 *  SPDX-License-Identifier: BSD-2-Clause
 *
@@ -34,16 +34,16 @@ typedef struct
   EFI_ACPI_6_0_IO_REMAPPING_SMMU_INT          ContextInterrupt[64];
   EFI_ACPI_6_0_IO_REMAPPING_SMMU_INT          PmuInterrupt[10];
   //
-  // 32 mappings per PCIE controller + 1 mapping for MC bus
+  // 32 mappings per PCIE controller + 2 mapping for MC bus
   //
-  EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE          SmmuID[65];
+  EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE          SmmuID[66];
 } NXP_EFI_ACPI_6_0_IO_REMAPPING_SMMU_NODE;
 
 typedef struct
 {
   EFI_ACPI_6_0_IO_REMAPPING_NAMED_COMP_NODE   NamedNode;
   UINT8                                       ObjectName[20];
-  EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE          NamedID[1];
+  EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE          NamedID[2];
 } NXP_EFI_ACPI_6_0_IO_REMAPPING_NAMED_COMP_NODE;
 
 typedef struct

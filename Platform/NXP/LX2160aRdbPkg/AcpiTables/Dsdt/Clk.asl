@@ -34,7 +34,7 @@ Scope(_SB)
       Store(SFRQ, Local0)
       Multiply(Local0, 500000, Local0)
       Multiply(Local0, PRAT, Local0)
-      Divide(Local0, 6, Local1, Local0)
+      Divide(Local0, 6, , Local0)
       Store(Local0, CLK)
     }
   }

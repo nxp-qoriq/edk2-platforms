@@ -6,7 +6,7 @@
 *
 *  Copyright (c) 2011, ARM Limited. All rights reserved.
 *  Copyright (c) 2016, Freescale Semiconductor, Inc. All rights reserved.
-*  Copyright 2019 NXP
+*  Copyright 2019-2020 NXP
 *
 *  This program and the accompanying materials
 *  are licensed and made available under the terms and conditions of the BSD License
@@ -97,12 +97,6 @@ ArmPlatformGetVirtualMemoryMap (
   VirtualMemoryTable[++Index].PhysicalBase = FixedPcdGet64 (PcdPciExp2BaseAddr);
   VirtualMemoryTable[Index].VirtualBase  = FixedPcdGet64 (PcdPciExp2BaseAddr);
   VirtualMemoryTable[Index].Length       = FixedPcdGet64 (PcdPciExp2BaseSize);
-  VirtualMemoryTable[Index].Attributes   = ARM_MEMORY_REGION_ATTRIBUTE_DEVICE;
-
-  // FSPI region
-  VirtualMemoryTable[++Index].PhysicalBase = FixedPcdGet64 (PcdQspiRegionBaseAddr);
-  VirtualMemoryTable[Index].VirtualBase  = FixedPcdGet64 (PcdQspiRegionBaseAddr);
-  VirtualMemoryTable[Index].Length       = FixedPcdGet64 (PcdQspiRegionSize);
   VirtualMemoryTable[Index].Attributes   = ARM_MEMORY_REGION_ATTRIBUTE_DEVICE;
 
   // DCSR Space

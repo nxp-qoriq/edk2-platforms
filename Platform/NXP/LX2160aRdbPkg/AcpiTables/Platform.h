@@ -320,5 +320,6 @@
 #define NXP_SATA1_STREAM_ID             6
 #define NXP_SATA2_STREAM_ID             7
 #define NXP_SATA3_STREAM_ID             8
+#define NXP_MC_LX2160A_STREAM_ID        0x4000
 
 #endif

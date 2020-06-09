@@ -42,9 +42,7 @@
   gNxpQoriqLsTokenSpaceGuid.PcdSdxcBaseAddr|0x02140000
   gNxpQoriqLsTokenSpaceGuid.PcdI2c0BaseAddr|0x02000000
   gNxpQoriqLsTokenSpaceGuid.PcdI2cSize|0x10000
-  gNxpQoriqLsTokenSpaceGuid.PcdNumI2cController|6
-  gNxpQoriqLsTokenSpaceGuid.PcdQspiRegionBaseAddr|0x20000000
-  gNxpQoriqLsTokenSpaceGuid.PcdQspiRegionSize|0x10000000
+  gNxpQoriqLsTokenSpaceGuid.PcdNumI2cController|8
   gNxpQoriqLsTokenSpaceGuid.PcdNumPciController|2
   gNxpQoriqLsTokenSpaceGuid.PcdRomBaseAddr|0x00000000
   gNxpQoriqLsTokenSpaceGuid.PcdRomSize|0x00100000
@@ -54,10 +52,9 @@
   gNxpQoriqLsTokenSpaceGuid.PcdSataSize|0x10000
   gNxpQoriqLsTokenSpaceGuid.PcdNumSataController|0x1
 
-  gNxpQoriqLsTokenSpaceGuid.PcdQspiFdtCompatible|"fsl,ls1021a-qspi"
+  gNxpQoriqLsTokenSpaceGuid.PcdFlexSpiFdtCompatible|"nxp,lx2160a-fspi"
   gNxpQoriqLsTokenSpaceGuid.PcdDspiFdtCompatible|"fsl,ls1021a-v1.0-dspi"
-  gNxpQoriqLsTokenSpaceGuid.PcdQspiErratumA008886|TRUE
-  gNxpQoriqLsTokenSpaceGuid.PcdSpiBusCount|2
+  gNxpQoriqLsTokenSpaceGuid.PcdSpiBusCount|4
   gNxpQoriqLsTokenSpaceGuid.PcdCh3Srds1PrtclMask|0xffff0000
   gNxpQoriqLsTokenSpaceGuid.PcdIfcEnabled|FALSE
   gNxpQoriqLsTokenSpaceGuid.PcdNumCcPlls|3

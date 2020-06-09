@@ -1,7 +1,7 @@
 /** @file
 *  I/O Remapping Table (Iort)
 *
-*  Copyright 2019 NXP
+*  Copyright 2019-2020 NXP
 *
 *  SPDX-License-Identifier: BSD-2-Clause
 *
@@ -50,7 +50,7 @@ NXP_EFI_ACPI_6_0_IO_REMAPPING_TABLE Iort = {
         .Length = sizeof (NXP_EFI_ACPI_6_0_IO_REMAPPING_SMMU_NODE),
         .Revision = 0,
         .Reserved = EFI_ACPI_RESERVED_WORD,
-        .NumIdMappings = 3,
+        .NumIdMappings = 4,
         .IdReference = OFFSET_OF (NXP_EFI_ACPI_6_0_IO_REMAPPING_SMMU_NODE, SmmuID),
       },
       .Base = 0x5000000,
@@ -147,6 +147,13 @@ NXP_EFI_ACPI_6_0_IO_REMAPPING_TABLE Iort = {
     },
     .SmmuID = {
       {
+        .InputBase = NXP_MC_LX2160A_STREAM_ID,
+        .NumIds = 0,
+        .OutputBase = NXP_MC_LX2160A_STREAM_ID,
+        .OutputReference = OFFSET_OF (NXP_EFI_ACPI_6_0_IO_REMAPPING_TABLE, ItsNode),
+        .Flags = 0,
+      },
+      {
         .InputBase = NXP_DPAA2_STREAM_ID_START,
         .NumIds = NXP_DPAA2_STREAM_ID_COUNT - 1,
         .OutputBase = NXP_DPAA2_STREAM_ID_START,
@@ -230,7 +237,7 @@ NXP_EFI_ACPI_6_0_IO_REMAPPING_TABLE Iort = {
         .Length = sizeof (NXP_EFI_ACPI_6_0_IO_REMAPPING_NAMED_COMP_NODE),
         .Revision = 0,
         .Reserved = EFI_ACPI_RESERVED_WORD,
-        .NumIdMappings = 1,
+        .NumIdMappings = 2,
         .IdReference = OFFSET_OF (NXP_EFI_ACPI_6_0_IO_REMAPPING_NAMED_COMP_NODE, NamedID),
       },
       .Flags = 0,
@@ -242,6 +249,13 @@ NXP_EFI_ACPI_6_0_IO_REMAPPING_TABLE Iort = {
     },
     .ObjectName = "\\_SB_.MCE0", // refer MC.asl
     .NamedID = {
+      {
+        .InputBase = NXP_MC_LX2160A_STREAM_ID,
+        .NumIds = 0,
+        .OutputBase = NXP_MC_LX2160A_STREAM_ID,
+        .OutputReference = OFFSET_OF (NXP_EFI_ACPI_6_0_IO_REMAPPING_TABLE, SmmuNode),
+        .Flags = 0,
+      },
       {
         .InputBase = NXP_DPAA2_STREAM_ID_START,
         .NumIds = NXP_DPAA2_STREAM_ID_COUNT - 1,
