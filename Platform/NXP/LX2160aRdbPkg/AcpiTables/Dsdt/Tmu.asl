@@ -841,9 +841,6 @@ Scope(_TZ)
       Return(TRPC)
     }
 
-    Method(_PSV, 0) {
-      Return(TRPP)
-    }
   }
 
   // ThermalZone for DCE, QBMAN, HSIO3
@@ -871,9 +868,6 @@ Scope(_TZ)
       Return(TRPC)
     }
 
-    Method(_PSV, 0) {
-      Return(TRPP)
-    }
   }
 
   // ThermalZone for CCN508, DPAA, TBU
@@ -900,9 +894,6 @@ Scope(_TZ)
       Return(TRPC)
     }
 
-    Method(_PSV, 0) {
-      Return(TRPP)
-    }
   }
 
   // ThermalZone for core cluster 4
