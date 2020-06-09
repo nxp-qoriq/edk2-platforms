@@ -102,6 +102,22 @@
   SafeIntLib|MdePkg/Library/BaseSafeIntLib/BaseSafeIntLib.inf
   GpioLib|Silicon/NXP/Library/GpioLib/GpioLib.inf
 
+!if $(CAPSULE_ENABLE)
+  BaseCryptLib|CryptoPkg/Library/BaseCryptLib/BaseCryptLib.inf
+  OpensslLib|CryptoPkg/Library/OpensslLib/OpensslLibCrypto.inf
+  IntrinsicLib|CryptoPkg/Library/IntrinsicLib/IntrinsicLib.inf
+
+  #
+  # Firmware update
+  #
+  CapsuleLib|MdeModulePkg/Library/DxeCapsuleLibFmp/DxeCapsuleLib.inf
+  DisplayUpdateProgressLib|MdeModulePkg/Library/DisplayUpdateProgressLibGraphics/DisplayUpdateProgressLibGraphics.inf
+  EdkiiSystemCapsuleLib|SignedCapsulePkg/Library/EdkiiSystemCapsuleLib/EdkiiSystemCapsuleLib.inf
+  FmpAuthenticationLib|SecurityPkg/Library/FmpAuthenticationLibPkcs7/FmpAuthenticationLibPkcs7.inf
+  IniParsingLib|SignedCapsulePkg/Library/IniParsingLib/IniParsingLib.inf
+  PlatformFlashAccessLib|Silicon/NXP/Library/PlatformFlashAccessLib/PlatformFlashAccessLib.inf
+!endif #$(CAPSULE_ENABLE)
+
 [LibraryClasses.common.SEC]
   PcdLib|MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf
 #  ReportStatusCodeLib|MdeModulePkg/Library/DxeReportStatusCodeLib/DxeReportStatusCodeLib.inf
@@ -287,6 +303,15 @@
   gEfiShellPkgTokenSpaceGuid.PcdShellProfileMask|0x00
 !endif #$(NO_SHELL_PROFILES)
 
+[PcdsDynamicExDefault.common.DEFAULT]
+!if $(CAPSULE_ENABLE)
+  gEfiSignedCapsulePkgTokenSpaceGuid.PcdEdkiiSystemFirmwareImageDescriptor|{0x0}|VOID*|0x100
+  #5ba7f57f-d101-4de8-bfd3-bf0751ab1463
+  gEfiSignedCapsulePkgTokenSpaceGuid.PcdEdkiiSystemFirmwareFileGuid|{0x7f, 0xf5, 0xa7, 0x5b, 0x01, 0xd1, 0xe8, 0x4d, 0xbf, 0xd3, 0xbf, 0x07, 0x51, 0xab, 0x14, 0x63}
+  #595beaf0-0319-4d4d-b81b-50ebe89ba8e6
+  gEfiMdeModulePkgTokenSpaceGuid.PcdSystemFmpCapsuleImageTypeIdGuid|{0xf0, 0xea, 0x5b, 0x59, 0x19, 0x03, 0x4d, 0x4d, 0xb8, 0x1b, 0x50, 0xeb, 0xe8, 0x9b, 0xa8, 0xe6}
+!endif #$(CAPSULE_ENABLE)
+
 ################################################################################
 #
 # Components Section - list of all EDK II Modules needed by this Platform
@@ -419,5 +444,16 @@
   # TFTP Shell Command
   #
   ShellPkg/DynamicCommand/TftpDynamicCommand/TftpDynamicCommand.inf
+
+!if $(CAPSULE_ENABLE)
+  #
+  # Firmware update
+  #
+  MdeModulePkg/Universal/EsrtDxe/EsrtDxe.inf
+  SignedCapsulePkg/Universal/SystemFirmwareUpdate/SystemFirmwareReportDxe.inf
+  SignedCapsulePkg/Universal/SystemFirmwareUpdate/SystemFirmwareUpdateDxe.inf
+
+  MdeModulePkg/Application/CapsuleApp/CapsuleApp.inf
+!endif #$(CAPSULE_ENABLE)
 
   ##

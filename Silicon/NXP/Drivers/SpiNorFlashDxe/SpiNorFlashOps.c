@@ -14,7 +14,7 @@
    •Erase 32 or 64 KiB blocks
    •Write status
 
- Copyright 2018 NXP.
+ Copyright 2018, 2020 NXP.
 
  This program and the accompanying materials
  are licensed and made available under the terms and conditions of
@@ -113,6 +113,8 @@ GetMaxTimeout (
   TimeUsec = 0;
   switch (RequestType) {
     case SPI_NOR_REQUEST_TYPE_WRITE:
+      if ((TimeUsec = PcdGet64 (PcdSpiNorPageProgramToutUs)))
+        break;
       if (ParamTable->PageProgramTypUnit) {
         TimeUsec = 64;
       } else {

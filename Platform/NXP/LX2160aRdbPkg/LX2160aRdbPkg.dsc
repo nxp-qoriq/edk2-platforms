@@ -22,6 +22,7 @@
   OUTPUT_DIRECTORY               = Build/LX2160aRdbPkg
   FLASH_DEFINITION               = Platform/NXP/LX2160aRdbPkg/LX2160aRdbPkg.fdf
   DEFINE MC_HIGH_MEM             = TRUE
+  DEFINE CAPSULE_ENABLE          = TRUE
 
   #
   # Network definition
@@ -229,5 +230,12 @@
  #
  MdeModulePkg/Universal/SmbiosDxe/SmbiosDxe.inf
  Platform/NXP/LX2160aRdbPkg/SmbiosPlatformDxe/SmbiosPlatformDxe.inf
+
+!if $(CAPSULE_ENABLE)
+  #
+  # Firmware update
+  #
+  Platform/NXP/LX2160aRdbPkg/SystemFirmwareDescriptor/SystemFirmwareDescriptor.inf
+!endif #$(CAPSULE_ENABLE)
  ##
  ##

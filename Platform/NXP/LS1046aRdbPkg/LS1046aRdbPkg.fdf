@@ -24,10 +24,10 @@
 
 [FD.LS1046ARDB_EFI]
 BaseAddress   = 0x82000000|gArmTokenSpaceGuid.PcdFdBaseAddress  #The base address of the FLASH Device.
-Size          = 0x00110530|gArmTokenSpaceGuid.PcdFdSize         #The size in bytes of the FLASH Device
+Size          = 0x00140000|gArmTokenSpaceGuid.PcdFdSize         #The size in bytes of the FLASH Device
 ErasePolarity = 1
 BlockSize     = 0x1
-NumBlocks     = 0x110530
+NumBlocks     = 0x140000
 
 ################################################################################
 #
@@ -44,7 +44,7 @@ NumBlocks     = 0x110530
 # RegionType <FV, DATA, or FILE>
 #
 ################################################################################
-0x00000000|0x000110530
+0x00000000|0x00140000
 gArmTokenSpaceGuid.PcdFvBaseAddress|gArmTokenSpaceGuid.PcdFvSize
 FV = FVMAIN_COMPACT
 
@@ -224,6 +224,15 @@ READ_LOCK_STATUS   = TRUE
 
   INF Silicon/NXP/Drivers/Dpaa1EthernetDxe/Dpaa1EthernetDxe.inf
 
+!if $(CAPSULE_ENABLE)
+  INF MdeModulePkg/Universal/EsrtDxe/EsrtDxe.inf
+  INF SignedCapsulePkg/Universal/SystemFirmwareUpdate/SystemFirmwareReportDxe.inf
+  FILE FREEFORM = PCD(gEfiSignedCapsulePkgTokenSpaceGuid.PcdEdkiiPkcs7TestPublicKeyFileGuid) {
+     SECTION RAW = BaseTools/Source/Python/Pkcs7Sign/TestRoot.cer
+     SECTION UI = "Pkcs7TestRoot"
+  }
+!endif
+
 [FV.FVMAIN_COMPACT]
 FvAlignment        = 8
 ERASE_POLARITY     = 1
@@ -243,9 +252,100 @@ READ_LOCK_CAP      = TRUE
 READ_LOCK_STATUS   = TRUE
 
   INF ArmPlatformPkg/PrePi/PeiUniCore.inf
+!if $(CAPSULE_ENABLE)
+  INF RuleOverride = FMP_IMAGE_DESC Platform/NXP/LS1046aRdbPkg/SystemFirmwareDescriptor/SystemFirmwareDescriptor.inf
+!endif
 
   FILE FV_IMAGE = c1c1e1a2-3879-4b5e-9dd1-3df2ce60d8ec {
     SECTION GUIDED EE4E5898-3914-4259-9D6E-DC7BD79403CF PROCESSING_REQUIRED = TRUE {
       SECTION FV_IMAGE = FVMAIN
     }
   }
+
+!if $(CAPSULE_ENABLE)
+[FV.CapsuleDispatchFv]
+FvAlignment        = 8
+ERASE_POLARITY     = 1
+MEMORY_MAPPED      = TRUE
+STICKY_WRITE       = TRUE
+LOCK_CAP           = TRUE
+LOCK_STATUS        = TRUE
+WRITE_DISABLED_CAP = TRUE
+WRITE_ENABLED_CAP  = TRUE
+WRITE_STATUS       = TRUE
+WRITE_LOCK_CAP     = TRUE
+WRITE_LOCK_STATUS  = TRUE
+READ_DISABLED_CAP  = TRUE
+READ_ENABLED_CAP   = TRUE
+READ_STATUS        = TRUE
+READ_LOCK_CAP      = TRUE
+READ_LOCK_STATUS   = TRUE
+
+INF SignedCapsulePkg/Universal/SystemFirmwareUpdate/SystemFirmwareUpdateDxe.inf
+
+[FV.SystemFirmwareUpdateCargo]
+FvAlignment        = 8
+ERASE_POLARITY     = 1
+MEMORY_MAPPED      = TRUE
+STICKY_WRITE       = TRUE
+LOCK_CAP           = TRUE
+LOCK_STATUS        = TRUE
+WRITE_DISABLED_CAP = TRUE
+WRITE_ENABLED_CAP  = TRUE
+WRITE_STATUS       = TRUE
+WRITE_LOCK_CAP     = TRUE
+WRITE_LOCK_STATUS  = TRUE
+READ_DISABLED_CAP  = TRUE
+READ_ENABLED_CAP   = TRUE
+READ_STATUS        = TRUE
+READ_LOCK_CAP      = TRUE
+READ_LOCK_STATUS   = TRUE
+
+  FILE RAW = 5ba7f57f-d101-4de8-bfd3-bf0751ab1463 { # PcdEdkiiSystemFirmwareFileGuid
+    FD = LS1046ARDB_EFI
+  }
+
+  FILE RAW = ce57b167-b0e4-41e8-a897-5f4feb781d40 { # gEdkiiSystemFmpCapsuleDriverFvFileGuid
+    FV = CapsuleDispatchFv
+  }
+
+  FILE RAW = 812136D3-4D3A-433A-9418-29BB9BF78F6E { # gEdkiiSystemFmpCapsuleConfigFileGuid
+    Platform/NXP/LS1046aRdbPkg/SystemFirmwareUpdateConfig/SystemFirmwareUpdateConfig.ini
+  }
+!endif
+
+!if $(CAPSULE_ENABLE)
+[FmpPayload.FmpPayloadSystemFirmwarePkcs7]
+IMAGE_HEADER_INIT_VERSION = 0x02
+IMAGE_TYPE_ID             = 595beaf0-0319-4d4d-b81b-50ebe89ba8e6 # PcdSystemFmpCapsuleImageTypeIdGuid
+IMAGE_INDEX               = 0x1
+HARDWARE_INSTANCE         = 0x0
+MONOTONIC_COUNT           = 0x1
+CERTIFICATE_GUID          = 4AAFD29D-68DF-49EE-8AA9-347D375665A7 # PKCS7
+
+FV = SystemFirmwareUpdateCargo
+
+[Capsule.LS1046ARDBFirmwareUpdateCapsuleFmpPkcs7]
+CAPSULE_GUID                = 6dcbd5ed-e82d-4c44-bda1-7194199ad92a # gEfiFmpCapsuleGuid
+CAPSULE_HEADER_SIZE         = 0x20
+CAPSULE_HEADER_INIT_VERSION = 0x1
+
+FMP_PAYLOAD = FmpPayloadSystemFirmwarePkcs7
+
+################################################################################
+#
+# Rules are use with the [FV] section's module INF type to define
+# how an FFS file is created for a given INF file. The following Rule are the default
+# rules for the different module type. User can add the customized rules to define the
+# content of the FFS file.
+#
+################################################################################
+
+[Rule.Common.DXE_DRIVER.FMP_IMAGE_DESC]
+  FILE DRIVER = $(NAMED_GUID) {
+     RAW BIN                  |.acpi
+     DXE_DEPEX DXE_DEPEX Optional        $(INF_OUTPUT)/$(MODULE_NAME).depex
+     PE32      PE32    Align=4K          $(INF_OUTPUT)/$(MODULE_NAME).efi
+     UI       STRING="$(MODULE_NAME)" Optional
+  }
+!endif
