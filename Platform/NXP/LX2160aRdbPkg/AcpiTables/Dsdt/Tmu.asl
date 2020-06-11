@@ -79,7 +79,7 @@ Scope(_SB.I2C0)
 
   // Method to set pca9547 channel id
   Method (SCHN, 1, Serialized) {
-    Switch (Arg0) {
+    Switch (ToInteger(Arg0)) {
       case (0) {
         Store(0x08, DATA)
       }
@@ -134,7 +134,7 @@ Scope(_SB.I2C0)
     Store(Zero, Local0)
     SCHN(I2C0_MUX_CHANNEL_1)
     Store(One, LEN)
-    Switch(Arg0) {
+    Switch(ToInteger(Arg0)) {
       Case (TMU_FAN_1) {
         Store(FLD3, BUFF)
       }
@@ -164,7 +164,7 @@ Scope(_SB.I2C0)
     SCHN(I2C0_MUX_CHANNEL_1)
     Store(One, LEN)
     Store(TMU_FAN_OFF_SPEED, DATA)
-    Switch(Arg0) {
+    Switch(ToInteger(Arg0)) {
       Case (TMU_FAN_1) {
         Store(BUFF, FLD3)
       }
@@ -191,7 +191,7 @@ Scope(_SB.I2C0)
     SCHN(I2C0_MUX_CHANNEL_1)
     Store(One, LEN)
     Store(TMU_FAN_LOW_SPEED, DATA)
-    Switch(Arg0) {
+    Switch(ToInteger(Arg0)) {
       Case (TMU_FAN_1) {
         Store(BUFF, FLD3)
       }
@@ -218,7 +218,7 @@ Scope(_SB.I2C0)
     SCHN(I2C0_MUX_CHANNEL_1)
     Store(One, LEN)
     Store(TMU_FAN_HIGH_SPEED, DATA)
-    Switch(Arg0) {
+    Switch(ToInteger(Arg0)) {
       Case (TMU_FAN_1) {
         Store(BUFF, FLD3)
       }
@@ -338,7 +338,7 @@ Scope(_TZ)
 
   // Method to read the sensors current temperature
   Method(GTMP, 1, Serialized) {
-    Switch (Arg0) {
+    Switch (ToInteger(Arg0)) {
       Case (0) {
         Local0 = ISR0
       }

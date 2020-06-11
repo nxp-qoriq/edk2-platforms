@@ -25,15 +25,21 @@ Scope(_SB)
       Interrupt(ResourceConsumer, Level, ActiveHigh, Exclusive) { FSPI_IT }
     }) // end of _CRS for flex spi device
 
+    Name(RBF1, ResourceTemplate() {
+      SpiSerialBus(0x0000, PolarityLow, FourWireMode, 0x08, ControllerInitiated, 0x2FAF080,
+                   ClockPolarityLow, ClockPhaseFirst, "\\_SB.FPI0", 0x00, ResourceConsumer, ,)
+    })
+
+    Name(RBF2, ResourceTemplate() {
+      SpiSerialBus(0x0001, PolarityLow, FourWireMode, 0x08, ControllerInitiated, 0x2FF080,
+                   ClockPolarityLow, ClockPhaseFirst, "\\_SB.FPI0", 0x00, ResourceConsumer, ,)
+    })
+
     Device(MTD0) {
       Name(_HID, "PRP0001")
       Name(_UID, 0)
       Method(_CRS, 0, Serialized) {
-        Name(RBUF, ResourceTemplate() {
-          SpiSerialBus(0x0000, PolarityLow, FourWireMode, 0x08, ControllerInitiated, 0x2FAF080,
-                         ClockPolarityLow, ClockPhaseFirst, "\\.SB.FPI0.MTD0", 0x00, ResourceConsumer, ,)
-        })
-        Return (RBUF)
+        Return (RBF1)
       }
       Name (_DSD, Package () {
         ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
@@ -47,11 +53,7 @@ Scope(_SB)
       Name(_HID, "PRP0001")
       Name(_UID, 1)
       Method(_CRS, 0, Serialized) {
-        Name(RBUF, ResourceTemplate() {
-          SpiSerialBus(0x0001, PolarityLow, FourWireMode, 0x08, ControllerInitiated, 0x2FF080,
-                         ClockPolarityLow, ClockPhaseFirst, "\\.SB.FPI0.MTD1", 0x00, ResourceConsumer, ,)
-        })
-        Return (RBUF)
+        Return (RBF2)
       }
       Name (_DSD, Package () {
         ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
