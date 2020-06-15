@@ -25,6 +25,7 @@
   DEFINE NETWORK_TLS_ENABLE             = FALSE
   DEFINE NETWORK_HTTP_BOOT_ENABLE       = FALSE
   DEFINE NETWORK_ISCSI_ENABLE           = FALSE
+  DEFINE CAPSULE_ENABLE                 = TRUE
   DEFINE X64EMU_ENABLE                  = FALSE
   DEFINE AARCH64_GOP_ENABLE             = FALSE
 
@@ -130,6 +131,9 @@
 
   gNxpQoriqLsTokenSpaceGuid.PcdFdtAddress|0x40F00000
 
+  # DEFAULT_READY_WAIT_JIFFIES   40UL * HZ
+  gNxpQoriqLsTokenSpaceGuid.PcdSpiNorPageProgramToutUs|40000
+
 ################################################################################
 #
 # Components Section - list of all EDK II Modules needed by this Platform
@@ -198,6 +202,11 @@
   #
   Platform/NXP/LS1046aFrwyPkg/AcpiTables/AcpiTables.inf
 
+!if $(CAPSULE_ENABLE)
+  Platform/NXP/LS1046aFrwyPkg/SystemFirmwareDescriptor/SystemFirmwareDescriptor.inf
+!endif
+
+  #
   # GOP Support
   #
   edk2-non-osi/Drivers/OptionRomPkg/AMDGop/AMDGop.inf
@@ -206,5 +215,4 @@
   # X86 Emulation Support
   #
   edk2-non-osi/Emulator/X86EmulatorDxe/X86EmulatorDxe.inf
-
-  ##
+ ##
