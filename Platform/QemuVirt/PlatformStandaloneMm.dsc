@@ -156,6 +156,7 @@
   StandaloneMmPkg/Core/StandaloneMmCore.inf
   StandaloneMmPkg/Drivers/StandaloneMmCpu/AArch64/StandaloneMmCpu.inf
   Silicon/NXP/Drivers/I2cMm/I2cMm.inf
+  Silicon/NXP/Drivers/RtcMm/RtcMm.inf
   Silicon/NXP/Drivers/EepromFvb/EepromFvb.inf
   MdeModulePkg/Universal/FaultTolerantWriteDxe/FaultTolerantWriteStandaloneMm.inf {
     <LibraryClasses>

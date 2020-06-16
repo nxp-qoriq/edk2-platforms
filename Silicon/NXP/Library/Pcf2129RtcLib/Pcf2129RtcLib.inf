@@ -16,10 +16,9 @@
   INF_VERSION                    = 0x0001001A
   BASE_NAME                      = Pcf2129RtcLib
   FILE_GUID                      = B661E02D-A90B-42AB-A5F9-CF841AAA43D9
-  MODULE_TYPE                    = BASE
+  MODULE_TYPE                    = DXE_RUNTIME_DRIVER
   VERSION_STRING                 = 1.0
   LIBRARY_CLASS                  = RealTimeClockLib
-
 
 [Sources.common]
   Pcf2129RtcLib.c
@@ -38,21 +37,10 @@
 
 [Guids]
   gEfiEventVirtualAddressChangeGuid
+  gEfiSmmPcf2129ProtocolGuid
 
 [Protocols]
-  gEfiDriverBindingProtocolGuid        ## CONSUMES
-  gEfiI2cMasterProtocolGuid            ## CONSUMES
-
-[Pcd]
-  gNxpQoriqLsTokenSpaceGuid.PcdI2cBus
-  gNxpQoriqLsTokenSpaceGuid.PcdI2cSpeed
-  gNxpQoriqLsTokenSpaceGuid.PcdIsRtcDeviceMuxed
-  gNxpQoriqLsTokenSpaceGuid.PcdI2cSlaveAddress
-  gNxpQoriqLsTokenSpaceGuid.PcdMuxDeviceAddress
-  gNxpQoriqLsTokenSpaceGuid.PcdMuxControlRegOffset
-  gNxpQoriqLsTokenSpaceGuid.PcdMuxRtcChannelValue
-  gNxpQoriqLsTokenSpaceGuid.PcdMuxDefaultChannelValue
-
+  gEfiSmmCommunicationProtocolGuid     ## CONSUMES
 
 [Depex]
-  gEfiI2cMasterProtocolGuid
+  gEfiSmmCommunicationProtocolGuid
