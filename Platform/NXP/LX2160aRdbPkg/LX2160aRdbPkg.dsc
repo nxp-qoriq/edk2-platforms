@@ -23,6 +23,7 @@
   FLASH_DEFINITION               = Platform/NXP/LX2160aRdbPkg/LX2160aRdbPkg.fdf
   DEFINE MC_HIGH_MEM             = TRUE
   DEFINE CAPSULE_ENABLE          = TRUE
+  DEFINE SECURE_BOOT_ENABLE      = TRUE
 
   #
   # Network definition
