@@ -11,7 +11,7 @@
 #
 ################################################################################
 [Defines]
-  PLATFORM_NAME                  = QemuVirtMmStandalone
+  PLATFORM_NAME                  = NXPMmStandalone
   PLATFORM_GUID                  = A27A486E-D7B9-4D70-9F37-FED9ABE041A2
   PLATFORM_VERSION               = 1.0
   DSC_SPECIFICATION              = 0x00010011
@@ -19,7 +19,7 @@
   SUPPORTED_ARCHITECTURES        = AARCH64
   BUILD_TARGETS                  = DEBUG|RELEASE|NOOPT
   SKUID_IDENTIFIER               = DEFAULT
-  FLASH_DEFINITION               = Platform/QemuVirt/PlatformStandaloneMm.fdf
+  FLASH_DEFINITION               = Platform/NXP/StandAloneMm/StandaloneMm.fdf
   DEFINE DEBUG_MESSAGE           = TRUE
 
   # LzmaF86
