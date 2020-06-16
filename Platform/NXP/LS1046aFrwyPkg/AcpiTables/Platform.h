@@ -514,4 +514,8 @@
 #define PTP_CLK_BASE_SZ         0x1000
 #define PTP_CLK_IRQ             76
 
+//Rcpm
+#define RCPM_BASE 0x1ee2140
+#define RCPM_LEN  0x4
+
 #endif

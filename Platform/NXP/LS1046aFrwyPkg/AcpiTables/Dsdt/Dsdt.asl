@@ -35,4 +35,5 @@ DefinitionBlock("DsdtTable.aml", "DSDT", 1, "NXP  ", "LS1046  ", EFI_ACPI_ARM_OE
   include ("Fman_port_1g_1.asl")
   include ("Fman_port_1g_2.asl")
   include ("Fman_port_1g_3.asl")
+  include ("Rcpm.asl")
 }
