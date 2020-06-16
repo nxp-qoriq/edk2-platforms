@@ -93,7 +93,7 @@
 #
 ################################################################################
 [PcdsFixedAtBuild]
-  gEfiMdePkgTokenSpaceGuid.PcdDebugPrintErrorLevel|0x800000CF
+  gEfiMdePkgTokenSpaceGuid.PcdDebugPrintErrorLevel|0x80000000
   gEfiMdePkgTokenSpaceGuid.PcdDebugPropertyMask|0xff
   gEfiMdePkgTokenSpaceGuid.PcdReportStatusCodePropertyMask|0x0f
 
@@ -115,7 +115,11 @@
   gNxpQoriqLsTokenSpaceGuid.PcdNumI2cController|8
 
   gNxpQoriqLsTokenSpaceGuid.PcdI2cBus|4
-  gNxpQoriqLsTokenSpaceGuid.PcdI2cSpeed|400000
+  gNxpQoriqLsTokenSpaceGuid.PcdI2cSpeed|100000
+  gNxpQoriqLsTokenSpaceGuid.PcdI2cSlaveAddress|0x51
+
+[PcdsFeatureFlag]
+  gNxpQoriqLsTokenSpaceGuid.PcdI2cErratumA009203|TRUE
 
 [PcdsPatchableInModule]
   # Allocated memory for EDK2 uppers layers
@@ -149,9 +153,10 @@
   #
   # Standalone MM components
   #
-  Silicon/NXP/Drivers/EepromFvb/EepromFvb.inf
   StandaloneMmPkg/Core/StandaloneMmCore.inf
   StandaloneMmPkg/Drivers/StandaloneMmCpu/AArch64/StandaloneMmCpu.inf
+  Silicon/NXP/Drivers/I2cMm/I2cMm.inf
+  Silicon/NXP/Drivers/EepromFvb/EepromFvb.inf
   MdeModulePkg/Universal/FaultTolerantWriteDxe/FaultTolerantWriteStandaloneMm.inf {
     <LibraryClasses>
       NULL|Silicon/NXP/Drivers/EepromFvb/FixupPcd.inf

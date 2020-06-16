@@ -31,8 +31,6 @@
 [LibraryClasses]
   ArmLib
   BaseMemoryLib
-  SocClockLib
-  I2cLib
   MemoryAllocationLib
   StandaloneMmDriverEntryPoint
 
@@ -40,14 +38,6 @@
   gEfiAuthenticatedVariableGuid
   gEfiSystemNvDataFvGuid
   gEfiVariableGuid
-
-[FixedPcd]
-  gNxpQoriqLsTokenSpaceGuid.PcdI2c5BaseAddr
-  gNxpQoriqLsTokenSpaceGuid.PcdI2cSize
-  gNxpQoriqLsTokenSpaceGuid.PcdNumI2cController
-
-  gNxpQoriqLsTokenSpaceGuid.PcdI2cBus
-  gNxpQoriqLsTokenSpaceGuid.PcdI2cSpeed
 
 [Pcd]
   gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageVariableBase
@@ -58,8 +48,8 @@
   gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageFtwSpareSize
 
 [Protocols]
-  gEfiSmmFirmwareVolumeBlockProtocolGuid          ## PRODUCES
-
+  gEfiSmmFirmwareVolumeBlockProtocolGuid    ## PRODUCES
+  gEfiI2cMasterProtocolGuid                 ## CONSUMES
 
 [Depex]
   TRUE
