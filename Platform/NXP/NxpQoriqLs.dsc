@@ -126,6 +126,8 @@
   PlatformFlashAccessLib|Silicon/NXP/Library/PlatformFlashAccessLib/PlatformFlashAccessLib.inf
 !endif #$(CAPSULE_ENABLE)
 
+  TimeBaseLib|EmbeddedPkg/Library/TimeBaseLib/TimeBaseLib.inf
+
 [LibraryClasses.common.SEC]
   PcdLib|MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf
 #  ReportStatusCodeLib|MdeModulePkg/Library/DxeReportStatusCodeLib/DxeReportStatusCodeLib.inf
