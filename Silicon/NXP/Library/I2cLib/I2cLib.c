@@ -372,20 +372,17 @@ EFI_STATUS
 I2cWrite (
   IN  I2C_REGS           *Regs,
   IN  UINT32             SlaveAddress,
-  IN  EFI_I2C_OPERATION  *Operation,
-  IN  BOOLEAN            IsLastOperation
+  IN  EFI_I2C_OPERATION  *Operation
 )
 {
   EFI_STATUS Status;
   UINTN      Index;
 
-  if (!IsLastOperation) {
-    // Write Slave Address
-    MmioWrite8 ((UINTN)&Regs->Ibdr, (SlaveAddress << BIT0) & (UINT8)(~BIT0));
-    Status = I2cTransferComplete (Regs, I2C_BUS_TEST_RX_ACK);
-    if (EFI_ERROR (Status)) {
-      return Status;
-    }
+  // Write Slave Address
+  MmioWrite8 ((UINTN)&Regs->Ibdr, (SlaveAddress << BIT0) & (UINT8)(~BIT0));
+  Status = I2cTransferComplete (Regs, I2C_BUS_TEST_RX_ACK);
+  if (EFI_ERROR (Status)) {
+    return Status;
   }
 
   // Write Data
@@ -479,7 +476,6 @@ I2cBusXfer (
   EFI_I2C_OPERATION  *Operation;
   EFI_STATUS         Status;
   BOOLEAN            IsLastOperation;
-  UINTN              LoopCount = 0;
 
   Regs = (I2C_REGS *)Base;
   IsLastOperation = FALSE;
@@ -497,11 +493,11 @@ I2cBusXfer (
   for (Index = 0, Operation = RequestPacket->Operation;
        Index < RequestPacket->OperationCount;
        Index++, Operation++) {
-    if (Index == (RequestPacket->OperationCount - 1) && (LoopCount > 0)) {
+    if (Index == (RequestPacket->OperationCount - 1)) {
       IsLastOperation = TRUE;
     }
     // Send repeat start after first transmit/recieve
-    if (Index && (Operation->Flags & I2C_FLAG_READ)) {
+    if (Index) {
       MmioOr8 ((UINTN)&Regs->Ibcr, I2C_IBCR_RSTA);
       Status = I2cBusTestBusBusy (Regs, I2C_BUS_TEST_BUSY);
       if (EFI_ERROR (Status)) {
@@ -513,12 +509,11 @@ I2cBusXfer (
     if (Operation->Flags & I2C_FLAG_READ) {
       Status = I2cRead (Regs, SlaveAddress, Operation, IsLastOperation);
     } else {
-      Status = I2cWrite (Regs, SlaveAddress, Operation, IsLastOperation);
+      Status = I2cWrite (Regs, SlaveAddress, Operation);
     }
     if (EFI_ERROR (Status)) {
       goto ErrorExit;
     }
-    LoopCount++;
   }
 
 ErrorExit:
@@ -596,80 +591,6 @@ I2cBusReadReg (
              Base, SlaveAddress,
              (EFI_I2C_REQUEST_PACKET *)&RequestPacket
              );
-
-  return Status;
-}
-
-/**
-  Write a register from I2c slave device. This API is wrapper around I2cBusXfer
-
-  @param[in]  Base                   Base Address of I2c controller's registers
-  @param[in]  SlaveAddress           Slave Address from which register value is
-                                     to be read
-  @param[in]  RegAddress             Register Address in Slave's memory map
-  @param[in]  RegAddressWidthInBytes Number of bytes in RegAddress to send to
-                                     I2c Slave for simple reads without any
-                                     register, make this value = 0
-                                     (RegAddress is don't care in that case)
-  @param[out] RegValue               Value to be read from I2c slave's regiser
-  @param[in]  RegValueNumBytes       Number of bytes to read from I2c slave
-                                     register
-
-  @return  EFI_SUCCESS       successfuly read the registers
-  @return  EFI_DEVICE_ERROR  There was an error while transferring data through
-                             I2c bus
-  @return  EFI_NO_RESPONSE   There was no Ack from i2c device
-  @return  EFI_TIMEOUT       I2c Bus is busy
-  @return  EFI_NOT_READY     I2c Bus Arbitration lost
-**/
-EFI_STATUS
-I2cBusWriteReg (
-  IN  UINTN   Base,
-  IN  UINT32  SlaveAddress,
-  IN  UINT64  RegAddress,
-  IN  UINT8   RegAddressWidthInBytes,
-  OUT UINT8   *RegValue,
-  IN  UINT32  RegValueNumBytes
-  )
-{
-  EFI_I2C_OPERATION       *Operations;
-  I2C_REG_REQUEST         RequestPacket;
-  UINTN                   OperationCount;
-  UINT8                   Address[sizeof (RegAddress)];
-  UINT8                   *PtrAddress;
-  EFI_STATUS              Status;
-
-  ZeroMem (&RequestPacket, sizeof (RequestPacket));
-  OperationCount = 0;
-  Operations = RequestPacket.Operation;
-  PtrAddress = Address;
-
-  if (RegAddressWidthInBytes > ARRAY_SIZE (Address)) {
-    return EFI_INVALID_PARAMETER;
-  }
-
-  if (RegAddressWidthInBytes != 0) {
-    Operations[OperationCount].LengthInBytes = RegAddressWidthInBytes;
-    Operations[OperationCount].Buffer = PtrAddress;
-    while (RegAddressWidthInBytes--) {
-      *PtrAddress++ = RegAddress >> (8 * RegAddressWidthInBytes);
-    }
-    OperationCount++;
-  }
-
-  Operations[OperationCount].LengthInBytes = RegValueNumBytes;
-  Operations[OperationCount].Buffer = RegValue;
-  Operations[OperationCount].Flags = 0;
-  OperationCount++;
-
-  RequestPacket.OperationCount = OperationCount;
-
-  Status = I2cBusXfer (
-               Base, SlaveAddress,
-               (EFI_I2C_REQUEST_PACKET *)&RequestPacket
-             );
-
-  MicroSecondDelay(50000);
 
   return Status;
 }
