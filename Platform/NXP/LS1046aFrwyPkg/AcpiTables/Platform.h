@@ -73,6 +73,11 @@
 #define WDT0_LENGTH  0x10000
 #define WDT0_IT      115
 
+//Ftm
+#define FTM_BASE 0x29d0000
+#define FTM_LEN  0x10000
+#define FTM_IT   118
+
 // Mcfg
 #define LS1046A_PCI_SEG0_CONFIG_BASE 0x4000000000
 #define LS1046A_PCI_SEG0             0x0
