@@ -102,6 +102,7 @@ READ_LOCK_STATUS   = TRUE
   # ACPI
   #
   INF RuleOverride=ACPITABLE Platform/NXP/LS1046aFrwyPkg/AcpiTables/AcpiTables.inf
+  INF Platform/NXP/LS1046aFrwyPkg/AcpiTables/Icid.inf
   INF MdeModulePkg/Universal/Acpi/AcpiTableDxe/AcpiTableDxe.inf
   INF Silicon/NXP/Drivers/NxpAcpiPlatformDxe/AcpiPlatformDxe.inf
 
