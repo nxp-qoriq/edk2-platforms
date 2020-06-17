@@ -35,3 +35,4 @@
   MdePkg/MdePkg.dec
   MdeModulePkg/MdeModulePkg.dec
   Silicon/NXP/NxpQoriqLs.dec
+  Silicon/NXP/LS1046A/LS1046A.dec

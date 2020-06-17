@@ -19,6 +19,7 @@
   EmbeddedPkg/EmbeddedPkg.dec
   Silicon/NXP/Chassis/Chassis3V2/Chassis3V2.dec
   Silicon/NXP/NxpQoriqLs.dec
+  Silicon/NXP/LS1046A/LS1046A.dec
 
 [LibraryClasses]
   DebugLib
