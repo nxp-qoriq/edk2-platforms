@@ -1,5 +1,5 @@
 /** @file
-*  DSDT : CPU Devices
+*  DSDT : Watchdog (non-sbsa compliant) Devices
 *
 *  Copyright 2019-2020 NXP
 *  Copyright 2020 Puresoftware Ltd
@@ -8,4 +8,4 @@
 *
 **/
 
-#include <AcpiTableInclude/Dsdt/CPU.asl>
+#include <AcpiTableInclude/Dsdt/Imx-wdt.asl>

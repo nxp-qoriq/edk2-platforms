@@ -1,5 +1,5 @@
 /** @file
-*  DSDT : Frame Manager Devices
+*  DSDT : ESDHC Devices
 *
 *  Copyright 2020 NXP
 *  Copyright 2020 Puresoftware Ltd
@@ -8,4 +8,4 @@
 *
 **/
 
-#include <AcpiTableInclude/Dsdt/Fman.asl>
+#include <AcpiTableInclude/Dsdt/Esdhc.asl>

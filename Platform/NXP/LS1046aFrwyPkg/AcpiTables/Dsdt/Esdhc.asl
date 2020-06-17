@@ -1,11 +1,11 @@
 /** @file
-*  DSDT : Frame Manager Devices
+*  DSDT : ESDHC Devices
 *
-*  Copyright 2020 NXP
+*  Copyright 2019-2020 NXP
 *  Copyright 2020 Puresoftware Ltd
 *
 *  SPDX-License-Identifier: BSD-2-Clause-Patent
 *
 **/
 
-#include <AcpiTableInclude/Dsdt/Fman.asl>
+#include <AcpiTableInclude/Dsdt/Esdhc.asl>

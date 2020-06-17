@@ -1,5 +1,5 @@
 /** @file
-*  DSDT : Dynamic Clock Devices
+*  DSDT : QSPI (Quad SPI) Devices
 *
 *  Copyright 2020 NXP
 *  Copyright 2020 Puresoftware Ltd.
@@ -8,4 +8,4 @@
 *
 **/
 
-#include <AcpiTableInclude/Dsdt/Clk.asl>
+#include <AcpiTableInclude/Dsdt/Qspi.asl>
