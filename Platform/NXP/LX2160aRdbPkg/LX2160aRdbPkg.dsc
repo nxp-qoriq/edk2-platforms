@@ -25,6 +25,7 @@
   DEFINE CAPSULE_ENABLE          = TRUE
   DEFINE X64EMU_ENABLE           = TRUE
   DEFINE AARCH64_GOP_ENABLE      = TRUE
+  DEFINE SECURE_BOOT_ENABLE      = TRUE
 
   #
   # Network definition
@@ -61,6 +62,7 @@
 
 [PcdsFeatureFlag.common]
   gEfiMdeModulePkgTokenSpaceGuid.PcdInstallAcpiSdtProtocol|TRUE
+  gEfiMdeModulePkgTokenSpaceGuid.PcdEnableVariableRuntimeCache|FALSE
 
 [PcdsFixedAtBuild.common]
 
@@ -173,12 +175,15 @@
   #
   # Architectural Protocols
   #
-  MdeModulePkg/Universal/Variable/RuntimeDxe/VariableRuntimeDxe.inf{
-     <LibraryClasses>
-     NULL|MdeModulePkg/Library/VarCheckUefiLib/VarCheckUefiLib.inf
-     NULL|EmbeddedPkg/Library/NvVarStoreFormattedLib/NvVarStoreFormattedLib.inf
+  MdeModulePkg/Universal/Variable/RuntimeDxe/VariableSmmRuntimeDxe.inf {
+      <LibraryClasses>
+      NULL|StandaloneMmPkg/Library/VariableMmDependency/VariableMmDependency.inf
   }
-  MdeModulePkg/Universal/FaultTolerantWriteDxe/FaultTolerantWriteDxe.inf
+
+  ArmPkg/Drivers/MmCommunicationOpteeDxe/MmCommunication.inf {
+      <LibraryClasses>
+      OpteeLib|ArmPkg/Library/OpteeLib/OpteeLib.inf
+  }
 
   ArmPkg/Drivers/GenericWatchdogDxe/GenericWatchdogDxe.inf
   Silicon/NXP/Drivers/I2cDxe/I2cDxe.inf
