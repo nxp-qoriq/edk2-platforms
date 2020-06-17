@@ -587,7 +587,7 @@ FvbEraseBlocks (
   Instance = INSTANCE_FROM_FVB_THIS(This);
   EraseBuff = mInstance.ShadowBuffer + EEPROM_ADDR_WIDTH_2BYTES;
 
-  SetMem64 ((VOID *)EraseBuff, Instance->BlockSize, ~0UL);
+  SetMem ((VOID *)EraseBuff, Instance->BlockSize, ~0);
 
   DEBUG ((DEBUG_INFO, "%a: Starting Erase\n", __FUNCTION__));
   VA_START (Args, This);
@@ -607,8 +607,8 @@ FvbEraseBlocks (
         DEBUG ((DEBUG_ERROR, "%a: EepromWrite failed\n", __FUNCTION__));
       }
     }
-    SetMem64 ((VOID *)Instance->MemBaseAddress + Start * BLOCK_SIZE,
-      Length * BLOCK_SIZE, ~0UL);
+    SetMem ((VOID *)Instance->MemBaseAddress + Start * BLOCK_SIZE,
+      Length * BLOCK_SIZE, ~0);
   }
 
   VA_END (Args);
@@ -908,7 +908,7 @@ FvbInitialize (
     DEBUG ((DEBUG_INFO, "%a: The FVB Header is not valid.\n", __FUNCTION__));
 
     // Reset memory
-    SetMem64 ((VOID *)Instance->MemBaseAddress, NBLOCKS * BLOCK_SIZE, ~0UL);
+    SetMem ((VOID *)Instance->MemBaseAddress, NBLOCKS * BLOCK_SIZE, ~0);
 
     DEBUG ((DEBUG_INFO, "%a: Installing a correct one for this volume.\n",
       __FUNCTION__));
