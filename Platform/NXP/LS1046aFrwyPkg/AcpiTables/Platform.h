@@ -144,6 +144,10 @@
 #define SATA_LEN  0x0010000
 #define SATA0_IT_1 101
 
+#define SDC0_BASE 0x1560000
+#define SDC_LEN 0x10000
+#define SDC0_IT 93
+
 //USB
 #define USB0_BASE 0x2f00000
 #define USB1_BASE 0x3000000

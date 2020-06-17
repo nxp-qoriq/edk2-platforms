@@ -22,6 +22,7 @@ DefinitionBlock("DsdtTable.aml", "DSDT", 1, "NXP  ", "LS1046  ", EFI_ACPI_ARM_OE
   include ("Usb.asl")
   include ("SPI.asl")
   include ("Sata.asl")
+  include ("esdhc.asl")
   include ("QSPI.asl")
   include ("Tmu.asl")
   include ("Fman.asl")
