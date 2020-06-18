@@ -46,7 +46,7 @@
   PL011UartClockLib|Silicon/NXP/Library/PL011UartClockLib/PL011UartClockLib.inf
   SerialPortLib|ArmPlatformPkg/Library/PL011SerialPortLib/PL011SerialPortLib.inf
   SocLib|Silicon/NXP/Chassis/LX2160aSocLib.inf
-  RealTimeClockLib|Silicon/NXP/Library/Pcf2129RtcLib/Pcf2129RtcLib.inf
+  RealTimeClockLib|Silicon/NXP/Library/Pcf2129RtcMmLib/Pcf2129RtcLib.inf
   FpgaLib|Platform/NXP/LX2160aRdbPkg/Library/FpgaLib/FpgaLib.inf
   PciSegmentLib|Silicon/NXP/Library/PciSegmentLib/PciSegmentLib.inf
   PciHostBridgeLib|Silicon/NXP/Library/PciHostBridgeLib/PciHostBridgeLib.inf
@@ -190,7 +190,6 @@
   EmbeddedPkg/RealTimeClockRuntimeDxe/RealTimeClockRuntimeDxe.inf
   Silicon/NXP/Drivers/UsbHcdInitDxe/UsbHcd.inf
   Silicon/NXP/Drivers/PciCpuIo2Dxe/PciCpuIo2Dxe.inf
-  Silicon/NXP/Library/Pcf2129RtcLib/Pcf2129RtcLib.inf
   MdeModulePkg/Bus/Pci/PciHostBridgeDxe/PciHostBridgeDxe.inf {
     <PcdsFixedAtBuild>
   gEfiMdePkgTokenSpaceGuid.PcdDebugPrintErrorLevel|0x8010004F
