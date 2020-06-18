@@ -33,6 +33,7 @@
   BaseMemoryLib
   MemoryAllocationLib
   StandaloneMmDriverEntryPoint
+  TimerLib
 
 [Guids]
   gEfiAuthenticatedVariableGuid

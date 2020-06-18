@@ -18,6 +18,7 @@
 #include <Library/HobLib.h>
 #include <Library/MemoryAllocationLib.h>
 #include <Library/PcdLib.h>
+#include <Library/TimerLib.h>
 #include <Library/UefiBootServicesTableLib.h>
 #include <Library/UefiRuntimeLib.h>
 #include <Library/MmServicesTableLib.h>
@@ -156,8 +157,8 @@ EepromWrite (
 {
   EEPROM_SET_I2C_REQUEST         Op;
   UINT8                          *PtrAddress;
-  UINT32                         Index;
   EFI_STATUS                     Status;
+  UINT64                         StartTick;
 
   PtrAddress = mInstance.ShadowBuffer;
 
@@ -188,18 +189,20 @@ EepromWrite (
     return Status;
   }
 
-  // Poll for write Complete
+  // Poll for write Complete. wait for max 10ms as per atmel at24cm02 datasheet
+  StartTick = GetPerformanceCounter();
+
   Op.OperationCount              = 1;
   Op.Operation[0].Flags          = 0;
   Op.Operation[0].LengthInBytes  = 0;
   Op.Operation[0].Buffer         = NULL;
-  for (Index = 0; Index < 100; Index++) {
+  do {
     Status = mI2cMaster->StartRequest (mI2cMaster, SlaveAddress, &Op, NULL, NULL);
     if (Status == EFI_NO_RESPONSE) {
       continue;
     }
     break;
-  }
+  } while (GetTimeInNanoSecond (GetPerformanceCounter() - StartTick) < 10000000);
 
   return Status;
 }

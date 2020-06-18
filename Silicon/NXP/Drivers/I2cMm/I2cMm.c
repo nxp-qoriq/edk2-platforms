@@ -13,7 +13,8 @@
 
 #include <Protocol/I2cMaster.h>
 
-#define I2C_CLOCK                  87500000
+// I2c clock based on 750Mhz platform clock
+#define I2C_CLOCK                  93750000
 
 STATIC EFI_PHYSICAL_ADDRESS mI2cRegs;
 

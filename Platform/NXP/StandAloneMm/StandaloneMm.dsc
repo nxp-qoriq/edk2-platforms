@@ -115,7 +115,7 @@
   gNxpQoriqLsTokenSpaceGuid.PcdNumI2cController|8
 
   gNxpQoriqLsTokenSpaceGuid.PcdI2cBus|4
-  gNxpQoriqLsTokenSpaceGuid.PcdI2cSpeed|100000
+  gNxpQoriqLsTokenSpaceGuid.PcdI2cSpeed|400000
   gNxpQoriqLsTokenSpaceGuid.PcdI2cSlaveAddress|0x51
 
 [PcdsFeatureFlag]
