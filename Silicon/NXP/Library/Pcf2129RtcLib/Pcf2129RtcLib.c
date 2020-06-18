@@ -22,19 +22,15 @@
 #include <Library/BaseLib.h>
 #include <Library/BaseMemoryLib.h>
 #include <Library/DebugLib.h>
-#include <Library/MemoryAllocationLib.h>
 #include <Library/RealTimeClockLib.h>
 #include <Library/UefiBootServicesTableLib.h>
 #include <Library/UefiLib.h>
 #include <Library/UefiRuntimeLib.h>
+#include <Protocol/I2cMaster.h>
 
-#include <Protocol/Pcf2129Mm.h>
-#include <Protocol/SmmCommunication.h>
+#include "Pcf2129RtcLibInternal.h"
 
-#define BOOTTIME_DEBUG(x)       do { if (!EfiAtRuntime()) DEBUG (x); } while (0)
-
-STATIC EFI_SMM_COMMUNICATION_PROTOCOL  *mSmmCommunication        = NULL;
-STATIC UINT8                           *mPcf2129Header           = NULL;
+STATIC EFI_I2C_MASTER_PROTOCOL    *mI2cMaster;
 STATIC EFI_EVENT                  mRtcVirtualAddrChangeEvent;
 
 /**
@@ -67,6 +63,56 @@ EfiTimeToWday (
 }
 
 /**
+  Write RTC register.
+
+  @param  SlaveDeviceAddress   Slave device address offset of RTC to be read.
+  @param  RtcRegAddr           Register offset of RTC to write.
+  @param  Val                  Value to be written
+
+**/
+STATIC
+VOID
+I2CWriteMux (
+  IN  UINT8                SlaveDeviceAddress,
+  IN  UINT8                RtcRegAddr,
+  IN  UINT8                Val
+  )
+{
+  EFI_I2C_REQUEST_PACKET   Req;
+  EFI_STATUS               Status;
+  UINT8                    Buffer[2];
+
+  Req.OperationCount = 1;
+  Buffer[0] = RtcRegAddr;
+  Buffer[1] = Val;
+
+  Req.Operation[0].Flags = 0;
+  Req.Operation[0].LengthInBytes = sizeof (Buffer);
+  Req.Operation[0].Buffer = Buffer;
+
+  Status = mI2cMaster->StartRequest (mI2cMaster, SlaveDeviceAddress,
+                                     (VOID *)&Req,
+                                     NULL,  NULL);
+  if (EFI_ERROR (Status)) {
+    BOOTTIME_DEBUG ((DEBUG_ERROR, "RTC write error at Addr:0x%x\n", RtcRegAddr));
+  }
+}
+
+/**
+  Configure the MUX device connected to I2C.
+
+  @param  RegValue               Value to write on mux device register address
+
+**/
+VOID
+ConfigureMuxDevice (
+  IN  UINT8                RegValue
+  )
+{
+  I2CWriteMux (FixedPcdGet8 (PcdMuxDeviceAddress), FixedPcdGet8 (PcdMuxControlRegOffset), RegValue);
+}
+
+/**
   Returns the current time and date information, and the time-keeping capabilities
   of the hardware platform.
 
@@ -79,6 +125,7 @@ EfiTimeToWday (
   @retval EFI_DEVICE_ERROR      The time could not be retrieved due to hardware error.
 
 **/
+
 EFI_STATUS
 EFIAPI
 LibGetTime (
@@ -86,42 +133,76 @@ LibGetTime (
   OUT  EFI_TIME_CAPABILITIES  *Capabilities
   )
 {
-  EFI_STATUS                          Status;
-  UINTN                               CommSize;
-  EFI_SMM_COMMUNICATE_HEADER          *SmmCommunicateHeader;
-  SMM_PCF2129_COMMUNICATE_HEADER      *SmmPcf2129Header;
+  PCF2129_REGS             Regs;
+  EFI_STATUS               Status;
+  EFI_I2C_REQUEST_PACKET   Req;
+  UINT8                    RtcRegAddr;
 
   Status = EFI_SUCCESS;
+  RtcRegAddr = OFFSET_OF (PCF2129_REGS, Control[2]);
+  ZeroMem (&Regs, sizeof (Regs));
 
-  if (mPcf2129Header == NULL || mSmmCommunication == NULL) {
+  if (Time == NULL) {
+    return EFI_INVALID_PARAMETER;
+  }
+
+  if (mI2cMaster == NULL) {
     return EFI_DEVICE_ERROR;
   }
 
-  CommSize = sizeof (SMM_PCF2129_COMMUNICATE_HEADER) + sizeof (EFI_MM_COMMUNICATE_HEADER);
-
-  SmmCommunicateHeader = (EFI_SMM_COMMUNICATE_HEADER *)mPcf2129Header;
-  SmmPcf2129Header = (SMM_PCF2129_COMMUNICATE_HEADER *)SmmCommunicateHeader->Data;
-  SmmPcf2129Header->Function = FUNCTION_GET_TIME;
-
-  Status = mSmmCommunication->Communicate(mSmmCommunication, mPcf2129Header, &CommSize);
-  ASSERT_EFI_ERROR (Status);
-
-  if (EFI_ERROR (SmmPcf2129Header->ReturnStatus)) {
-    BOOTTIME_DEBUG ((DEBUG_ERROR, "RTC read error %r\n", SmmPcf2129Header->ReturnStatus));
-    return SmmPcf2129Header->ReturnStatus;
+  //
+  // Check if the I2C device is connected though a MUX device.
+  //
+  if (FixedPcdGetBool (PcdIsRtcDeviceMuxed)) {
+    // Switch to the channel connected to Ds3232 RTC
+    ConfigureMuxDevice (FixedPcdGet8 (PcdMuxRtcChannelValue));
   }
 
-  // hours, minutes and seconds
-  Time->Nanosecond = 0;
-  Time->Second  = BcdToDecimal8 (SmmPcf2129Header->Regs.Seconds & 0x7F);
-  Time->Minute  = BcdToDecimal8 (SmmPcf2129Header->Regs.Minutes & 0x7F);
-  Time->Hour = BcdToDecimal8 (SmmPcf2129Header->Regs.Hours & 0x3F);
-  Time->Day = BcdToDecimal8 (SmmPcf2129Header->Regs.Days & 0x3F);
-  Time->Month  = BcdToDecimal8 (SmmPcf2129Header->Regs.Months & 0x1F);
-  Time->Year = BcdToDecimal8 (SmmPcf2129Header->Regs.Years) + \
-               ( BcdToDecimal8 (SmmPcf2129Header->Regs.Years) >= 98 ? 1900 : 2000);
+  Req.OperationCount = 1;
 
-  return SmmPcf2129Header->ReturnStatus;
+  Req.Operation[0].Flags = 0;
+  Req.Operation[0].LengthInBytes = sizeof (RtcRegAddr);
+  Req.Operation[0].Buffer = &RtcRegAddr;
+
+  Status = mI2cMaster->StartRequest (mI2cMaster, FixedPcdGet8 (PcdI2cSlaveAddress),
+                                     (VOID *)&Req,
+                                     NULL,  NULL);
+  if (EFI_ERROR (Status)) {
+    BOOTTIME_DEBUG ((DEBUG_ERROR, "RTC read error at Addr:0x%x, Status = %r\n", RtcRegAddr, Status));
+  }
+
+  Req.OperationCount = 1;
+
+  Req.Operation[0].Flags = I2C_FLAG_READ;
+  Req.Operation[0].LengthInBytes = OFFSET_OF (PCF2129_REGS, SecondAlarm) - OFFSET_OF (PCF2129_REGS, Control[2]);
+  Req.Operation[0].Buffer = &(Regs.Control[2]);
+
+  Status = mI2cMaster->StartRequest (mI2cMaster, FixedPcdGet8 (PcdI2cSlaveAddress),
+                                     (VOID *)&Req,
+                                     NULL,  NULL);
+  if (EFI_ERROR (Status)) {
+    BOOTTIME_DEBUG ((DEBUG_ERROR, "RTC read error at Addr:0x%x, Status = %r\n", RtcRegAddr, Status));
+  }
+
+  if (Regs.Control[2] & PCF2129_CTRL3_BIT_BLF) {
+    BOOTTIME_DEBUG ((DEBUG_INFO,
+      "### Warning: RTC battery status low, check/replace RTC battery.\n"));
+  }
+
+  Time->Nanosecond = 0;
+  Time->Second  = BcdToDecimal8 (Regs.Seconds & 0x7F);
+  Time->Minute  = BcdToDecimal8 (Regs.Minutes & 0x7F);
+  Time->Hour = BcdToDecimal8 (Regs.Hours & 0x3F);
+  Time->Day = BcdToDecimal8 (Regs.Days & 0x3F);
+  Time->Month  = BcdToDecimal8 (Regs.Months & 0x1F);
+  Time->Year = BcdToDecimal8 (Regs.Years) + ( BcdToDecimal8 (Regs.Years) >= 98 ? 1900 : 2000);
+
+  if (FixedPcdGetBool (PcdIsRtcDeviceMuxed)) {
+    // Switch to the default channel
+    ConfigureMuxDevice (FixedPcdGet8 (PcdMuxDefaultChannelValue));
+  }
+
+  return Status;
 }
 
 /**
@@ -141,41 +222,56 @@ LibSetTime (
   IN EFI_TIME                *Time
   )
 {
-  EFI_STATUS                          Status;
-  UINTN                               CommSize;
-  EFI_SMM_COMMUNICATE_HEADER          *SmmCommunicateHeader;
-  SMM_PCF2129_COMMUNICATE_HEADER      *SmmPcf2129Header;
+  UINT8                   Buffer[8];
+  EFI_STATUS              Status;
+  EFI_I2C_REQUEST_PACKET  Req;
+  UINT8                   Index;
 
   Status = EFI_SUCCESS;
+  Index = 0;
 
-  if (mPcf2129Header == NULL || mSmmCommunication == NULL) {
+  if (mI2cMaster == NULL) {
     return EFI_DEVICE_ERROR;
   }
-
-  SmmCommunicateHeader = (EFI_SMM_COMMUNICATE_HEADER *)mPcf2129Header;
-  SmmPcf2129Header = (SMM_PCF2129_COMMUNICATE_HEADER *)SmmCommunicateHeader->Data;
-  SmmPcf2129Header->Function = FUNCTION_SET_TIME;
-
-  // hours, minutes and seconds
-  SmmPcf2129Header->Regs.Seconds = DecimalToBcd8 (Time->Second);
-  SmmPcf2129Header->Regs.Minutes = DecimalToBcd8 (Time->Minute);
-  SmmPcf2129Header->Regs.Hours = DecimalToBcd8 (Time->Hour);
-  SmmPcf2129Header->Regs.Days = DecimalToBcd8 (Time->Day);
-  SmmPcf2129Header->Regs.Weekdays = EfiTimeToWday (Time) & 0x07;
-  SmmPcf2129Header->Regs.Months = DecimalToBcd8 (Time->Month);
-  SmmPcf2129Header->Regs.Years = DecimalToBcd8 (Time->Year % 100);
-
-  CommSize = sizeof (SMM_PCF2129_COMMUNICATE_HEADER) + sizeof (EFI_MM_COMMUNICATE_HEADER);
-
-  Status = mSmmCommunication->Communicate(mSmmCommunication, mPcf2129Header, &CommSize);
-  ASSERT_EFI_ERROR (Status);
-
-  if (EFI_ERROR (SmmPcf2129Header->ReturnStatus)) {
-    BOOTTIME_DEBUG ((DEBUG_ERROR, "RTC write error %r\n", SmmPcf2129Header->ReturnStatus));
-    return SmmPcf2129Header->ReturnStatus;
+  //
+  // Check if the I2C device is connected though a MUX device.
+  //
+  if (FixedPcdGetBool (PcdIsRtcDeviceMuxed)) {
+    // Switch to the channel connected to Ds3232 RTC
+    ConfigureMuxDevice (FixedPcdGet8 (PcdMuxRtcChannelValue));
   }
 
-  return SmmPcf2129Header->ReturnStatus;
+  // start register address
+  Buffer[Index++] = OFFSET_OF (PCF2129_REGS, Seconds);
+
+  // hours, minutes and seconds
+  Buffer[Index++] = DecimalToBcd8 (Time->Second);
+  Buffer[Index++] = DecimalToBcd8 (Time->Minute);
+  Buffer[Index++] = DecimalToBcd8 (Time->Hour);
+  Buffer[Index++] = DecimalToBcd8 (Time->Day);
+  Buffer[Index++] = EfiTimeToWday (Time) & 0x07;
+  Buffer[Index++] = DecimalToBcd8 (Time->Month);
+  Buffer[Index++] = DecimalToBcd8 (Time->Year % 100);
+
+  Req.OperationCount = 1;
+
+  Req.Operation[0].Flags = 0;
+  Req.Operation[0].LengthInBytes = sizeof (Buffer);
+  Req.Operation[0].Buffer = Buffer;
+
+  Status = mI2cMaster->StartRequest (mI2cMaster, FixedPcdGet8 (PcdI2cSlaveAddress),
+                                     (VOID *)&Req,
+                                     NULL,  NULL);
+  if (EFI_ERROR (Status)) {
+    BOOTTIME_DEBUG ((DEBUG_ERROR, "RTC write error at Addr:0x%x\n", Buffer[0]));
+    return Status;
+  }
+    if (FixedPcdGetBool (PcdIsRtcDeviceMuxed)) {
+    // Switch to the default channel
+    ConfigureMuxDevice (FixedPcdGet8 (PcdMuxDefaultChannelValue));
+  }
+
+  return Status;
 }
 
 
@@ -240,8 +336,7 @@ LibRtcVirtualNotifyEvent (
   IN VOID             *Context
   )
 {
-  EfiConvertPointer (0x0, (VOID **)&mSmmCommunication);
-  EfiConvertPointer (0x0, (VOID **)&mPcf2129Header);
+  EfiConvertPointer (0x0, (VOID **)&mI2cMaster);
 }
 
 /**
@@ -264,27 +359,29 @@ LibRtcInitialize (
 {
 
   EFI_STATUS                    Status;
-  UINTN                         Pcf2129HeaderSize;
-  EFI_SMM_COMMUNICATE_HEADER    *SmmCommunicateHeader;
+  EFI_I2C_MASTER_PROTOCOL       *I2cMaster;
+  UINTN                         BusFrequency;
 
-  Status = gBS->LocateProtocol (&gEfiSmmCommunicationProtocolGuid, NULL, (VOID **) &mSmmCommunication);
+  Status = gBS->LocateProtocol (&gEfiI2cMasterProtocolGuid, NULL, (VOID **)&I2cMaster);
+
   ASSERT_EFI_ERROR (Status);
-  //
-  // Allocate memory for Pcf2129 communicate buffer.
-  //
-  ///
-  /// To avoid confusion in interpreting frames, the communication buffer should always
-  /// begin with EFI_MM_COMMUNICATE_HEADER
-  ///
-  Pcf2129HeaderSize = sizeof (SMM_PCF2129_COMMUNICATE_HEADER) + OFFSET_OF (EFI_MM_COMMUNICATE_HEADER, Data);
 
-  mPcf2129Header = AllocateRuntimeZeroPool (Pcf2129HeaderSize);
+  Status = I2cMaster->Reset (I2cMaster);
+  if (EFI_ERROR (Status)) {
+    BOOTTIME_DEBUG ((DEBUG_ERROR, "%a: I2CMaster->Reset () failed - %r\n",
+      __FUNCTION__, Status));
+    return Status;
+  }
 
-  ASSERT (mPcf2129Header != NULL);
+  BusFrequency = FixedPcdGet32 (PcdI2cSpeed);
+  Status = I2cMaster->SetBusFrequency (I2cMaster, &BusFrequency);
+  if (EFI_ERROR (Status)) {
+    BOOTTIME_DEBUG ((DEBUG_ERROR, "%a: I2CMaster->SetBusFrequency () failed - %r\n",
+      __FUNCTION__, Status));
+    return Status;
+  }
 
-  SmmCommunicateHeader = (EFI_SMM_COMMUNICATE_HEADER *)mPcf2129Header;
-  CopyGuid (&SmmCommunicateHeader->HeaderGuid, &gEfiSmmPcf2129ProtocolGuid);
-  SmmCommunicateHeader->MessageLength = sizeof (SMM_PCF2129_COMMUNICATE_HEADER);
+  mI2cMaster = I2cMaster;
 
   //
   // Register for the virtual address change event
