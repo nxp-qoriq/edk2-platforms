@@ -47,6 +47,7 @@
   gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageFtwWorkingSize
   gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageFtwSpareBase
   gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageFtwSpareSize
+  gNxpQoriqLsTokenSpaceGuid.PcdI2cSpeed
 
 [Protocols]
   gEfiSmmFirmwareVolumeBlockProtocolGuid    ## PRODUCES

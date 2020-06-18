@@ -869,9 +869,19 @@ FvbInitialize (
   UINTN                       mFlashNvStorageVariableBase;
   EFI_FIRMWARE_VOLUME_HEADER *FwVolHeader;
   EFI_STATUS                  Status;
+  UINTN                       BusFrequency;
 
   if (Instance->Initialized == TRUE) {
     return EFI_SUCCESS;
+  }
+
+  // Switch I2c Bus to 1MHz to speed up the entire eeprom read
+  BusFrequency = 1000000;
+  Status = mI2cMaster->SetBusFrequency (mI2cMaster, &BusFrequency);
+  if (EFI_ERROR (Status)) {
+    DEBUG ((DEBUG_ERROR, "%a: I2CMaster->SetBusFrequency () failed - %r\n",
+      __FUNCTION__, Status));
+    return Status;
   }
 
   // FirmwareVolumeHeader->FvLength is declared to have the Variable area
@@ -919,7 +929,7 @@ FvbInitialize (
     Status = InitializeFvAndVariableStoreHeaders (mFlashNvStorageVariableBase);
     if (EFI_ERROR (Status)) {
       DEBUG ((DEBUG_ERROR, "%a: InitializeFvAndVariableStoreHeaders failed \n", __FUNCTION__));
-      return Status;
+      goto exit;
     }
   } else {
     DEBUG ((DEBUG_INFO, "%a: Found valid FVB Header.\n", __FUNCTION__));
@@ -928,6 +938,10 @@ FvbInitialize (
   Instance->Initialized = TRUE;
 
 exit:
+  // Switch I2c Bus back to normal speeds
+  BusFrequency = FixedPcdGet16 (PcdI2cSpeed);
+  mI2cMaster->SetBusFrequency (mI2cMaster, &BusFrequency);
+
   return Status;
 }
 
