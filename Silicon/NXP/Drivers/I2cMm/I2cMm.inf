@@ -1,0 +1,43 @@
+#  @file
+#
+#  Component description file for I2c Mm driver
+#
+#  Copyright 2020 NXP
+#
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+
+[Defines]
+  INF_VERSION                    = 0x0001001A
+  BASE_NAME                      = I2cMm
+  FILE_GUID                      = 5f2927ba-1b04-4d5f-8bef-2b50c635d1e7
+  MODULE_TYPE                    = MM_STANDALONE
+  VERSION_STRING                 = 1.0
+  PI_SPECIFICATION_VERSION       = 0x00010032
+  ENTRY_POINT                    = I2cMmEntryPoint
+  UNLOAD                         = I2cMmUnload
+
+[Sources.common]
+  I2cMm.c
+
+[LibraryClasses]
+  DebugLib
+  I2cLib
+  PcdLib
+  StandaloneMmDriverEntryPoint
+
+[Packages]
+  MdePkg/MdePkg.dec
+  Silicon/NXP/NxpQoriqLs.dec
+  StandaloneMmPkg/StandaloneMmPkg.dec
+
+[Protocols]
+  gEfiI2cMasterProtocolGuid
+
+[Pcd]
+  gNxpQoriqLsTokenSpaceGuid.PcdI2c5BaseAddr
+  gNxpQoriqLsTokenSpaceGuid.PcdI2cSpeed
+  gNxpQoriqLsTokenSpaceGuid.PcdI2cBus
+
+[Depex]
+  TRUE

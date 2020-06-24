@@ -1160,7 +1160,7 @@ IortPcieSetIommuIdMapping (
 
   IdMapping->InputBase = InputId;
   IdMapping->NumIds = 0;
-  IdMapping->OutputBase = FixedPcdGet16 (PcdPcieTbuMask) | OutputId;
+  IdMapping->OutputBase = OutputId;
   IdMapping->OutputReference = OFFSET_OF (NXP_EFI_ACPI_6_0_IO_REMAPPING_TABLE, SmmuNode);
 
   PciRcNode->PciRcNode.Node.NumIdMappings += 1;
@@ -1202,11 +1202,9 @@ IortPcieSetUp (
     return Status;
   }
 
-  if (PcdGetBool (PcdNoITS) == 0) {
-    Status = IortPcieSetItsIdMapping (CurrentTable, OutputId, OutputId);
-    if (EFI_ERROR (Status)) {
-      return Status;
-    }
+  Status = IortPcieSetItsIdMapping (CurrentTable, OutputId, OutputId);
+  if (EFI_ERROR (Status)) {
+    return Status;
   }
 
   return EFI_SUCCESS;

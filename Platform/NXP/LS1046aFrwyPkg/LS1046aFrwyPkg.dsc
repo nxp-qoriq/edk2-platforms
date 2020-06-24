@@ -201,7 +201,6 @@
   # Platform
   #
   Platform/NXP/LS1046aFrwyPkg/AcpiTables/AcpiTables.inf
-  Platform/NXP/LS1046aFrwyPkg/AcpiTables/Icid.inf
 
 !if $(CAPSULE_ENABLE)
   Platform/NXP/LS1046aFrwyPkg/SystemFirmwareDescriptor/SystemFirmwareDescriptor.inf

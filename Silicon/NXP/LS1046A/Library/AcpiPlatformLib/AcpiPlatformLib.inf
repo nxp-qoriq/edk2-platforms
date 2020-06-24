@@ -32,5 +32,3 @@
 [Pcd]
   gNxpQoriqLsTokenSpaceGuid.PcdSocSvr
   gNxpQoriqLsTokenSpaceGuid.PcdPciHideRootPort
-  gNxpQoriqLsTokenSpaceGuid.PcdNoITS
-  gNxpQoriqLsTokenSpaceGuid.PcdPcieTbuMask

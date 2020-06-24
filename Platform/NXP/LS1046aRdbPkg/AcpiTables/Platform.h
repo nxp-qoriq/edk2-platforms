@@ -21,7 +21,6 @@
 #define EFI_ACPI_ARM_CREATOR_ID         SIGNATURE_32('A','R','M', ' ')
 #define EFI_ACPI_ARM_CREATOR_REVISION   0x20151124
 
-#define NO_ITS_IO_REMAPPING_TABLE 1
 // A macro to initialise the common header part of EFI ACPI tables as defined by
 // EFI_ACPI_DESCRIPTION_HEADER structure.
 #define ARM_ACPI_HEADER(Signature, Type, Revision) {              \
@@ -35,11 +34,6 @@
     EFI_ACPI_ARM_CREATOR_ID,        /* UINT32  CreatorId */       \
     EFI_ACPI_ARM_CREATOR_REVISION   /* UINT32  CreatorRevision */ \
   }
-
-#define NXP_USB0_STREAM_ID 1
-#define NXP_USB1_STREAM_ID 2
-#define NXP_USB2_STREAM_ID 3
-#define NXP_SATA0_STREAM_ID 5
 
 // Gic
 #define GIC_VERSION 2

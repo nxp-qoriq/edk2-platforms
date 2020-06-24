@@ -1,0 +1,48 @@
+#  @file
+#
+#  Component description file for Rtc Mm driver
+#
+#  Copyright 2020 NXP
+#
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+
+[Defines]
+  INF_VERSION                    = 0x0001001A
+  BASE_NAME                      = RtcMm
+  FILE_GUID                      = b72ce1d3-4da3-4320-b4cf-196d94456fd5
+  MODULE_TYPE                    = MM_STANDALONE
+  VERSION_STRING                 = 1.0
+  PI_SPECIFICATION_VERSION       = 0x00010032
+  ENTRY_POINT                    = RtcMmEntryPoint
+  UNLOAD                         = RtcMmUnload
+
+[Sources.common]
+  RtcMm.c
+
+[LibraryClasses]
+  DebugLib
+  PcdLib
+  StandaloneMmDriverEntryPoint
+
+[Packages]
+  MdePkg/MdePkg.dec
+  Silicon/NXP/NxpQoriqLs.dec
+  StandaloneMmPkg/StandaloneMmPkg.dec
+
+[Guids]
+  gEfiSmmPcf2129ProtocolGuid
+
+[Protocols]
+  gEfiI2cMasterProtocolGuid                 ## CONSUMES
+
+[Pcd]
+  gNxpQoriqLsTokenSpaceGuid.PcdIsRtcDeviceMuxed
+  gNxpQoriqLsTokenSpaceGuid.PcdI2cSlaveAddress
+  gNxpQoriqLsTokenSpaceGuid.PcdMuxDeviceAddress
+  gNxpQoriqLsTokenSpaceGuid.PcdMuxControlRegOffset
+  gNxpQoriqLsTokenSpaceGuid.PcdMuxRtcChannelValue
+  gNxpQoriqLsTokenSpaceGuid.PcdMuxDefaultChannelValue
+
+[Depex]
+  TRUE

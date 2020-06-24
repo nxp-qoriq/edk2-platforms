@@ -37,6 +37,8 @@
 
   gEfiFlexSpiDriverGuid          = {0xe248c411, 0x0043, 0x43bb, {0x85, 0x14, 0x75, 0x8c, 0x3d, 0xfc, 0x30, 0x2c}}
 
+  gEfiSmmPcf2129ProtocolGuid     = {0x352d6757, 0x50a0, 0x402b, {0xa6, 0xa4, 0x2b, 0x86, 0x32, 0x7f, 0x8c, 0x11}}
+
 [PcdsFixedAtBuild.common]
   #
   # Pcds for I2C Controller
@@ -81,6 +83,7 @@
   gNxpQoriqLsTokenSpaceGuid.PcdSdxcBaseAddr|0x0|UINT64|0x00000106
   gNxpQoriqLsTokenSpaceGuid.PcdScfgBaseAddr|0x0|UINT64|0x00000107
   gNxpQoriqLsTokenSpaceGuid.PcdI2c0BaseAddr|0x0|UINT64|0x00000108
+  gNxpQoriqLsTokenSpaceGuid.PcdI2c5BaseAddr|0x0|UINT64|0x0000012F
   gNxpQoriqLsTokenSpaceGuid.PcdI2cSize|0x0|UINT32|0x00000109
   gNxpQoriqLsTokenSpaceGuid.PcdDcsrBaseAddr|0x0|UINT64|0x0000010A
   gNxpQoriqLsTokenSpaceGuid.PcdDcsrSize|0x0|UINT64|0x0000010B
@@ -142,9 +145,6 @@
   gNxpQoriqLsTokenSpaceGuid.PcdPcieExp5SysAddr|0x0|UINT64|0x000001D9
   gNxpQoriqLsTokenSpaceGuid.PcdPcieExp6SysAddr|0x0|UINT64|0x000001DA
 
-  #PCI IORT related
-  gNxpQoriqLsTokenSpaceGuid.PcdNoITS|FALSE|BOOLEAN|0x000001DF
-  gNxpQoriqLsTokenSpaceGuid.PcdPcieTbuMask|0x0|UINT16|0x000001E0 
   #
   # IFC PCDs
   #
@@ -309,4 +309,3 @@
   gNxpQoriqLsTokenSpaceGuid.PcdPciLsGen4Ctrl|FALSE|BOOLEAN|0x000001DC
   gNxpQoriqLsTokenSpaceGuid.PcdPciStreamIdPerCtrl|FALSE|BOOLEAN|0x000001DD
   gNxpQoriqLsTokenSpaceGuid.PcdPciHideRootPort|FALSE|BOOLEAN|0x000001DE
-
