@@ -179,6 +179,7 @@
 #define DCFG_LEN    0xFFF      /* Device configuration data length */
 
 //Quad SPI
+#define QSPI_STATUS 0x08
 #define QSPI0_BASE 0x1550000    /* QSPI CSSR Base Address */
 #define QSPI_LEN   0x10000      /* QSPI CSSR Memory length */
 #define QSPI_IT    131          /* QSPI Interrupt Identifier */

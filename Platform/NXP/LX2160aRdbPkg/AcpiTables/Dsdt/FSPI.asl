@@ -17,7 +17,7 @@ Scope(_SB)
     Name(_HID, "NXP0009")
     Name(_UID, 0)
     Method (_STA) {
-      Return (0x01)
+      Return (FSPI_STATUS) //FSPI hardware resource disabled due to requirement in runtime services, to enable change FSPI_STATUS to 0x09
     }
     Name(_CRS, ResourceTemplate() {
       Memory32Fixed(ReadWrite, FSPI0_BASE, FSPI_LEN,)
