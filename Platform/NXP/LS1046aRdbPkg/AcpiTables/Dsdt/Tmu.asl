@@ -295,11 +295,6 @@ Scope(_TZ)
     Method(_CRT, 0) {
       Return (TRPC)
     }
-
-    // Thermal Object: Passive
-    Method(_PSV, 0) {
-      Return (TRP1)
-    }
   }
 
   // ThermalZone for sensor near SerDes
@@ -329,11 +324,6 @@ Scope(_TZ)
     Method(_CRT, 0) {
       Return (TRPC)
     }
-
-    // Thermal Object: Passive
-    Method(_PSV, 0) {
-      Return (TRP1)
-    }
   }
 
   // ThermalZone for sensor near Frame manager
@@ -362,11 +352,6 @@ Scope(_TZ)
     // Thermal Object: Critical Temperature
     Method(_CRT, 0) {
       Return (TRPC)
-    }
-
-    // Thermal Object: Passive
-    Method(_PSV, 0) {
-      Return (TRP1)
     }
   }
 
@@ -438,11 +423,6 @@ Scope(_TZ)
     // Thermal Object: Critical Temperature
     Method(_CRT, 0) {
       Return (TRPC)
-    }
-
-    // Thermal Object: Passive
-    Method(_PSV, 0) {
-      Return (TRP1)
     }
   }
 

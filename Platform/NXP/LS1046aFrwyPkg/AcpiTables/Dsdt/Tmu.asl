@@ -823,11 +823,6 @@ Scope(_TZ)
     Method(_CRT, 0) {
       Return (TRPC)
     }
-
-    // Thermal Object: Passive
-    Method(_PSV, 0) {
-      Return (TRPP)
-    }
   }
 
   // ThermalZone for sensor near SerDes
@@ -856,11 +851,6 @@ Scope(_TZ)
     // Thermal Object: Critical Temperature
     Method(_CRT, 0) {
       Return (TRPC)
-    }
-
-    // Thermal Object: Passive
-    Method(_PSV, 0) {
-      Return (TRPP)
     }
   }
 
@@ -892,10 +882,6 @@ Scope(_TZ)
       Return (TRPC)
     }
 
-    // Thermal Object: Passive
-    Method(_PSV, 0) {
-      Return (TRPP)
-    }
   }
 
   // ThermalZone for sensor near Arm A72 core
@@ -966,11 +952,6 @@ Scope(_TZ)
     // Thermal Object: Critical Temperature
     Method(_CRT, 0) {
       Return (TRPC)
-    }
-
-    // Thermal Object: Passive
-    Method(_PSV, 0) {
-      Return (TRPP)
     }
   }
 
