@@ -27,6 +27,11 @@
   DEFINE AARCH64_GOP_ENABLE      = FALSE
 
   #
+  # This flag controls the dynamic acpi generation
+  #
+  DEFINE DYNAMIC_ACPI_ENABLE     = TRUE
+
+  #
   # Network definition
   #
   DEFINE NETWORK_TLS_ENABLE             = FALSE
@@ -37,6 +42,11 @@
 !include Platform/NXP/NxpQoriqLs.dsc
 !include Silicon/NXP/Chassis/Chassis3V2/Chassis3V2.dsc
 !include Silicon/NXP/LX2160A/LX2160A.dsc
+
+!if $(DYNAMIC_ACPI_ENABLE) == TRUE
+  !include DynamicTablesPkg/DynamicTables.dsc.inc
+  !include Platform/NXP/LX2160aRdbPkg/ConfigurationManager/ConfigurationManager.dsc.inc
+!endif
 
 [LibraryClasses.common]
   TpmMeasurementLib|SecurityPkg/Library/DxeTpmMeasurementLib/DxeTpmMeasurementLib.inf
@@ -240,8 +250,10 @@
   #
   # Platform
   #
+!if $(DYNAMIC_ACPI_ENABLE) == FALSE
   Platform/NXP/LX2160aRdbPkg/AcpiTables/AcpiTables.inf
   Platform/NXP/LX2160aRdbPkg/AcpiTables/Icid.inf
+!endif
 
  #
  #SMBIOS
