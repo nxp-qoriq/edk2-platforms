@@ -1,7 +1,7 @@
 /** @file
   Header Defining The MMC Memory Controller Constants, Function Prototype, Structures Etc
 
-  Copyright 2017 NXP
+  Copyright 2017, 2020 NXP
 
   This Program And The Accompanying Materials
   Are Licensed And Made Available Under The Terms And Conditions Of The BSD
@@ -212,4 +212,8 @@ ReadBlock (
   IN  MMC_CMD_INFO Cmd
   );
 
+VOID
+ImplementWorkaround (
+  IN  VOID    *BaseAddress
+  );
 #endif

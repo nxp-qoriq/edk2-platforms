@@ -2,7 +2,7 @@
 
   This file implement the MMC Host Protocol for the NXP SDHC controller.
 
-  Copyright 2017 NXP
+  Copyright 2017, 2020 NXP
 
   This program and the accompanying materials
   are licensed and made available under the terms and conditions of the BSD License
@@ -26,6 +26,7 @@
 #include "MmcHostDxe.h"
 
 EFI_GUID mMmcDevicePathGuid = EFI_CALLER_ID_GUID;
+STATIC BOOLEAN mSDXCWorkaroundEnabled = FALSE;
 
 /**
   Function to call library function to detect card presence
@@ -39,14 +40,26 @@ MmcIsCardPresent (
   )
 {
   MMC_DEVICE_INSTANCE          *Instance;
+  BOOLEAN                      Detected;
 
+  Detected = TRUE;
   Instance = MMC_DEVICE_INSTANCE_FROM_HOST (This);
 
   if (Instance->CardType == SD_CARD) {
-    return DetectCardPresence ((VOID *)Instance->DeviceBaseAddress);
+    if (mSDXCWorkaroundEnabled) {
+      return !Detected;
+    }
+
+    Detected = DetectCardPresence ((VOID *)Instance->DeviceBaseAddress);
+
+    if (FixedPcdGetBool(PcdSdxcIOReliabilityErratum) && !Detected) {
+        mSDXCWorkaroundEnabled = TRUE;
+        ImplementWorkaround((VOID *)Instance->DeviceBaseAddress);
+        DEBUG ((DEBUG_ERROR, "SD card not inserted\n"));
+    }
   }
 
-  return TRUE;
+  return Detected;
 }
 
 /**
@@ -348,7 +361,6 @@ MmcNotifyState (
     break;
   case MmcHwInitializationState:
     DEBUG ((DEBUG_ERROR, "MmcNotifyState(MmcHwInitializationState)\n"));
-
     Status = MmcInitialize ((VOID *)Instance->DeviceBaseAddress);
     if (Status != EFI_SUCCESS) {
       DEBUG ((DEBUG_ERROR,"Failed to init MMC\n"));
