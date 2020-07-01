@@ -936,11 +936,11 @@ Scope(_SB)
         })
         Name(_PSS, Package() {
           Package() {CLK1, CPU_PWR_DISSP_PLL_DIV_1, CPU_PLL_TRNS_LATENCY,
-                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_1, CPU_CGA_PLL_DIV_1},
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_1, CPU_CGB_PLL_DIV_1},
           Package() {CLK2, CPU_PWR_DISSP_PLL_DIV_2, CPU_PLL_TRNS_LATENCY,
-                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_2, CPU_CGA_PLL_DIV_2},
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_2, CPU_CGB_PLL_DIV_2},
           Package() {CLK3, CPU_PWR_DISSP_PLL_DIV_4, CPU_PLL_TRNS_LATENCY,
-                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_4, CPU_CGA_PLL_DIV_4},
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_4, CPU_CGB_PLL_DIV_4},
         })
         Name (_PSD, Package() {
           Package() {CPU_NUM_ENTRIES, 0, CPU_DOMAIN_4, CPU_SW_ANY_CORD,
@@ -985,11 +985,11 @@ Scope(_SB)
         })
         Name(_PSS, Package() {
           Package() {CLK1, CPU_PWR_DISSP_PLL_DIV_1, CPU_PLL_TRNS_LATENCY,
-                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_1, CPU_CGA_PLL_DIV_1},
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_1, CPU_CGB_PLL_DIV_1},
           Package() {CLK2, CPU_PWR_DISSP_PLL_DIV_2, CPU_PLL_TRNS_LATENCY,
-                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_2, CPU_CGA_PLL_DIV_2},
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_2, CPU_CGB_PLL_DIV_2},
           Package() {CLK3, CPU_PWR_DISSP_PLL_DIV_4, CPU_PLL_TRNS_LATENCY,
-                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_4, CPU_CGA_PLL_DIV_4},
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_4, CPU_CGB_PLL_DIV_4},
         })
         Name (_PSD, Package() {
           Package() {CPU_NUM_ENTRIES, 0, CPU_DOMAIN_4, CPU_SW_ANY_CORD,
@@ -1121,11 +1121,11 @@ Scope(_SB)
         })
         Name(_PSS, Package() {
           Package() {CLK1, CPU_PWR_DISSP_PLL_DIV_1, CPU_PLL_TRNS_LATENCY,
-                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_1, CPU_CGA_PLL_DIV_1},
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_1, CPU_CGB_PLL_DIV_1},
           Package() {CLK2, CPU_PWR_DISSP_PLL_DIV_2, CPU_PLL_TRNS_LATENCY,
-                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_2, CPU_CGA_PLL_DIV_2},
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_2, CPU_CGB_PLL_DIV_2},
           Package() {CLK3, CPU_PWR_DISSP_PLL_DIV_4, CPU_PLL_TRNS_LATENCY,
-                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_4, CPU_CGA_PLL_DIV_4},
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_4, CPU_CGB_PLL_DIV_4},
         })
         Name (_PSD, Package() {
           Package() {CPU_NUM_ENTRIES, 0, CPU_DOMAIN_5, CPU_SW_ANY_CORD,
@@ -1170,11 +1170,11 @@ Scope(_SB)
         })
         Name(_PSS, Package() {
           Package() {CLK1, CPU_PWR_DISSP_PLL_DIV_1, CPU_PLL_TRNS_LATENCY,
-                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_1, CPU_CGA_PLL_DIV_1},
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_1, CPU_CGB_PLL_DIV_1},
           Package() {CLK2, CPU_PWR_DISSP_PLL_DIV_2, CPU_PLL_TRNS_LATENCY,
-                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_2, CPU_CGA_PLL_DIV_2},
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_2, CPU_CGB_PLL_DIV_2},
           Package() {CLK3, CPU_PWR_DISSP_PLL_DIV_4, CPU_PLL_TRNS_LATENCY,
-                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_4, CPU_CGA_PLL_DIV_4},
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_4, CPU_CGB_PLL_DIV_4},
         })
         Name (_PSD, Package() {
           Package() {CPU_NUM_ENTRIES, 0, CPU_DOMAIN_5, CPU_SW_ANY_CORD,
@@ -1306,11 +1306,11 @@ Scope(_SB)
         })
         Name(_PSS, Package() {
           Package() {CLK1, CPU_PWR_DISSP_PLL_DIV_1, CPU_PLL_TRNS_LATENCY,
-                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_1, CPU_CGA_PLL_DIV_1},
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_1, CPU_CGB_PLL_DIV_1},
           Package() {CLK2, CPU_PWR_DISSP_PLL_DIV_2, CPU_PLL_TRNS_LATENCY,
-                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_2, CPU_CGA_PLL_DIV_2},
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_2, CPU_CGB_PLL_DIV_2},
           Package() {CLK3, CPU_PWR_DISSP_PLL_DIV_4, CPU_PLL_TRNS_LATENCY,
-                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_4, CPU_CGA_PLL_DIV_4},
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_4, CPU_CGB_PLL_DIV_4},
         })
         Name (_PSD, Package() {
           Package() {CPU_NUM_ENTRIES, 0, CPU_DOMAIN_6, CPU_SW_ANY_CORD,
@@ -1355,11 +1355,11 @@ Scope(_SB)
         })
         Name(_PSS, Package() {
           Package() {CLK1, CPU_PWR_DISSP_PLL_DIV_1, CPU_PLL_TRNS_LATENCY,
-                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_1, CPU_CGA_PLL_DIV_1},
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_1, CPU_CGB_PLL_DIV_1},
           Package() {CLK2, CPU_PWR_DISSP_PLL_DIV_2, CPU_PLL_TRNS_LATENCY,
-                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_2, CPU_CGA_PLL_DIV_2},
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_2, CPU_CGB_PLL_DIV_2},
           Package() {CLK3, CPU_PWR_DISSP_PLL_DIV_4, CPU_PLL_TRNS_LATENCY,
-                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_4, CPU_CGA_PLL_DIV_4},
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_4, CPU_CGB_PLL_DIV_4},
         })
         Name (_PSD, Package() {
           Package() {CPU_NUM_ENTRIES, 0, CPU_DOMAIN_6, CPU_SW_ANY_CORD,
@@ -1491,11 +1491,11 @@ Scope(_SB)
         })
         Name(_PSS, Package() {
           Package() {CLK1, CPU_PWR_DISSP_PLL_DIV_1, CPU_PLL_TRNS_LATENCY,
-                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_1, CPU_CGA_PLL_DIV_1},
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_1, CPU_CGB_PLL_DIV_1},
           Package() {CLK2, CPU_PWR_DISSP_PLL_DIV_2, CPU_PLL_TRNS_LATENCY,
-                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_2, CPU_CGA_PLL_DIV_2},
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_2, CPU_CGB_PLL_DIV_2},
           Package() {CLK3, CPU_PWR_DISSP_PLL_DIV_4, CPU_PLL_TRNS_LATENCY,
-                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_4, CPU_CGA_PLL_DIV_4},
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_4, CPU_CGB_PLL_DIV_4},
         })
         Name (_PSD, Package() {
           Package() {CPU_NUM_ENTRIES, 0, CPU_DOMAIN_7, CPU_SW_ANY_CORD,
@@ -1540,11 +1540,11 @@ Scope(_SB)
         })
         Name(_PSS, Package() {
           Package() {CLK1, CPU_PWR_DISSP_PLL_DIV_1, CPU_PLL_TRNS_LATENCY,
-                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_1, CPU_CGA_PLL_DIV_1},
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_1, CPU_CGB_PLL_DIV_1},
           Package() {CLK2, CPU_PWR_DISSP_PLL_DIV_2, CPU_PLL_TRNS_LATENCY,
-                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_2, CPU_CGA_PLL_DIV_2},
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_2, CPU_CGB_PLL_DIV_2},
           Package() {CLK3, CPU_PWR_DISSP_PLL_DIV_4, CPU_PLL_TRNS_LATENCY,
-                     CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_4, CPU_CGA_PLL_DIV_4},
+                     CPU_PLL_TRNS_LATENCY, CPU_CGB_PLL_DIV_4, CPU_CGB_PLL_DIV_4},
         })
         Name (_PSD, Package() {
           Package() {CPU_NUM_ENTRIES, 0, CPU_DOMAIN_7, CPU_SW_ANY_CORD,
