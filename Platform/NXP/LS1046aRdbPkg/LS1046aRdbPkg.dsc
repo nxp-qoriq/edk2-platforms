@@ -27,7 +27,7 @@
   DEFINE NETWORK_ISCSI_ENABLE           = FALSE
   DEFINE CAPSULE_ENABLE                 = TRUE
   DEFINE X64EMU_ENABLE                  = TRUE
-  DEFINE AARCH64_GOP_ENABLE             = TRUE
+  DEFINE AARCH64_GOP_ENABLE             = FALSE
 
 !include Platform/NXP/NxpQoriqLs.dsc
 !include Silicon/NXP/Chassis/Chassis2/Chassis2.dsc
@@ -205,12 +205,7 @@
   # Platform
   #
   Platform/NXP/LS1046aRdbPkg/AcpiTables/AcpiTables.inf
-
-  #
-  # SMBIOS
-  #
-  MdeModulePkg/Universal/SmbiosDxe/SmbiosDxe.inf
-  Platform/NXP/LS1046aRdbPkg/SmbiosPlatformDxe/SmbiosPlatformDxe.inf
+  Platform/NXP/LS1046aRdbPkg/AcpiTables/Icid.inf
 
 !if $(CAPSULE_ENABLE)
   #
