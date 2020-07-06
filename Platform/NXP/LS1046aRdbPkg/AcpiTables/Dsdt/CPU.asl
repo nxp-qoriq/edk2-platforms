@@ -96,7 +96,7 @@ Scope(_SB)
     }
     Method(_INI, 0, NotSerialized) {
       Store(\_SB.PCLK.CCLK, CLK1)
-      Divide(CLK1, 4, Local0, CLK2)
+      Divide(CLK1, 4, , CLK2)
     }
     /*
      *   _PTC: Processor Throttling Control
@@ -191,7 +191,7 @@ Scope(_SB)
     }
     Method(_INI, 0, NotSerialized) {
       Store(\_SB.PCLK.CCLK, CLK1)
-      Divide(CLK1, 4, Local0, CLK2)
+      Divide(CLK1, 4, , CLK2)
     }
     Name(_PTC, Package () {
       ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK_CSSR_REG,
@@ -243,7 +243,7 @@ Scope(_SB)
     }
     Method(_INI, 0, NotSerialized) {
       Store(\_SB.PCLK.CCLK, CLK1)
-      Divide(CLK1, 4, Local0, CLK2)
+      Divide(CLK1, 4, , CLK2)
     }
     Name(_PTC, Package () {
       ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK_CSSR_REG,
@@ -295,7 +295,7 @@ Scope(_SB)
     }
     Method(_INI, 0, NotSerialized) {
       Store(\_SB.PCLK.CCLK, CLK1)
-      Divide(CLK1, 4, Local0, CLK2)
+      Divide(CLK1, 4, , CLK2)
     }
     Name(_PTC, Package () {
       ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK_CSSR_REG,

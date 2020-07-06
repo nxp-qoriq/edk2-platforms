@@ -19,7 +19,7 @@ Scope(_SB)
       })
       Method(_INI, 0, NotSerialized) {
         Store(\_SB.PCLK.CLK, CLK)
-        Divide(CLK, 2, Local0, CLK)
+        Divide(CLK, 2, , CLK)
       }
       Name (_DSD, Package () {
         ToUUID ("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
