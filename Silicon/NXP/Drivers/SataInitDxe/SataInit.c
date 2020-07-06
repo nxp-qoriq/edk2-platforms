@@ -101,9 +101,11 @@ InitializeSataController (
     // Enable Non-Zero 4 MB PRD entries.
     MmioOr32 ((UINTN)(ControllerAddr + SATA_PAXIC), ENABLE_NONZERO_4MB_PRD);
 
+    MmioWrite32 ((UINTN)(ControllerAddr + SATA_AXICC), PORT_AXICC_CFG);
+
     Status = RegisterNonDiscoverableMmioDevice (
                NonDiscoverableDeviceTypeAhci,
-               NonDiscoverableDeviceDmaTypeNonCoherent,
+               NonDiscoverableDeviceDmaTypeCoherent,
                NULL,
                &LocalHandle,
                1,

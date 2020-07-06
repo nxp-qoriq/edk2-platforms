@@ -1,7 +1,7 @@
 /** @file
   Header file for Sata Controller initialization driver.
 
-  Copyright 2017-2018 NXP
+  Copyright 2017-2018, 2020 NXP
 
   This program and the accompanying materials
   are licensed and made available under the terms and conditions of the BSD License
@@ -25,11 +25,13 @@
 #define SATA_PPCFG             0xA8
 #define SATA_PTC               0xC8
 #define SATA_PAXIC             0xC0
+#define SATA_AXICC             0xBC
 
 #define PORT_PHYSICAL          0xA003FFFE
 #define PORT_TRANSPORT         0x08000025
 #define PORT_RXWM              0x08000029
 #define ENABLE_NONZERO_4MB_PRD 0x10000000
+#define PORT_AXICC_CFG         0x3fffffff
 
 #define DCSR_SATA_ERRATA       0x20140520
 #define SERDES2_SATA_ERRATA    0x01eb1300
