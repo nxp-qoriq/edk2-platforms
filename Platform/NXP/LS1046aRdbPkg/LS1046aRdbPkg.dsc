@@ -207,6 +207,12 @@
   Platform/NXP/LS1046aRdbPkg/AcpiTables/AcpiTables.inf
   Platform/NXP/LS1046aRdbPkg/AcpiTables/Icid.inf
 
+  #
+  # SMBIOS
+  #
+  MdeModulePkg/Universal/SmbiosDxe/SmbiosDxe.inf
+  Platform/NXP/LS1046aRdbPkg/SmbiosPlatformDxe/SmbiosPlatformDxe.inf
+
 !if $(CAPSULE_ENABLE)
   #
   # Firmware update
