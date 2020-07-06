@@ -223,7 +223,7 @@ READ_LOCK_STATUS   = TRUE
   # GOP support
   #
 !if $(AARCH64_GOP_ENABLE)
-  INF edk2-non-osi/Drivers/OptionRomPkg/AMDGop/AMDGop.inf
+  INF Drivers/OptionRomPkg/AMDGop/AMDGop.inf
 !endif
 
   #
@@ -231,7 +231,7 @@ READ_LOCK_STATUS   = TRUE
   #
 !if $(X64EMU_ENABLE) == TRUE
   # PE/COFF emulator for X64 option ROMs taken from edk2-non-osi
-  INF edk2-non-osi/Emulator/X86EmulatorDxe/X86EmulatorDxe.inf
+  INF Emulator/X86EmulatorDxe/X86EmulatorDxe.inf
 !endif
 
 [FV.FVMAIN_COMPACT]
