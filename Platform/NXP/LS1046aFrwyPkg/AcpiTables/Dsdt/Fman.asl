@@ -29,6 +29,7 @@ Scope(_SB)
     })
 
     Device(CC0) {
+      Name (_ADR, 0xC4000)
       Name (_DSD, Package () {
         ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
         Package() {
@@ -38,6 +39,7 @@ Scope(_SB)
     } // end of CC0 device
 
     Device(MRM0) {
+      Name (_ADR, 0x0)
       Name(_CRS, ResourceTemplate() {
         Memory32Fixed(ReadWrite, FMAN_MURAM_BASE, FMAN_MURAM_BASE_SZ)
       }) // end of _CRS for MURAM0
@@ -51,6 +53,7 @@ Scope(_SB)
     } // end of MURAM0 device
 
     Device(BMI0) {
+      Name (_ADR, 0x80000)
       Name(_CRS, ResourceTemplate() {
         Memory32Fixed(ReadWrite, FMAN_BMI_BASE, FMAN_BMI_BASE_SZ)
       }) // end of _CRS for BMI0
@@ -63,6 +66,7 @@ Scope(_SB)
     } // end of BMI0 device
 
     Device(QMI0) {
+      Name (_ADR, 0x80400)
       Name(_CRS, ResourceTemplate() {
         Memory32Fixed(ReadWrite, FMAN_QMI_BASE, FMAN_QMI_BASE_SZ)
       }) // end of _CRS for QMI0
@@ -75,6 +79,7 @@ Scope(_SB)
     } // end of QMI0 device
 
     Device(PLY0) {
+      Name (_ADR, 0xC0000)
       Name(_CRS, ResourceTemplate() {
         Memory32Fixed(ReadWrite, FMAN_PLICER_BASE, FMAN_PLICER_BASE_SZ)
       }) // end of _CRS for PLY0
@@ -87,6 +92,7 @@ Scope(_SB)
     } // end of PLY0 device
 
     Device(KYG0) {
+      Name (_ADR, 0xC1000)
       Name(_CRS, ResourceTemplate() {
         Memory32Fixed(ReadWrite, FMAN_KEYGEN_BASE, FMAN_KEYGEN_BASE_SZ)
       }) // end of _CRS for KYG0
@@ -99,6 +105,7 @@ Scope(_SB)
     } // end of KYG0 device
 
     Device(DMA0) {
+      Name (_ADR, 0xC2000)
       Name(_CRS, ResourceTemplate() {
         Memory32Fixed(ReadWrite, FMAN_DMA_BASE, FMAN_DMA_BASE_SZ)
       }) // end of _CRS for DMA0
@@ -111,6 +118,7 @@ Scope(_SB)
     } // end of DMA0 device
 
     Device(FPM0) {
+      Name (_ADR, 0xC3000)
       Name(_CRS, ResourceTemplate() {
         Memory32Fixed(ReadWrite, FMAN_FPM_BASE, FMAN_FPM_BASE_SZ)
       }) // end of _CRS for FPM0
@@ -123,6 +131,7 @@ Scope(_SB)
     } // end of FPM0 device
 
     Device(PRS0) {
+      Name (_ADR, 0xC7000)
       Name(_CRS, ResourceTemplate() {
         Memory32Fixed(ReadWrite, FMAN_PARSER_BASE, FMAN_PARSER_BASE_SZ)
       }) // end of _CRS for PRS0
@@ -135,6 +144,7 @@ Scope(_SB)
     } // end of PRS0 device
 
     Device(VSP0) {
+      Name (_ADR, 0xDC000)
       Name(_CRS, ResourceTemplate() {
         Memory32Fixed(ReadWrite, FMAN_VSP_BASE, FMAN_VSP_BASE_SZ)
       }) // end of _CRS for VSP0
