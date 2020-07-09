@@ -75,53 +75,53 @@
  */
 #pragma pack(1)
 typedef struct {
-  SMBIOS_TABLE_TYPE0 	Base;
-  INT8              	Strings [sizeof (TYPE0_STRINGS)];
+  SMBIOS_TABLE_TYPE0    Base;
+  INT8                  Strings [sizeof (TYPE0_STRINGS)];
 } ARM_TYPE0;
 
 typedef struct {
-  SMBIOS_TABLE_TYPE1 	Base;
-  UINT8              	Strings [sizeof (TYPE1_STRINGS)];
+  SMBIOS_TABLE_TYPE1    Base;
+  UINT8                 Strings [sizeof (TYPE1_STRINGS)];
 } ARM_TYPE1;
 
 typedef struct {
-  SMBIOS_TABLE_TYPE3 	Base;
-  UINT8              	Strings [sizeof (TYPE3_STRINGS)];
+  SMBIOS_TABLE_TYPE3    Base;
+  UINT8                 Strings [sizeof (TYPE3_STRINGS)];
 } ARM_TYPE3;
 
 typedef struct {
-  SMBIOS_TABLE_TYPE4 	Base;
-  UINT8              	Strings [sizeof (TYPE4_STRINGS)];
+  SMBIOS_TABLE_TYPE4    Base;
+  UINT8                 Strings [sizeof (TYPE4_STRINGS)];
 } ARM_TYPE4;
 
 typedef struct {
-  SMBIOS_TABLE_TYPE7 	Base;
-  UINT8              	Strings [sizeof (TYPE7_STRINGS)];
+  SMBIOS_TABLE_TYPE7    Base;
+  UINT8                 Strings [sizeof (TYPE7_STRINGS)];
 } ARM_TYPE7;
 
 typedef struct {
-  SMBIOS_TABLE_TYPE9 	Base;
-  UINT8              	Strings [];
+  SMBIOS_TABLE_TYPE9    Base;
+  UINT8                 Strings [];
 } ARM_TYPE9;
 
 typedef struct {
-  SMBIOS_TABLE_TYPE16 	Base;
-  UINT8              	Strings [sizeof (TYPE16_STRINGS)];
+  SMBIOS_TABLE_TYPE16   Base;
+  UINT8                 Strings [sizeof (TYPE16_STRINGS)];
 } ARM_TYPE16;
 
 typedef struct {
-  SMBIOS_TABLE_TYPE17 	Base;
-  UINT8              	Strings [sizeof (TYPE17_STRINGS)];
+  SMBIOS_TABLE_TYPE17   Base;
+  UINT8                 Strings [sizeof (TYPE17_STRINGS)];
 } ARM_TYPE17;
 
 typedef struct {
-  SMBIOS_TABLE_TYPE19 	Base;
-  UINT8              	Strings [sizeof (TYPE19_STRINGS)];
+  SMBIOS_TABLE_TYPE19   Base;
+  UINT8                 Strings [sizeof (TYPE19_STRINGS)];
 } ARM_TYPE19;
 
 typedef struct {
-  SMBIOS_TABLE_TYPE32 	Base;
-  UINT8              	Strings [sizeof (TYPE32_STRINGS)];
+  SMBIOS_TABLE_TYPE32   Base;
+  UINT8                 Strings [sizeof (TYPE32_STRINGS)];
 } ARM_TYPE32;
 
 /**
