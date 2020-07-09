@@ -176,6 +176,12 @@ READ_LOCK_STATUS   = TRUE
   INF Silicon/NXP/Drivers/Dpaa1Ethernet/Dpaa1EthernetDxe.inf
   #
 
+  #
+  # SMBIOS
+  #
+  INF MdeModulePkg/Universal/SmbiosDxe/SmbiosDxe.inf
+  INF Platform/NXP/LS1046aFrwyPkg/SmbiosPlatformDxe/SmbiosPlatformDxe.inf
+
   # FAT filesystem + GPT/MBR partitioning
   #
   INF MdeModulePkg/Universal/Disk/UnicodeCollation/EnglishDxe/EnglishDxe.inf

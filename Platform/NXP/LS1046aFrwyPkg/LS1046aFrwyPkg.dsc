@@ -202,6 +202,12 @@
   #
   Platform/NXP/LS1046aFrwyPkg/AcpiTables/AcpiTables.inf
 
+  #
+  # SMBIOS
+  #
+  MdeModulePkg/Universal/SmbiosDxe/SmbiosDxe.inf
+  Platform/NXP/LS1046aFrwyPkg/SmbiosPlatformDxe/SmbiosPlatformDxe.inf
+
 !if $(CAPSULE_ENABLE)
   Platform/NXP/LS1046aFrwyPkg/SystemFirmwareDescriptor/SystemFirmwareDescriptor.inf
 !endif
