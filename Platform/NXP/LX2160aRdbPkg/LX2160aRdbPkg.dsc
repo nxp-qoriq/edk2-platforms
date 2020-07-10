@@ -82,6 +82,8 @@
   gArmPlatformTokenSpaceGuid.PcdSystemMemoryUefiRegionSize|0x02000000
   gEfiSecurityPkgTokenSpaceGuid.PcdOptionRomImageVerificationPolicy|0x00000001
 
+  gEfiMdeModulePkgTokenSpaceGuid.PcdSmbiosVersion|0x0320
+
   #
   # Board Specific Pcds
   #
