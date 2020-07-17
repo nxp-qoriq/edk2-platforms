@@ -69,7 +69,7 @@ Scope(_TZ)
 
   // Method to read the sensors current temperature
   Method (GTMP, 1, Serialized) {
-    Switch (Arg0) {
+    Switch (ToInteger(Arg0)) {
       Case (0) {
                  And (ISR0, 0xFF000000, Local0)
                }

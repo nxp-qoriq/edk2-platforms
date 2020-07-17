@@ -22,11 +22,11 @@ Scope(_SB)
     Device(MTD0) {
       Name(_HID, "PRP0001")
       Name(_UID, 0)
+      Name(RBUF, ResourceTemplate() {
+        SpiSerialBus(0x0000, PolarityLow, FourWireMode, 0x04, ControllerInitiated, 0x2FAF080,
+                     ClockPolarityLow, ClockPhaseFirst, "\\_SB.QPI0", 0x00, ResourceConsumer, ,)
+      })
       Method(_CRS, 0, Serialized) {
-        Name(RBUF, ResourceTemplate() {
-          SpiSerialBus(0x0000, PolarityLow, FourWireMode, 0x04, ControllerInitiated, 0x2FAF080,
-                       ClockPolarityLow, ClockPhaseFirst, "\\_SB.QPI0", 0x00, ResourceConsumer, ,)
-        })
         Return (RBUF)
       }
       Name (_DSD, Package () {
@@ -40,11 +40,11 @@ Scope(_SB)
     Device(MTD1) {
       Name(_HID, "PRP0001")
       Name(_UID, 1)
+      Name(RBUF, ResourceTemplate() {
+        SpiSerialBus(0x0001, PolarityLow, FourWireMode, 0x04, ControllerInitiated, 0x2FAF080,
+                     ClockPolarityLow, ClockPhaseFirst, "\\_SB.QPI0", 0x00, ResourceConsumer, ,)
+      })
       Method(_CRS, 0, Serialized) {
-        Name(RBUF, ResourceTemplate() {
-          SpiSerialBus(0x0001, PolarityLow, FourWireMode, 0x04, ControllerInitiated, 0x2FAF080,
-                       ClockPolarityLow, ClockPhaseFirst, "\\_SB.QPI0", 0x00, ResourceConsumer, ,)
-        })
         Return (RBUF)
       }
       Name (_DSD, Package () {

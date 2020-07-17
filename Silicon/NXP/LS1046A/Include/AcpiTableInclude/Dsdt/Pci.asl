@@ -17,57 +17,57 @@ Scope(_SB)
     Name(_SEG, 0) // Segment of this Root complex
     Name(_BBN, 0) // Base Bus Number
     Name(_CCA, 1) // Cache Coherency Attribute
+    Name (RBUF, ResourceTemplate () {
+      WordBusNumber ( // Bus numbers assigned to this root
+        ResourceProducer, MinFixed, MaxFixed, PosDecode,
+        0,                           // AddressGranularity
+        LS1046A_PCI_SEG_BUSNUM_MIN,  // AddressMinimum - Minimum Bus Number
+        LS1046A_PCI_SEG_BUSNUM_MAX,  // AddressMaximum - Maximum Bus Number
+        0,                           // AddressTranslation
+        LS1046A_PCI_SEG_BUSNUM_RANGE // RangeLength - # of Busses
+      )
+      QWordMemory ( // 32-bit BAR Windows
+        ResourceProducer,
+        PosDecode,
+        MinFixed,
+        MaxFixed,
+        NonCacheable,
+        ReadWrite,
+        0x0,                           // Granularity
+        LS1046A_PCI_SEG0_MMIO32_MIN,   // Min Base Address
+        LS1046A_PCI_SEG0_MMIO32_MAX,   // Max Base Address
+        LS1046A_PCI_SEG0_MMIO32_XLATE, // Translate
+        LS1046A_PCI_SEG0_MMIO32_SIZE   // Length
+      )
+      QWordMemory ( // 64-bit BAR Windows
+        ResourceProducer,
+        PosDecode,
+        MinFixed,
+        MaxFixed,
+        NonCacheable,
+        ReadWrite,
+        0x0,                           // Granularity
+        LS1046A_PCI_SEG0_MMIO64_MIN,   // Min Base Address
+        LS1046A_PCI_SEG0_MMIO64_MAX,   // Max Base Address
+        0x0, // Translate
+        LS1046A_PCI_SEG0_MMIO64_SIZE   // Length
+      )
+      QWordIO ( // IO Window
+        ResourceProducer,
+        MinFixed,
+        MaxFixed,
+        PosDecode,
+        EntireRange,
+        0x0,                           // Granularity
+        LS1046A_PCI_SEG0_IO64_MIN,   // Min Base Address
+        LS1046A_PCI_SEG0_IO64_MAX,   // Max Base Address
+        LS1046A_PCI_SEG0_IO64_XLATE, // Translate
+        LS1046A_PCI_SEG0_IO64_SIZE   // Length
+      )
+    }) // Name (RBUF)
 
     // Root complex resources
     Method (_CRS, 0, Serialized) {
-      Name (RBUF, ResourceTemplate () {
-        WordBusNumber ( // Bus numbers assigned to this root
-          ResourceProducer, MinFixed, MaxFixed, PosDecode,
-          0,                           // AddressGranularity
-          LS1046A_PCI_SEG_BUSNUM_MIN,  // AddressMinimum - Minimum Bus Number
-          LS1046A_PCI_SEG_BUSNUM_MAX,  // AddressMaximum - Maximum Bus Number
-          0,                           // AddressTranslation
-          LS1046A_PCI_SEG_BUSNUM_RANGE // RangeLength - # of Busses
-        )
-        QWordMemory ( // 32-bit BAR Windows
-          ResourceProducer,
-          PosDecode,
-          MinFixed,
-          MaxFixed,
-          NonCacheable,
-          ReadWrite,
-          0x0,                           // Granularity
-          LS1046A_PCI_SEG0_MMIO32_MIN,   // Min Base Address
-          LS1046A_PCI_SEG0_MMIO32_MAX,   // Max Base Address
-          LS1046A_PCI_SEG0_MMIO32_XLATE, // Translate
-          LS1046A_PCI_SEG0_MMIO32_SIZE   // Length
-        )
-        QWordMemory ( // 64-bit BAR Windows
-          ResourceProducer,
-          PosDecode,
-          MinFixed,
-          MaxFixed,
-          NonCacheable,
-          ReadWrite,
-          0x0,                           // Granularity
-          LS1046A_PCI_SEG0_MMIO64_MIN,   // Min Base Address
-          LS1046A_PCI_SEG0_MMIO64_MAX,   // Max Base Address
-          0x0, // Translate
-          LS1046A_PCI_SEG0_MMIO64_SIZE   // Length
-        )
-        QWordIO ( // IO Window
-          ResourceProducer,
-          MinFixed,
-          MaxFixed,
-          PosDecode,
-          EntireRange,
-          0x0,                           // Granularity
-          LS1046A_PCI_SEG0_IO64_MIN,   // Min Base Address
-          LS1046A_PCI_SEG0_IO64_MAX,   // Max Base Address
-          LS1046A_PCI_SEG0_IO64_XLATE, // Translate
-          LS1046A_PCI_SEG0_IO64_SIZE   // Length
-        )
-      }) // Name (RBUF)
       Return (RBUF)
     }
 
@@ -138,55 +138,55 @@ Scope(_SB)
     Name(_SEG, 1) // Segment of this Root complex
     Name(_BBN, 0) // Base Bus Number
     Name(_CCA, 1) // Cache Coherency Attribute
+    Name (RBUF, ResourceTemplate () {
+      WordBusNumber ( // Bus numbers assigned to this root
+        ResourceProducer, MinFixed, MaxFixed, PosDecode,
+        0,                           // AddressGranularity
+        LS1046A_PCI_SEG_BUSNUM_MIN,  // AddressMinimum - Minimum Bus Number
+        LS1046A_PCI_SEG_BUSNUM_MAX,  // AddressMaximum - Maximum Bus Number
+        0,                           // AddressTranslation
+        LS1046A_PCI_SEG_BUSNUM_RANGE // RangeLength - # of Busses
+      )
+      QWordMemory ( // 32-bit BAR Windows
+        ResourceProducer,
+        PosDecode,
+        MinFixed,
+        MaxFixed,
+        NonCacheable,
+        ReadWrite,
+        0x0,                           // Granularity
+        LS1046A_PCI_SEG1_MMIO32_MIN,   // Min Base Address
+        LS1046A_PCI_SEG1_MMIO32_MAX,   // Max Base Address
+        LS1046A_PCI_SEG1_MMIO32_XLATE, // Translate
+        LS1046A_PCI_SEG1_MMIO32_SIZE   // Length
+      )
+      QWordMemory ( // 64-bit BAR Windows
+        ResourceProducer,
+        PosDecode,
+        MinFixed,
+        MaxFixed,
+        NonCacheable,
+        ReadWrite,
+        0x0,                           // Granularity
+        LS1046A_PCI_SEG1_MMIO64_MIN,   // Min Base Address
+        LS1046A_PCI_SEG1_MMIO64_MAX,   // Max Base Address
+        0x0, // Translate
+        LS1046A_PCI_SEG1_MMIO64_SIZE   // Length
+      )
+      QWordIO ( // IO Window
+        ResourceProducer,
+        MinFixed,
+        MaxFixed,
+        PosDecode,
+        EntireRange,
+        0x0,                          // Granularity
+        LS1046A_PCI_SEG1_IO64_MIN,    // Min Base Address
+        LS1046A_PCI_SEG1_IO64_MAX,    // Max Base Address
+        LS1046A_PCI_SEG1_IO64_XLATE,  // Translate
+        LS1046A_PCI_SEG1_IO64_SIZE    // Length
+      )
+    })
     Method (_CRS, 0, Serialized) { // Root complex resources
-      Name (RBUF, ResourceTemplate () {
-        WordBusNumber ( // Bus numbers assigned to this root
-          ResourceProducer, MinFixed, MaxFixed, PosDecode,
-          0,                           // AddressGranularity
-          LS1046A_PCI_SEG_BUSNUM_MIN,  // AddressMinimum - Minimum Bus Number
-          LS1046A_PCI_SEG_BUSNUM_MAX,  // AddressMaximum - Maximum Bus Number
-          0,                           // AddressTranslation
-          LS1046A_PCI_SEG_BUSNUM_RANGE // RangeLength - # of Busses
-        )
-        QWordMemory ( // 32-bit BAR Windows
-          ResourceProducer,
-          PosDecode,
-          MinFixed,
-          MaxFixed,
-          NonCacheable,
-          ReadWrite,
-          0x0,                           // Granularity
-          LS1046A_PCI_SEG1_MMIO32_MIN,   // Min Base Address
-          LS1046A_PCI_SEG1_MMIO32_MAX,   // Max Base Address
-          LS1046A_PCI_SEG1_MMIO32_XLATE, // Translate
-          LS1046A_PCI_SEG1_MMIO32_SIZE   // Length
-        )
-        QWordMemory ( // 64-bit BAR Windows
-          ResourceProducer,
-          PosDecode,
-          MinFixed,
-          MaxFixed,
-          NonCacheable,
-          ReadWrite,
-          0x0,                           // Granularity
-          LS1046A_PCI_SEG1_MMIO64_MIN,   // Min Base Address
-          LS1046A_PCI_SEG1_MMIO64_MAX,   // Max Base Address
-          0x0, // Translate
-          LS1046A_PCI_SEG1_MMIO64_SIZE   // Length
-        )
-        QWordIO ( // IO Window
-          ResourceProducer,
-          MinFixed,
-          MaxFixed,
-          PosDecode,
-          EntireRange,
-          0x0,                          // Granularity
-          LS1046A_PCI_SEG1_IO64_MIN,    // Min Base Address
-          LS1046A_PCI_SEG1_IO64_MAX,    // Max Base Address
-          LS1046A_PCI_SEG1_IO64_XLATE,  // Translate
-          LS1046A_PCI_SEG1_IO64_SIZE    // Length
-        )
-      })
       Return (RBUF)
     }
 
@@ -255,55 +255,55 @@ Scope(_SB)
     Name(_SEG, 2) // Segment of this Root complex
     Name(_BBN, 0) // Base Bus Number
     Name(_CCA, 1) // Cache Coherency Attribute
+    Name (RBUF, ResourceTemplate () {
+      WordBusNumber ( // Bus numbers assigned to this root
+        ResourceProducer, MinFixed, MaxFixed, PosDecode,
+        0,                           // AddressGranularity
+        LS1046A_PCI_SEG_BUSNUM_MIN,  // AddressMinimum - Minimum Bus Number
+        LS1046A_PCI_SEG_BUSNUM_MAX,  // AddressMaximum - Maximum Bus Number
+        0,                           // AddressTranslation
+        LS1046A_PCI_SEG_BUSNUM_RANGE // RangeLength - # of Busses
+      )
+      QWordMemory ( // 64-bit BAR Windows
+        ResourceProducer,
+        PosDecode,
+        MinFixed,
+        MaxFixed,
+        NonCacheable,
+        ReadWrite,
+        0x0,                           // Granularity
+        LS1046A_PCI_SEG2_MMIO32_MIN,   // Min Base Address
+        LS1046A_PCI_SEG2_MMIO32_MAX,   // Max Base Address
+        LS1046A_PCI_SEG2_MMIO32_XLATE, // Translate
+        LS1046A_PCI_SEG2_MMIO32_SIZE   // Length
+      )
+      QWordMemory ( // 64-bit BAR Windows
+        ResourceProducer,
+        PosDecode,
+        MinFixed,
+        MaxFixed,
+        NonCacheable,
+        ReadWrite,
+        0x0,                           // Granularity
+        LS1046A_PCI_SEG2_MMIO64_MIN,   // Min Base Address
+        LS1046A_PCI_SEG2_MMIO64_MAX,   // Max Base Address
+        0x0, // Translate
+        LS1046A_PCI_SEG2_MMIO64_SIZE   // Length
+      )
+      QWordIO ( // IO Window
+        ResourceProducer,
+        MinFixed,
+        MaxFixed,
+        PosDecode,
+        EntireRange,
+        0x0,                           // Granularity
+        LS1046A_PCI_SEG2_IO64_MIN,   // Min Base Address
+        LS1046A_PCI_SEG2_IO64_MAX,   // Max Base Address
+        LS1046A_PCI_SEG2_IO64_XLATE, // Translate
+        LS1046A_PCI_SEG2_IO64_SIZE   // Length
+      )
+    })
     Method (_CRS, 0, Serialized) { // Root complex resources
-      Name (RBUF, ResourceTemplate () {
-        WordBusNumber ( // Bus numbers assigned to this root
-          ResourceProducer, MinFixed, MaxFixed, PosDecode,
-          0,                           // AddressGranularity
-          LS1046A_PCI_SEG_BUSNUM_MIN,  // AddressMinimum - Minimum Bus Number
-          LS1046A_PCI_SEG_BUSNUM_MAX,  // AddressMaximum - Maximum Bus Number
-          0,                           // AddressTranslation
-          LS1046A_PCI_SEG_BUSNUM_RANGE // RangeLength - # of Busses
-        )
-        QWordMemory ( // 64-bit BAR Windows
-          ResourceProducer,
-          PosDecode,
-          MinFixed,
-          MaxFixed,
-          NonCacheable,
-          ReadWrite,
-          0x0,                           // Granularity
-          LS1046A_PCI_SEG2_MMIO32_MIN,   // Min Base Address
-          LS1046A_PCI_SEG2_MMIO32_MAX,   // Max Base Address
-          LS1046A_PCI_SEG2_MMIO32_XLATE, // Translate
-          LS1046A_PCI_SEG2_MMIO32_SIZE   // Length
-        )
-        QWordMemory ( // 64-bit BAR Windows
-          ResourceProducer,
-          PosDecode,
-          MinFixed,
-          MaxFixed,
-          NonCacheable,
-          ReadWrite,
-          0x0,                           // Granularity
-          LS1046A_PCI_SEG2_MMIO64_MIN,   // Min Base Address
-          LS1046A_PCI_SEG2_MMIO64_MAX,   // Max Base Address
-          0x0, // Translate
-          LS1046A_PCI_SEG2_MMIO64_SIZE   // Length
-        )
-        QWordIO ( // IO Window
-          ResourceProducer,
-          MinFixed,
-          MaxFixed,
-          PosDecode,
-          EntireRange,
-          0x0,                           // Granularity
-          LS1046A_PCI_SEG2_IO64_MIN,   // Min Base Address
-          LS1046A_PCI_SEG2_IO64_MAX,   // Max Base Address
-          LS1046A_PCI_SEG2_IO64_XLATE, // Translate
-          LS1046A_PCI_SEG2_IO64_SIZE   // Length
-        )
-      })
       Return (RBUF)
     }
 

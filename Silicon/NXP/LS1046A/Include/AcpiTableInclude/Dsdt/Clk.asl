@@ -42,7 +42,7 @@ Scope(_SB)
       Local0 = (HFRQ<<2 | LFRQ) // Concatinating LFRQ at end of HFRQ
       Multiply(Local0, 500000, Local0)
       Multiply(Local0, PRAT, Local0)
-      Divide(Local0, 3, Local1, Local0)
+      Divide(Local0, 3, , Local0)
       Store(Local0, CLK)
     }
   } // end of device PCLK
