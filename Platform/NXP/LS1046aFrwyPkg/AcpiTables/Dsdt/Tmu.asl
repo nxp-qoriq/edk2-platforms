@@ -583,39 +583,7 @@ Scope(\_TZ)
    Name(_PR0, Package() { FN5L, FN5H })
   }
 
-  Scope(\_TZ.THM0)
-  {
-    // Thermal Object: Passive
-    Method(_PSV, 0) {
-      Return (TRPP)
-    }
-  }
-
-  Scope(\_TZ.THM1)
-  {
-    // Thermal Object: Passive
-    Method(_PSV, 0) {
-      Return (TRPP)
-    }
-  }
-
-  Scope(\_TZ.THM2)
-  {
-    // Thermal Object: Passive
-    Method(_PSV, 0) {
-      Return (TRPP)
-    }
-  }
-
   Scope(\_TZ.THM3)
-  {
-    // Thermal Object: Passive
-    Method(_PSV, 0) {
-      Return (TRPP)
-    }
-  }
-
-  Scope(\_TZ.THM4)
   {
     // Thermal Object: Passive
     Method(_PSV, 0) {

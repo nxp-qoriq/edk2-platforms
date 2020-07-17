@@ -55,27 +55,6 @@ Scope(\_TZ)
   // Thermal constants
   Name(TRP1, TMU_PASSIVE_THRESHOLD)
 
-  // Thermal zone for Sensor near DDR Controller
-  Scope(\_TZ.THM0) {
-    Method(_PSV, 0) {
-      Return (TRP1)
-    }
-  }
-
-  // ThermalZone for sensor near SerDes
-  Scope(\_TZ.THM1) {
-    Method(_PSV, 0) {
-      Return (TRP1)
-    }
-  }
-
-  // ThermalZone for sensor near Frame manager
-  Scope(\_TZ.THM2) {
-    Method(_PSV, 0) {
-      Return (TRP1)
-    }
-  }
-
   // ThermalZone for sensor near Arm A72 core
   Scope(\_TZ.THM3) {
     Method(_PSV, 0) {
@@ -83,10 +62,4 @@ Scope(\_TZ)
     }
   }
 
-  // ThermalZone for sensor near SEC
-  Scope(\_TZ.THM4) {
-    Method(_PSV, 0) {
-      Return (TRP1)
-    }
-  }
 } //end of Scope _TZ
