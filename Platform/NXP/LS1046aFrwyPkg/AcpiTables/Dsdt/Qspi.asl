@@ -10,10 +10,20 @@
 
 #include <AcpiTableInclude/Dsdt/Qspi.asl>
 
+Scope(_SB.QPI0)
+{
+  Method (_STA, 0, Serialized)  // _STA: Status
+  {
+    // Indicate a valid device for which no device driver should be loaded.
+    Return (QSPI_STATUS)
+  }
+}
+
 Scope(_SB.QPI0.MTD1)
 {
   Method (_STA, 0, Serialized)  // _STA: Status
   {
+    // On frwy platform only one MTD device is present
     Return (Zero)
   }
 }

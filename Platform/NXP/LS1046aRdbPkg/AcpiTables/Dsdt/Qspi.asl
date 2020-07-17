@@ -9,3 +9,12 @@
 **/
 
 #include <AcpiTableInclude/Dsdt/Qspi.asl>
+
+Scope(_SB.QPI0)
+{
+  Method (_STA, 0, Serialized)  // _STA: Status
+  {
+    // Indicate a valid device for which no device driver should be loaded.
+    Return (QSPI_STATUS)
+  }
+}
