@@ -16,7 +16,7 @@ Scope(\_SB.FMN0.MDI0)
     Memory32Fixed(ReadWrite, MDIO_1_REG_BASE, MDIO_REG_BASE_SZ)
   })
 
-  Scope(\_SB.FMN0.MDI0.PHY1) {
+  Device(PHY1) {
     Name (_ADR, 0x1c)
     Name (_DSD, Package () {
       ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
@@ -26,7 +26,7 @@ Scope(\_SB.FMN0.MDI0)
     })
   } // end of PHY1
 
-  Scope(\_SB.FMN0.MDI0.PHY2) {
+  Device(PHY2) {
     Name (_ADR, 0x1d)
     Name (_DSD, Package () {
       ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
@@ -36,7 +36,7 @@ Scope(\_SB.FMN0.MDI0)
     })
   } // end of PHY2
 
-  Scope(\_SB.FMN0.MDI0.PHY3) {
+  Device(PHY3) {
     Name (_ADR, 0x1e)
     Name (_DSD, Package () {
       ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
@@ -46,7 +46,7 @@ Scope(\_SB.FMN0.MDI0)
     })
   } // end of PHY3
 
-  Scope(\_SB.FMN0.MDI0.PHY4) {
+  Device(PHY4) {
     Name (_ADR, 0x1f)
     Name (_DSD, Package () {
       ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
