@@ -116,15 +116,17 @@ Scope(_SB.I2C0)
   // Method to read temerature from remote sensor
   Method (STMP, 1, Serialized) {
     Store(Zero, Local0)
-    SCHN(I2C0_MUX_CHANNEL_3)
-    Store(One, LEN)
-    If (LEqual(Arg0, Zero)) {
-      Store(FLD1, BUFF)
-    } Else {
-      Store(FLD2, BUFF)
-    }
-    If (LEqual(STAT, 0x00)) {
-      Local0 = DATA
+    If (LEqual (\_SB.I2C0.AVBL, One)) {
+      SCHN(I2C0_MUX_CHANNEL_3)
+      Store(One, LEN)
+      If (LEqual(Arg0, Zero)) {
+        Store(FLD1, BUFF)
+      } Else {
+        Store(FLD2, BUFF)
+      }
+      If (LEqual(STAT, 0x00)) {
+        Local0 = DATA
+      }
     }
     Return (Local0)
   }
