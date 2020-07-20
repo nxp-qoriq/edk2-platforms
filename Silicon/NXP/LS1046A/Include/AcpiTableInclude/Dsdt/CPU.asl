@@ -89,8 +89,14 @@ Scope(_SB)
   Device(CPU0) {
     Name(_HID, "ACPI0007")
     Name(_UID, 0)
+    Name(CLK1, 0)
+    Name(CLK2, 0)
     Method (_LPI, 0, NotSerialized) {
       Return (PLPI)
+    }
+    Method(_INI, 0, NotSerialized) {
+      Store(\_SB.PCLK.CCLK, CLK1)
+      Divide(CLK1, 4, , CLK2)
     }
     /*
      *   _PTC: Processor Throttling Control
@@ -130,13 +136,62 @@ Scope(_SB)
       Package() {CPU_NUM_ENTRIES, 0, CPU_DOMAIN_0, CPU_SW_ANY_CORD,
                  CPU_NUM_PROCESSOR}
     })
+    /*
+     * _PCT: Performance Control
+     *  Package { ControlRegister // Buffer (Resource Descriptor),
+     *            StatusRegister // Buffer (Resource Descriptor)
+     *          }
+     */
+    Name(_PCT, Package () {
+       ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK_CSSR_REG,
+                           CPU_DWORD_ACCESS)},
+       ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK_CSSR_REG,
+                           CPU_DWORD_ACCESS)}
+    })
+    /*
+     *  _PSS: Performance Supported States
+     *  Package { PState [0] //Package , ... PState [n] //Package }
+     *  Each PState defined as the below Package:
+     *  Package { CoreFrequency, Power, Latency, BusMasterLatency,
+     *            Control, Status }
+     */
+    Name(_PSS, Package() {
+      Package() {CLK1, CPU_PWR_DISSP_PLL_DIV_1, CPU_PLL_TRNS_LATENCY,
+                 CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_1, CPU_CGA_PLL_DIV_1},
+      Package() {CLK2, CPU_PWR_DISSP_PLL_DIV_2, CPU_PLL_TRNS_LATENCY,
+                 CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_2, CPU_CGA_PLL_DIV_2},
+    })
+    /*
+     * _PSD: P-State Dependency
+     * Package { PStateDependency[0] // Package}
+     * Package { NumEntries, Revision, Domain, CoordType, NumProcessors }
+     */
+    Name(_PSD, Package() {
+      Package() {CPU_NUM_ENTRIES, 0, CPU_DOMAIN_0, CPU_SW_ANY_CORD,
+                 CPU_NUM_PROCESSOR}
+    })
+    /*
+     *  _PPC: Processing Present Capabilities
+     *  0 – states 0 ... nth state available (all states available)
+     *  1 – states 1 ... nth state available
+     *  2 – states 2 ... nth state available
+     */
+    Method(_PPC, 0) {
+      Return (Zero)
+    }
   }
 
   Device(CPU1) {
     Name(_HID, "ACPI0007")
     Name(_UID, 1)
+    Name(CLK1, 0)
+    Name(CLK2, 0)
     Method (_LPI, 0, NotSerialized) {
       Return (PLPI)
+    }
+    Method(_INI, 0, NotSerialized) {
+      Store(\_SB.PCLK.CCLK, CLK1)
+      Divide(CLK1, 4, , CLK2)
     }
     Name(_PTC, Package () {
       ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK_CSSR_REG,
@@ -157,13 +212,38 @@ Scope(_SB)
       Package() {CPU_NUM_ENTRIES, 0, CPU_DOMAIN_0, CPU_SW_ANY_CORD,
                  CPU_NUM_PROCESSOR}
     })
+    Name(_PCT, Package () {
+       ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK_CSSR_REG,
+                           CPU_DWORD_ACCESS)},
+       ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK_CSSR_REG,
+                           CPU_DWORD_ACCESS)}
+    })
+    Name(_PSS, Package() {
+      Package() {CLK1, CPU_PWR_DISSP_PLL_DIV_1, CPU_PLL_TRNS_LATENCY,
+                 CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_1, CPU_CGA_PLL_DIV_1},
+      Package() {CLK2, CPU_PWR_DISSP_PLL_DIV_2, CPU_PLL_TRNS_LATENCY,
+                 CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_2, CPU_CGA_PLL_DIV_2},
+    })
+    Name(_PSD, Package() {
+      Package() {CPU_NUM_ENTRIES, 0, CPU_DOMAIN_0, CPU_SW_ANY_CORD,
+                 CPU_NUM_PROCESSOR}
+    })
+    Method(_PPC, 0) {
+      Return (Zero)
+    }
   }
 
   Device(CPU2) {
     Name(_HID, "ACPI0007")
     Name(_UID, 2)
+    Name(CLK1, 0)
+    Name(CLK2, 0)
     Method (_LPI, 0, NotSerialized) {
       Return (PLPI)
+    }
+    Method(_INI, 0, NotSerialized) {
+      Store(\_SB.PCLK.CCLK, CLK1)
+      Divide(CLK1, 4, , CLK2)
     }
     Name(_PTC, Package () {
       ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK_CSSR_REG,
@@ -184,13 +264,38 @@ Scope(_SB)
       Package() {CPU_NUM_ENTRIES, 0, CPU_DOMAIN_0, CPU_SW_ANY_CORD,
                  CPU_NUM_PROCESSOR}
     })
+    Name(_PCT, Package () {
+       ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK_CSSR_REG,
+                           CPU_DWORD_ACCESS)},
+       ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK_CSSR_REG,
+                           CPU_DWORD_ACCESS)}
+    })
+    Name(_PSS, Package() {
+      Package() {CLK1, CPU_PWR_DISSP_PLL_DIV_1, CPU_PLL_TRNS_LATENCY,
+                 CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_1, CPU_CGA_PLL_DIV_1},
+      Package() {CLK2, CPU_PWR_DISSP_PLL_DIV_2, CPU_PLL_TRNS_LATENCY,
+                 CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_2, CPU_CGA_PLL_DIV_2},
+    })
+    Name (_PSD, Package() {
+      Package() {CPU_NUM_ENTRIES, 0, CPU_DOMAIN_0, CPU_SW_ANY_CORD,
+                 CPU_NUM_PROCESSOR}
+    })
+    Method(_PPC, 0) {
+      Return (Zero)
+    }
   }
 
   Device(CPU3) {
     Name(_HID, "ACPI0007")
     Name(_UID, 3)
+    Name(CLK1, 0)
+    Name(CLK2, 0)
     Method (_LPI, 0, NotSerialized) {
       Return (PLPI)
+    }
+    Method(_INI, 0, NotSerialized) {
+      Store(\_SB.PCLK.CCLK, CLK1)
+      Divide(CLK1, 4, , CLK2)
     }
     Name(_PTC, Package () {
       ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK_CSSR_REG,
@@ -211,5 +316,24 @@ Scope(_SB)
       Package() {CPU_NUM_ENTRIES, 0, CPU_DOMAIN_0, CPU_SW_ANY_CORD,
                  CPU_NUM_PROCESSOR}
     })
+    Name(_PCT, Package () {
+       ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK_CSSR_REG,
+                           CPU_DWORD_ACCESS)},
+       ResourceTemplate() {Register(SystemMemory, 32, 0, CPU_CLK_CSSR_REG,
+                           CPU_DWORD_ACCESS)}
+    })
+    Name(_PSS, Package() {
+      Package() {CLK1, CPU_PWR_DISSP_PLL_DIV_1, CPU_PLL_TRNS_LATENCY,
+                 CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_1, CPU_CGA_PLL_DIV_1},
+      Package() {CLK2, CPU_PWR_DISSP_PLL_DIV_2, CPU_PLL_TRNS_LATENCY,
+                 CPU_PLL_TRNS_LATENCY, CPU_CGA_PLL_DIV_2, CPU_CGA_PLL_DIV_2},
+    })
+    Name (_PSD, Package() {
+      Package() {CPU_NUM_ENTRIES, 0, CPU_DOMAIN_0, CPU_SW_ANY_CORD,
+                 CPU_NUM_PROCESSOR}
+    })
+    Method(_PPC, 0) {
+      Return (Zero)
+    }
   }
 }

@@ -518,7 +518,7 @@
 #define FTM_IT   118
 
 // Rcpm
-#define RCPM_BASE 0x1ee2000
-#define RCPM_LEN  0x1000
+#define RCPM_BASE 0x1ee2140
+#define RCPM_LEN  0x4
 
 #endif
