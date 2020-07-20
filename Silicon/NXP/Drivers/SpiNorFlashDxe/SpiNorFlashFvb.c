@@ -1,7 +1,7 @@
 /*++ @file  SpiNorFlashFvbDxe.c
 
  Copyright (c) 2011 - 2014, ARM Ltd. All rights reserved.<BR>
- Copyright 2017-2019 NXP
+ Copyright 2017-2020 NXP
 
  Based on ArmPlatformPkg/Drivers/NorFlashDxe/NorFlashFvbDxe.c
 
@@ -788,18 +788,10 @@ SpiNorFlashFvbInitialize (
   //
   // Declare the Non-Volatile storage as EFI_MEMORY_RUNTIME
   //
-  Status = gDS->AddMemorySpace (
-                  EfiGcdMemoryTypeMemoryMappedIo,
-                  ConfigData->DeviceBaseAddress,
-                  ConfigData->FlashSize,
-                  EFI_MEMORY_UC | EFI_MEMORY_XP | EFI_MEMORY_RUNTIME
-                  );
-  ASSERT_EFI_ERROR (Status);
-
   Status = gDS->SetMemorySpaceAttributes (
                    ConfigData->DeviceBaseAddress,
                    ConfigData->FlashSize,
-                   EFI_MEMORY_UC | EFI_MEMORY_XP | EFI_MEMORY_RUNTIME
+                   EFI_MEMORY_UC | EFI_MEMORY_RUNTIME
                    );
   ASSERT_EFI_ERROR (Status);
 
