@@ -3,7 +3,7 @@
   Driver for installing SPI Master and other spi protocols
   over QSPI controller Handle
 
-  Copyright 2017-2018 NXP
+  Copyright 2017-2018, 2020 NXP
 
   This program and the accompanying materials
   are licensed and made available under the terms and conditions of the bsd
@@ -444,17 +444,6 @@ QspiInstallProtocol (
 
   if (Runtime) {
     // Declare the controller registers as EFI_MEMORY_RUNTIME
-    Status = gDS->AddMemorySpace (
-                    EfiGcdMemoryTypeMemoryMappedIo,
-                    (UINTN)QMaster->Regs,
-                    ALIGN_VALUE (sizeof (QSPI_REGISTERS), SIZE_64KB),
-                    EFI_MEMORY_UC | EFI_MEMORY_RUNTIME
-                    );
-    if (EFI_ERROR (Status)) {
-      DEBUG ((DEBUG_ERROR, "%a:%d Error = %r\n", __FUNCTION__, __LINE__, Status));
-      goto UninstallProtocol;
-    }
-
     Status = gDS->SetMemorySpaceAttributes (
                     (UINTN)QMaster->Regs,
                     ALIGN_VALUE (sizeof (QSPI_REGISTERS), SIZE_64KB),
@@ -462,7 +451,7 @@ QspiInstallProtocol (
                     );
     if (EFI_ERROR (Status)) {
       DEBUG ((DEBUG_ERROR, "%a:%d Error = %r\n", __FUNCTION__, __LINE__, Status));
-      goto RemoveMemorySpace;
+      goto UninstallProtocol;
     }
 
     //
@@ -477,7 +466,7 @@ QspiInstallProtocol (
                     &QMaster->Event
                     );
     if (EFI_ERROR (Status)) {
-      goto RemoveMemorySpace;
+      goto UninstallProtocol;
     }
 
     // Connect the controller Recursively to SPI bus
@@ -492,13 +481,6 @@ QspiInstallProtocol (
 
 RemoveEvent:
   Status = gBS->CloseEvent (QMaster->Event);
-  ASSERT_EFI_ERROR (Status);
-
-RemoveMemorySpace:
-  Status = gDS->RemoveMemorySpace (
-                  (UINTN)QMaster->Regs,
-                  ALIGN_VALUE (sizeof (QSPI_REGISTERS), SIZE_64KB)
-                  );
   ASSERT_EFI_ERROR (Status);
 
 UninstallProtocol:

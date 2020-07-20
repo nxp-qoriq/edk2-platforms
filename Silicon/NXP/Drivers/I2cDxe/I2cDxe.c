@@ -209,16 +209,6 @@ I2cDxeEntryPoint (
                 );
 
   // Declare the controller as EFI_MEMORY_RUNTIME
-  Status = gDS->AddMemorySpace (
-                  EfiGcdMemoryTypeMemoryMappedIo,
-                  (EFI_PHYSICAL_ADDRESS)mI2cRegs,
-                  (SIZE_64KB),
-                  EFI_MEMORY_UC | EFI_MEMORY_RUNTIME
-                );
-  if (EFI_ERROR (Status)) {
-    return Status;
-  }
-
   Status = gDS->SetMemorySpaceAttributes (
                   (EFI_PHYSICAL_ADDRESS)mI2cRegs,
                    (SIZE_64KB),
