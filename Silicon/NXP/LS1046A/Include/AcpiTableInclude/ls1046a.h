@@ -27,6 +27,7 @@
 #define EFI_ACPI_ARM_OEM_REVISION       0x00000000
 #define EFI_ACPI_ARM_CREATOR_ID         SIGNATURE_32('A','R','M', ' ')
 #define EFI_ACPI_ARM_CREATOR_REVISION   0x20151124
+#define EFI_ACPI_6_1_NXP_OEM_TABLE_SIGNATURE SIGNATURE_32('O','E','M', 'X')
 
 // A macro to initialise the common header part of EFI ACPI tables as defined by
 // EFI_ACPI_DESCRIPTION_HEADER structure.

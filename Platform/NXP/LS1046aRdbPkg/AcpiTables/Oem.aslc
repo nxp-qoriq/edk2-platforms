@@ -1,0 +1,10 @@
+/** @file
+*  Original equipment manufacturer Table (Oem)
+*
+*  Copyright 2020 PureSoftware
+*
+*  SPDX-License-Identifier: BSD-2-Clause
+*
+**/
+
+#include <AcpiTableInclude/Oem.aslc>
