@@ -72,11 +72,13 @@ Scope(_SB.I2C0)
   // Method to read temperature from remote sensor
   Method (STMP, 0, Serialized) {
     Store(Zero, Local0)
-    SCHN(I2C0_MUX_CHANNEL_0)
-    Store(One, LEN)
-    Store(FLD1, BUFF) //read
-    If (LEqual(STAT, 0x00)) {
-      Local0 = DATA
+    If (LEqual (\_SB.I2C0.AVBL, One)) {
+      SCHN(I2C0_MUX_CHANNEL_0)
+      Store(One, LEN)
+      Store(FLD1, BUFF) //read
+      If (LEqual(STAT, 0x00)) {
+        Local0 = DATA
+      }
     }
     Return (Local0)
   }

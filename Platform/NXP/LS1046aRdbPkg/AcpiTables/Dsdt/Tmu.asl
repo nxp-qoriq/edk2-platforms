@@ -40,9 +40,11 @@ Scope(_SB.I2C0)
   // Method to read temerature from remote sensor
   Method (STMP, 0, Serialized) {
     Store(Zero, Local0)
-    Store(One, LEN)
-    Store(FLD0, BUFF)
-    Local0 = DATA
+    If (LEqual (\_SB.I2C0.AVBL, One)) {
+      Store(One, LEN)
+      Store(FLD0, BUFF)
+      Local0 = DATA
+    }
     Return (Local0)
   }
 }
