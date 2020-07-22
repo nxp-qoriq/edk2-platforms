@@ -76,7 +76,7 @@ Scope(_SB.I2C0)
       Store(One, LEN)
       Store(FLD1, BUFF) //read
       If (LEqual(STAT, 0x00)) {
-        Local0 = DATA
+      Local0 = DATA
       }
     }
     Return (Local0)
