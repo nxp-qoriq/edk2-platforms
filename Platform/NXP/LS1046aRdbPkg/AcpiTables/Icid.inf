@@ -1,14 +1,14 @@
-#/**  @file
+#  @file
 #
-#  Copyright 2019 NXP
+#  Copyright 2019 PureSoftware
 #
 #  SPDX-License-Identifier: BSD-2-Clause
 #
-#**/
+#
 
 [Defines]
   INF_VERSION                    = 0x0001001A
-  BASE_NAME                      = LX2160Icid
+  BASE_NAME                      = LS1046Icid
   FILE_GUID                      = 2e4914f5-20b3-493d-8296-6be46d8548d8
   MODULE_TYPE                    = UEFI_DRIVER
   VERSION_STRING                 = 1.0
@@ -17,16 +17,15 @@
 [Packages]
   ArmPkg/ArmPkg.dec
   ArmPlatformPkg/ArmPlatformPkg.dec
-  MdePkg/MdePkg.dec
   EmbeddedPkg/EmbeddedPkg.dec
-  Silicon/NXP/Chassis/Chassis3V2/Chassis3V2.dec
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  Silicon/NXP/Chassis/Chassis2/Chassis2.dec
   Silicon/NXP/NxpQoriqLs.dec
   Silicon/NXP/LS1046A/LS1046A.dec
 
 [LibraryClasses]
   DebugLib
-  FdtLib
-  ItbParseLib
   PcdLib
   SocLib
   UefiDriverEntryPoint
@@ -36,8 +35,4 @@
   Icid.c
 
 [FixedPcd]
-  gNxpQoriqLsTokenSpaceGuid.PcdGutsBaseAddr
-
-[Guids]
-  gFdtTableGuid
-
+  gNxpQoriqLsTokenSpaceGuid.PcdScfgBaseAddr

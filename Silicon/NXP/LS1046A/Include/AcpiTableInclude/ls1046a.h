@@ -45,6 +45,12 @@
 // IORT
 #define NO_ITS_IO_REMAPPING_TABLE 1
 
+//StreamIDs
+#define NXP_USB0_STREAM_ID    1
+#define NXP_USB1_STREAM_ID    2
+#define NXP_USB2_STREAM_ID    3
+#define NXP_SATA0_STREAM_ID   5
+
 // Gic
 #define GIC_VERSION 2
 #define GICD_BASE   0x1410000
