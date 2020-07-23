@@ -63,6 +63,15 @@ EDKII_PLATFORM_REPOSITORY_INFO Lx2160aPlatformRepositoryInfo = {
       CFG_MGR_TABLE_ID
     },
 
+    // PCI MCFG Table
+    {
+      EFI_ACPI_6_2_PCI_EXPRESS_MEMORY_MAPPED_CONFIGURATION_SPACE_BASE_ADDRESS_DESCRIPTION_TABLE_SIGNATURE,
+      EFI_ACPI_MEMORY_MAPPED_CONFIGURATION_SPACE_ACCESS_TABLE_REVISION,
+      CREATE_STD_ACPI_TABLE_GEN_ID (EStdAcpiTableIdMcfg),
+      NULL,
+      CFG_MGR_TABLE_ID
+    },
+
     // DSDT Table
     {
       EFI_ACPI_6_2_DIFFERENTIATED_SYSTEM_DESCRIPTION_TABLE_SIGNATURE,
@@ -211,6 +220,22 @@ EDKII_PLATFORM_REPOSITORY_INFO Lx2160aPlatformRepositoryInfo = {
     0                                         // UINT32 Populate the GIC ITS affinity in SRAT table.
   },
 
+  /* MCFG */
+  {
+    {
+      LX2160A_PCI_SEG0_CONFIG_BASE,
+      LX2160A_PCI_SEG0,
+      LX2160A_PCI_SEG_BUSNUM_MIN,
+      LX2160A_PCI_SEG_BUSNUM_MAX,
+    },
+    {
+      LX2160A_PCI_SEG1_CONFIG_BASE,
+      LX2160A_PCI_SEG1,
+      LX2160A_PCI_SEG_BUSNUM_MIN,
+      LX2160A_PCI_SEG_BUSNUM_MAX,
+    }
+  },
+
   2.0                                         // LX2 board revision
 };
 
@@ -233,6 +258,55 @@ InitializePlatformRepository (
 
   DEBUG ((DEBUG_INFO, "Lx2 Rev = 0x%x\n", PlatformRepo->Lx2160aRevision));
   return EFI_SUCCESS;
+}
+
+/** Return PCI Configuration Info.
+  @param [in]      This           Pointer to the Configuration Manager Protocol.
+  @param [in]      CmObjectId     The Object ID of the CM object requested
+  @param [in]      Token          A unique token for identifying the requested
+  CM_ARM_PCI_INFO object.
+  @param [in, out] CmObject       Pointer to the Configuration Manager Object
+  descriptor describing the requested Object.
+  @retval EFI_SUCCESS             Success.
+  @retval EFI_INVALID_PARAMETER   A parameter is invalid.
+  @retval EFI_NOT_FOUND           The required object information is
+  not found.
+ **/
+EFI_STATUS
+EFIAPI
+GetPciConfigInfo (
+    IN  CONST EDKII_CONFIGURATION_MANAGER_PROTOCOL  * CONST This,
+    IN  CONST CM_OBJECT_ID                                  CmObjectId,
+    IN  CONST CM_OBJECT_TOKEN                               Token,
+    IN  OUT   CM_OBJ_DESCRIPTOR                     * CONST CmObject
+    )
+{
+  EDKII_PLATFORM_REPOSITORY_INFO  * PlatformRepo;
+  UINT32                            TotalObjCount;
+  UINT32                            ObjIndex;
+
+  if ((This == NULL) || (CmObject == NULL)) {
+    ASSERT (This != NULL);
+    ASSERT (CmObject != NULL);
+    return EFI_INVALID_PARAMETER;
+  }
+
+  PlatformRepo = This->PlatRepoInfo;
+
+  TotalObjCount = ARRAY_SIZE (PlatformRepo->PciConfigInfo);
+
+  for (ObjIndex = 0; ObjIndex < TotalObjCount; ObjIndex++) {
+    if (Token == (CM_OBJECT_TOKEN)&PlatformRepo->PciConfigInfo[ObjIndex])
+    {
+      CmObject->ObjectId = CmObjectId;
+      CmObject->Size = sizeof (PlatformRepo->PciConfigInfo[ObjIndex]);
+      CmObject->Data = (VOID*)&PlatformRepo->PciConfigInfo[ObjIndex];
+      CmObject->Count = 1;
+      return EFI_SUCCESS;
+    }
+  }
+
+  return EFI_NOT_FOUND;
 }
 
 /** Return GIC CPU Interface Info.
@@ -492,6 +566,15 @@ GetArmNameSpaceObject (
         CmObjectId,
         PlatformRepo->GicItsInfo,
         1
+        );
+    HANDLE_CM_OBJECT_REF_BY_TOKEN (
+        EArmObjPciConfigSpaceInfo,
+        CmObjectId,
+        PlatformRepo->PciConfigInfo,
+        (sizeof (PlatformRepo->PciConfigInfo) /
+         sizeof (PlatformRepo->PciConfigInfo[0])),
+        Token,
+        GetPciConfigInfo
         );
     default: {
       Status = EFI_NOT_FOUND;

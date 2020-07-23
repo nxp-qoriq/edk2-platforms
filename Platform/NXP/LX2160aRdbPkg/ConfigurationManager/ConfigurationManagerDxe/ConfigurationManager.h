@@ -151,6 +151,10 @@
 */
 #define PLAT_GTFRAME_COUNT      4
 
+/** The number of platform PCI blocks
+*/
+#define PLAT_PCI_CONFG_COUNT    2
+
 /** A structure describing the platform configuration
     manager repository information
 */
@@ -190,6 +194,9 @@ typedef struct PlatformRepositoryInfo {
 
   /// GIC ITS information
   CM_ARM_GIC_ITS_INFO                       GicItsInfo;
+
+  /// PCI configuration space information
+  CM_ARM_PCI_CONFIG_SPACE_INFO              PciConfigInfo[PLAT_PCI_CONFG_COUNT];
 
   /// LX2 Board Revision
   UINT32                                    Lx2160aRevision;
