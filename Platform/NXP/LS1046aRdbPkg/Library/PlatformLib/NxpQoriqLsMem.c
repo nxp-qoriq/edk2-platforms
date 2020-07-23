@@ -210,7 +210,7 @@ ArmPlatformGetVirtualMemoryMap (
   // QSPI region
   VirtualMemoryTable[++Index].PhysicalBase = FixedPcdGet64 (PcdQspiRegionBaseAddr);
   VirtualMemoryTable[Index].VirtualBase  = FixedPcdGet64 (PcdQspiRegionBaseAddr);
-  VirtualMemoryTable[Index].Length       = FixedPcdGet64 (PcdQspiRegionSize);
+  VirtualMemoryTable[Index].Length       = SIZE_128MB;
   VirtualMemoryTable[Index].Attributes   = ARM_MEMORY_REGION_ATTRIBUTE_DEVICE;
 
   BuildResourceDescriptorHob (
