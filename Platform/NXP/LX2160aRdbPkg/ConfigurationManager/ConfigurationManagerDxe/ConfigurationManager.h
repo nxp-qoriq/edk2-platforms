@@ -119,6 +119,13 @@
 */
 #define PLAT_ACPI_TABLE_COUNT   10
 
+/** The number of platform generic timer blocks
+*/
+#define PLAT_GTBLOCK_COUNT      1
+
+/** The number of timer frames per generic timer block
+*/
+#define PLAT_GTFRAME_COUNT      4
 
 /** A structure describing the platform configuration
     manager repository information
@@ -136,8 +143,54 @@ typedef struct PlatformRepositoryInfo {
   /// Power management profile information
   CM_ARM_POWER_MANAGEMENT_PROFILE_INFO      PmProfileInfo;
 
+  /// Generic timer information
+  CM_ARM_GENERIC_TIMER_INFO                 GenericTimerInfo;
+
+  /// Generic timer block information
+  CM_ARM_GTBLOCK_INFO                       GTBlockInfo[PLAT_GTBLOCK_COUNT];
+
+  /// Generic timer frame information
+  CM_ARM_GTBLOCK_TIMER_FRAME_INFO           GTBlock0TimerInfo[PLAT_GTFRAME_COUNT];
+
+  /// Watchdog information
+  CM_ARM_GENERIC_WATCHDOG_INFO              Watchdog;
+
   /// LX2 Board Revision
   UINT32                                    Lx2160aRevision;
 } EDKII_PLATFORM_REPOSITORY_INFO;
+
+/*
+ * GTDT_GTIMER_FLAGS
+ * IT trigger (Level/Edge- Bit 0) and Polarity (Low/High) Bit 1
+ * Set bit-0 is 0 (Level trigger), Bit 1 1 (Active low)
+ */
+#define GTDT_GTIMER_FLAGS           (EFI_ACPI_6_1_GTDT_TIMER_FLAG_TIMER_INTERRUPT_POLARITY)
+
+/*
+ * Timer Frame IT High Level triggered
+ * IT trigger (Level/Edge- Bit 0) and Polarity (Low/High) Bit 1
+ * Set  bit-0 is 0 (Level trigger), Bit 1 0 (Active High)
+ */
+#define GTDT_FRAME_FLAGS 0
+
+/*
+ * Timer frame status
+ * Access - Secure or non secure <-- Bit 0
+ * State - Save (meaning always on) or Lose Context  <-- Bit 1
+ * Set Bit 0 1 as Secure and Bit 1 zero as lose context
+*/
+#define GTDT_FRAME_COMMON_FLAGS EFI_ACPI_6_1_GTDT_GT_BLOCK_COMMON_FLAG_SECURE_TIMER
+
+/*
+ * Watchdog flags
+ * IT trigger (Level/Edge- Bit 0), Polarity (Low/High) Bit 1, Secured Bit 2
+ * Set Level trigger (Bit 0 as 0)
+ * Active High (Bit 1 as 0)
+ * Non secure (Bit 2 as 0)
+ */
+#define SBSA_WATCHDOG_FLAGS 0
+#define SBSA_SEC_WATCHDOG_FLAGS EFI_ACPI_6_1_GTDT_GT_BLOCK_COMMON_FLAG_SECURE_TIMER
+
+#define GT_BLOCK_FRAME_RES_BASE  MAX_UINT64
 
 #endif // CONFIGURATION_MANAGER_H__
