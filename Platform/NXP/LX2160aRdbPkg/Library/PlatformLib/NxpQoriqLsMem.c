@@ -104,20 +104,7 @@ ArmPlatformGetVirtualMemoryMap (
   // FSPI region 1
   VirtualMemoryTable[++Index].PhysicalBase = FixedPcdGet64 (PcdQspiRegionBaseAddr);
   VirtualMemoryTable[Index].VirtualBase  = FixedPcdGet64 (PcdQspiRegionBaseAddr);
-  VirtualMemoryTable[Index].Length       = FixedPcdGet64 (PcdQspiRegionSize);
-  VirtualMemoryTable[Index].Attributes   = ARM_MEMORY_REGION_ATTRIBUTE_UNCACHED_UNBUFFERED;
-
-  BuildResourceDescriptorHob (
-      EFI_RESOURCE_MEMORY_MAPPED_IO,
-      EFI_RESOURCE_ATTRIBUTE_UNCACHEABLE,
-      VirtualMemoryTable[Index].VirtualBase,
-      VirtualMemoryTable[Index].Length
-  );
-
-  // FSPI region 2
-  VirtualMemoryTable[++Index].PhysicalBase = FixedPcdGet64 (PcdQspiRegion2BaseAddr);
-  VirtualMemoryTable[Index].VirtualBase  = FixedPcdGet64 (PcdQspiRegion2BaseAddr);
-  VirtualMemoryTable[Index].Length       = FixedPcdGet64 (PcdQspiRegion2Size);
+  VirtualMemoryTable[Index].Length       = SIZE_128MB;
   VirtualMemoryTable[Index].Attributes   = ARM_MEMORY_REGION_ATTRIBUTE_UNCACHED_UNBUFFERED;
 
   BuildResourceDescriptorHob (
