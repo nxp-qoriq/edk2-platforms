@@ -155,6 +155,17 @@
 */
 #define PLAT_PCI_CONFG_COUNT    2
 
+/** The platforms IORT block defines
+*/
+#define PLAT_ITS_GROUP_COUNT        2
+#define PLAT_ITS_IDENTIFIER_COUNT   2
+#define PLAT_NAMED_COMPONENT_COUNT  9
+#define PLAT_ID_MAPPING_COUNT       15
+#define PLAT_ROOT_COMPLEX_COUNT     2
+#define PLAT_SMMUV1_SMMUV2_COUNT    2
+#define PLAT_SMMU_INTERRUPT_COUNT   64
+#define PLAT_PMU_INTERRUPT_COUNT    10
+
 /** A structure describing the platform configuration
     manager repository information
 */
@@ -203,6 +214,30 @@ typedef struct PlatformRepositoryInfo {
 
   /// Serial port information for the DBG2 UART port
   CM_ARM_SERIAL_PORT_INFO                   DbgSerialPort;
+
+  /// ITS Group node
+  CM_ARM_ITS_GROUP_NODE                     ItsGroupInfo[PLAT_ITS_GROUP_COUNT];
+
+  /// ITS Identifier array
+  CM_ARM_ITS_IDENTIFIER                     ItsIdentifierArray[PLAT_ITS_IDENTIFIER_COUNT];
+
+  /// Named component node array
+  CM_ARM_NAMED_COMPONENT_NODE               NamedComponentInfo[PLAT_NAMED_COMPONENT_COUNT];
+
+  /// Array of DeviceID mapping
+  CM_ARM_ID_MAPPING                         IdMappingArray[PLAT_ID_MAPPING_COUNT];
+
+  /// PCI Root complex node
+  CM_ARM_ROOT_COMPLEX_NODE                  RootComplexInfo[PLAT_ROOT_COMPLEX_COUNT];
+
+  /// SMMUv1/2 node
+  CM_ARM_SMMUV1_SMMUV2_NODE                 SmmuV1SmmuV2Info[PLAT_SMMUV1_SMMUV2_COUNT];
+
+  // SMMU Interupt Contexts
+  CM_ARM_SMMU_INTERRUPT                     InterruptContextArray[PLAT_SMMU_INTERRUPT_COUNT];
+
+  // SMMU Interupt Contexts
+  CM_ARM_SMMU_INTERRUPT                     PmuInterruptArray[PLAT_PMU_INTERRUPT_COUNT];
 
   /// LX2 Board Revision
   UINT32                                    Lx2160aRevision;

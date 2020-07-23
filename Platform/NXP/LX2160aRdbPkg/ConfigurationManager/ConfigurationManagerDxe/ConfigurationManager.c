@@ -11,6 +11,7 @@
 **/
 
 #include <IndustryStandard/DebugPort2Table.h>
+#include <IndustryStandard/IoRemappingTable.h>
 #include <IndustryStandard/MemoryMappedConfigurationSpaceAccessTable.h>
 #include <IndustryStandard/SerialPortConsoleRedirectionTable.h>
 #include <Library/ArmLib.h>
@@ -86,6 +87,15 @@ EDKII_PLATFORM_REPOSITORY_INFO Lx2160aPlatformRepositoryInfo = {
       EFI_ACPI_6_2_DEBUG_PORT_2_TABLE_SIGNATURE,
       EFI_ACPI_DBG2_DEBUG_DEVICE_INFORMATION_STRUCT_REVISION,
       CREATE_STD_ACPI_TABLE_GEN_ID (EStdAcpiTableIdDbg2),
+      NULL,
+      CFG_MGR_TABLE_ID
+    },
+
+    // IORT Table
+    {
+      EFI_ACPI_6_2_IO_REMAPPING_TABLE_SIGNATURE,
+      EFI_ACPI_IO_REMAPPING_TABLE_REVISION,
+      CREATE_STD_ACPI_TABLE_GEN_ID (EStdAcpiTableIdIort),
       NULL,
       CFG_MGR_TABLE_ID
     },
@@ -272,8 +282,615 @@ EDKII_PLATFORM_REPOSITORY_INFO Lx2160aPlatformRepositoryInfo = {
     EFI_ACPI_DBG2_PORT_SUBTYPE_SERIAL_ARM_SBSA_GENERIC_UART
   },
 
+  // ITS group node
+  {
+    {
+      // Reference token for this Iort node
+      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, ItsGroupInfo[0])),
+      // The number of ITS identifiers in the ITS node.
+      1,
+      // Reference token for the ITS identifier array
+      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, ItsIdentifierArray[0])),
+    }
+  },
+
+  // ITS identifier array
+  {
+    {
+      // The ITS Identifier
+      0
+    }
+  },
+
+  // Named Components in IORT table
+  {
+    {
+      // Reference token for this named component
+      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[0])),
+      1,
+      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[0])),
+      0,
+      EFI_ACPI_IORT_MEM_ACCESS_PROP_CCA,
+      0,
+      EFI_ACPI_IORT_MEM_ACCESS_FLAGS_CPM | EFI_ACPI_IORT_MEM_ACCESS_FLAGS_DACS,
+      48,
+      "\\_SB_.MCE0" // refer MC.asl
+    },
+    {
+      // Reference token for this named component
+      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[1])),
+      1,
+      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[1])),
+      0,
+      0,
+      0,
+      0,
+      40,
+      "\\_SB_.USB0" // refer USB.asl
+    },
+    {
+      // Reference token for this named component
+      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[2])),
+      1,
+      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[2])),
+      0,
+      0,
+      0,
+      0,
+      40,
+      "\\_SB_.USB1" // refer USB.asl
+    },
+    {
+      // Reference token for this named component
+      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[3])),
+      1,
+      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[3])),
+      0,
+      EFI_ACPI_IORT_MEM_ACCESS_PROP_CCA,
+      0,
+      EFI_ACPI_IORT_MEM_ACCESS_FLAGS_CPM | EFI_ACPI_IORT_MEM_ACCESS_FLAGS_DACS,
+      48,
+      "\\_SB_.SDC0", // refer Esdhc.asl
+    },
+    {
+      // Reference token for this named component
+      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[4])),
+      1,
+      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[4])),
+      0,
+      EFI_ACPI_IORT_MEM_ACCESS_PROP_CCA,
+      0,
+      EFI_ACPI_IORT_MEM_ACCESS_FLAGS_CPM | EFI_ACPI_IORT_MEM_ACCESS_FLAGS_DACS,
+      48,
+      "\\_SB_.SDC0", // refer Esdhc.asl
+    },
+    {
+      // Reference token for this named component
+      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[5])),
+      1,
+      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[5])),
+      0,
+      EFI_ACPI_IORT_MEM_ACCESS_PROP_CCA,
+      0,
+      EFI_ACPI_IORT_MEM_ACCESS_FLAGS_CPM | EFI_ACPI_IORT_MEM_ACCESS_FLAGS_DACS,
+      48,
+      "\\_SB_.SAT0", // refer Sata.asl
+    },
+    {
+      // Reference token for this named component
+      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[6])),
+      1,
+      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[6])),
+      0,
+      EFI_ACPI_IORT_MEM_ACCESS_PROP_CCA,
+      0,
+      EFI_ACPI_IORT_MEM_ACCESS_FLAGS_CPM | EFI_ACPI_IORT_MEM_ACCESS_FLAGS_DACS,
+      48,
+      "\\_SB_.SAT1", // refer Sata.asl
+    },
+    {
+      // Reference token for this named component
+      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[7])),
+      1,
+      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[7])),
+      0,
+      EFI_ACPI_IORT_MEM_ACCESS_PROP_CCA,
+      0,
+      EFI_ACPI_IORT_MEM_ACCESS_FLAGS_CPM | EFI_ACPI_IORT_MEM_ACCESS_FLAGS_DACS,
+      48,
+      "\\_SB_.SAT2", // refer Sata.asl
+    },
+    {
+      // Reference token for this named component
+      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[8])),
+      1,
+      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[8])),
+      0,
+      EFI_ACPI_IORT_MEM_ACCESS_PROP_CCA,
+      0,
+      EFI_ACPI_IORT_MEM_ACCESS_FLAGS_CPM | EFI_ACPI_IORT_MEM_ACCESS_FLAGS_DACS,
+      48,
+      "\\_SB_.SAT3", // refer Sata.asl
+    }
+  },
+
+  // ID Mappings
+  {
+    {
+      NXP_MC_LX2160A_STREAM_ID,
+      0,
+      NXP_MC_LX2160A_STREAM_ID,
+      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
+      0
+    },
+    {
+      NXP_USB0_STREAM_ID,
+      0,
+      NXP_USB0_STREAM_ID,
+      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
+      EFI_ACPI_IORT_ID_MAPPING_FLAGS_SINGLE
+    },
+    {
+      NXP_USB1_STREAM_ID,
+      0,
+      NXP_USB1_STREAM_ID,
+      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
+      EFI_ACPI_IORT_ID_MAPPING_FLAGS_SINGLE
+    },
+    {
+      NXP_SDMMC0_STREAM_ID,
+      0,
+      NXP_SDMMC0_STREAM_ID,
+      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
+      EFI_ACPI_IORT_ID_MAPPING_FLAGS_SINGLE
+    },
+    {
+      NXP_SDMMC1_STREAM_ID,
+      0,
+      NXP_SDMMC1_STREAM_ID,
+      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
+      EFI_ACPI_IORT_ID_MAPPING_FLAGS_SINGLE
+    },
+    {
+      NXP_SATA0_STREAM_ID,
+      0,
+      NXP_SATA0_STREAM_ID,
+      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
+      EFI_ACPI_IORT_ID_MAPPING_FLAGS_SINGLE
+    },
+    {
+      NXP_SATA1_STREAM_ID,
+      0,
+      NXP_SATA1_STREAM_ID,
+      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
+      EFI_ACPI_IORT_ID_MAPPING_FLAGS_SINGLE
+    },
+    {
+      NXP_SATA2_STREAM_ID,
+      0,
+      NXP_SATA2_STREAM_ID,
+      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
+      EFI_ACPI_IORT_ID_MAPPING_FLAGS_SINGLE
+    },
+    {
+      NXP_SATA3_STREAM_ID,
+      0,
+      NXP_SATA3_STREAM_ID,
+      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
+      EFI_ACPI_IORT_ID_MAPPING_FLAGS_SINGLE
+    },
+    {
+      0,
+      0,
+      0x1800,
+      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
+      0
+    },
+    {
+      0,
+      0,
+      0x2800,
+      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
+      0
+    },
+    {
+      NXP_MC_LX2160A_STREAM_ID,
+      0,
+      NXP_MC_LX2160A_STREAM_ID,
+      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, ItsIdentifierArray[0])),
+      0
+    },
+    {
+      NXP_DPAA2_STREAM_ID_START,
+      NXP_DPAA2_STREAM_ID_COUNT - 1,
+      NXP_DPAA2_STREAM_ID_START,
+      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, ItsIdentifierArray[0])),
+      0
+    },
+    {
+      0x1800,
+      0,
+      0x1800,
+      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, ItsIdentifierArray[0])),
+      0
+    },
+    {
+      0x2800,
+      0,
+      0x2800,
+      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, ItsIdentifierArray[0])),
+      0
+    }
+  },
+
+  // Root Complex node info
+  {
+    // node 1 info
+    {
+      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, RootComplexInfo[0])),
+      0,
+      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[9])),
+      EFI_ACPI_IORT_MEM_ACCESS_PROP_CCA,
+      0,
+      EFI_ACPI_IORT_MEM_ACCESS_FLAGS_CPM | EFI_ACPI_IORT_MEM_ACCESS_FLAGS_DACS,
+      EFI_ACPI_IORT_ROOT_COMPLEX_ATS_UNSUPPORTED,
+      LX2160A_PCI_SEG0,  // refer to Pci.asl
+    },
+    // node 2 info
+    {
+      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, RootComplexInfo[1])),
+      0,
+      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[10])),
+      EFI_ACPI_IORT_MEM_ACCESS_PROP_CCA,
+      0,
+      EFI_ACPI_IORT_MEM_ACCESS_FLAGS_CPM | EFI_ACPI_IORT_MEM_ACCESS_FLAGS_DACS,
+      EFI_ACPI_IORT_ROOT_COMPLEX_ATS_UNSUPPORTED,
+      LX2160A_PCI_SEG1,  // refer to Pci.asl
+    }
+  },
+
+  // SMMU V1/V2 nodes
+  {
+    {
+      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
+      4,
+      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[11])),
+      0x5000000,
+      0x800000,
+      EFI_ACPI_IORT_SMMUv1v2_MODEL_MMU500,
+      EFI_ACPI_IORT_SMMUv1v2_FLAG_DVM | EFI_ACPI_IORT_SMMUv1v2_FLAG_COH_WALK,
+      64, // Actual for lx2 64 interupts available
+      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, InterruptContextArray[0])),
+      10,
+      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PmuInterruptArray[0])),
+      47,
+      EFI_ACPI_IORT_SMMUv1v2_INT_FLAG_LEVEL,
+      48,
+      EFI_ACPI_IORT_SMMUv1v2_INT_FLAG_LEVEL
+    }
+  },
+
+  // SMMU Interupt Context
+  SMMU_INTERRUPT_CONTEXT_ARRAY
+
+  // PMU Interupt Context
+  PMU_INTERRUPT_CONTEXT_ARRAY
+
   2.0                                         // LX2 board revision
 };
+
+/** Return ITS Group Info.
+  @param [in]      This           Pointer to the Configuration Manager Protocol.
+  @param [in]      CmObjectId     The Object ID of the CM object requested
+  @param [in]      SearchToken    A unique token for identifying the requested
+  CM_ARM_ITS_GROUP_NODE object.
+  @param [in, out] CmObject       Pointer to the Configuration Manager Object
+  descriptor describing the requested Object.
+  @retval EFI_SUCCESS             Success.
+  @retval EFI_INVALID_PARAMETER   A parameter is invalid.
+  @retval EFI_NOT_FOUND           The required object information is
+  not found.
+ **/
+EFI_STATUS
+EFIAPI
+GetItsGroupInfo (
+    IN  CONST EDKII_CONFIGURATION_MANAGER_PROTOCOL  * CONST This,
+    IN  CONST CM_OBJECT_ID                                  CmObjectId,
+    IN  CONST CM_OBJECT_TOKEN                               Token,
+    IN  OUT   CM_OBJ_DESCRIPTOR                     * CONST CmObject
+    )
+{
+  EDKII_PLATFORM_REPOSITORY_INFO  * PlatformRepo;
+
+  if ((This == NULL) || (CmObject == NULL)) {
+    ASSERT (This != NULL);
+    ASSERT (CmObject != NULL);
+    return EFI_INVALID_PARAMETER;
+  }
+
+  PlatformRepo = This->PlatRepoInfo;
+
+  if (Token != (CM_OBJECT_TOKEN)&PlatformRepo->ItsGroupInfo) {
+    return EFI_NOT_FOUND;
+  }
+
+  CmObject->ObjectId = CmObjectId;
+  CmObject->Size = sizeof (PlatformRepo->ItsGroupInfo);
+  CmObject->Data = (VOID*)&PlatformRepo->ItsGroupInfo;
+  CmObject->Count = sizeof (PlatformRepo->ItsGroupInfo) /
+                      sizeof (PlatformRepo->ItsGroupInfo[0]);
+  return EFI_SUCCESS;
+}
+
+/** Return Named Component Node Info.
+  @param [in]      This           Pointer to the Configuration Manager Protocol.
+  @param [in]      CmObjectId     The Object ID of the CM object requested
+  @param [in]      SearchToken    A unique token for identifying the requested
+  CM_ARM_NAMED_COMPONENT_NODE object.
+  @param [in, out] CmObject       Pointer to the Configuration Manager Object
+  descriptor describing the requested Object.
+  @retval EFI_SUCCESS             Success.
+  @retval EFI_INVALID_PARAMETER   A parameter is invalid.
+  @retval EFI_NOT_FOUND           The required object information is
+  not found.
+ **/
+EFI_STATUS
+EFIAPI
+GetNamedComponentInfo (
+    IN  CONST EDKII_CONFIGURATION_MANAGER_PROTOCOL  * CONST This,
+    IN  CONST CM_OBJECT_ID                                  CmObjectId,
+    IN  CONST CM_OBJECT_TOKEN                               Token,
+    IN  OUT   CM_OBJ_DESCRIPTOR                     * CONST CmObject
+    )
+{
+  EDKII_PLATFORM_REPOSITORY_INFO  * PlatformRepo;
+
+  if ((This == NULL) || (CmObject == NULL)) {
+    ASSERT (This != NULL);
+    ASSERT (CmObject != NULL);
+    return EFI_INVALID_PARAMETER;
+  }
+
+  PlatformRepo = This->PlatRepoInfo;
+
+  if (Token != (CM_OBJECT_TOKEN)&PlatformRepo->NamedComponentInfo) {
+    return EFI_NOT_FOUND;
+  }
+
+  CmObject->ObjectId = CmObjectId;
+  CmObject->Size = sizeof (PlatformRepo->NamedComponentInfo);
+  CmObject->Data = (VOID*)&PlatformRepo->NamedComponentInfo;
+  CmObject->Count = sizeof (PlatformRepo->NamedComponentInfo) /
+                      sizeof (PlatformRepo->NamedComponentInfo[0]);
+  return EFI_SUCCESS;
+}
+
+/** Return GIC Identifier Array Info.
+  @param [in]      This           Pointer to the Configuration Manager Protocol.
+  @param [in]      CmObjectId     The Object ID of the CM object requested
+  @param [in]      SearchToken    A unique token for identifying the requested
+  CM_ARM_ITS_IDENTIFIER object.
+  @param [in, out] CmObject       Pointer to the Configuration Manager Object
+  descriptor describing the requested Object.
+  @retval EFI_SUCCESS             Success.
+  @retval EFI_INVALID_PARAMETER   A parameter is invalid.
+  @retval EFI_NOT_FOUND           The required object information is
+  not found.
+ **/
+EFI_STATUS
+EFIAPI
+GetItsIdentifierArray (
+    IN  CONST EDKII_CONFIGURATION_MANAGER_PROTOCOL  * CONST This,
+    IN  CONST CM_OBJECT_ID                                  CmObjectId,
+    IN  CONST CM_OBJECT_TOKEN                               Token,
+    IN  OUT   CM_OBJ_DESCRIPTOR                     * CONST CmObject
+    )
+{
+  EDKII_PLATFORM_REPOSITORY_INFO  * PlatformRepo;
+
+  if ((This == NULL) || (CmObject == NULL)) {
+    ASSERT (This != NULL);
+    ASSERT (CmObject != NULL);
+    return EFI_INVALID_PARAMETER;
+  }
+
+  PlatformRepo = This->PlatRepoInfo;
+
+  if (Token != (CM_OBJECT_TOKEN)&PlatformRepo->ItsIdentifierArray) {
+    return EFI_NOT_FOUND;
+  }
+
+  CmObject->ObjectId = CmObjectId;
+  CmObject->Size = sizeof (PlatformRepo->ItsIdentifierArray);
+  CmObject->Data = (VOID*)&PlatformRepo->ItsIdentifierArray;
+  CmObject->Count = sizeof (PlatformRepo->ItsIdentifierArray) /
+                      sizeof (PlatformRepo->ItsIdentifierArray[0]);
+  return EFI_SUCCESS;
+}
+
+/** Return Root Complex Info.
+  @param [in]      This           Pointer to the Configuration Manager Protocol.
+  @param [in]      CmObjectId     The Object ID of the CM object requested
+  @param [in]      SearchToken    A unique token for identifying the requested
+  CM_ARM_ROOT_COMPLEX_NODE object.
+  @param [in, out] CmObject       Pointer to the Configuration Manager Object
+  descriptor describing the requested Object.
+  @retval EFI_SUCCESS             Success.
+  @retval EFI_INVALID_PARAMETER   A parameter is invalid.
+  @retval EFI_NOT_FOUND           The required object information is
+  not found.
+ **/
+EFI_STATUS
+EFIAPI
+GetRootComplexInfo (
+    IN  CONST EDKII_CONFIGURATION_MANAGER_PROTOCOL  * CONST This,
+    IN  CONST CM_OBJECT_ID                                  CmObjectId,
+    IN  CONST CM_OBJECT_TOKEN                               Token,
+    IN  OUT   CM_OBJ_DESCRIPTOR                     * CONST CmObject
+    )
+{
+  EDKII_PLATFORM_REPOSITORY_INFO  * PlatformRepo;
+
+  if ((This == NULL) || (CmObject == NULL)) {
+    ASSERT (This != NULL);
+    ASSERT (CmObject != NULL);
+    return EFI_INVALID_PARAMETER;
+  }
+
+  PlatformRepo = This->PlatRepoInfo;
+
+  if (Token != (CM_OBJECT_TOKEN)&PlatformRepo->RootComplexInfo) {
+    return EFI_NOT_FOUND;
+  }
+
+  CmObject->ObjectId = CmObjectId;
+  CmObject->Size = sizeof (PlatformRepo->RootComplexInfo);
+  CmObject->Data = (VOID*)&PlatformRepo->RootComplexInfo;
+  CmObject->Count = sizeof (PlatformRepo->RootComplexInfo) /
+                      sizeof (PlatformRepo->RootComplexInfo[0]);
+  return EFI_SUCCESS;
+}
+
+/** Return Device ID Mapping Info.
+  @param [in]      This           Pointer to the Configuration Manager Protocol.
+  @param [in]      CmObjectId     The Object ID of the CM object requested
+  @param [in]      SearchToken    A unique token for identifying the requested
+  CM_ARM_ID_MAPPING object.
+  @param [in, out] CmObject       Pointer to the Configuration Manager Object
+  descriptor describing the requested Object.
+  @retval EFI_SUCCESS             Success.
+  @retval EFI_INVALID_PARAMETER   A parameter is invalid.
+  @retval EFI_NOT_FOUND           The required object information is
+  not found.
+ **/
+EFI_STATUS
+EFIAPI
+GetIdMappingArrayInfo (
+    IN  CONST EDKII_CONFIGURATION_MANAGER_PROTOCOL  * CONST This,
+    IN  CONST CM_OBJECT_ID                                  CmObjectId,
+    IN  CONST CM_OBJECT_TOKEN                               Token,
+    IN  OUT   CM_OBJ_DESCRIPTOR                     * CONST CmObject
+    )
+{
+  EDKII_PLATFORM_REPOSITORY_INFO  * PlatformRepo;
+  UINT32                            TotalObjCount;
+  UINT32                            ObjIndex;
+
+  if ((This == NULL) || (CmObject == NULL)) {
+    ASSERT (This != NULL);
+    ASSERT (CmObject != NULL);
+    return EFI_INVALID_PARAMETER;
+  }
+
+  PlatformRepo = This->PlatRepoInfo;
+
+  TotalObjCount = ARRAY_SIZE (PlatformRepo->IdMappingArray);
+
+  for (ObjIndex = 0; ObjIndex < TotalObjCount; ObjIndex++) {
+    if (Token == (CM_OBJECT_TOKEN)&PlatformRepo->IdMappingArray[ObjIndex])
+    {
+      CmObject->ObjectId = CmObjectId;
+      CmObject->Size = sizeof (PlatformRepo->IdMappingArray);
+      CmObject->Data = (VOID*)&PlatformRepo->IdMappingArray;
+      CmObject->Count = TotalObjCount;
+      return EFI_SUCCESS;
+    }
+  }
+
+  return EFI_NOT_FOUND;
+}
+
+/** Return Device ID Mapping Info.
+  @param [in]      This           Pointer to the Configuration Manager Protocol.
+  @param [in]      CmObjectId     The Object ID of the CM object requested
+  @param [in]      SearchToken    A unique token for identifying the requested
+  CM_ARM_SMMUV1_SMMUV2_NODE object.
+  @param [in, out] CmObject       Pointer to the Configuration Manager Object
+  descriptor describing the requested Object.
+  @retval EFI_SUCCESS             Success.
+  @retval EFI_INVALID_PARAMETER   A parameter is invalid.
+  @retval EFI_NOT_FOUND           The required object information is
+  not found.
+ **/
+EFI_STATUS
+EFIAPI
+GetSmmuV1SmmuV2Info (
+    IN  CONST EDKII_CONFIGURATION_MANAGER_PROTOCOL  * CONST This,
+    IN  CONST CM_OBJECT_ID                                  CmObjectId,
+    IN  CONST CM_OBJECT_TOKEN                               Token,
+    IN  OUT   CM_OBJ_DESCRIPTOR                     * CONST CmObject
+    )
+{
+  EDKII_PLATFORM_REPOSITORY_INFO  * PlatformRepo;
+
+  if ((This == NULL) || (CmObject == NULL)) {
+    ASSERT (This != NULL);
+    ASSERT (CmObject != NULL);
+    return EFI_INVALID_PARAMETER;
+  }
+
+  PlatformRepo = This->PlatRepoInfo;
+
+  if (Token != (CM_OBJECT_TOKEN)&PlatformRepo->SmmuV1SmmuV2Info) {
+    return EFI_NOT_FOUND;
+  }
+
+  CmObject->ObjectId = CmObjectId;
+  CmObject->Size = sizeof (PlatformRepo->SmmuV1SmmuV2Info);
+  CmObject->Data = (VOID*)&PlatformRepo->SmmuV1SmmuV2Info;
+  CmObject->Count = sizeof (PlatformRepo->SmmuV1SmmuV2Info) /
+                      sizeof (PlatformRepo->SmmuV1SmmuV2Info[0]);
+  return EFI_SUCCESS;
+}
+
+/** Return SMMU Interrupt Info.
+  @param [in]      This           Pointer to the Configuration Manager Protocol.
+  @param [in]      CmObjectId     The Object ID of the CM object requested
+  @param [in]      SearchToken    A unique token for identifying the requested
+  CM_ARM_SMMU_INTERRUPT object.
+  @param [in, out] CmObject       Pointer to the Configuration Manager Object
+  descriptor describing the requested Object.
+  @retval EFI_SUCCESS             Success.
+  @retval EFI_INVALID_PARAMETER   A parameter is invalid.
+  @retval EFI_NOT_FOUND           The required object information is
+  not found.
+ **/
+EFI_STATUS
+EFIAPI
+GetInterruptContextArrayInfo (
+    IN  CONST EDKII_CONFIGURATION_MANAGER_PROTOCOL  * CONST This,
+    IN  CONST CM_OBJECT_ID                                  CmObjectId,
+    IN  CONST CM_OBJECT_TOKEN                               Token,
+    IN  OUT   CM_OBJ_DESCRIPTOR                     * CONST CmObject
+    )
+{
+  EDKII_PLATFORM_REPOSITORY_INFO  * PlatformRepo;
+
+  if ((This == NULL) || (CmObject == NULL)) {
+    ASSERT (This != NULL);
+    ASSERT (CmObject != NULL);
+    return EFI_INVALID_PARAMETER;
+  }
+
+  PlatformRepo = This->PlatRepoInfo;
+
+  if (Token == (CM_OBJECT_TOKEN)&PlatformRepo->InterruptContextArray) {
+    CmObject->ObjectId = CmObjectId;
+    CmObject->Size = sizeof (PlatformRepo->InterruptContextArray);
+    CmObject->Data = (VOID*)&PlatformRepo->InterruptContextArray;
+    CmObject->Count = sizeof (PlatformRepo->InterruptContextArray) /
+      sizeof (PlatformRepo->InterruptContextArray[0]);
+  } else if (Token == (CM_OBJECT_TOKEN)&PlatformRepo->PmuInterruptArray) {
+    CmObject->ObjectId = CmObjectId;
+    CmObject->Size = sizeof (PlatformRepo->PmuInterruptArray);
+    CmObject->Data = (VOID*)&PlatformRepo->PmuInterruptArray;
+    CmObject->Count = sizeof (PlatformRepo->PmuInterruptArray) /
+      sizeof (PlatformRepo->PmuInterruptArray[0]);
+  } else {
+    return EFI_NOT_FOUND;
+  }
+  return EFI_SUCCESS;
+}
 
 /** Initialize the platform configuration repository.
 
@@ -623,6 +1240,69 @@ GetArmNameSpaceObject (
         CmObjectId,
         PlatformRepo->DbgSerialPort,
         1
+        );
+    HANDLE_CM_OBJECT_REF_BY_TOKEN (
+        EArmObjItsGroup,
+        CmObjectId,
+        PlatformRepo->ItsGroupInfo,
+        (sizeof (PlatformRepo->ItsGroupInfo) /
+         sizeof (PlatformRepo->ItsGroupInfo[0])),
+        Token,
+        GetItsGroupInfo
+        );
+    HANDLE_CM_OBJECT_REF_BY_TOKEN (
+        EArmObjNamedComponent,
+        CmObjectId,
+        PlatformRepo->NamedComponentInfo,
+        (sizeof (PlatformRepo->NamedComponentInfo) /
+         sizeof (PlatformRepo->NamedComponentInfo[0])),
+        Token,
+        GetNamedComponentInfo
+        );
+    HANDLE_CM_OBJECT_REF_BY_TOKEN (
+        EArmObjGicItsIdentifierArray,
+        CmObjectId,
+        PlatformRepo->ItsIdentifierArray,
+        (sizeof (PlatformRepo->ItsIdentifierArray) /
+         sizeof (PlatformRepo->ItsIdentifierArray[0])),
+        Token,
+        GetItsIdentifierArray
+        );
+    HANDLE_CM_OBJECT_REF_BY_TOKEN (
+        EArmObjRootComplex,
+        CmObjectId,
+        PlatformRepo->RootComplexInfo,
+        (sizeof (PlatformRepo->RootComplexInfo) /
+         sizeof (PlatformRepo->RootComplexInfo[0])),
+        Token,
+        GetRootComplexInfo
+        );
+    HANDLE_CM_OBJECT_REF_BY_TOKEN (
+        EArmObjIdMappingArray,
+        CmObjectId,
+        PlatformRepo->IdMappingArray,
+        (sizeof (PlatformRepo->IdMappingArray) /
+         sizeof (PlatformRepo->IdMappingArray[0])),
+        Token,
+        GetIdMappingArrayInfo
+        );
+    HANDLE_CM_OBJECT_REF_BY_TOKEN (
+        EArmObjSmmuV1SmmuV2,
+        CmObjectId,
+        PlatformRepo->SmmuV1SmmuV2Info,
+        (sizeof (PlatformRepo->SmmuV1SmmuV2Info) /
+         sizeof (PlatformRepo->SmmuV1SmmuV2Info[0])),
+        Token,
+        GetSmmuV1SmmuV2Info
+        );
+    HANDLE_CM_OBJECT_REF_BY_TOKEN (
+        EArmObjSmmuInterruptArray,
+        CmObjectId,
+        PlatformRepo->InterruptContextArray,
+        (sizeof (PlatformRepo->InterruptContextArray) /
+         sizeof (PlatformRepo->InterruptContextArray[0])),
+        Token,
+        GetInterruptContextArrayInfo
         );
     default: {
       Status = EFI_NOT_FOUND;
