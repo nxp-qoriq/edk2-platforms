@@ -72,6 +72,15 @@ EDKII_PLATFORM_REPOSITORY_INFO Lx2160aPlatformRepositoryInfo = {
       CFG_MGR_TABLE_ID
     },
 
+    // SPCR Table
+    {
+      EFI_ACPI_6_2_SERIAL_PORT_CONSOLE_REDIRECTION_TABLE_SIGNATURE,
+      EFI_ACPI_SERIAL_PORT_CONSOLE_REDIRECTION_TABLE_REVISION,
+      CREATE_STD_ACPI_TABLE_GEN_ID (EStdAcpiTableIdSpcr),
+      NULL,
+      CFG_MGR_TABLE_ID
+    },
+
     // DSDT Table
     {
       EFI_ACPI_6_2_DIFFERENTIATED_SYSTEM_DESCRIPTION_TABLE_SIGNATURE,
@@ -234,6 +243,15 @@ EDKII_PLATFORM_REPOSITORY_INFO Lx2160aPlatformRepositoryInfo = {
       LX2160A_PCI_SEG_BUSNUM_MIN,
       LX2160A_PCI_SEG_BUSNUM_MAX,
     }
+  },
+
+  /* SPCR */
+  {
+    UART0_BASE,
+    UART0_IT,
+    115200,
+    0,
+    EFI_ACPI_SERIAL_PORT_CONSOLE_REDIRECTION_TABLE_INTERFACE_TYPE_ARM_PL011_UART
   },
 
   2.0                                         // LX2 board revision
@@ -575,6 +593,12 @@ GetArmNameSpaceObject (
          sizeof (PlatformRepo->PciConfigInfo[0])),
         Token,
         GetPciConfigInfo
+        );
+    HANDLE_CM_OBJECT (
+        EArmObjSerialConsolePortInfo,
+        CmObjectId,
+        PlatformRepo->SpcrSerialPort,
+        1
         );
     default: {
       Status = EFI_NOT_FOUND;

@@ -198,6 +198,9 @@ typedef struct PlatformRepositoryInfo {
   /// PCI configuration space information
   CM_ARM_PCI_CONFIG_SPACE_INFO              PciConfigInfo[PLAT_PCI_CONFG_COUNT];
 
+  /// Serial port information for serial port console redirection port
+  CM_ARM_SERIAL_PORT_INFO                   SpcrSerialPort;
+
   /// LX2 Board Revision
   UINT32                                    Lx2160aRevision;
 } EDKII_PLATFORM_REPOSITORY_INFO;
