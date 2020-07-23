@@ -218,6 +218,12 @@ STATIC CONST ARM_TYPE17 mArmDefaultType17 = {
     0,                               /* asset tag */
     3,                               /* part number */
     0,                               /* rank */
+    0,                               /* Extended Size */
+    2100,                            /* Configured speed in MT/s */
+    0,                               /* Minimum operating voltage */
+    0,                               /* Maximum operating voltage  */
+    0,                               /* Configured voltage */
+    3,                               /* Memory Technology */
   },
   TYPE17_STRINGS
 };

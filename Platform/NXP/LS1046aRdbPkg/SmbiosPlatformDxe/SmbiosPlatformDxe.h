@@ -27,7 +27,7 @@
   "NXP\0"                            /* Manufacturer */        \
   "NXP LS1046ARDB Platform\0"        /* Product Name */        \
   "B\0"                              /* Version */             \
-  "\0"           /* 20 character buffer */ \
+  "                    \0"           /* 20 character buffer */ \
   "NXP Layerscape Platforms\0"       /* Family */
 
 #define TYPE3_STRINGS                                   \
