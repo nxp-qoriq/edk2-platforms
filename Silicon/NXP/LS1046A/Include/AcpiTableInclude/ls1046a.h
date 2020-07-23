@@ -396,7 +396,7 @@
 
 #define SDC0_BASE 0x1560000
 #define SDC_LEN 0x10000
-#define SDC0_IT 93
+#define SDC0_IT 94
 
 // TMU
 #define TMU_BASE                 0x1F00000   // TMU CCSR space base address

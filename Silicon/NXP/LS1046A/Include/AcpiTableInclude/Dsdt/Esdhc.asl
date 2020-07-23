@@ -27,7 +27,7 @@ Scope(_SB)
       ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
       Package () {
          Package () {"clock-frequency", CLK},
-         Package () {"little-endian", 0},
+         Package () {"big-endian", 1},
          Package () {"voltage-ranges", Package() {1800, 1800, 3300, 3300}},
          Package () {"sdhci,auto-cmd12", 1},
          Package () {"bus-width", 4},
@@ -35,6 +35,7 @@ Scope(_SB)
          Package () {"sd-uhs-sdr50", 1},
          Package () {"sd-uhs-sdr25", 1},
          Package () {"sd-uhs-sdr12", 1},
+         Package () {"mmc-hs200-1_8v", 1},
       }
     })
   }
