@@ -54,6 +54,15 @@ EDKII_PLATFORM_REPOSITORY_INFO Lx2160aPlatformRepositoryInfo = {
       CFG_MGR_TABLE_ID
     },
 
+    // MADT Table
+    {
+      EFI_ACPI_6_2_MULTIPLE_APIC_DESCRIPTION_TABLE_SIGNATURE,
+      EFI_ACPI_6_2_MULTIPLE_APIC_DESCRIPTION_TABLE_REVISION,
+      CREATE_STD_ACPI_TABLE_GEN_ID (EStdAcpiTableIdMadt),
+      NULL,
+      CFG_MGR_TABLE_ID
+    },
+
     // DSDT Table
     {
       EFI_ACPI_6_2_DIFFERENTIATED_SYSTEM_DESCRIPTION_TABLE_SIGNATURE,
@@ -160,6 +169,48 @@ EDKII_PLATFORM_REPOSITORY_INFO Lx2160aPlatformRepositoryInfo = {
       SBSA_WATCHDOG_FLAGS                     // UINT32 WatchdogTimerFlags
   },
 
+  /* GIC CPU Interface information
+     GIC_ENTRY (CPUInterfaceNumber, Mpidr, PmuIrq, VGicIrq, EnergyEfficiency)
+   */
+  {
+    GICC_ENTRY (0,  GET_MPID (0, 0), 23, 0x19, 0),
+    GICC_ENTRY (1,  GET_MPID (0, 1), 23, 0x19, 0),
+    GICC_ENTRY (2,  GET_MPID (1, 0), 23, 0x19, 0),
+    GICC_ENTRY (3,  GET_MPID (1, 1), 23, 0x19, 0),
+    GICC_ENTRY (4,  GET_MPID (2, 0), 23, 0x19, 0),
+    GICC_ENTRY (5,  GET_MPID (2, 1), 23, 0x19, 0),
+    GICC_ENTRY (6,  GET_MPID (3, 0), 23, 0x19, 0),
+    GICC_ENTRY (7,  GET_MPID (3, 1), 23, 0x19, 0),
+    GICC_ENTRY (8,  GET_MPID (4, 0), 23, 0x19, 0),
+    GICC_ENTRY (9,  GET_MPID (4, 1), 23, 0x19, 0),
+    GICC_ENTRY (10, GET_MPID (5, 0), 23, 0x19, 0),
+    GICC_ENTRY (11, GET_MPID (5, 1), 23, 0x19, 0),
+    GICC_ENTRY (12, GET_MPID (6, 0), 23, 0x19, 0),
+    GICC_ENTRY (13, GET_MPID (6, 1), 23, 0x19, 0),
+    GICC_ENTRY (14, GET_MPID (7, 0), 23, 0x19, 0),
+    GICC_ENTRY (15, GET_MPID (7, 1), 23, 0x19, 0)
+  },
+
+  // GIC Distributor Info
+  {
+    GICD_BASE,                                // UINT64  PhysicalBaseAddress
+    0,                                        // UINT32  SystemVectorBase
+    GIC_VERSION                               // UINT8   GicVersion
+  },
+
+  /* GIC Redistributor */
+  {
+    GICR_BASE,                                // UINT64 DiscoveryRangeBaseAddress
+    GICR_LEN                                  // UINT32 DiscoveryRangeLength
+  },
+
+  /* GIC ITS */
+  {
+    0,                                        // UINT32 GIC ITS ID
+    GICI_BASE,                                // UINT64 The 64-bit physical address for ITS
+    0                                         // UINT32 Populate the GIC ITS affinity in SRAT table.
+  },
+
   2.0                                         // LX2 board revision
 };
 
@@ -181,6 +232,49 @@ InitializePlatformRepository (
   PlatformRepo = This->PlatRepoInfo;
 
   DEBUG ((DEBUG_INFO, "Lx2 Rev = 0x%x\n", PlatformRepo->Lx2160aRevision));
+  return EFI_SUCCESS;
+}
+
+/** Return GIC CPU Interface Info.
+  @param [in]      This           Pointer to the Configuration Manager Protocol.
+  @param [in]      CmObjectId     The Object ID of the CM object requested
+  @param [in]      Token          A unique token for identifying the requested
+  CM_ARM_GICC_INFO object.
+  @param [in, out] CmObject       Pointer to the Configuration Manager Object
+  descriptor describing the requested Object.
+  @retval EFI_SUCCESS             Success.
+  @retval EFI_INVALID_PARAMETER   A parameter is invalid.
+  @retval EFI_NOT_FOUND           The required object information is
+  not found.
+ **/
+EFI_STATUS
+EFIAPI
+GetGicCInfo (
+    IN  CONST EDKII_CONFIGURATION_MANAGER_PROTOCOL  * CONST This,
+    IN  CONST CM_OBJECT_ID                                  CmObjectId,
+    IN  CONST CM_OBJECT_TOKEN                               Token,
+    IN  OUT   CM_OBJ_DESCRIPTOR                     * CONST CmObject
+    )
+{
+  EDKII_PLATFORM_REPOSITORY_INFO  * PlatformRepo;
+
+  if ((This == NULL) || (CmObject == NULL)) {
+    ASSERT (This != NULL);
+    ASSERT (CmObject != NULL);
+    return EFI_INVALID_PARAMETER;
+  }
+
+  PlatformRepo = This->PlatRepoInfo;
+
+  if (Token != (CM_OBJECT_TOKEN)&PlatformRepo->GicCInfo) {
+    return EFI_NOT_FOUND;
+  }
+
+  CmObject->ObjectId = CmObjectId;
+  CmObject->Size = sizeof (PlatformRepo->GicCInfo);
+  CmObject->Data = (VOID*)&PlatformRepo->GicCInfo;
+  CmObject->Count = sizeof (PlatformRepo->GicCInfo) /
+                      sizeof (PlatformRepo->GicCInfo[0]);
   return EFI_SUCCESS;
 }
 
@@ -372,6 +466,32 @@ GetArmNameSpaceObject (
          sizeof (PlatformRepo->GTBlock0TimerInfo[0])),
         Token,
         GetGTBlockTimerFrameInfo
+        );
+    HANDLE_CM_OBJECT_REF_BY_TOKEN (
+        EArmObjGicCInfo,
+        CmObjectId,
+        PlatformRepo->GicCInfo,
+        ARRAY_SIZE (PlatformRepo->GicCInfo),
+        Token,
+        GetGicCInfo
+        );
+    HANDLE_CM_OBJECT (
+        EArmObjGicDInfo,
+        CmObjectId,
+        PlatformRepo->GicDInfo,
+        1
+        );
+    HANDLE_CM_OBJECT (
+        EArmObjGicRedistributorInfo,
+        CmObjectId,
+        PlatformRepo->GicRedistInfo,
+        1
+        );
+    HANDLE_CM_OBJECT (
+        EArmObjGicItsInfo,
+        CmObjectId,
+        PlatformRepo->GicItsInfo,
+        1
         );
     default: {
       Status = EFI_NOT_FOUND;

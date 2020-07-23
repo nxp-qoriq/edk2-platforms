@@ -22,6 +22,30 @@
 
 #define CFG_MGR_TABLE_ID  SIGNATURE_64 ('L','X','2','1','6','0','A',' ')
 
+/** A helper macro for populating the GIC CPU information
+ */
+#define GICC_ENTRY(                                                   \
+    CPUInterfaceNumber,                                               \
+    Mpidr,                                                            \
+    PmuIrq,                                                           \
+    VGicIrq,                                                          \
+    EnergyEfficiency                                                  \
+    ) {                                                               \
+  CPUInterfaceNumber,       /* UINT32  CPUInterfaceNumber         */  \
+  CPUInterfaceNumber,       /* UINT32  AcpiProcessorUid           */  \
+  EFI_ACPI_6_2_GIC_ENABLED, /* UINT32  Flags                      */  \
+  0,                        /* UINT32  ParkingProtocolVersion     */  \
+  PmuIrq,                   /* UINT32  PerformanceInterruptGsiv   */  \
+  0,                        /* UINT64  ParkedAddress              */  \
+  GICC_BASE,                /* UINT64  PhysicalBaseAddress        */  \
+  GICV_BASE,                /* UINT64  GICV                       */  \
+  GICH_BASE,                /* UINT64  GICH                       */  \
+  VGicIrq,                  /* UINT32  VGICMaintenanceInterrupt   */  \
+  0,                        /* UINT64  GICRBaseAddress            */  \
+  Mpidr,                    /* UINT64  MPIDR                      */  \
+  EnergyEfficiency          /* UINT8   ProcessorPowerEfficiency   */  \
+}
+
 /** A helper macro for returning configuration manager objects
 */
 #define HANDLE_CM_OBJECT(ObjId, CmObjectId, Object, ObjectCount)      \
@@ -154,6 +178,18 @@ typedef struct PlatformRepositoryInfo {
 
   /// Watchdog information
   CM_ARM_GENERIC_WATCHDOG_INFO              Watchdog;
+
+  /// GIC CPU interface information
+  CM_ARM_GICC_INFO                          GicCInfo[PLAT_CPU_COUNT];
+
+  /// GIC distributor information
+  CM_ARM_GICD_INFO                          GicDInfo;
+
+  /// GIC Redistributor information
+  CM_ARM_GIC_REDIST_INFO                    GicRedistInfo;
+
+  /// GIC ITS information
+  CM_ARM_GIC_ITS_INFO                       GicItsInfo;
 
   /// LX2 Board Revision
   UINT32                                    Lx2160aRevision;
