@@ -201,6 +201,9 @@ typedef struct PlatformRepositoryInfo {
   /// Serial port information for serial port console redirection port
   CM_ARM_SERIAL_PORT_INFO                   SpcrSerialPort;
 
+  /// Serial port information for the DBG2 UART port
+  CM_ARM_SERIAL_PORT_INFO                   DbgSerialPort;
+
   /// LX2 Board Revision
   UINT32                                    Lx2160aRevision;
 } EDKII_PLATFORM_REPOSITORY_INFO;

@@ -81,6 +81,15 @@ EDKII_PLATFORM_REPOSITORY_INFO Lx2160aPlatformRepositoryInfo = {
       CFG_MGR_TABLE_ID
     },
 
+    // DBG2 Table
+    {
+      EFI_ACPI_6_2_DEBUG_PORT_2_TABLE_SIGNATURE,
+      EFI_ACPI_DBG2_DEBUG_DEVICE_INFORMATION_STRUCT_REVISION,
+      CREATE_STD_ACPI_TABLE_GEN_ID (EStdAcpiTableIdDbg2),
+      NULL,
+      CFG_MGR_TABLE_ID
+    },
+
     // DSDT Table
     {
       EFI_ACPI_6_2_DIFFERENTIATED_SYSTEM_DESCRIPTION_TABLE_SIGNATURE,
@@ -252,6 +261,15 @@ EDKII_PLATFORM_REPOSITORY_INFO Lx2160aPlatformRepositoryInfo = {
     115200,
     0,
     EFI_ACPI_SERIAL_PORT_CONSOLE_REDIRECTION_TABLE_INTERFACE_TYPE_ARM_PL011_UART
+  },
+
+  /* DBG2 */
+  {
+    UART1_BASE,
+    UART1_IT,
+    115200,
+    175000000,
+    EFI_ACPI_DBG2_PORT_SUBTYPE_SERIAL_ARM_SBSA_GENERIC_UART
   },
 
   2.0                                         // LX2 board revision
@@ -598,6 +616,12 @@ GetArmNameSpaceObject (
         EArmObjSerialConsolePortInfo,
         CmObjectId,
         PlatformRepo->SpcrSerialPort,
+        1
+        );
+    HANDLE_CM_OBJECT (
+        EArmObjSerialDebugPortInfo,
+        CmObjectId,
+        PlatformRepo->DbgSerialPort,
         1
         );
     default: {
