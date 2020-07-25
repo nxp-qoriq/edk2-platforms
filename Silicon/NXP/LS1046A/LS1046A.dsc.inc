@@ -28,8 +28,13 @@
 [PcdsFixedAtBuild.common]
   gEfiMdeModulePkgTokenSpaceGuid.PcdSerialRegisterBase|0x021c0500
 
+  gNxpQoriqLsTokenSpaceGuid.PcdSataBaseAddr|0x3200000
+  gNxpQoriqLsTokenSpaceGuid.PcdSataSize|0x10000
+  gNxpQoriqLsTokenSpaceGuid.PcdNumSataController|0x1
+
 [PcdsFeatureFlag]
   gNxpQoriqLsTokenSpaceGuid.PcdDcfgBigEndian|TRUE
+  gNxpQoriqLsTokenSpaceGuid.PcdSataErratumA009185|TRUE
 
 ################################################################################
 #

@@ -43,4 +43,6 @@
     gEfiMdeModulePkgTokenSpaceGuid.PcdEmuVariableNvModeEnable|TRUE
   }
 
+  Silicon/NXP/Drivers/SataInitDxe/SataInitDxe.inf
+
 ##
