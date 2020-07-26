@@ -166,6 +166,10 @@
 #define PLAT_SMMU_INTERRUPT_COUNT   64
 #define PLAT_PMU_INTERRUPT_COUNT    10
 
+/** The number of SMBIOS tables to install
+*/
+#define PLAT_SMBIOS_TABLE_COUNT 10
+
 /** A structure describing the platform configuration
     manager repository information
 */
@@ -175,6 +179,9 @@ typedef struct PlatformRepositoryInfo {
 
   /// List of ACPI tables
   CM_STD_OBJ_ACPI_TABLE_INFO                CmAcpiTableList[PLAT_ACPI_TABLE_COUNT];
+
+  /// List of SMBIOS tables
+  CM_STD_OBJ_SMBIOS_TABLE_INFO              CmSmbiosTableList[PLAT_SMBIOS_TABLE_COUNT];
 
   /// Boot architecture information
   CM_ARM_BOOT_ARCH_INFO                     BootArchInfo;
@@ -238,6 +245,21 @@ typedef struct PlatformRepositoryInfo {
 
   // SMMU Interupt Contexts
   CM_ARM_SMMU_INTERRUPT                     PmuInterruptArray[PLAT_PMU_INTERRUPT_COUNT];
+
+  /// Type 9 Table System slot info
+  CM_ARM_SYSTEM_SLOT_TYPE9_INFO             Type9SystemSlotInfo[2];
+
+  /// Type16 Table memory array info
+  CM_ARM_MEMORY_ARRAY_TYPE16_INFO           Type16MemoryArray;
+
+  /// Type 17 Table for memory devices
+  CM_ARM_MEMORY_DEVICE_TYPE17_INFO          Type17MemoryDeviceInfo;
+
+  /// Type19 Table memory mapped address
+  CM_ARM_MEM_MAP_ADDRESS_TYPE19_INFO        Type19MemoryMappedAddressInfo;
+
+  /// Type32 Table system boot info
+  CM_ARM_SYSTEM_BOOT_TYPE32_INFO            Type32SystemBootInfo;
 
   /// LX2 Board Revision
   UINT32                                    Lx2160aRevision;

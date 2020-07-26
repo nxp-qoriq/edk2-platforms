@@ -182,7 +182,9 @@ READ_LOCK_STATUS   = TRUE
   #SMBIOS
   #
   INF MdeModulePkg/Universal/SmbiosDxe/SmbiosDxe.inf
+!if $(DYNAMIC_ACPI_ENABLE) == FALSE
   INF Platform/NXP/LX2160aRdbPkg/SmbiosPlatformDxe/SmbiosPlatformDxe.inf
+!endif
 
   #
   # USB Support

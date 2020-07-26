@@ -259,7 +259,9 @@
  #SMBIOS
  #
  MdeModulePkg/Universal/SmbiosDxe/SmbiosDxe.inf
+!if $(DYNAMIC_ACPI_ENABLE) == FALSE
  Platform/NXP/LX2160aRdbPkg/SmbiosPlatformDxe/SmbiosPlatformDxe.inf
+!endif
 
 !if $(CAPSULE_ENABLE)
   #
