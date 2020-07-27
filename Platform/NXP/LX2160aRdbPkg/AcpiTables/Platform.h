@@ -29,7 +29,7 @@
 //
 #define NUM_DEBUG_DEVICE_INFO    1
 #define NUM_GENERIC_ADDRESS      1
-#define NAMESPACE_STRING_SIZE    16
+#define NAMESPACE_STRING_SIZE    12
 
 // A macro to initialise the common header part of EFI ACPI tables as defined by
 // EFI_ACPI_DESCRIPTION_HEADER structure.
