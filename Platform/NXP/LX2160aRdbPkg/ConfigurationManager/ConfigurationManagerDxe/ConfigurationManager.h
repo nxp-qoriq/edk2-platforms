@@ -246,6 +246,21 @@ typedef struct PlatformRepositoryInfo {
   // SMMU Interupt Contexts
   CM_ARM_SMMU_INTERRUPT                     PmuInterruptArray[PLAT_PMU_INTERRUPT_COUNT];
 
+  /// Type 0 Table System bios info
+  CM_ARM_SYSTEM_BIOS_TYPE0_INFO             Type0SystemBiosInfo;
+
+  /// Type 1 Table System info
+  CM_ARM_SYSTEM_TYPE1_INFO                  Type1SystemInfo;
+
+  /// Type 3 Table System Chassis info
+  CM_ARM_SYSTEM_CHASSIS_TYPE3_INFO          Type3SystemChassisInfo;
+
+  /// Type 4 Processor Attributes info
+  CM_ARM_PROCESSOR_ATTR_TYPE4_INFO          Type4ProcessorAttrInfo;
+
+  /// Type 7 CPU Cache info
+  CM_ARM_CPU_CACHE_DEVICE_TYPE7_INFO        Type7CpuCacheDeviceInfo;
+
   /// Type 9 Table System slot info
   CM_ARM_SYSTEM_SLOT_TYPE9_INFO             Type9SystemSlotInfo[2];
 

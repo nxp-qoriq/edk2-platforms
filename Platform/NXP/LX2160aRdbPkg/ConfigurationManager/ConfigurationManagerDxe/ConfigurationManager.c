@@ -30,6 +30,11 @@
 #include <Dsdt.hex>
 
 #include "SmbiosTableHelper.h"
+STATIC SMBIOS_STRUCTURE  SmbiosTable0Data  = {SMBIOS_TYPE_BIOS_INFORMATION, sizeof (SMBIOS_TABLE_TYPE0), SMBIOS_HANDLE_PI_RESERVED};
+STATIC SMBIOS_STRUCTURE  SmbiosTable1Data  = {SMBIOS_TYPE_SYSTEM_INFORMATION, sizeof (SMBIOS_TABLE_TYPE1), SMBIOS_HANDLE_PI_RESERVED};
+STATIC SMBIOS_STRUCTURE  SmbiosTable3Data  = {SMBIOS_TYPE_SYSTEM_ENCLOSURE, sizeof (SMBIOS_TABLE_TYPE3), SMBIOS_HANDLE_CHASSIS};
+STATIC SMBIOS_STRUCTURE  SmbiosTable4Data  = {SMBIOS_TYPE_PROCESSOR_INFORMATION, sizeof (SMBIOS_TABLE_TYPE4), SMBIOS_HANDLE_A72_CLUSTER};
+STATIC SMBIOS_STRUCTURE  SmbiosTable7Data  = {SMBIOS_TYPE_CACHE_INFORMATION, sizeof (SMBIOS_TABLE_TYPE7), SMBIOS_HANDLE_A57_L1I};
 STATIC SMBIOS_STRUCTURE  SmbiosTable9Data  = {SMBIOS_TYPE_SYSTEM_SLOTS, sizeof (SMBIOS_TABLE_TYPE9), SMBIOS_HANDLE_PI_RESERVED};
 STATIC SMBIOS_STRUCTURE  SmbiosTable16Data = {SMBIOS_TYPE_PHYSICAL_MEMORY_ARRAY, sizeof (SMBIOS_TABLE_TYPE16), SMBIOS_HANDLE_MEMORY};
 STATIC SMBIOS_STRUCTURE  SmbiosTable17Data = {SMBIOS_TYPE_MEMORY_DEVICE, sizeof (SMBIOS_TABLE_TYPE17), SMBIOS_HANDLE_DIMM};
@@ -121,6 +126,31 @@ EDKII_PLATFORM_REPOSITORY_INFO Lx2160aPlatformRepositoryInfo = {
 
   // SMBIOS table list
   {
+    // System Bios
+    {
+      CREATE_STD_SMBIOS_TABLE_GEN_ID (EStdSmbiosTableIdType00),
+      &SmbiosTable0Data
+    },
+    // System info
+    {
+      CREATE_STD_SMBIOS_TABLE_GEN_ID (EStdSmbiosTableIdType01),
+      &SmbiosTable1Data
+    },
+    // System Chassis info
+    {
+      CREATE_STD_SMBIOS_TABLE_GEN_ID (EStdSmbiosTableIdType03),
+      &SmbiosTable3Data
+    },
+    // Processor attributes
+    {
+      CREATE_STD_SMBIOS_TABLE_GEN_ID (EStdSmbiosTableIdType04),
+      &SmbiosTable4Data
+    },
+    // CPU cache device
+    {
+      CREATE_STD_SMBIOS_TABLE_GEN_ID (EStdSmbiosTableIdType07),
+      &SmbiosTable7Data
+    },
     // System slots
     {
       CREATE_STD_SMBIOS_TABLE_GEN_ID (EStdSmbiosTableIdType09),
@@ -612,6 +642,106 @@ EDKII_PLATFORM_REPOSITORY_INFO Lx2160aPlatformRepositoryInfo = {
 
   // PMU Interupt Context
   PMU_INTERRUPT_CONTEXT_ARRAY
+
+  // SMBIOS system bios info
+  {
+    1,     /* SMBIOS_TABLE_STRING       Vendor */
+    2,     /* SMBIOS_TABLE_STRING       BiosVersion */
+    0xE800,/* UINT16                    BiosSegment */
+    3,     /* SMBIOS_TABLE_STRING       BiosReleaseDate */
+    0,     /* UINT8                     BiosSize */
+    {
+      0,0,0,0,0,0,
+      1, /* PCI supported */
+      0,
+      0, /* PNP supported */
+      0,
+      1, /* BIOS upgradable */
+      0, 0, 0,
+      0, /* Boot from CD not supported */
+      1, /* selectable boot */
+    },   /* MISC_BIOS_CHARACTERISTICS BiosCharacteristics */
+    {    /* BIOSCharacteristicsExtensionBytes[2] */
+      0x3,
+      0xC,
+    },
+    0,     /* UINT8 SystemBiosMajorRelease */
+    0,     /* UINT8 SystemBiosMinorRelease */
+    0xFF,  /* UINT8 EmbeddedControllerFirmwareMajorRelease */
+    0xFF,  /* UINT8 EmbeddedControllerFirmwareMinorRelease */
+  },
+
+  // SMBIOS System Info
+  {
+    1,     /* Manufacturer */
+    2,     /* Product Name */
+    3,     /* Version */
+    4,     /* Serial */
+    { 0x8a95d198, 0x7f46, 0x11e5, { 0xbf,0x8b,0x08,0x00,0x27,0x04,0xd4,0x8e }},    /* UUID */
+    6,     /* Wakeup type */
+    0,     /* SKU */
+    0,     /* Family */
+  },
+
+  // SMBIOS system Enclosure/Chassis info
+  {
+    1,   /* Manufacturer */
+    9,   /* enclosure type (laptop) */
+    2,   /* version */
+    3,   /* serial */
+    0,   /* asset tag */
+    ChassisStateUnknown,   /* boot chassis state */
+    ChassisStateSafe,      /* power supply state */
+    ChassisStateSafe,      /* thermal state */
+    ChassisSecurityStatusNone,   /* security state */
+    {0,0,0,0,}, /* OEM defined */
+    1,          /* 1U height */
+    1,          /* number of power cords */
+    0,          /* no contained elements */
+  },
+
+  // SMBIOS Processor Attributes
+  {
+    1,                                       /* socket type */
+    3,                                       /* processor type CPU */
+    ProcessorFamilyIndicatorFamily2,         /* processor family, acquire from field2 */
+    2,                                       /* manufactuer */
+    {{0,},{0.}},                             /* processor id */
+    5,                                       /* version */
+    {0,0,0,0,0,1},                           /* voltage */
+    100,                                     /* external clock */
+    2200,                                    /* max speed */
+    2000,                                    /* current speed */
+    0x41,                                    /* status */
+    ProcessorUpgradeOther,
+    SMBIOS_HANDLE_A57_L1I,                   /* l1 cache handle */
+    SMBIOS_HANDLE_A57_L2,                    /* l2 cache handle */
+    0xFFFF,                                  /* l3 cache handle */
+    0,                                       /* serial not set */
+    0,                                       /* asset not set */
+    8,                                       /* part number */
+    16,                                      /* core count in socket */
+    16,                                      /* enabled core count in socket */
+    0,                                       /* threads per socket */
+    0xEC,                                    /* processor characteristics */
+    ProcessorFamilyARM,                      /* ARM core */
+  },
+
+  /// SMBIOS CPU cache device in the system
+  {
+    1,
+    0x280,                                 /* L1 enabled,varies with Memory Address */
+    0x0030,                                /* 48k i cache max */
+    0x0030,                                /* 48k installed */
+    {0,1},                                 /* SRAM type */
+    {0,1},                                 /* SRAM type */
+    0,                                     /* unkown speed */
+    CacheErrorParity,                      /* parity checking */
+    CacheTypeInstruction,                  /* instruction cache */
+    CacheAssociativityOther,               /* three way */
+    0x400,                                 /* 1 MB max L2 cache */
+    0x400,                                 /* 1 MB installed L2 Cache */
+  },
 
   // SMBIOS System slots
   {
@@ -1430,6 +1560,36 @@ GetArmNameSpaceObject (
          sizeof (PlatformRepo->InterruptContextArray[0])),
         Token,
         GetInterruptContextArrayInfo
+        );
+    HANDLE_CM_OBJECT (
+        EArmObjSystemBiosInfoType0,
+        CmObjectId,
+        PlatformRepo->Type0SystemBiosInfo,
+        1
+        );
+    HANDLE_CM_OBJECT (
+        EArmObjSystemInfoType1,
+        CmObjectId,
+        PlatformRepo->Type1SystemInfo,
+        1
+        );
+    HANDLE_CM_OBJECT (
+        EArmObjSystemChassisInfoType3,
+        CmObjectId,
+        PlatformRepo->Type3SystemChassisInfo,
+        1
+        );
+    HANDLE_CM_OBJECT (
+        EArmObjProcessorAttrInfoType4,
+        CmObjectId,
+        PlatformRepo->Type4ProcessorAttrInfo,
+        1
+        );
+    HANDLE_CM_OBJECT (
+        EArmObjCpuCacheDeviceInfoType7,
+        CmObjectId,
+        PlatformRepo->Type7CpuCacheDeviceInfo,
+        1
         );
     HANDLE_CM_OBJECT (
         EArmObjSystemSlotType9,
