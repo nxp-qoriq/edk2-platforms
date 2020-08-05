@@ -97,7 +97,8 @@ READ_LOCK_STATUS   = TRUE
   # DT support
   #
   INF RuleOverride = DTB Platform/NXP/LS1046aRdbPkg/DeviceTree/DeviceTree.inf
-  INF Silicon/NXP/Drivers/DtPlatformDxe/DtPlatformDxe.inf
+  INF Silicon/NXP/Drivers/DtInitDxe/DtInitDxe.inf
+  INF EmbeddedPkg/Drivers/DtPlatformDxe/DtPlatformDxe.inf
 
   #
   # ACPI
@@ -189,8 +190,10 @@ READ_LOCK_STATUS   = TRUE
   INF MdeModulePkg/Bus/Pci/XhciDxe/XhciDxe.inf
   INF MdeModulePkg/Bus/Usb/UsbBusDxe/UsbBusDxe.inf
   INF MdeModulePkg/Bus/Usb/UsbMassStorageDxe/UsbMassStorageDxe.inf
-
   INF Silicon/NXP/Drivers/UsbHcdInitDxe/UsbHcd.inf
+  INF MdeModulePkg/Bus/Usb/UsbKbDxe/UsbKbDxe.inf
+  INF MdeModulePkg/Bus/Usb/UsbMouseDxe/UsbMouseDxe.inf
+
 
   #
   # FAT filesystem + GPT/MBR partitioning

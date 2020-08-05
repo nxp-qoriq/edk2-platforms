@@ -1,6 +1,7 @@
 /** @file
 *
 *  Copyright (c) 2017, Linaro Limited. All rights reserved.
+*  Copyright 2020 Puresoftware Ltd
 *
 *  SPDX-License-Identifier: BSD-2-Clause-Patent
 *

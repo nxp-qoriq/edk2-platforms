@@ -23,11 +23,12 @@
   OUTPUT_DIRECTORY               = Build/LS1046aRdbPkg
   FLASH_DEFINITION               = Platform/NXP/LS1046aRdbPkg/LS1046aRdbPkg.fdf
   DEFINE NETWORK_TLS_ENABLE             = FALSE
-  DEFINE NETWORK_HTTP_BOOT_ENABLE       = FALSE
+  DEFINE NETWORK_HTTP_BOOT_ENABLE       = TRUE
+  DEFINE NETWORK_ALLOW_HTTP_CONNECTIONS = TRUE
   DEFINE NETWORK_ISCSI_ENABLE           = FALSE
   DEFINE CAPSULE_ENABLE                 = TRUE
   DEFINE X64EMU_ENABLE                  = TRUE
-  DEFINE AARCH64_GOP_ENABLE             = FALSE
+  DEFINE AARCH64_GOP_ENABLE             = TRUE
 
 !include Platform/NXP/NxpQoriqLs.dsc
 !include Silicon/NXP/Chassis/Chassis2/Chassis2.dsc
@@ -56,6 +57,11 @@
   Dpaa1EthernetMacLib|Silicon/NXP/Library/Dpaa1EthernetMacLib/Dpaa1EthernetMacLib.inf
   Dpaa1EthernetPhyLib|Silicon/NXP/Library/Dpaa1EthernetPhyLib/Dpaa1EthernetPhyLib.inf
   Dpaa1BoardLib|Platform/NXP/LS1046aRdbPkg/Library/Dpaa1BoardLib/Dpaa1BoardLib.inf
+
+  #
+  # USB Requirements
+  #
+  UefiUsbLib|MdePkg/Library/UefiUsbLib/UefiUsbLib.inf
 
 [PcdsFeatureFlag.common]
   gEfiMdeModulePkgTokenSpaceGuid.PcdInstallAcpiSdtProtocol|TRUE
@@ -155,6 +161,8 @@
   MdeModulePkg/Universal/WatchdogTimerDxe/WatchdogTimer.inf
   Silicon/NXP/Drivers/I2cDxe/I2cDxe.inf
   EmbeddedPkg/RealTimeClockRuntimeDxe/RealTimeClockRuntimeDxe.inf
+  MdeModulePkg/Bus/Usb/UsbKbDxe/UsbKbDxe.inf
+  MdeModulePkg/Bus/Usb/UsbMouseDxe/UsbMouseDxe.inf
   Silicon/NXP/Drivers/UsbHcdInitDxe/UsbHcd.inf
   Silicon/NXP/Drivers/PciCpuIo2Dxe/PciCpuIo2Dxe.inf
   MdeModulePkg/Bus/Pci/PciHostBridgeDxe/PciHostBridgeDxe.inf {
@@ -189,8 +197,19 @@
   #
   # DT support
   #
+
+  Silicon/NXP/Drivers/DtInitDxe/DtInitDxe.inf {
+    <LibraryClasses>
+      FdtLib|EmbeddedPkg/Library/FdtLib/FdtLib.inf
+      DtPlatformDtbLoaderLib|Silicon/NXP/Library/DtbLoaderLib/DtbLoaderLib.inf
+  }
+  EmbeddedPkg/Drivers/DtPlatformDxe/DtPlatformDxe.inf {
+    <LibraryClasses>
+      FdtLib|EmbeddedPkg/Library/FdtLib/FdtLib.inf
+      DtPlatformDtbLoaderLib|Silicon/NXP/Library/DtbLoaderLib/DtbLoaderLib.inf
+  }
+
   Platform/NXP/LS1046aRdbPkg/DeviceTree/DeviceTree.inf
-  Silicon/NXP/Drivers/DtPlatformDxe/DtPlatformDxe.inf
   Silicon/NXP/Drivers/MmcHostDxe/MmcHostDxe.inf
   Silicon/NXP/Drivers/NandFlashDxe/NandFlashDxe.inf
   Silicon/NXP/Drivers/RngDxe/RngDxe.inf
