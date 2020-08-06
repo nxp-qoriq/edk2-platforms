@@ -1,0 +1,47 @@
+#/** @file
+#
+#  Copyright (c) 2017, Linaro, Ltd. All rights reserved.<BR>
+#  Copyright 2020 NXP
+#
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+#
+#**/
+
+[Defines]
+  INF_VERSION                    = 0x0001001A
+  BASE_NAME                      = Pcf2129RealTimeClockLib
+  FILE_GUID                      = 1e3d33f3-a671-4116-bd81-6b435296c1e0
+  MODULE_TYPE                    = DXE_DRIVER
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = RealTimeClockLib
+
+[Sources.common]
+  Pcf2129RealTimeClockLib.c
+
+[Packages]
+  EmbeddedPkg/EmbeddedPkg.dec
+  MdePkg/MdePkg.dec
+  Silicon/NXP/Library/Pcf2129RealTimeClockLib/Pcf2129RealTimeClockLib.dec
+
+[LibraryClasses]
+  BaseMemoryLib
+  DebugLib
+  IoLib
+  UefiBootServicesTableLib
+  UefiLib
+  UefiRuntimeLib
+
+[Guids]
+  gEfiEventVirtualAddressChangeGuid
+
+[Protocols]
+  gEfiI2cMasterProtocolGuid                       ## CONSUMES
+  gPcf2129RealTimeClockLibI2cMasterProtocolGuid   ## CONSUMES
+
+[FixedPcd]
+  gPcf2129RealTimeClockLibTokenSpaceGuid.PcdI2cSlaveAddress
+  gPcf2129RealTimeClockLibTokenSpaceGuid.PcdI2cBusFrequency
+
+[Depex]
+  gPcf2129RealTimeClockLibI2cMasterProtocolGuid
