@@ -6,7 +6,7 @@
 *
 *  Copyright (c) 2011-2012, ARM Limited. All rights reserved.
 *  Copyright (c) 2016, Freescale Semiconductor, Inc. All rights reserved.
-*  Copyright 2018-2019 NXP
+*  Copyright 2018-2020 NXP
 *
 *  This program and the accompanying materials
 *  are licensed and made available under the terms and conditions of the BSD License
@@ -20,6 +20,8 @@
 
 #include <Library/ArmPlatformLib.h>
 #include <Ppi/ArmMpCoreInfo.h>
+#include <Library/PL011UartLib.h>
+#include <Library/PL011UartClockLib.h>
 
 #define AQUANTIA107_IRQ_MASK 0xC
 
@@ -39,6 +41,45 @@ ArmPlatformGetBootMode (
 }
 
 /**
+  LX2160ARDB has four PL011 serial ports,Out of which UART1 is used as
+  serial port console (described by ACPI SPCR) and UART2 for standard
+  debug port (described by ACPI DBG2)
+
+  Function to initialize debug UART2 port and not serial port console
+
+ **/
+VOID
+SerialDebugPortInitialize (
+  VOID
+  )
+{
+  UINT64              BaudRate;
+  UINT32              ReceiveFifoDepth;
+  EFI_PARITY_TYPE     Parity;
+  UINT8               DataBits;
+  EFI_STOP_BITS_TYPE  StopBits;
+
+  //
+  // Initialize the Debug UART port
+  //
+  ReceiveFifoDepth = 0; // Use the default value for FIFO depth
+  Parity = (EFI_PARITY_TYPE)FixedPcdGet8 (PcdUartDefaultParity);
+  DataBits = FixedPcdGet8 (PcdUartDefaultDataBits);
+  StopBits = (EFI_STOP_BITS_TYPE)FixedPcdGet8 (PcdUartDefaultStopBits);
+
+  BaudRate = (UINTN)FixedPcdGet64 (PcdUartDefaultBaudRate);
+  PL011UartInitializePort (
+    (UINTN)FixedPcdGet64 (PcdSerialDbgRegisterBase),
+    PL011UartClockGetFreq(),
+    &BaudRate,
+    &ReceiveFifoDepth,
+    &Parity,
+    &DataBits,
+    &StopBits
+    );
+}
+
+/**
   Placeholder for Platform Initialization
 
 **/
@@ -48,6 +89,11 @@ ArmPlatformInitialize (
   )
 {
   SocInit (AQUANTIA107_IRQ_MASK);
+
+  if (FixedPcdGet64 (PcdSerialDbgRegisterBase) != 0) {
+    SerialDebugPortInitialize ();
+  }
+
   return EFI_SUCCESS;
 }
 

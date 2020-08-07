@@ -176,6 +176,12 @@ READ_LOCK_STATUS   = TRUE
   INF Silicon/NXP/Drivers/SataInitDxe/SataInitDxe.inf
 
   #
+  # SMBIOS
+  #
+  INF MdeModulePkg/Universal/SmbiosDxe/SmbiosDxe.inf
+  INF Platform/NXP/LS1046aRdbPkg/SmbiosPlatformDxe/SmbiosPlatformDxe.inf
+
+  #
   # USB Support
   #
   INF MdeModulePkg/Bus/Pci/UhciDxe/UhciDxe.inf

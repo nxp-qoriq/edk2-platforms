@@ -67,6 +67,11 @@
 #define WDT0_LENGTH  0x10000
 #define WDT0_IT      115
 
+//Ftm
+#define FTM_BASE 0x29d0000
+#define FTM_LEN  0x10000
+#define FTM_IT   118
+
 // Mcfg
 #define LS1046A_PCI_SEG0_CONFIG_BASE 0x4000000000
 #define LS1046A_PCI_SEG0             0x0
@@ -161,6 +166,7 @@
 #define SPI_IT    58
 
 //Quad SPI
+#define QSPI_STATUS 0x01
 #define QSPI0_BASE 0x1550000    /* QSPI CSSR Base Address */
 #define QSPI_LEN   0x10000      /* QSPI CSSR Memory length */
 #define QSPI_IT    131          /* QSPI Interrupt Identifier */
@@ -506,5 +512,9 @@
 #define PTP_CLK_BASE            0x1afe000
 #define PTP_CLK_BASE_SZ         0x1000
 #define PTP_CLK_IRQ             76
+
+//Rcpm
+#define RCPM_BASE 0x1ee2140
+#define RCPM_LEN  0x4
 
 #endif

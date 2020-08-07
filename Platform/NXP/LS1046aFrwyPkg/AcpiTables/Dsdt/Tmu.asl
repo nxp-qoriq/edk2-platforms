@@ -72,11 +72,13 @@ Scope(_SB.I2C0)
   // Method to read temperature from remote sensor
   Method (STMP, 0, Serialized) {
     Store(Zero, Local0)
-    SCHN(I2C0_MUX_CHANNEL_0)
-    Store(One, LEN)
-    Store(FLD1, BUFF) //read
-    If (LEqual(STAT, 0x00)) {
-      Local0 = DATA
+    If (LEqual (\_SB.I2C0.AVBL, One)) {
+      SCHN(I2C0_MUX_CHANNEL_0)
+      Store(One, LEN)
+      Store(FLD1, BUFF) //read
+      If (LEqual(STAT, 0x00)) {
+        Local0 = DATA
+      }
     }
     Return (Local0)
   }
@@ -823,11 +825,6 @@ Scope(_TZ)
     Method(_CRT, 0) {
       Return (TRPC)
     }
-
-    // Thermal Object: Passive
-    Method(_PSV, 0) {
-      Return (TRPP)
-    }
   }
 
   // ThermalZone for sensor near SerDes
@@ -856,11 +853,6 @@ Scope(_TZ)
     // Thermal Object: Critical Temperature
     Method(_CRT, 0) {
       Return (TRPC)
-    }
-
-    // Thermal Object: Passive
-    Method(_PSV, 0) {
-      Return (TRPP)
     }
   }
 
@@ -892,10 +884,6 @@ Scope(_TZ)
       Return (TRPC)
     }
 
-    // Thermal Object: Passive
-    Method(_PSV, 0) {
-      Return (TRPP)
-    }
   }
 
   // ThermalZone for sensor near Arm A72 core
@@ -966,11 +954,6 @@ Scope(_TZ)
     // Thermal Object: Critical Temperature
     Method(_CRT, 0) {
       Return (TRPC)
-    }
-
-    // Thermal Object: Passive
-    Method(_PSV, 0) {
-      Return (TRPP)
     }
   }
 

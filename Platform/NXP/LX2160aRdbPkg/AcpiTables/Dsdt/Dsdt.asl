@@ -13,9 +13,9 @@
 #include "Platform.h"
 
 DefinitionBlock("DsdtTable.aml", "DSDT", 1, "NXP  ", "LX2160  ", EFI_ACPI_ARM_OEM_REVISION) {
+  include ("Clk.asl")
   include ("Com.asl")
   include ("CPU.asl")
-  include ("Clk.asl")
   include ("Esdhc.asl")
   include ("FSPI.asl")
   include ("Guts.asl")

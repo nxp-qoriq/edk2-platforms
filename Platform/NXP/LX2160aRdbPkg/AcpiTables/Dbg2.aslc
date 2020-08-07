@@ -51,7 +51,7 @@ EFI_ACPI_DEBUG_PORT_2_TABLE Dbg2 = {
         0,  //OemDataLength
         0,  //OemDataOffset
         EFI_ACPI_DBG2_PORT_TYPE_SERIAL,
-        EFI_ACPI_DBG2_PORT_SUBTYPE_SERIAL_ARM_SBSA_GENERIC_UART,
+        EFI_ACPI_DBG2_PORT_SUBTYPE_SERIAL_ARM_PL011_UART,
         {EFI_ACPI_RESERVED_BYTE, EFI_ACPI_RESERVED_BYTE},
         OFFSET_OF(DBG2_DEBUG_DEVICE_INFORMATION_STRUCT, BaseAddrReg),
         OFFSET_OF(DBG2_DEBUG_DEVICE_INFORMATION_STRUCT, AddrSize),
@@ -68,7 +68,7 @@ EFI_ACPI_DEBUG_PORT_2_TABLE Dbg2 = {
       {
         UART_LEN
       },
-      "\\_SB_.COM1"    // refer Com.asl
+      "\\_SB.COM1"    // refer Com.asl
     }
   }
 };

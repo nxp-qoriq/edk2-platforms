@@ -31,8 +31,9 @@
   # Network definition
   #
   DEFINE NETWORK_TLS_ENABLE             = FALSE
-  DEFINE NETWORK_HTTP_BOOT_ENABLE       = FALSE
+  DEFINE NETWORK_HTTP_BOOT_ENABLE       = TRUE
   DEFINE NETWORK_ISCSI_ENABLE           = FALSE
+  DEFINE NETWORK_ALLOW_HTTP_CONNECTIONS = TRUE
 
 !include Platform/NXP/NxpQoriqLs.dsc
 !include Silicon/NXP/Chassis/Chassis3V2/Chassis3V2.dsc

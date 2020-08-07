@@ -29,7 +29,7 @@
 //
 #define NUM_DEBUG_DEVICE_INFO    1
 #define NUM_GENERIC_ADDRESS      1
-#define NAMESPACE_STRING_SIZE    16
+#define NAMESPACE_STRING_SIZE    12
 
 // A macro to initialise the common header part of EFI ACPI tables as defined by
 // EFI_ACPI_DESCRIPTION_HEADER structure.
@@ -199,6 +199,7 @@
 #define SPI_IT    58
 
 //Flex SPI
+#define FSPI_STATUS 0x01
 #define FSPI0_BASE 0x20c0000
 #define FSPI_LEN   0x10000
 #define FSPI_IT    57

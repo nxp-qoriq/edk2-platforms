@@ -13,6 +13,9 @@ Scope(_SB)
   Device(QPI0) {
     Name(_HID, "NXP0020")
     Name(_UID, 0)
+    Method (_STA) {
+      Return (QSPI_STATUS) //QSPI hardware resource disabled due to requirement in runtime services, to enable change QSPI_STATUS to 0x09
+    }
     Name(_CRS, ResourceTemplate() {
       Memory32Fixed(ReadWrite, QSPI0_BASE, QSPI_LEN,)
       Memory32Fixed(ReadWrite, QSPIMM_BASE, QSPIMM_LEN,)

@@ -13,8 +13,8 @@
 #include "Platform.h"
 
 DefinitionBlock("DsdtTable.aml", "DSDT", 1, "NXP  ", "LS1046  ", EFI_ACPI_ARM_OEM_REVISION) {
-  include ("CPU.asl")
   include ("Clk.asl")
+  include ("CPU.asl")
   include ("Com.asl")
   include ("Pci.asl")
   include ("I2c.asl")
