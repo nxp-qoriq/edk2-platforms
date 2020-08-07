@@ -114,7 +114,7 @@
 #define SPI_IT    58
 
 // Quad SPI
-#define QSPI_STATUS 0x08
+#define QSPI_STATUS 0x01
 #define QSPI0_BASE 0x1550000    /* QSPI CSSR Base Address */
 #define QSPI_LEN   0x10000      /* QSPI CSSR Memory length */
 #define QSPI_IT    131          /* QSPI Interrupt Identifier */
