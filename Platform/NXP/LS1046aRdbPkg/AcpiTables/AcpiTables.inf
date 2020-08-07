@@ -26,7 +26,6 @@
   Spcr.aslc
   Gtdt.aslc
   Mcfg.aslc
-  Iort.aslc
   Platform.h
 
 [Packages]
