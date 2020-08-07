@@ -28,7 +28,7 @@ Scope(_SB)
       Method(_CRS, 0, Serialized) {
         Name(RBUF, ResourceTemplate() {
           SpiSerialBus(0x0000, PolarityLow, FourWireMode, 0x04, ControllerInitiated, 0x2FAF080,
-                         ClockPolarityLow, ClockPhaseFirst, "\\_SB.QPI0", 0x00, ResourceConsumer, ,)
+                         ClockPolarityLow, ClockPhaseFirst, "\\.SB.QPI0.MTD0", 0x00, ResourceConsumer, ,)
         })
         Return (RBUF)
       }
