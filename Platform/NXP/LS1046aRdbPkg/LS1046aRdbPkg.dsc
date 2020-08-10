@@ -242,10 +242,10 @@
   #
   # GOP Support
   #
-  Drivers/OptionRomPkg/AMDGop/AMDGop.inf
+  edk2-non-osi/Drivers/OptionRomPkg/AMDGop/AMDGop.inf
 
   #
   # X86 Emulation Support
   #
-  Emulator/X86EmulatorDxe/X86EmulatorDxe.inf
+  edk2-non-osi/Emulator/X86EmulatorDxe/X86EmulatorDxe.inf
  ##
