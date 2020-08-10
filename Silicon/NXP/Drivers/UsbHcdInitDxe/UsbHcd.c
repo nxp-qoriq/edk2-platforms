@@ -131,6 +131,12 @@ Dwc3CoreInit (
 
   MmioWrite32 ((UINTN)&Dwc3Reg->GCtl, Reg);
 
+  if ((Revision & DWC3_RELEASE_MASK) >= DWC3_RELEASE_290a) {
+    Reg = MmioRead32 ((UINTN)&Dwc3Reg->Res2);
+    Reg |= DWC3_GUCTL1_PARKMODE_DISABLE_SS | DWC3_GUCTL1_DEV_L1_EXIT_BY_HW;
+    MmioWrite32 ((UINTN)&Dwc3Reg->Res2, Reg);
+  }
+
   return EFI_SUCCESS;
 }
 
