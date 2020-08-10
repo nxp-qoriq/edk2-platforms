@@ -53,6 +53,17 @@
 #define USB3_ENABLE_BEAT_BURST_MASK            0xFF
 #define USB3_SET_BEAT_BURST_LIMIT              0xF00
 
+#define USB3_ENABLE_CACHE_SNOOP_MASK           0xffff0000
+#define AXI3_CACHE_TYPE_SNP                    0x2 /* cacheable */
+#define DWC3_GSBUSCFG0_DATARD_SHIFT            28
+#define DWC3_GSBUSCFG0_DESCRD_SHIFT            24
+#define DWC3_GSBUSCFG0_DATAWR_SHIFT            20
+#define DWC3_GSBUSCFG0_DESCWR_SHIFT            16
+#define USB3_ENABLE_CACHE_SNOOP     ((AXI3_CACHE_TYPE_SNP << DWC3_GSBUSCFG0_DATARD_SHIFT) | \
+                                     (AXI3_CACHE_TYPE_SNP << DWC3_GSBUSCFG0_DESCRD_SHIFT) | \
+                                     (AXI3_CACHE_TYPE_SNP << DWC3_GSBUSCFG0_DATAWR_SHIFT) | \
+                                     (AXI3_CACHE_TYPE_SNP << DWC3_GSBUSCFG0_DESCWR_SHIFT))
+
 typedef struct {
   UINT32 GEvntAdrLo;
   UINT32 GEvntAdrHi;

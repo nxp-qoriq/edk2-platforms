@@ -41,6 +41,21 @@ XhciSetBeatBurstLength (
 
 STATIC
 VOID
+XhciEnableCacheSnoop (
+  IN  UINTN  UsbReg
+  )
+{
+  Dwc3       *Dwc3Reg;
+
+  Dwc3Reg = (VOID *)(UsbReg + DWC3_REG_OFFSET);
+
+  MmioAndThenOr32 ((UINTN)&Dwc3Reg->GSBusCfg0, ~USB3_ENABLE_CACHE_SNOOP_MASK,
+                                              USB3_ENABLE_CACHE_SNOOP);
+  return;
+}
+
+STATIC
+VOID
 Dwc3SetFladj (
   IN  Dwc3   *Dwc3Reg,
   IN  UINT32 Val
@@ -163,6 +178,7 @@ InitializeUsbController (
   // Change beat burst and outstanding pipelined transfers requests
   //
   XhciSetBeatBurstLength (UsbReg);
+  XhciEnableCacheSnoop (UsbReg);
 
   return Status;
 }
@@ -249,7 +265,7 @@ InitializeUsbHcd (
 
     Status = RegisterNonDiscoverableMmioDevice (
                NonDiscoverableDeviceTypeXhci,
-               NonDiscoverableDeviceDmaTypeNonCoherent,
+               NonDiscoverableDeviceDmaTypeCoherent,
                NULL,
                NULL,
                1,
