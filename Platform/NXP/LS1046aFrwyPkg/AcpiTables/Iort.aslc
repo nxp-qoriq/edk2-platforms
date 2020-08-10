@@ -1,0 +1,10 @@
+/** @file
+*  I/O Remapping Table (Iort)
+*
+*  Copyright 2020 PureSoftware
+*
+*  SPDX-License-Identifier: BSD-2-Clause
+*
+**/
+
+#include <AcpiTableInclude/Iort.aslc>
