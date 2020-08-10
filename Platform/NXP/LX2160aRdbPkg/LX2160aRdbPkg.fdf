@@ -96,7 +96,8 @@ READ_LOCK_STATUS   = TRUE
   # DT support
   #
   INF RuleOverride = DTB Platform/NXP/LX2160aRdbPkg/DeviceTree/DeviceTree.inf
-  INF Silicon/NXP/Drivers/DtPlatformDxe/DtPlatformDxe.inf
+  INF Silicon/NXP/Drivers/DtInitDxe/DtInitDxe.inf
+  INF EmbeddedPkg/Drivers/DtPlatformDxe/DtPlatformDxe.inf
 
   #
   # ACPI
