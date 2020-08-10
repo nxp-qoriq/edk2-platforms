@@ -29,10 +29,12 @@
   DebugLib
   DxeServicesLib
   FdtLib
+  ItbParseLib
   SocLib
 
 [FixedPcd]
   gNxpQoriqLsTokenSpaceGuid.PcdGutsBaseAddr
+  gNxpQoriqLsTokenSpaceGuid.PcdFlexSpiFdtCompatible
 
 [Pcd]
   gNxpQoriqLsTokenSpaceGuid.PcdPciCfgShiftEnable
