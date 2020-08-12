@@ -1288,6 +1288,62 @@ GetGTBlockTimerFrameInfo (
   return EFI_SUCCESS;
 }
 
+/** Return a smbios Type9 Table Info.
+
+  @param [in]      This        Pointer to the Configuration Manager Protocol.
+  @param [in]      CmObjectId  The Configuration Manager Object ID.
+  @param [in]      Token       An optional token identifying the object. If
+                               unused this must be CM_NULL_TOKEN.
+  @param [in, out] CmObject    Pointer to the Configuration Manager Object
+                               descriptor describing the requested Object.
+
+  @retval EFI_SUCCESS           Success.
+  @retval EFI_INVALID_PARAMETER A parameter is invalid.
+  @retval EFI_NOT_FOUND         The required object information is not found.
+**/
+EFI_STATUS
+EFIAPI
+GetSmbiosType9Info (
+    IN  CONST EDKII_CONFIGURATION_MANAGER_PROTOCOL  * CONST This,
+    IN  CONST CM_OBJECT_ID                                  CmObjectId,
+    IN  CONST CM_OBJECT_TOKEN                               Token,
+    IN  OUT   CM_OBJ_DESCRIPTOR                     * CONST CmObject
+    )
+{
+  EDKII_PLATFORM_REPOSITORY_INFO  * PlatformRepo;
+  UINT32                            ObjCnt;
+  UINT32                            RefCnt;
+
+  if ((This == NULL) || (CmObject == NULL)) {
+    ASSERT (This != NULL);
+    ASSERT (CmObject != NULL);
+    return EFI_INVALID_PARAMETER;
+  }
+
+  PlatformRepo = This->PlatRepoInfo;
+
+  ObjCnt  = sizeof (PlatformRepo->Type9SystemSlotInfo) /
+                      sizeof (PlatformRepo->Type9SystemSlotInfo[0]);
+  RefCnt  = (Token - 1);
+
+  if (RefCnt > ObjCnt) {
+    DEBUG ((
+          DEBUG_ERROR,
+          "GetSmbiosType9Info: No Info found. Size = %d, Index = %d\n",
+          ObjCnt,
+          RefCnt
+          ));
+    return EFI_NOT_FOUND;
+  }
+
+  CmObject->ObjectId = CmObjectId;
+  CmObject->Size = sizeof (PlatformRepo->Type9SystemSlotInfo[RefCnt]);
+  CmObject->Data = (VOID*)&PlatformRepo->Type9SystemSlotInfo[RefCnt];
+  CmObject->Count = 1;
+
+  return EFI_SUCCESS;
+}
+
 /** Return a standard namespace object.
 
   @param [in]      This        Pointer to the Configuration Manager Protocol.
@@ -1591,12 +1647,14 @@ GetArmNameSpaceObject (
         PlatformRepo->Type7CpuCacheDeviceInfo,
         1
         );
-    HANDLE_CM_OBJECT (
+    HANDLE_CM_OBJECT_REF_BY_TOKEN (
         EArmObjSystemSlotType9,
         CmObjectId,
         PlatformRepo->Type9SystemSlotInfo,
         (sizeof (PlatformRepo->Type9SystemSlotInfo) /
-         sizeof (PlatformRepo->Type9SystemSlotInfo[0]))
+         sizeof (PlatformRepo->Type9SystemSlotInfo[0])),
+         Token,
+         GetSmbiosType9Info
         );
     HANDLE_CM_OBJECT (
         EArmObjMemorryArrayType16,
