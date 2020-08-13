@@ -20,6 +20,7 @@ Scope(_SB)
 {
   Device(USB0){
     Name(_HID, "808622B7")
+    Name(_CID, "PNP0D10")
     Name(_UID, 1)
     Name(_CCA, 1)
 
@@ -74,6 +75,7 @@ Scope(_SB)
 
   Device(USB1){
     Name(_HID, "808622B7")
+    Name(_CID, "PNP0D10")
     Name(_UID, 1)
     Name(_CCA, 1)
 
