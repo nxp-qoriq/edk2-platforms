@@ -27,8 +27,8 @@
   DEFINE NETWORK_ALLOW_HTTP_CONNECTIONS = TRUE
   DEFINE NETWORK_ISCSI_ENABLE           = FALSE
   DEFINE CAPSULE_ENABLE                 = TRUE
-  DEFINE X64EMU_ENABLE                  = TRUE
-  DEFINE AARCH64_GOP_ENABLE             = TRUE
+  DEFINE X64EMU_ENABLE                  = FALSE
+  DEFINE AARCH64_GOP_ENABLE             = FALSE
 
 !include Platform/NXP/NxpQoriqLs.dsc
 !include Silicon/NXP/Chassis/Chassis2/Chassis2.dsc
