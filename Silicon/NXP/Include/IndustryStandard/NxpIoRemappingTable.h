@@ -46,24 +46,14 @@ typedef struct
   EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE          NamedID[2];
 } NXP_EFI_ACPI_6_0_IO_REMAPPING_NAMED_COMP_NODE;
 
-#ifndef NO_ITS_IO_REMAPPING_TABLE
 typedef struct
 {
   EFI_ACPI_6_0_IO_REMAPPING_TABLE                  Header;
   NXP_EFI_ACPI_6_0_IO_REMAPPING_ITS_NODE           ItsNode;
   NXP_EFI_ACPI_6_0_IO_REMAPPING_SMMU_NODE          SmmuNode;
-  NXP_EFI_ACPI_6_0_IO_REMAPPING_RC_NODE            PciRcNode[3];
+  NXP_EFI_ACPI_6_0_IO_REMAPPING_RC_NODE            PciRcNode[2];
   NXP_EFI_ACPI_6_0_IO_REMAPPING_NAMED_COMP_NODE    NamedCompNode[9];
 } NXP_EFI_ACPI_6_0_IO_REMAPPING_TABLE;
-#else
-typedef struct
-{
-  EFI_ACPI_6_0_IO_REMAPPING_TABLE                  Header;
-  NXP_EFI_ACPI_6_0_IO_REMAPPING_SMMU_NODE          SmmuNode;
-  NXP_EFI_ACPI_6_0_IO_REMAPPING_RC_NODE            PciRcNode[3];
-  NXP_EFI_ACPI_6_0_IO_REMAPPING_NAMED_COMP_NODE    NamedCompNode[9];
-} NXP_EFI_ACPI_6_0_IO_REMAPPING_TABLE;
-#endif
 
 #pragma pack ()
 
