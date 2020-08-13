@@ -250,14 +250,6 @@ PrintCpuInfo (
 
   GetSysInfo (&SysInfo);
 
-  CharCount = AsciiSPrint (Buffer, sizeof (Buffer), "edk2 version %a\n\r",
-      PRINT (WORKSPACE_GIT_VERSION));
-  SerialPortWrite ((UINT8 *) Buffer, CharCount);
-
-  CharCount = AsciiSPrint (Buffer, sizeof (Buffer), "edk2-platforms version %a\n\r",
-      PRINT (PACKAGES_PATH_GIT_VERSION));
-  SerialPortWrite ((UINT8 *) Buffer, CharCount);
-
   CharCount = AsciiSPrint (Buffer, sizeof (Buffer), "Clock Configuration:");
   SerialPortWrite ((UINT8 *) Buffer, CharCount);
 
