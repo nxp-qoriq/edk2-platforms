@@ -32,6 +32,10 @@
   gNxpQoriqLsTokenSpaceGuid.PcdSataSize|0x10000
   gNxpQoriqLsTokenSpaceGuid.PcdNumSataController|0x1
 
+  gNxpQoriqLsTokenSpaceGuid.PcdUsbBaseAddr|0x2F00000
+  gNxpQoriqLsTokenSpaceGuid.PcdUsbSize|0x100000
+  gNxpQoriqLsTokenSpaceGuid.PcdNumUsbController|3
+
   gNxpQoriqLsTokenSpaceGuid.PcdNumGpioController|0x04
   gNxpQoriqLsTokenSpaceGuid.PcdGpioModuleBaseAddress|0x02300000
   gNxpQoriqLsTokenSpaceGuid.PcdGpioControllerOffset|0x10000

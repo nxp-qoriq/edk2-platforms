@@ -138,6 +138,17 @@ READ_LOCK_STATUS   = TRUE
   INF Silicon/NXP/Drivers/SataInitDxe/SataInitDxe.inf
 
   #
+  # USB Support
+  #
+  INF MdeModulePkg/Bus/Pci/UhciDxe/UhciDxe.inf
+  INF MdeModulePkg/Bus/Pci/EhciDxe/EhciDxe.inf
+  INF MdeModulePkg/Bus/Pci/XhciDxe/XhciDxe.inf
+  INF MdeModulePkg/Bus/Usb/UsbBusDxe/UsbBusDxe.inf
+  INF MdeModulePkg/Bus/Usb/UsbMassStorageDxe/UsbMassStorageDxe.inf
+
+  INF Silicon/NXP/Drivers/UsbHcdInitDxe/UsbHcd.inf
+
+  #
   # UEFI application (Shell Embedded Boot Loader)
   #
   INF ShellPkg/Application/Shell/Shell.inf

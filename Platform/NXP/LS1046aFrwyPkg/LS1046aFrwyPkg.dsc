@@ -46,5 +46,6 @@
   Platform/NXP/LS1046aFrwyPkg/Drivers/PlatformDxe/PlatformDxe.inf
 
   Silicon/NXP/Drivers/SataInitDxe/SataInitDxe.inf
+  Silicon/NXP/Drivers/UsbHcdInitDxe/UsbHcd.inf
 
 ##
