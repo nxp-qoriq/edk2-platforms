@@ -38,6 +38,7 @@
 
 [PcdsFeatureFlag]
   gNxpQoriqLsTokenSpaceGuid.PcdDcfgBigEndian|TRUE
+  gNxpQoriqLsTokenSpaceGuid.PcdScfgBigEndian|TRUE
   gNxpQoriqLsTokenSpaceGuid.PcdGpioControllerBigEndian|TRUE
   gNxpQoriqLsTokenSpaceGuid.PcdSataErratumA009185|TRUE
 
