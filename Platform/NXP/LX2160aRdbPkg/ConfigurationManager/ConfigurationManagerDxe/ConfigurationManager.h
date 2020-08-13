@@ -276,6 +276,9 @@ typedef struct PlatformRepositoryInfo {
   /// Type32 Table system boot info
   CM_ARM_SYSTEM_BOOT_TYPE32_INFO            Type32SystemBootInfo;
 
+  /// SSDT FixUp information
+  CM_ARM_SSDT_FIXUP_INFO                    SsdtFixupInfo;
+
   /// LX2 Board Revision
   UINT32                                    Lx2160aRevision;
 } EDKII_PLATFORM_REPOSITORY_INFO;

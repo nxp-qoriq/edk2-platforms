@@ -120,6 +120,15 @@ EDKII_PLATFORM_REPOSITORY_INFO Lx2160aPlatformRepositoryInfo = {
       CREATE_STD_ACPI_TABLE_GEN_ID (EStdAcpiTableIdDsdt),
       (EFI_ACPI_DESCRIPTION_HEADER *) &dsdt_aml_code,
       CFG_MGR_TABLE_ID
+    },
+
+    // SSDT Table
+    {
+      EFI_ACPI_6_2_SECONDARY_SYSTEM_DESCRIPTION_TABLE_SIGNATURE,
+      0,
+      CREATE_STD_ACPI_TABLE_GEN_ID (EStdAcpiTableIdSsdtFixup),
+      NULL,
+      CFG_MGR_TABLE_ID
     }
 
   },
@@ -816,6 +825,14 @@ EDKII_PLATFORM_REPOSITORY_INFO Lx2160aPlatformRepositoryInfo = {
   // SMBIOS Boot Info for Type32 Table
   {
     BootInformationStatusNoError,               // System Boot ststus
+  },
+
+  // SSDT fixup info
+  {
+    0x00,
+    0x00,
+    0x00,
+    AQR_PHY4_IT
   },
 
   2.0                                         // LX2 board revision
@@ -1678,6 +1695,12 @@ GetArmNameSpaceObject (
         EArmObjSystemBootType32,
         CmObjectId,
         PlatformRepo->Type32SystemBootInfo,
+        1
+        );
+    HANDLE_CM_OBJECT (
+        EArmObjSsdtFixupInfo,
+        CmObjectId,
+        PlatformRepo->SsdtFixupInfo,
         1
         );
 
