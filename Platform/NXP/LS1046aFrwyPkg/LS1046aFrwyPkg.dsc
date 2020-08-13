@@ -27,7 +27,7 @@
 
 [LibraryClasses.common]
   ArmPlatformLib|Platform/NXP/LS1046aFrwyPkg/Library/ArmPlatformLib/ArmPlatformLib.inf
-  RealTimeClockLib|EmbeddedPkg/Library/VirtualRealTimeClockLib/VirtualRealTimeClockLib.inf
+  RealTimeClockLib|Silicon/NXP/Library/Pcf2129RealTimeClockLib/Pcf2129RealTimeClockLib.inf
 
 ################################################################################
 #
@@ -42,6 +42,8 @@
     <PcdsFixedAtBuild>
     gEfiMdeModulePkgTokenSpaceGuid.PcdEmuVariableNvModeEnable|TRUE
   }
+
+  Platform/NXP/LS1046aFrwyPkg/Drivers/PlatformDxe/PlatformDxe.inf
 
   Silicon/NXP/Drivers/SataInitDxe/SataInitDxe.inf
 

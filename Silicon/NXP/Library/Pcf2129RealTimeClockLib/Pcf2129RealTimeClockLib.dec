@@ -1,0 +1,27 @@
+#/** @file
+#
+#  Copyright (c) 2017, Linaro, Ltd. All rights reserved.<BR>
+#  Copyright 2020 NXP
+#
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+#
+#**/
+
+[Defines]
+  DEC_SPECIFICATION              = 0x0001001A
+  PACKAGE_NAME                   = Pcf2129RealTimeClockLib
+  PACKAGE_GUID                   = d4a8990d-c81d-46d4-a7f7-62698b2ef103
+  PACKAGE_VERSION                = 0.1
+
+[Guids]
+  gPcf2129RealTimeClockLibTokenSpaceGuid = { 0x4ceb809f, 0xd959, 0x438b, { 0xbc, 0xb1, 0x0e, 0xde, 0xf7, 0x53, 0x08, 0x6c }}
+
+[Protocols]
+  gPcf2129RealTimeClockLibI2cMasterProtocolGuid = { 0x091ee628, 0x8db2, 0x40ed, { 0x85, 0x37, 0x3f, 0x32, 0xa0, 0x89, 0x46, 0x34 }}
+
+[PcdsFixedAtBuild]
+  gPcf2129RealTimeClockLibTokenSpaceGuid.PcdI2cSlaveAddress|0x51|UINT8|0x00000001
+
+  # preferred/max I2C bus frequency in Hz for the PCF2129
+  gPcf2129RealTimeClockLibTokenSpaceGuid.PcdI2cBusFrequency|400000|UINT32|0x00000002
