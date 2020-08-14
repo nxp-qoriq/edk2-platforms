@@ -1,0 +1,46 @@
+/** @file
+*  Original Equipment Manufacturer Table (OEM)
+*
+*  Copyright 2019-2020 NXP
+*  Copyright 2020 Puresoftware Ltd
+*
+*  SPDX-License-Identifier: BSD-2-Clause-Patent
+*
+**/
+
+#include "ls1046a.h"
+
+#include <Library/AcpiLib.h>
+#include <Library/PcdLib.h>
+#include <IndustryStandard/Acpi.h>
+
+#pragma pack (1)
+
+typedef struct {
+  EFI_ACPI_DESCRIPTION_HEADER header;
+  UINT64 BaseAddress;
+  UINT64 Length;
+  UINT32  I[4];
+} EFI_ACPI_6_1_NXP_OEM_TABLE;
+
+#pragma pack ()
+
+EFI_ACPI_6_1_NXP_OEM_TABLE oemt = {
+  ARM_ACPI_HEADER(
+    EFI_ACPI_6_1_NXP_OEM_TABLE_SIGNATURE,
+    EFI_ACPI_6_1_NXP_OEM_TABLE,
+    EFI_ACPI_ARM_OEM_REVISION
+  ),
+  .BaseAddress = 0x1580000,
+  .Length = 0x10000,
+  .I[0]=148,
+  .I[1]=143,
+  .I[2]=144,
+  .I[3]=145,
+};
+
+//
+// Reference the table being generated to prevent the optimizer from removing the
+// data structure from the executable
+//
+VOID* CONST ReferenceAcpiTable = &oemt;

@@ -1,11 +1,11 @@
 /** @file
-  (DSDT) : SPI ACPI information
-
-  Copyright 2020 NXP
-  Copyright 2020 Puresoftware Ltd.
-
-  SPDX-License-Identifier: BSD-2-Clause-Patent
-
+*  DSDT : SPI ACPI Information
+*
+*  Copyright 2020 NXP
+*  Copyright 2020 Puresoftware Ltd.
+*
+*  SPDX-License-Identifier: BSD-2-Clause-Patent
+*
 **/
 
 Scope(_SB)
@@ -20,7 +20,7 @@ Scope(_SB)
     }) // end of _CRS for spi device
     Method(_INI, 0, NotSerialized) {
       Store(\_SB.PCLK.CLK, CLK)
-      Divide(CLK, 2, Local0, CLK)
+      Divide(CLK, 2, , CLK)
     }
     Name (_DSD, Package () {
       ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),

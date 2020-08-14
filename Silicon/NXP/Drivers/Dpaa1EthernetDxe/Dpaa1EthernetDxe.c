@@ -102,7 +102,7 @@ _FixMacAddress(
       break;
     }
   }
-  DEBUG((EFI_D_ERROR, "Fixing Port %d MAC %02x:%02x:%02x:%02x:%02x:%02x %r\n",
+  DEBUG((DEBUG_ERROR, "Fixing Port %d MAC %02x:%02x:%02x:%02x:%02x:%02x %r\n",
         DevID,
         MacAddr[0],
         MacAddr[1],
@@ -280,7 +280,7 @@ GetMemoryRegion (
   // Get NameString QMNx
   Status = AcpiTableProtocol->GetOption (ChildHandle, 1, &DataType, &Buffer, &DataSize);
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "[%a:%d] Get NameString failed: %r\n", __FUNCTION__, __LINE__, Status));
+    DEBUG ((DEBUG_ERROR, "[%a:%d] Get NameString failed: %r\n", __FUNCTION__, __LINE__, Status));
     return Status;
   }
 
@@ -302,7 +302,7 @@ GetMemoryRegion (
   if (DataSize != 4 ||
       AsciiStrnCmp (Node, Data, 3) != 0 ||
       Data[3] > '9' || Data[3] < '0') {
-    DEBUG ((EFI_D_ERROR, "[%a:%d] The NameString %a is not QBman dev node\n", __FUNCTION__, __LINE__, Data));
+    DEBUG ((DEBUG_ERROR, "[%a:%d] The NameString %a is not QBman dev node\n", __FUNCTION__, __LINE__, Data));
     return EFI_INVALID_PARAMETER;
   }
 
@@ -627,7 +627,7 @@ FixupQBmanReservedAddresses (void)
   EFI_ACPI_HANDLE         TableHandle;
   UINTN                   i;
 
-  DEBUG ((EFI_D_ERROR, "Updating QBMAN ACPI DSDT...\n"));
+  DEBUG ((DEBUG_ERROR, "Updating DPAA ACPI DSDT...\n"));
 
   //
   // Find the AcpiTable protocol

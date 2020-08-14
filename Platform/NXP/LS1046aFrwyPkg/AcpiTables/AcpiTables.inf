@@ -23,6 +23,7 @@
   Spcr.aslc
   Gtdt.aslc
   Mcfg.aslc
+  Oem.aslc
   Platform.h
 
 [Packages]
@@ -32,3 +33,4 @@
   MdePkg/MdePkg.dec
   MdeModulePkg/MdeModulePkg.dec
   Silicon/NXP/NxpQoriqLs.dec
+  Silicon/NXP/LS1046A/LS1046A.dec

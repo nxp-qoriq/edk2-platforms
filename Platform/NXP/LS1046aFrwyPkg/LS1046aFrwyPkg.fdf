@@ -96,7 +96,8 @@ READ_LOCK_STATUS   = TRUE
   # DT support
   #
   INF RuleOverride = DTB Platform/NXP/LS1046aFrwyPkg/DeviceTree/DeviceTree.inf
-  INF Silicon/NXP/Drivers/DtPlatformDxe/DtPlatformDxe.inf
+  INF Silicon/NXP/Drivers/DtInitDxe/DtInitDxe.inf
+  INF EmbeddedPkg/Drivers/DtPlatformDxe/DtPlatformDxe.inf
 
   #
   # ACPI
@@ -169,6 +170,8 @@ READ_LOCK_STATUS   = TRUE
   INF MdeModulePkg/Bus/Usb/UsbMassStorageDxe/UsbMassStorageDxe.inf
 
   INF Silicon/NXP/Drivers/UsbHcdInitDxe/UsbHcd.inf
+  INF MdeModulePkg/Bus/Usb/UsbKbDxe/UsbKbDxe.inf
+  INF MdeModulePkg/Bus/Usb/UsbMouseDxe/UsbMouseDxe.inf
 
   #
   # DPAA1 Ethernet driver
@@ -229,7 +232,7 @@ READ_LOCK_STATUS   = TRUE
   # GOP support
   #
 !if $(AARCH64_GOP_ENABLE)
-  INF Drivers/OptionRomPkg/AMDGop/AMDGop.inf
+  INF edk2-non-osi/Drivers/OptionRomPkg/AMDGop/AMDGop.inf
 !endif
 
   #
@@ -237,7 +240,7 @@ READ_LOCK_STATUS   = TRUE
   #
 !if $(X64EMU_ENABLE) == TRUE
   # PE/COFF emulator for X64 option ROMs taken from edk2-non-osi
-  INF Emulator/X86EmulatorDxe/X86EmulatorDxe.inf
+  INF edk2-non-osi/Emulator/X86EmulatorDxe/X86EmulatorDxe.inf
 !endif
 
 [FV.FVMAIN_COMPACT]

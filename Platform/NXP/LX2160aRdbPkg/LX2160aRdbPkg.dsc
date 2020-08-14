@@ -23,8 +23,8 @@
   FLASH_DEFINITION               = Platform/NXP/LX2160aRdbPkg/LX2160aRdbPkg.fdf
   DEFINE MC_HIGH_MEM             = TRUE
   DEFINE CAPSULE_ENABLE          = TRUE
-  DEFINE X64EMU_ENABLE           = TRUE
-  DEFINE AARCH64_GOP_ENABLE      = TRUE
+  DEFINE X64EMU_ENABLE           = FALSE
+  DEFINE AARCH64_GOP_ENABLE      = FALSE
   DEFINE SECURE_BOOT_ENABLE      = TRUE
 
   #
@@ -217,8 +217,17 @@
   #
   # DT support
   #
+  Silicon/NXP/Drivers/DtInitDxe/DtInitDxe.inf {
+    <LibraryClasses>
+      FdtLib|EmbeddedPkg/Library/FdtLib/FdtLib.inf
+      DtPlatformDtbLoaderLib|Silicon/NXP/Library/DtbLoaderLib/DtbLoaderLib.inf
+  }
+  EmbeddedPkg/Drivers/DtPlatformDxe/DtPlatformDxe.inf {
+    <LibraryClasses>
+      FdtLib|EmbeddedPkg/Library/FdtLib/FdtLib.inf
+      DtPlatformDtbLoaderLib|Silicon/NXP/Library/DtbLoaderLib/DtbLoaderLib.inf
+  }
   Platform/NXP/LX2160aRdbPkg/DeviceTree/DeviceTree.inf
-  Silicon/NXP/Drivers/DtPlatformDxe/DtPlatformDxe.inf
 
   Silicon/NXP/Drivers/FlexSpiDxe/FspiDxe.inf
   Silicon/NXP/Drivers/SpiBusDxe/SpiBusDxe.inf
@@ -252,11 +261,11 @@
  #
  # GOP Support
  #
- Drivers/OptionRomPkg/AMDGop/AMDGop.inf
+ edk2-non-osi/Drivers/OptionRomPkg/AMDGop/AMDGop.inf
 
  #
  # X86 Emulation Support
  #
- Emulator/X86EmulatorDxe/X86EmulatorDxe.inf
+ edk2-non-osi/Emulator/X86EmulatorDxe/X86EmulatorDxe.inf
  ##
  ##
