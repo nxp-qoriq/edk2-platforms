@@ -20,8 +20,9 @@ Scope(_SB)
 {
   Device(USB0){
     Name(_HID, "808622B7")
+    Name(_CID, "PNP0D10")
     Name(_UID, 1)
-    Name(_CCA, 0)
+    Name(_CCA, 1)
 
     Name(_CRS, ResourceTemplate(){
       Memory32Fixed(ReadWrite, USB0_BASE, USB_LEN)
@@ -74,8 +75,9 @@ Scope(_SB)
 
   Device(USB1){
     Name(_HID, "808622B7")
+    Name(_CID, "PNP0D10")
     Name(_UID, 1)
-    Name(_CCA, 0)
+    Name(_CCA, 1)
 
     Name(_CRS, ResourceTemplate(){
       Memory32Fixed(ReadWrite, USB1_BASE, USB_LEN)

@@ -20,10 +20,6 @@
   VERSION_STRING                 = 1.0
   LIBRARY_CLASS                  = SocLib
 
-[BuildOptions]
-  GCC:*_*_*_CC_FLAGS = -DWORKSPACE_GIT_VERSION="$(WORKSPACE_GIT_VERSION)"
-  GCC:*_*_*_CC_FLAGS = -DPACKAGES_PATH_GIT_VERSION="$(PACKAGES_PATH_GIT_VERSION)"
-
 [Packages]
   ArmPkg/ArmPkg.dec
   MdeModulePkg/MdeModulePkg.dec

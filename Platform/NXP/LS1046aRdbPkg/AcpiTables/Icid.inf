@@ -1,0 +1,38 @@
+#  @file
+#
+#  Copyright 2019 PureSoftware
+#
+#  SPDX-License-Identifier: BSD-2-Clause
+#
+#
+
+[Defines]
+  INF_VERSION                    = 0x0001001A
+  BASE_NAME                      = LS1046Icid
+  FILE_GUID                      = 2e4914f5-20b3-493d-8296-6be46d8548d8
+  MODULE_TYPE                    = UEFI_DRIVER
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = FixupIcid
+
+[Packages]
+  ArmPkg/ArmPkg.dec
+  ArmPlatformPkg/ArmPlatformPkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  Silicon/NXP/Chassis/Chassis2/Chassis2.dec
+  Silicon/NXP/NxpQoriqLs.dec
+  Silicon/NXP/LS1046A/LS1046A.dec
+
+[LibraryClasses]
+  DebugLib
+  PcdLib
+  SocLib
+  UefiDriverEntryPoint
+  UefiLib
+
+[Sources.common]
+  Icid.c
+
+[FixedPcd]
+  gNxpQoriqLsTokenSpaceGuid.PcdScfgBaseAddr

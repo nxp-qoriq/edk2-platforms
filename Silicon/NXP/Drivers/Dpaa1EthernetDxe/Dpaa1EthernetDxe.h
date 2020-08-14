@@ -67,7 +67,7 @@ typedef struct _QeFirmware {
 //
 //#define ACPI_DEBUG
 #ifdef ACPI_DEBUG
-#define DBG(arg...) DEBUG((EFI_D_ERROR,## arg))
+#define DBG(arg...) DEBUG((DEBUG_ERROR,## arg))
 #else
 #define DBG(arg...)
 #endif

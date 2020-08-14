@@ -1,15 +1,10 @@
 ## @file
-#
 #  ACPI table data and ASL sources required to boot the platform.
 #
 #  Copyright 2019-2020 NXP
-#
 #  Copyright 2020 Puresoftware Ltd
 #
 #  SPDX-License-Identifier: BSD-2-Clause-Patent
-#
-#  Based on ARM/JunoPkg/AcpiTables/AcpiTables.inf
-#
 ##
 
 [Defines]
@@ -26,6 +21,7 @@
   Spcr.aslc
   Gtdt.aslc
   Mcfg.aslc
+  Oem.aslc
   Platform.h
 
 [Packages]
@@ -35,3 +31,4 @@
   MdePkg/MdePkg.dec
   MdeModulePkg/MdeModulePkg.dec
   Silicon/NXP/NxpQoriqLs.dec
+  Silicon/NXP/LS1046A/LS1046A.dec
