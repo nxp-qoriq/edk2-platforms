@@ -217,7 +217,7 @@ SocInit (
   VOID
   )
 {
-  CHAR8 Buffer[100];
+  CHAR8 Buffer[0x100];
   UINTN CharCount;
   CCSR_SCFG    *Scfg;
    
@@ -230,8 +230,17 @@ SocInit (
   // Early init serial Port to get board information.
   //
   SerialPortInitialize ();
-  CharCount = AsciiSPrint (Buffer, sizeof (Buffer), "\nUEFI firmware (version %s built at %a on %a)\n\r",
-    (CHAR16*)PcdGetPtr (PcdFirmwareVersionString), __TIME__, __DATE__);
+  CharCount = AsciiSPrint (
+                Buffer, sizeof (Buffer),
+                "\nUEFI firmware built at %a on %a. version:\n\r",
+                __TIME__, __DATE__
+              );
+  SerialPortWrite ((UINT8 *) Buffer, CharCount);
+
+  CharCount = AsciiSPrint (
+                Buffer, sizeof (Buffer), "%s\n\r",
+                (CHAR16 *)PcdGetPtr (PcdFirmwareVersionString)
+              );
   SerialPortWrite ((UINT8 *) Buffer, CharCount);
 
   PrintCpuInfo ();
