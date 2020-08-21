@@ -20,6 +20,7 @@
 
 #include <Library/ArmPlatformLib.h>
 #include <Library/DebugLib.h>
+#include <Library/HobLib.h>
 #include <Library/PcdLib.h>
 #include <Library/MemoryAllocationLib.h>
 
@@ -81,11 +82,38 @@ ArmPlatformGetVirtualMemoryMap (
   VirtualMemoryTable[Index].Length       = FixedPcdGet64 (PcdCcsrSize);
   VirtualMemoryTable[Index].Attributes   = ARM_MEMORY_REGION_ATTRIBUTE_DEVICE;
 
+  BuildResourceDescriptorHob (
+    EFI_RESOURCE_MEMORY_MAPPED_IO,
+    EFI_RESOURCE_ATTRIBUTE_UNCACHEABLE,
+    VirtualMemoryTable[Index].VirtualBase,
+    VirtualMemoryTable[Index].Length
+  );
+
   // ROM Space
   VirtualMemoryTable[++Index].PhysicalBase = FixedPcdGet64 (PcdRomBaseAddr);
   VirtualMemoryTable[Index].VirtualBase  = FixedPcdGet64 (PcdRomBaseAddr);
   VirtualMemoryTable[Index].Length       = FixedPcdGet64 (PcdRomSize);
   VirtualMemoryTable[Index].Attributes   = ARM_MEMORY_REGION_ATTRIBUTE_DEVICE;
+
+  BuildResourceDescriptorHob (
+    EFI_RESOURCE_MEMORY_MAPPED_IO,
+    EFI_RESOURCE_ATTRIBUTE_UNCACHEABLE,
+    VirtualMemoryTable[Index].VirtualBase,
+    VirtualMemoryTable[Index].Length
+  );
+
+  // FSPI region 1
+  VirtualMemoryTable[++Index].PhysicalBase = FixedPcdGet64 (PcdQspiRegionBaseAddr);
+  VirtualMemoryTable[Index].VirtualBase  = FixedPcdGet64 (PcdQspiRegionBaseAddr);
+  VirtualMemoryTable[Index].Length       = SIZE_256MB;
+  VirtualMemoryTable[Index].Attributes   = ARM_MEMORY_REGION_ATTRIBUTE_DEVICE;
+
+  BuildResourceDescriptorHob (
+      EFI_RESOURCE_MEMORY_MAPPED_IO,
+      EFI_RESOURCE_ATTRIBUTE_UNCACHEABLE,
+      FixedPcdGet64 (PcdQspiRegionBaseAddr),
+      SIZE_256MB
+  );
 
   // PCIe1
   VirtualMemoryTable[++Index].PhysicalBase = FixedPcdGet64 (PcdPciExp1BaseAddr);
@@ -93,17 +121,25 @@ ArmPlatformGetVirtualMemoryMap (
   VirtualMemoryTable[Index].Length       = FixedPcdGet64 (PcdPciExp1BaseSize);
   VirtualMemoryTable[Index].Attributes   = ARM_MEMORY_REGION_ATTRIBUTE_DEVICE;
 
+  BuildResourceDescriptorHob (
+    EFI_RESOURCE_MEMORY_MAPPED_IO,
+    EFI_RESOURCE_ATTRIBUTE_UNCACHEABLE,
+    VirtualMemoryTable[Index].VirtualBase,
+    VirtualMemoryTable[Index].Length
+  );
+
   // PCIe2
   VirtualMemoryTable[++Index].PhysicalBase = FixedPcdGet64 (PcdPciExp2BaseAddr);
   VirtualMemoryTable[Index].VirtualBase  = FixedPcdGet64 (PcdPciExp2BaseAddr);
   VirtualMemoryTable[Index].Length       = FixedPcdGet64 (PcdPciExp2BaseSize);
   VirtualMemoryTable[Index].Attributes   = ARM_MEMORY_REGION_ATTRIBUTE_DEVICE;
 
-  // DCSR Space
-  VirtualMemoryTable[++Index].PhysicalBase = FixedPcdGet64 (PcdDcsrBaseAddr);
-  VirtualMemoryTable[Index].VirtualBase  = FixedPcdGet64 (PcdDcsrBaseAddr);
-  VirtualMemoryTable[Index].Length       = FixedPcdGet64 (PcdDcsrSize);
-  VirtualMemoryTable[Index].Attributes   = ARM_MEMORY_REGION_ATTRIBUTE_DEVICE;
+  BuildResourceDescriptorHob (
+    EFI_RESOURCE_MEMORY_MAPPED_IO,
+    EFI_RESOURCE_ATTRIBUTE_UNCACHEABLE,
+    VirtualMemoryTable[Index].VirtualBase,
+    VirtualMemoryTable[Index].Length
+  );
 
   // End of Table
   VirtualMemoryTable[++Index].PhysicalBase = 0;

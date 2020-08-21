@@ -4,7 +4,7 @@
   ArmPlatformPkg/Drivers/NorFlashDxe/NorFlashFvbDxe.c
 
   Copyright (c) 2011 - 2014, ARM Ltd. All rights reserved.
-  Copyright 2017 NXP
+  Copyright 2017, 2020 NXP
 
   This program and the accompanying materials
   are licensed and made available under the terms and conditions of the BSD License
@@ -776,12 +776,6 @@ NorFlashFvbInitialize (
   //       The reason is when the NOR Flash memory is set into program mode, the command
   //       is written as the base of the flash region (ie: Instance->DeviceBaseAddress)
   RuntimeMmioRegionSize = (Instance->RegionBaseAddress - Instance->DeviceBaseAddress) + Instance->Size;
-
-  Status = gDS->AddMemorySpace (
-                      EfiGcdMemoryTypeMemoryMappedIo,
-                      Instance->DeviceBaseAddress, RuntimeMmioRegionSize,
-                      EFI_MEMORY_UC | EFI_MEMORY_RUNTIME);
-  ASSERT_EFI_ERROR (Status);
 
   Status = gDS->SetMemorySpaceAttributes (
                       Instance->DeviceBaseAddress, RuntimeMmioRegionSize,

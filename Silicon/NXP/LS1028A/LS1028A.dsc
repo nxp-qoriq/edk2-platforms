@@ -32,6 +32,7 @@
   gNxpQoriqLsTokenSpaceGuid.PcdCcsrBaseAddr|0x01000000
   gNxpQoriqLsTokenSpaceGuid.PcdCcsrSize|0x0F000000
   gNxpQoriqLsTokenSpaceGuid.PcdClkBaseAddr|0x1370000
+  gNxpQoriqLsTokenSpaceGuid.PcdQspiRegionBaseAddr|0x20000000
   gNxpQoriqLsTokenSpaceGuid.PcdPciExp1BaseAddr|0x8000000000
   gNxpQoriqLsTokenSpaceGuid.PcdPciExp1BaseSize|0x800000000
   gNxpQoriqLsTokenSpaceGuid.PcdPciExp2BaseAddr|0x8800000000
@@ -46,8 +47,6 @@
   gNxpQoriqLsTokenSpaceGuid.PcdNumPciController|2
   gNxpQoriqLsTokenSpaceGuid.PcdRomBaseAddr|0x00000000
   gNxpQoriqLsTokenSpaceGuid.PcdRomSize|0x00100000
-  gNxpQoriqLsTokenSpaceGuid.PcdDcsrBaseAddr|0x20000000
-  gNxpQoriqLsTokenSpaceGuid.PcdDcsrSize|0x04000000
   gNxpQoriqLsTokenSpaceGuid.PcdSataBaseAddr|0x3200000
   gNxpQoriqLsTokenSpaceGuid.PcdSataSize|0x10000
   gNxpQoriqLsTokenSpaceGuid.PcdNumSataController|0x1
