@@ -39,9 +39,9 @@
   gNxpQoriqLsTokenSpaceGuid.PcdIfcRegion2Size|0x00E0000000
   gNxpQoriqLsTokenSpaceGuid.PcdIfcNandReservedSize|0x2EA
   gNxpQoriqLsTokenSpaceGuid.PcdQmanSwpBaseAddr|0x0500000000
-  gNxpQoriqLsTokenSpaceGuid.PcdQmanSwpSize|0x0080000000
+  gNxpQoriqLsTokenSpaceGuid.PcdQmanSwpSize|0x008000000
   gNxpQoriqLsTokenSpaceGuid.PcdBmanSwpBaseAddr|0x0508000000
-  gNxpQoriqLsTokenSpaceGuid.PcdBmanSwpSize|0x0080000000
+  gNxpQoriqLsTokenSpaceGuid.PcdBmanSwpSize|0x008000000
   gNxpQoriqLsTokenSpaceGuid.PcdPciExp1BaseAddr|0x4000000000
   gNxpQoriqLsTokenSpaceGuid.PcdPciExp1BaseSize|0x800000000
   gNxpQoriqLsTokenSpaceGuid.PcdPciExp2BaseAddr|0x4800000000
