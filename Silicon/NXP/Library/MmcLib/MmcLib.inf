@@ -37,3 +37,6 @@
 
 [FixedPcd]
   gNxpQoriqLsTokenSpaceGuid.PcdMmcBigEndian
+
+[Guids]
+  gFdtTableGuid

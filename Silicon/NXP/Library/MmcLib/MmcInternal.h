@@ -1,7 +1,7 @@
 /** @file
   Header Defining The MMC Memory Controller Constants, Function Prototype, Structures Etc
 
-  Copyright 2017 NXP
+  Copyright 2017, 2020 NXP
 
   This Program And The Accompanying Materials
   Are Licensed And Made Available Under The Terms And Conditions Of The BSD
@@ -192,6 +192,7 @@
 #define PRCTL_DTW_4                0x00000002
 #define PRCTL_DTW_8                0x00000004
 #define PRCTL_BE                   0x00000030
+#define PROCTL_1_8_VOLT_SEL        0x00000400
 
 typedef struct {
   UINT32 Dsaddr;         // SDMA System Address Register

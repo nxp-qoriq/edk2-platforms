@@ -296,6 +296,11 @@
   gNxpQoriqLsTokenSpaceGuid.PcdFdtAddress|0|UINT64|0x000000357
   gNxpQoriqLsTokenSpaceGuid.PcdCh3Srds1PrtclMask|0|UINT32|0x000000358
 
+  #
+  # Errata Pcds
+  #
+  gNxpQoriqLsTokenSpaceGuid.PcdSdxcIOReliabilityErratum|FALSE|BOOLEAN|0x000002F9
+
 [PcdsFeatureFlag.common]
   gNxpQoriqLsTokenSpaceGuid.PcdQmanBigEndian|TRUE|BOOLEAN|0x00000359
   gNxpQoriqLsTokenSpaceGuid.PcdBmanBigEndian|TRUE|BOOLEAN|0x00000360
