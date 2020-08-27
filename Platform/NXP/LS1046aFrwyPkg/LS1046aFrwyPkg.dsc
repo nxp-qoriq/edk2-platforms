@@ -44,6 +44,7 @@
   IfcLib|Silicon/NXP/Library/IfcLib/IfcLib.inf
   BoardLib|Platform/NXP/LS1046aFrwyPkg/Library/BoardLib/BoardLib.inf
   FpgaLib|Platform/NXP/LS1046aFrwyPkg/Library/FpgaLib/FpgaLib.inf
+  IortLib|Silicon/NXP/LS1046A/Library/IortLib/IortLib.inf
   PciSegmentLib|Silicon/NXP/Library/PciSegmentLib/PciSegmentLib.inf
   PciHostBridgeLib|Silicon/NXP/Library/PciHostBridgeLib/PciHostBridgeLib.inf
   MmcLib|Silicon/NXP/Library/MmcLib/MmcLib.inf

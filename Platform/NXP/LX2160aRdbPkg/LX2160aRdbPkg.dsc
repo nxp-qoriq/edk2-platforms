@@ -49,6 +49,7 @@
   SocLib|Silicon/NXP/Chassis/LX2160aSocLib.inf
   RealTimeClockLib|Silicon/NXP/Library/Pcf2129RtcMmLib/Pcf2129RtcLib.inf
   FpgaLib|Platform/NXP/LX2160aRdbPkg/Library/FpgaLib/FpgaLib.inf
+  IortLib|Silicon/NXP/LX2160A/Library/IortLib/IortLib.inf
   PciSegmentLib|Silicon/NXP/Library/PciSegmentLib/PciSegmentLib.inf
   PciHostBridgeLib|Silicon/NXP/Library/PciHostBridgeLib/PciHostBridgeLib.inf
   MmcLib|Silicon/NXP/Library/MmcLib/MmcLib.inf

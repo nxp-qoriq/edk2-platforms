@@ -15,9 +15,9 @@
 
 #include <Library/AcpiLib.h>
 #include <Library/ArmLib.h>
+#include <Library/NxpIoRemappingTable.h>
 #include <Library/PcdLib.h>
 #include <IndustryStandard/Acpi.h>
-#include <IndustryStandard/NxpIoRemappingTable.h>
 #include <IndustryStandard/SerialPortConsoleRedirectionTable.h>
 //
 // ACPI table information used to initialize tables.
