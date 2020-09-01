@@ -103,12 +103,22 @@ READ_LOCK_STATUS   = TRUE
   #
   # ACPI
   #
+!if $(DYNAMIC_ACPI_ENABLE) == FALSE
   INF RuleOverride=ACPITABLE Platform/NXP/LS1046aRdbPkg/AcpiTables/AcpiTables.inf
   INF Platform/NXP/LS1046aRdbPkg/AcpiTables/Icid.inf
+!else
+  INF Platform/NXP/ConfigurationManager/ConfigurationManagerDxe/ConfigurationManagerDxe.inf
+  INF DynamicTablesPkg/Drivers/DynamicTableManagerDxe/DynamicTableManagerDxe.inf
+  INF DynamicTablesPkg/Drivers/DynamicTableFactoryDxe/DynamicTableFactoryDxe.inf
+!endif
+
   INF MdeModulePkg/Universal/Acpi/AcpiTableDxe/AcpiTableDxe.inf
   INF Silicon/NXP/Drivers/NxpAcpiPlatformDxe/AcpiPlatformDxe.inf
 
-
+  #
+  #SMBIOS
+  #
+  INF MdeModulePkg/Universal/SmbiosDxe/SmbiosDxe.inf
 
   INF Silicon/NXP/Drivers/SpiBusDxe/SpiBusDxe.inf
   INF Silicon/NXP/Drivers/SpiNorFlashDxe/SpiNorFlashDxe.inf

@@ -1,0 +1,34 @@
+## @file
+#  Platform ASL Tables
+#
+#  Copyright (c) 2020 Puresoftware Limited. All rights reserved.
+#
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+##
+
+[Defines]
+  INF_VERSION                    = 0x0001001B
+  BASE_NAME                      = Ls1046aRdbAslTablesLib
+  FILE_GUID                      = 2b97b077-7a75-458e-83a2-a719d1c91faf
+  MODULE_TYPE                    = DXE_DRIVER
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = PlatformAslTablesLib|DXE_DRIVER
+
+#
+# The following information is for reference only and not required by the build tools.
+#
+#  VALID_ARCHITECTURES           = ARM AARCH64
+#
+
+[Sources]
+  Dsdt.asl
+
+[Packages]
+  ArmPkg/ArmPkg.dec
+  ArmPlatformPkg/ArmPlatformPkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  MdePkg/MdePkg.dec
+  Platform/NXP/LS1046aRdbPkg/LS1046aRdbPkg.dec
+  Silicon/NXP/NxpQoriqLs.dec
+
+[FixedPcd]

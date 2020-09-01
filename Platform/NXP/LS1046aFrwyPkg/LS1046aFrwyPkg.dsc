@@ -29,15 +29,22 @@
   DEFINE CAPSULE_ENABLE                 = TRUE
   DEFINE X64EMU_ENABLE                  = FALSE
   DEFINE AARCH64_GOP_ENABLE             = FALSE
+  DEFINE DYNAMIC_ACPI_ENABLE            = TRUE
 
 !include Platform/NXP/NxpQoriqLs.dsc
 !include Silicon/NXP/Chassis/Chassis2/Chassis2.dsc
 !include Silicon/NXP/LS1046A/LS1046A.dsc
 
+!if $(DYNAMIC_ACPI_ENABLE) == TRUE
+  !include DynamicTablesPkg/DynamicTables.dsc.inc
+  !include Platform/NXP/ConfigurationManager/ConfigurationManager.dsc.inc
+!endif
+
 [LibraryClasses.common]
   TpmMeasurementLib|SecurityPkg/Library/DxeTpmMeasurementLib/DxeTpmMeasurementLib.inf
   ArmPlatformLib|Platform/NXP/LS1046aFrwyPkg/Library/PlatformLib/ArmPlatformLib.inf
   ResetSystemLib|ArmPkg/Library/ArmSmcPsciResetSystemLib/ArmSmcPsciResetSystemLib.inf
+  PL011UartLib|ArmPlatformPkg/Library/PL011UartLib/PL011UartLib.inf
   SerialPortLib|Silicon/NXP/Library/DUartPortLib/DUartPortLib.inf
   SocLib|Silicon/NXP/Chassis/LS1046aSocLib.inf
   RealTimeClockLib|Silicon/NXP/Library/Pcf2129RtcLib/Pcf2129RtcLib.inf
@@ -221,20 +228,15 @@
   #
   # Platform
   #
+!if $(DYNAMIC_ACPI_ENABLE) == FALSE
   Platform/NXP/LS1046aFrwyPkg/AcpiTables/AcpiTables.inf
+!endif
+  Platform/NXP/LS1046aFrwyPkg/AcpiTables/Icid.inf
 
   #
-  # SMBIOS
+  #SMBIOS
   #
   MdeModulePkg/Universal/SmbiosDxe/SmbiosDxe.inf
-  Platform/NXP/LS1046aFrwyPkg/SmbiosPlatformDxe/SmbiosPlatformDxe.inf
-
-  #
-  # SMBIOS
-  #
-  MdeModulePkg/Universal/SmbiosDxe/SmbiosDxe.inf
-  Platform/NXP/LS1046aFrwyPkg/SmbiosPlatformDxe/SmbiosPlatformDxe.inf
-
 !if $(CAPSULE_ENABLE)
   Platform/NXP/LS1046aFrwyPkg/SystemFirmwareDescriptor/SystemFirmwareDescriptor.inf
 !endif
