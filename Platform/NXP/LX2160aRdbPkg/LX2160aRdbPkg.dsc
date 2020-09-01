@@ -45,7 +45,7 @@
 
 !if $(DYNAMIC_ACPI_ENABLE) == TRUE
   !include DynamicTablesPkg/DynamicTables.dsc.inc
-  !include Platform/NXP/LX2160aRdbPkg/ConfigurationManager/ConfigurationManager.dsc.inc
+  !include Platform/NXP/ConfigurationManager/ConfigurationManager.dsc.inc
 !endif
 
 [LibraryClasses.common]

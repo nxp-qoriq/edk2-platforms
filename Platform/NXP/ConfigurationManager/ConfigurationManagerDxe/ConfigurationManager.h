@@ -279,8 +279,8 @@ typedef struct PlatformRepositoryInfo {
   /// SSDT FixUp information
   CM_ARM_SSDT_FIXUP_INFO                    SsdtFixupInfo;
 
-  /// LX2 Board Revision
-  UINT32                                    Lx2160aRevision;
+  /// Fsl Board Revision
+  UINT32                                    FslBoardRevision;
 } EDKII_PLATFORM_REPOSITORY_INFO;
 
 /*

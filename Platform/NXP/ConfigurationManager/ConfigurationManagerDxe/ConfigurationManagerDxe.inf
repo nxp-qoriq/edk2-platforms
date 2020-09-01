@@ -29,13 +29,11 @@
   DynamicTablesPkg/DynamicTablesPkg.dec
   MdeModulePkg/MdeModulePkg.dec
   MdePkg/MdePkg.dec
-  Platform/NXP/LX2160aRdbPkg/LX2160aRdbPkg.dec
   Silicon/NXP/NxpQoriqLs.dec
   Silicon/NXP/LX2160A/LX2160A.dec
 
 [LibraryClasses]
   ArmPlatformLib
-  PlatformAslTablesLib
   PrintLib
   UefiBootServicesTableLib
   UefiDriverEntryPoint

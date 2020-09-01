@@ -44,7 +44,7 @@ STATIC SMBIOS_STRUCTURE  SmbiosTable32Data = {SMBIOS_TYPE_SYSTEM_BOOT_INFORMATIO
 /** The platform configuration repository information.
 */
 STATIC
-EDKII_PLATFORM_REPOSITORY_INFO Lx2160aPlatformRepositoryInfo = {
+EDKII_PLATFORM_REPOSITORY_INFO FslPlatformRepositoryInfo = {
   /// Configuration Manager information
   { CONFIGURATION_MANAGER_REVISION, CFG_MGR_OEM_ID },
 
@@ -225,7 +225,7 @@ EDKII_PLATFORM_REPOSITORY_INFO Lx2160aPlatformRepositoryInfo = {
       // The number of timer frames implemented in the GT Block
       PLAT_GTFRAME_COUNT,
       // Reference token for the GT Block timer frame list
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo +
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo +
           OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, GTBlock0TimerInfo))
     }
   },
@@ -362,11 +362,11 @@ EDKII_PLATFORM_REPOSITORY_INFO Lx2160aPlatformRepositoryInfo = {
   {
     {
       // Reference token for this Iort node
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, ItsGroupInfo[0])),
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, ItsGroupInfo[0])),
       // The number of ITS identifiers in the ITS node.
       1,
       // Reference token for the ITS identifier array
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, ItsIdentifierArray[0])),
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, ItsIdentifierArray[0])),
     }
   },
 
@@ -382,9 +382,9 @@ EDKII_PLATFORM_REPOSITORY_INFO Lx2160aPlatformRepositoryInfo = {
   {
     {
       // Reference token for this named component
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[0])),
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[0])),
       1,
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[0])),
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[0])),
       0,
       EFI_ACPI_IORT_MEM_ACCESS_PROP_CCA,
       0,
@@ -394,9 +394,9 @@ EDKII_PLATFORM_REPOSITORY_INFO Lx2160aPlatformRepositoryInfo = {
     },
     {
       // Reference token for this named component
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[1])),
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[1])),
       1,
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[1])),
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[1])),
       0,
       0,
       0,
@@ -406,9 +406,9 @@ EDKII_PLATFORM_REPOSITORY_INFO Lx2160aPlatformRepositoryInfo = {
     },
     {
       // Reference token for this named component
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[2])),
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[2])),
       1,
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[2])),
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[2])),
       0,
       0,
       0,
@@ -418,9 +418,9 @@ EDKII_PLATFORM_REPOSITORY_INFO Lx2160aPlatformRepositoryInfo = {
     },
     {
       // Reference token for this named component
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[3])),
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[3])),
       1,
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[3])),
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[3])),
       0,
       EFI_ACPI_IORT_MEM_ACCESS_PROP_CCA,
       0,
@@ -430,9 +430,9 @@ EDKII_PLATFORM_REPOSITORY_INFO Lx2160aPlatformRepositoryInfo = {
     },
     {
       // Reference token for this named component
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[4])),
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[4])),
       1,
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[4])),
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[4])),
       0,
       EFI_ACPI_IORT_MEM_ACCESS_PROP_CCA,
       0,
@@ -442,9 +442,9 @@ EDKII_PLATFORM_REPOSITORY_INFO Lx2160aPlatformRepositoryInfo = {
     },
     {
       // Reference token for this named component
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[5])),
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[5])),
       1,
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[5])),
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[5])),
       0,
       EFI_ACPI_IORT_MEM_ACCESS_PROP_CCA,
       0,
@@ -454,9 +454,9 @@ EDKII_PLATFORM_REPOSITORY_INFO Lx2160aPlatformRepositoryInfo = {
     },
     {
       // Reference token for this named component
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[6])),
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[6])),
       1,
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[6])),
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[6])),
       0,
       EFI_ACPI_IORT_MEM_ACCESS_PROP_CCA,
       0,
@@ -466,9 +466,9 @@ EDKII_PLATFORM_REPOSITORY_INFO Lx2160aPlatformRepositoryInfo = {
     },
     {
       // Reference token for this named component
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[7])),
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[7])),
       1,
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[7])),
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[7])),
       0,
       EFI_ACPI_IORT_MEM_ACCESS_PROP_CCA,
       0,
@@ -478,9 +478,9 @@ EDKII_PLATFORM_REPOSITORY_INFO Lx2160aPlatformRepositoryInfo = {
     },
     {
       // Reference token for this named component
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[8])),
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[8])),
       1,
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[8])),
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[8])),
       0,
       EFI_ACPI_IORT_MEM_ACCESS_PROP_CCA,
       0,
@@ -496,105 +496,105 @@ EDKII_PLATFORM_REPOSITORY_INFO Lx2160aPlatformRepositoryInfo = {
       NXP_MC_LX2160A_STREAM_ID,
       0,
       NXP_MC_LX2160A_STREAM_ID,
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
       0
     },
     {
       NXP_USB0_STREAM_ID,
       0,
       NXP_USB0_STREAM_ID,
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
       EFI_ACPI_IORT_ID_MAPPING_FLAGS_SINGLE
     },
     {
       NXP_USB1_STREAM_ID,
       0,
       NXP_USB1_STREAM_ID,
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
       EFI_ACPI_IORT_ID_MAPPING_FLAGS_SINGLE
     },
     {
       NXP_SDMMC0_STREAM_ID,
       0,
       NXP_SDMMC0_STREAM_ID,
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
       EFI_ACPI_IORT_ID_MAPPING_FLAGS_SINGLE
     },
     {
       NXP_SDMMC1_STREAM_ID,
       0,
       NXP_SDMMC1_STREAM_ID,
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
       EFI_ACPI_IORT_ID_MAPPING_FLAGS_SINGLE
     },
     {
       NXP_SATA0_STREAM_ID,
       0,
       NXP_SATA0_STREAM_ID,
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
       EFI_ACPI_IORT_ID_MAPPING_FLAGS_SINGLE
     },
     {
       NXP_SATA1_STREAM_ID,
       0,
       NXP_SATA1_STREAM_ID,
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
       EFI_ACPI_IORT_ID_MAPPING_FLAGS_SINGLE
     },
     {
       NXP_SATA2_STREAM_ID,
       0,
       NXP_SATA2_STREAM_ID,
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
       EFI_ACPI_IORT_ID_MAPPING_FLAGS_SINGLE
     },
     {
       NXP_SATA3_STREAM_ID,
       0,
       NXP_SATA3_STREAM_ID,
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
       EFI_ACPI_IORT_ID_MAPPING_FLAGS_SINGLE
     },
     {
       0,
       0,
       0x1800,
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
       0
     },
     {
       0,
       0,
       0x2800,
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
       0
     },
     {
       NXP_MC_LX2160A_STREAM_ID,
       0,
       NXP_MC_LX2160A_STREAM_ID,
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, ItsIdentifierArray[0])),
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, ItsIdentifierArray[0])),
       0
     },
     {
       NXP_DPAA2_STREAM_ID_START,
       NXP_DPAA2_STREAM_ID_COUNT - 1,
       NXP_DPAA2_STREAM_ID_START,
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, ItsIdentifierArray[0])),
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, ItsIdentifierArray[0])),
       0
     },
     {
       0x1800,
       0,
       0x1800,
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, ItsIdentifierArray[0])),
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, ItsIdentifierArray[0])),
       0
     },
     {
       0x2800,
       0,
       0x2800,
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, ItsIdentifierArray[0])),
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, ItsIdentifierArray[0])),
       0
     }
   },
@@ -603,9 +603,9 @@ EDKII_PLATFORM_REPOSITORY_INFO Lx2160aPlatformRepositoryInfo = {
   {
     // node 1 info
     {
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, RootComplexInfo[0])),
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, RootComplexInfo[0])),
       0,
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[9])),
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[9])),
       EFI_ACPI_IORT_MEM_ACCESS_PROP_CCA,
       0,
       EFI_ACPI_IORT_MEM_ACCESS_FLAGS_CPM | EFI_ACPI_IORT_MEM_ACCESS_FLAGS_DACS,
@@ -614,9 +614,9 @@ EDKII_PLATFORM_REPOSITORY_INFO Lx2160aPlatformRepositoryInfo = {
     },
     // node 2 info
     {
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, RootComplexInfo[1])),
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, RootComplexInfo[1])),
       0,
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[10])),
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[10])),
       EFI_ACPI_IORT_MEM_ACCESS_PROP_CCA,
       0,
       EFI_ACPI_IORT_MEM_ACCESS_FLAGS_CPM | EFI_ACPI_IORT_MEM_ACCESS_FLAGS_DACS,
@@ -628,17 +628,17 @@ EDKII_PLATFORM_REPOSITORY_INFO Lx2160aPlatformRepositoryInfo = {
   // SMMU V1/V2 nodes
   {
     {
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
       4,
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[11])),
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[11])),
       0x5000000,
       0x800000,
       EFI_ACPI_IORT_SMMUv1v2_MODEL_MMU500,
       EFI_ACPI_IORT_SMMUv1v2_FLAG_DVM | EFI_ACPI_IORT_SMMUv1v2_FLAG_COH_WALK,
       64, // Actual for lx2 64 interupts available
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, InterruptContextArray[0])),
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, InterruptContextArray[0])),
       10,
-      (CM_OBJECT_TOKEN)((UINT8*)&Lx2160aPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PmuInterruptArray[0])),
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PmuInterruptArray[0])),
       47,
       EFI_ACPI_IORT_SMMUv1v2_INT_FLAG_LEVEL,
       48,
@@ -835,7 +835,7 @@ EDKII_PLATFORM_REPOSITORY_INFO Lx2160aPlatformRepositoryInfo = {
     AQR_PHY4_IT
   },
 
-  2.0                                         // LX2 board revision
+  2.0                                         // fsl board revision
 };
 
 /** Return ITS Group Info.
@@ -1168,7 +1168,7 @@ InitializePlatformRepository (
 
   PlatformRepo = This->PlatRepoInfo;
 
-  DEBUG ((DEBUG_INFO, "Lx2 Rev = 0x%x\n", PlatformRepo->Lx2160aRevision));
+  DEBUG ((DEBUG_INFO, "Fsl Rev = 0x%x\n", PlatformRepo->FslBoardRevision));
   return EFI_SUCCESS;
 }
 
@@ -1783,7 +1783,7 @@ GetOemNameSpaceObject (
 **/
 EFI_STATUS
 EFIAPI
-Lx2160aPlatformGetObject (
+FslPlatformGetObject (
   IN  CONST EDKII_CONFIGURATION_MANAGER_PROTOCOL  * CONST This,
   IN  CONST CM_OBJECT_ID                                  CmObjectId,
   IN  CONST CM_OBJECT_TOKEN                               Token OPTIONAL,
@@ -1838,7 +1838,7 @@ Lx2160aPlatformGetObject (
 **/
 EFI_STATUS
 EFIAPI
-Lx2160aPlatformSetObject (
+FslPlatformSetObject (
   IN  CONST EDKII_CONFIGURATION_MANAGER_PROTOCOL  * CONST This,
   IN  CONST CM_OBJECT_ID                                  CmObjectId,
   IN  CONST CM_OBJECT_TOKEN                               Token OPTIONAL,
@@ -1852,11 +1852,11 @@ Lx2160aPlatformSetObject (
 */
 STATIC
 CONST
-EDKII_CONFIGURATION_MANAGER_PROTOCOL Lx2160aConfigManagerProtocol = {
+EDKII_CONFIGURATION_MANAGER_PROTOCOL FslConfigManagerProtocol = {
   CREATE_REVISION (1, 0),
-  Lx2160aPlatformGetObject,
-  Lx2160aPlatformSetObject,
-  &Lx2160aPlatformRepositoryInfo
+  FslPlatformGetObject,
+  FslPlatformSetObject,
+  &FslPlatformRepositoryInfo
 };
 
 /**
@@ -1883,7 +1883,7 @@ ConfigurationManagerDxeInitialize (
                   &ImageHandle,
                   &gEdkiiConfigurationManagerProtocolGuid,
                   EFI_NATIVE_INTERFACE,
-                  (VOID*)&Lx2160aConfigManagerProtocol
+                  (VOID*)&FslConfigManagerProtocol
                   );
   if (EFI_ERROR (Status)) {
     DEBUG ((
@@ -1896,7 +1896,7 @@ ConfigurationManagerDxeInitialize (
   }
 
   Status = InitializePlatformRepository (
-    &Lx2160aConfigManagerProtocol
+    &FslConfigManagerProtocol
     );
   if (EFI_ERROR (Status)) {
     DEBUG ((

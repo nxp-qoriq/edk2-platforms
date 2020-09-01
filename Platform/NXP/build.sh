@@ -114,5 +114,6 @@ cd $BASE_DIR
 export EDK_TOOLS_PATH=`pwd`/BaseTools
 source edksetup.sh BaseTools
 
+export DYNAMIC_ACPI_PLATFORM=$1$PKG
 
 build -p "$PACKAGES_PATH/Platform/NXP/$1$PKG/$1$PKG.dsc" -a $ARCH -t $TARGET_TOOLS -b $3
