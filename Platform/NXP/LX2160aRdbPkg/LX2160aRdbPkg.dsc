@@ -22,7 +22,7 @@
   OUTPUT_DIRECTORY               = Build/LX2160aRdbPkg
   FLASH_DEFINITION               = Platform/NXP/LX2160aRdbPkg/LX2160aRdbPkg.fdf
   DEFINE MC_HIGH_MEM             = TRUE
-  DEFINE CAPSULE_ENABLE          = TRUE
+  DEFINE CAPSULE_ENABLE          = FALSE
   DEFINE X64EMU_ENABLE           = FALSE
   DEFINE AARCH64_GOP_ENABLE      = FALSE
 
@@ -81,6 +81,7 @@
 !endif
   gArmPlatformTokenSpaceGuid.PcdSystemMemoryUefiRegionSize|0x02000000
   gEfiSecurityPkgTokenSpaceGuid.PcdOptionRomImageVerificationPolicy|0x00000001
+  gEfiMdeModulePkgTokenSpaceGuid.PcdAcpiExposedTableVersions|0x20
 
   gEfiMdeModulePkgTokenSpaceGuid.PcdSmbiosVersion|0x0320
 
