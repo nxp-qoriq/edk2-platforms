@@ -55,27 +55,6 @@ Scope(_SB)
       Name(CLK1, 0)
       Name(CLK2, 0)
       Name(CLK3, 0)
-      Name (_LPI, Package() {
-        0, // Version
-        0, // Level Index
-        1, // Count
-        Package() { // Power Gating state for Cluster
-          6000, // Min residency (uS)
-          2000, // Wake latency (uS)
-          1, // Flags
-          1, // Arch Context Flags
-          100, //Residency Counter Frequency
-          0, // No Parent State
-          0x01000000, // Integer Entry method
-          ResourceTemplate() { // Null Residency Counter
-            Register (SystemMemory, 0, 0, 0, 0)
-          },
-          ResourceTemplate() { // Null Usage Counter
-            Register (SystemMemory, 0, 0, 0, 0)
-          },
-          "CluPwrDn"
-        },
-      })
       Name(PLPI, Package() {
         0, // Version
         1, // Level Index
@@ -267,27 +246,6 @@ Scope(_SB)
       Name(CLK1, 0)
       Name(CLK2, 0)
       Name(CLK3, 0)
-      Name (_LPI, Package() {
-        0, // Version
-        0, // Level Index
-        1, // Count
-        Package() { // Power Gating state for Cluster
-          6000, // Min residency (uS)
-          2000, // Wake latency (uS)
-          1, // Flags
-          1, // Arch Context Flags
-          100, //Residency Counter Frequency
-          0, // No Parent State
-          0x01000000, // Integer Entry method
-          ResourceTemplate() { // Null Residency Counter
-            Register (SystemMemory, 0, 0, 0, 0)
-          },
-          ResourceTemplate() { // Null Usage Counter
-            Register (SystemMemory, 0, 0, 0, 0)
-          },
-          "CluPwrDn"
-        },
-      })
       Name(PLPI, Package() {
         0, // Version
         1, // Level Index
@@ -452,27 +410,6 @@ Scope(_SB)
       Name(CLK1, 0)
       Name(CLK2, 0)
       Name(CLK3, 0)
-      Name (_LPI, Package() {
-        0, // Version
-        0, // Level Index
-        1, // Count
-        Package() { // Power Gating state for Cluster
-          6000, // Min residency (uS)
-          2000, // Wake latency (uS)
-          1, // Flags
-          1, // Arch Context Flags
-          100, //Residency Counter Frequency
-          0, // No Parent State
-          0x01000000, // Integer Entry method
-          ResourceTemplate() { // Null Residency Counter
-            Register (SystemMemory, 0, 0, 0, 0)
-          },
-          ResourceTemplate() { // Null Usage Counter
-            Register (SystemMemory, 0, 0, 0, 0)
-          },
-          "CluPwrDn"
-        },
-      })
       Name(PLPI, Package() {
         0, // Version
         1, // Level Index
@@ -637,27 +574,6 @@ Scope(_SB)
       Name(CLK1, 0)
       Name(CLK2, 0)
       Name(CLK3, 0)
-      Name (_LPI, Package() {
-        0, // Version
-        0, // Level Index
-        1, // Count
-        Package() { // Power Gating state for Cluster
-          6000, // Min residency (uS)
-          2000, // Wake latency (uS)
-          1, // Flags
-          1, // Arch Context Flags
-          100, //Residency Counter Frequency
-          0, // No Parent State
-          0x01000000, // Integer Entry method
-          ResourceTemplate() { // Null Residency Counter
-            Register (SystemMemory, 0, 0, 0, 0)
-          },
-          ResourceTemplate() { // Null Usage Counter
-            Register (SystemMemory, 0, 0, 0, 0)
-          },
-          "CluPwrDn"
-        },
-      })
       Name(PLPI, Package() {
         0, // Version
         1, // Level Index
@@ -822,27 +738,6 @@ Scope(_SB)
       Name(CLK1, 0)
       Name(CLK2, 0)
       Name(CLK3, 0)
-      Name (_LPI, Package() {
-        0, // Version
-        0, // Level Index
-        1, // Count
-        Package() { // Power Gating state for Cluster
-          6000, // Min residency (uS)
-          2000, // Wake latency (uS)
-          1, // Flags
-          1, // Arch Context Flags
-          100, //Residency Counter Frequency
-          0, // No Parent State
-          0x01000000, // Integer Entry method
-          ResourceTemplate() { // Null Residency Counter
-            Register (SystemMemory, 0, 0, 0, 0)
-          },
-          ResourceTemplate() { // Null Usage Counter
-            Register (SystemMemory, 0, 0, 0, 0)
-          },
-          "CluPwrDn"
-        },
-      })
       Name(PLPI, Package() {
         0, // Version
         1, // Level Index
@@ -1007,27 +902,6 @@ Scope(_SB)
       Name(CLK1, 0)
       Name(CLK2, 0)
       Name(CLK3, 0)
-      Name (_LPI, Package() {
-        0, // Version
-        0, // Level Index
-        1, // Count
-        Package() { // Power Gating state for Cluster
-          6000, // Min residency (uS)
-          2000, // Wake latency (uS)
-          1, // Flags
-          1, // Arch Context Flags
-          100, //Residency Counter Frequency
-          0, // No Parent State
-          0x01000000, // Integer Entry method
-          ResourceTemplate() { // Null Residency Counter
-            Register (SystemMemory, 0, 0, 0, 0)
-          },
-          ResourceTemplate() { // Null Usage Counter
-            Register (SystemMemory, 0, 0, 0, 0)
-          },
-          "CluPwrDn"
-        },
-      })
       Name(PLPI, Package() {
         0, // Version
         1, // Level Index
@@ -1192,27 +1066,6 @@ Scope(_SB)
       Name(CLK1, 0)
       Name(CLK2, 0)
       Name(CLK3, 0)
-      Name (_LPI, Package() {
-        0, // Version
-        0, // Level Index
-        1, // Count
-        Package() { // Power Gating state for Cluster
-          6000, // Min residency (uS)
-          2000, // Wake latency (uS)
-          1, // Flags
-          1, // Arch Context Flags
-          100, //Residency Counter Frequency
-          0, // No Parent State
-          0x01000000, // Integer Entry method
-          ResourceTemplate() { // Null Residency Counter
-            Register (SystemMemory, 0, 0, 0, 0)
-          },
-          ResourceTemplate() { // Null Usage Counter
-            Register (SystemMemory, 0, 0, 0, 0)
-          },
-          "CluPwrDn"
-        },
-      })
       Name(PLPI, Package() {
         0, // Version
         1, // Level Index
@@ -1377,27 +1230,6 @@ Scope(_SB)
       Name(CLK1, 0)
       Name(CLK2, 0)
       Name(CLK3, 0)
-      Name (_LPI, Package() {
-        0, // Version
-        0, // Level Index
-        1, // Count
-        Package() { // Power Gating state for Cluster
-          6000, // Min residency (uS)
-          2000, // Wake latency (uS)
-          1, // Flags
-          1, // Arch Context Flags
-          100, //Residency Counter Frequency
-          0, // No Parent State
-          0x01000000, // Integer Entry method
-          ResourceTemplate() { // Null Residency Counter
-            Register (SystemMemory, 0, 0, 0, 0)
-          },
-          ResourceTemplate() { // Null Usage Counter
-            Register (SystemMemory, 0, 0, 0, 0)
-          },
-          "CluPwrDn"
-        },
-      })
       Name(PLPI, Package() {
         0, // Version
         1, // Level Index
