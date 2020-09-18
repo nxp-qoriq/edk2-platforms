@@ -12,7 +12,7 @@
 
 #include "Platform.h"
 
-DefinitionBlock("DsdtTable.aml", "DSDT", 1, "NXP  ", "LX2160  ", EFI_ACPI_ARM_OEM_REVISION) {
+DefinitionBlock("DsdtTable.aml", "DSDT", 2, "NXP  ", "LX2160  ", EFI_ACPI_ARM_OEM_REVISION) {
   include ("Clk.asl")
   include ("Com.asl")
   include ("CPU.asl")
