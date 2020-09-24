@@ -23,6 +23,10 @@
 #define AML_BUFFER_OP                0x11
 #define AML_RESOURCE_BUS             0x2
 
+typedef PACKED struct {
+  UINT16                        BusNum;
+} BBN_DESCRIPTOR;
+
 /**
   Fetch the mac address from eeprom, if fails to read then generate random
   address and fix the address dsdt propery in loop.
@@ -612,6 +616,7 @@ UpdateDsdtPcie (
   EFI_ACPI_COMMON_HEADER                 *TableHeader;
   EFI_ACPI_WORD_ADDRESS_SPACE_DESCRIPTOR *WordBusRsc;
   UINT8                                  *DataPtr;
+  BBN_DESCRIPTOR                         *BusDescriptor;
 
   TableHeader = (EFI_ACPI_COMMON_HEADER *)Table;
 
@@ -619,6 +624,12 @@ UpdateDsdtPcie (
     for (DataPtr = (UINT8 *)(TableHeader + 1);
          DataPtr < (UINT8 *) ((UINT8 *) TableHeader + TableHeader->Length - 4);
          DataPtr++) {
+      if (CompareMem(DataPtr, "_BBN", 4) == 0) {
+        DataPtr += 4; // Skip _BBN
+        BusDescriptor = (BBN_DESCRIPTOR *)DataPtr;
+        BusDescriptor->BusNum = SwapBytes16 (0x1);
+        DataPtr = DataPtr + sizeof (BBN_DESCRIPTOR);
+      }
       if (CompareMem(DataPtr, "RBUF", 4) == 0) {
         DataPtr += 4; // Skip RBUF
         if (*DataPtr == AML_BUFFER_OP) {
