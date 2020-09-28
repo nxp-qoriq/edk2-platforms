@@ -30,22 +30,22 @@ Scope(_SB)
     }) // end of _CRS for fsl-mc device
 
     //DPMACs
-    Device(PR03) { // 10G
+    Device(PR03) {
       Name (_ADR, 0x3)
     }
-     Device(PR04) { // 10G
+    Device(PR04) {
       Name (_ADR, 0x4)
     }
-    Device(PR05) { // 25G
+    Device(PR05) {
       Name (_ADR, 0x5)
     }
-    Device(PR06) { // 25G
+    Device(PR06) {
       Name (_ADR, 0x6)
     }
-    Device(PR17) { // 1G
+    Device(PR17) {
       Name (_ADR, 0x11)
     }
-    Device(PR18) { // 1G
+    Device(PR18) {
       Name (_ADR, 0x12)
     } // end of DPMAC
   } // end of fsl-mc device
