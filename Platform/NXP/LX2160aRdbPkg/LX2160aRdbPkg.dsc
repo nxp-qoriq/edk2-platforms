@@ -22,10 +22,9 @@
   OUTPUT_DIRECTORY               = Build/LX2160aRdbPkg
   FLASH_DEFINITION               = Platform/NXP/LX2160aRdbPkg/LX2160aRdbPkg.fdf
   DEFINE MC_HIGH_MEM             = TRUE
-  DEFINE CAPSULE_ENABLE          = TRUE
+  DEFINE CAPSULE_ENABLE          = FALSE
   DEFINE X64EMU_ENABLE           = FALSE
   DEFINE AARCH64_GOP_ENABLE      = FALSE
-  DEFINE SECURE_BOOT_ENABLE      = TRUE
 
   #
   # Network definition
@@ -47,8 +46,9 @@
   PL011UartClockLib|Silicon/NXP/Library/PL011UartClockLib/PL011UartClockLib.inf
   SerialPortLib|ArmPlatformPkg/Library/PL011SerialPortLib/PL011SerialPortLib.inf
   SocLib|Silicon/NXP/Chassis/LX2160aSocLib.inf
-  RealTimeClockLib|Silicon/NXP/Library/Pcf2129RtcMmLib/Pcf2129RtcLib.inf
+  RealTimeClockLib|Silicon/NXP/Library/Pcf2129RtcLib/Pcf2129RtcLib.inf
   FpgaLib|Platform/NXP/LX2160aRdbPkg/Library/FpgaLib/FpgaLib.inf
+  IortLib|Silicon/NXP/LX2160A/Library/IortLib/IortLib.inf
   PciSegmentLib|Silicon/NXP/Library/PciSegmentLib/PciSegmentLib.inf
   PciHostBridgeLib|Silicon/NXP/Library/PciHostBridgeLib/PciHostBridgeLib.inf
   MmcLib|Silicon/NXP/Library/MmcLib/MmcLib.inf
@@ -63,7 +63,6 @@
 
 [PcdsFeatureFlag.common]
   gEfiMdeModulePkgTokenSpaceGuid.PcdInstallAcpiSdtProtocol|TRUE
-  gEfiMdeModulePkgTokenSpaceGuid.PcdEnableVariableRuntimeCache|FALSE
 
 [PcdsFixedAtBuild.common]
 
@@ -82,6 +81,7 @@
 !endif
   gArmPlatformTokenSpaceGuid.PcdSystemMemoryUefiRegionSize|0x02000000
   gEfiSecurityPkgTokenSpaceGuid.PcdOptionRomImageVerificationPolicy|0x00000001
+  gEfiMdeModulePkgTokenSpaceGuid.PcdAcpiExposedTableVersions|0x20
 
   gEfiMdeModulePkgTokenSpaceGuid.PcdSmbiosVersion|0x0320
 
@@ -178,21 +178,19 @@
   #
   # Architectural Protocols
   #
-  MdeModulePkg/Universal/Variable/RuntimeDxe/VariableSmmRuntimeDxe.inf {
-      <LibraryClasses>
-      NULL|StandaloneMmPkg/Library/VariableMmDependency/VariableMmDependency.inf
+  MdeModulePkg/Universal/Variable/RuntimeDxe/VariableRuntimeDxe.inf{
+     <LibraryClasses>
+     NULL|MdeModulePkg/Library/VarCheckUefiLib/VarCheckUefiLib.inf
+     NULL|EmbeddedPkg/Library/NvVarStoreFormattedLib/NvVarStoreFormattedLib.inf
   }
-
-  ArmPkg/Drivers/MmCommunicationOpteeDxe/MmCommunication.inf {
-      <LibraryClasses>
-      OpteeLib|ArmPkg/Library/OpteeLib/OpteeLib.inf
-  }
+  MdeModulePkg/Universal/FaultTolerantWriteDxe/FaultTolerantWriteDxe.inf
 
   ArmPkg/Drivers/GenericWatchdogDxe/GenericWatchdogDxe.inf
   Silicon/NXP/Drivers/I2cDxe/I2cDxe.inf
   EmbeddedPkg/RealTimeClockRuntimeDxe/RealTimeClockRuntimeDxe.inf
   Silicon/NXP/Drivers/UsbHcdInitDxe/UsbHcd.inf
   Silicon/NXP/Drivers/PciCpuIo2Dxe/PciCpuIo2Dxe.inf
+  Silicon/NXP/Library/Pcf2129RtcLib/Pcf2129RtcLib.inf
   MdeModulePkg/Bus/Pci/PciHostBridgeDxe/PciHostBridgeDxe.inf {
     <PcdsFixedAtBuild>
   gEfiMdePkgTokenSpaceGuid.PcdDebugPrintErrorLevel|0x8010004F

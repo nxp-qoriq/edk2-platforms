@@ -1,7 +1,8 @@
-/** @file
+/** @NxpIoRemappingTable
 *  I/O Remapping Table (Iort)
 *
-*  Copyright 2019-2020 NXP
+*  Copyright 2020 NXP
+*  Copyright 2020 Puresoftware
 *
 *  SPDX-License-Identifier: BSD-2-Clause
 *
@@ -49,12 +50,10 @@ typedef struct
 typedef struct
 {
   EFI_ACPI_6_0_IO_REMAPPING_TABLE                  Header;
-  NXP_EFI_ACPI_6_0_IO_REMAPPING_ITS_NODE           ItsNode;
   NXP_EFI_ACPI_6_0_IO_REMAPPING_SMMU_NODE          SmmuNode;
-  NXP_EFI_ACPI_6_0_IO_REMAPPING_RC_NODE            PciRcNode[2];
+  NXP_EFI_ACPI_6_0_IO_REMAPPING_RC_NODE            PciRcNode[3];
   NXP_EFI_ACPI_6_0_IO_REMAPPING_NAMED_COMP_NODE    NamedCompNode[9];
 } NXP_EFI_ACPI_6_0_IO_REMAPPING_TABLE;
 
-#pragma pack ()
 
 #endif

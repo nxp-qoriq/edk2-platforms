@@ -85,7 +85,6 @@ Scope(_SB)
      Device (CH03) {
         Name(_ADR, 3)
         Device(THE1) {
-        Name(_ADR, 1)
         Name (_HID, "PRP0001")
           Name(_CRS, ResourceTemplate() {
             I2CSerialBus(0x4C, ControllerInitiated, 100000, AddressingMode7Bit, "\\_SB.I2C0.MUX0.CH03", 0, ResourceConsumer, ,)
@@ -99,7 +98,6 @@ Scope(_SB)
           })
         } //end of temperature sensor device
         Device(THE2) {
-        Name(_ADR, 2)
         Name (_HID, "PRP0001")
           Name(_CRS, ResourceTemplate() {
             I2CSerialBus(0x4D, ControllerInitiated, 100000, AddressingMode7Bit, "\\_SB.I2C0.MUX0.CH03", 0, ResourceConsumer, ,)

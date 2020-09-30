@@ -9,11 +9,11 @@
 #include <PiDxe.h>
 #include <libfdt.h>
 #include <IndustryStandard/Pci22.h>
-#include <IndustryStandard/NxpIoRemappingTable.h>
 #include <Library/IoAccessLib.h>
 #include <Library/DebugLib.h>
 #include <Library/DevicePathLib.h>
 #include <Library/IoLib.h>
+#include <Library/IortLib.h>
 #include <Library/ItbParse.h>
 #include <Library/MemoryAllocationLib.h>
 #include <Library/PcdLib.h>
@@ -1088,23 +1088,7 @@ IortPcieSetItsIdMapping (
   UINT32  OutputId
   )
 {
-  NXP_EFI_ACPI_6_0_IO_REMAPPING_TABLE      *Iort;
-  NXP_EFI_ACPI_6_0_IO_REMAPPING_SMMU_NODE  *SmmuNode;
-  EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE       *IdMapping;
-
-  Iort = (NXP_EFI_ACPI_6_0_IO_REMAPPING_TABLE *)CurrentTable;
-
-  // find Smmu Node
-  SmmuNode = &(Iort->SmmuNode);
-
-  IdMapping = &(SmmuNode->SmmuID[SmmuNode->SmmuNode.Node.NumIdMappings]);
-
-  IdMapping->InputBase = InputId;
-  IdMapping->NumIds = 0;
-  IdMapping->OutputBase = OutputId;
-  IdMapping->OutputReference = OFFSET_OF (NXP_EFI_ACPI_6_0_IO_REMAPPING_TABLE, ItsNode);
-
-  SmmuNode->SmmuNode.Node.NumIdMappings += 1;
+  (void)SetItsIdMapping(CurrentTable, InputId, OutputId);
 
   return EFI_SUCCESS;
 }
@@ -1134,36 +1118,9 @@ IortPcieSetIommuIdMapping (
   UINT32  OutputId
   )
 {
-  NXP_EFI_ACPI_6_0_IO_REMAPPING_TABLE    *Iort;
-  NXP_EFI_ACPI_6_0_IO_REMAPPING_RC_NODE  *PciRcNode;
-  EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE     *IdMapping;
-  UINTN                                  Index;
-
-  Iort = (NXP_EFI_ACPI_6_0_IO_REMAPPING_TABLE *)CurrentTable;
-
-  // find Pcie Rc Node
-  Index = 0;
-  PciRcNode = Iort->PciRcNode;
-  while (Index < ARRAY_SIZE(Iort->PciRcNode)) {
-    if (PciRcNode->PciRcNode.PciSegmentNumber == SegmentNumber) {
-      break;
-    }
-    PciRcNode = &(Iort->PciRcNode[++Index]);
-  }
-
-  if (Index == ARRAY_SIZE(Iort->PciRcNode)) {
-    DEBUG ((DEBUG_ERROR, "Pcie node with Segment number %d not found in IORT table\n", SegmentNumber));
+  if (SetIommuIdMapping(CurrentTable, SegmentNumber, InputId, OutputId)) {
     return EFI_NOT_FOUND;
   }
-
-  IdMapping = &(PciRcNode->PciRcIdMapping[PciRcNode->PciRcNode.Node.NumIdMappings]);
-
-  IdMapping->InputBase = InputId;
-  IdMapping->NumIds = 0;
-  IdMapping->OutputBase = OutputId;
-  IdMapping->OutputReference = OFFSET_OF (NXP_EFI_ACPI_6_0_IO_REMAPPING_TABLE, SmmuNode);
-
-  PciRcNode->PciRcNode.Node.NumIdMappings += 1;
 
   return EFI_SUCCESS;
 }

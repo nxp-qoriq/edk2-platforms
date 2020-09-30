@@ -504,7 +504,6 @@ I2cBusXfer (
         goto ErrorExit;
       }
     }
-
     // Read/write data
     if (Operation->Flags & I2C_FLAG_READ) {
       Status = I2cRead (Regs, SlaveAddress, Operation, IsLastOperation);
@@ -594,3 +593,4 @@ I2cBusReadReg (
 
   return Status;
 }
+

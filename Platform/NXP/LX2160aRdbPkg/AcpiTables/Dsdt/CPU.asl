@@ -110,8 +110,8 @@ Scope(_SB)
       })
       Method(_INI, 0, NotSerialized) {
         Store(\_SB.PCLK.CLKA, CLK1)
-        Divide(CLK1, 2, Local0, CLK2)
-        Divide(CLK1, 4, Local0, CLK3)
+        Divide(CLK1, 2, , CLK2)
+        Divide(CLK1, 4, , CLK3)
       }
       Device(CPU0) { // A72-0: Cluster 0, Cpu 0
         Name(_HID, "ACPI0007")
@@ -301,8 +301,8 @@ Scope(_SB)
       })
       Method(_INI, 0, NotSerialized) {
         Store(\_SB.PCLK.CLKA, CLK1)
-        Divide(CLK1, 2, Local0, CLK2)
-        Divide(CLK1, 4, Local0, CLK3)
+        Divide(CLK1, 2, , CLK2)
+        Divide(CLK1, 4, , CLK3)
       }
       Device(CPU2) { // A72-0: Cluster 1, Cpu 0
         Name(_HID, "ACPI0007")
@@ -465,8 +465,8 @@ Scope(_SB)
       })
       Method(_INI, 0, NotSerialized) {
         Store(\_SB.PCLK.CLKA, CLK1)
-        Divide(CLK1, 2, Local0, CLK2)
-        Divide(CLK1, 4, Local0, CLK3)
+        Divide(CLK1, 2, , CLK2)
+        Divide(CLK1, 4, , CLK3)
       }
       Device(CPU4) { // A72-0: Cluster 2, Cpu 0
         Name(_HID, "ACPI0007")
@@ -629,8 +629,8 @@ Scope(_SB)
       })
       Method(_INI, 0, NotSerialized) {
         Store(\_SB.PCLK.CLKA, CLK1)
-        Divide(CLK1, 2, Local0, CLK2)
-        Divide(CLK1, 4, Local0, CLK3)
+        Divide(CLK1, 2, , CLK2)
+        Divide(CLK1, 4, , CLK3)
       }
       Device(CPU6) { // A72-0: Cluster 3, Cpu 0
         Name(_HID, "ACPI0007")
@@ -793,8 +793,8 @@ Scope(_SB)
       })
       Method(_INI, 0, NotSerialized) {
         Store(\_SB.PCLK.CLKB, CLK1)
-        Divide(CLK1, 2, Local0, CLK2)
-        Divide(CLK1, 4, Local0, CLK3)
+        Divide(CLK1, 2, , CLK2)
+        Divide(CLK1, 4, , CLK3)
       }
       Device(CPU8) { // A72-0: Cluster 4, Cpu 0
         Name(_HID, "ACPI0007")
@@ -957,8 +957,8 @@ Scope(_SB)
       })
       Method(_INI, 0, NotSerialized) {
         Store(\_SB.PCLK.CLKB, CLK1)
-        Divide(CLK1, 2, Local0, CLK2)
-        Divide(CLK1, 4, Local0, CLK3)
+        Divide(CLK1, 2, , CLK2)
+        Divide(CLK1, 4, , CLK3)
       }
       Device(CP10) { // A72-0: Cluster 5, Cpu 0
         Name(_HID, "ACPI0007")
@@ -1121,8 +1121,8 @@ Scope(_SB)
       })
       Method(_INI, 0, NotSerialized) {
         Store(\_SB.PCLK.CLKB, CLK1)
-        Divide(CLK1, 2, Local0, CLK2)
-        Divide(CLK1, 4, Local0, CLK3)
+        Divide(CLK1, 2, , CLK2)
+        Divide(CLK1, 4, , CLK3)
       }
       Device(CP12) { // A72-0: Cluster 6, Cpu 0
         Name(_HID, "ACPI0007")
@@ -1285,8 +1285,8 @@ Scope(_SB)
       })
       Method(_INI, 0, NotSerialized) {
         Store(\_SB.PCLK.CLKB, CLK1)
-        Divide(CLK1, 2, Local0, CLK2)
-        Divide(CLK1, 4, Local0, CLK3)
+        Divide(CLK1, 2, , CLK2)
+        Divide(CLK1, 4, , CLK3)
       }
       Device(CP14) { // A72-0: Cluster 7, Cpu 0
         Name(_HID, "ACPI0007")
