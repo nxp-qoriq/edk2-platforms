@@ -19,7 +19,6 @@
 
 [Sources]
   Dsdt/Dsdt.asl
-  HestGhesV2.asl
   Fadt.aslc
   Gtdt.aslc
   Iort.aslc
