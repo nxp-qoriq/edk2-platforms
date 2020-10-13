@@ -22,6 +22,7 @@
   Gtdt.aslc
   Mcfg.aslc
   Oem.aslc
+  Iort.aslc
   Platform.h
 
 [Packages]
