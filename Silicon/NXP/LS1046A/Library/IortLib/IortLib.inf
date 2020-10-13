@@ -30,3 +30,7 @@
 [LibraryClasses]
   DebugLib
 
+[FixedPcd]
+  gNxpQoriqLsTokenSpaceGuid.PcdPcieTbuMask
+  gNxpQoriqLsTokenSpaceGuid.PcdNoITS
+

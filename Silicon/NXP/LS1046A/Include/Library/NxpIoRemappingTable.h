@@ -55,5 +55,6 @@ typedef struct
   NXP_EFI_ACPI_6_0_IO_REMAPPING_NAMED_COMP_NODE    NamedCompNode[9];
 } NXP_EFI_ACPI_6_0_IO_REMAPPING_TABLE;
 
+#pragma pack ()
 
 #endif
