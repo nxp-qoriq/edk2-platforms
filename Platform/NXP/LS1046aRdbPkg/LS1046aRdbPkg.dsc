@@ -57,6 +57,7 @@
   MmcLib|Silicon/NXP/Library/MmcLib/MmcLib.inf
   SecureMonRngLib|Silicon/NXP/Library/SecureMonRngLib/SecureMonRngLib.inf
   MemoryInitPeiLib|Silicon/NXP/Library/MemoryInitPei/MemoryInitPeiLib.inf
+  PlatformASLTablesLib|Platform/NXP/LS1046aRdbPkg/PlatformASLTablesLib/PlatformASLTablesLib.inf
 
   #
   # DPAA1

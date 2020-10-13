@@ -38,6 +38,7 @@
   UefiBootServicesTableLib
   UefiDriverEntryPoint
   UefiRuntimeServicesTableLib
+  PlatformASLTablesLib
 
 [Protocols]
   gEdkiiConfigurationManagerProtocolGuid

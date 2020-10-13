@@ -9,7 +9,7 @@
 
 #include <AcpiTables/Platform.h>
 
-DefinitionBlock("DsdtTable.aml", "DSDT", 1, "NXPLTD", "LX2160A ", EFI_ACPI_ARM_OEM_REVISION) {
+DefinitionBlock("DsdtTable.aml", "DSDT", 1, "NXP   ", "LX2160  ", EFI_ACPI_ARM_OEM_REVISION) {
   include ("AcpiTables/Dsdt/Com.asl")
   include ("AcpiTables/Dsdt/CPU.asl")
   include ("AcpiTables/Dsdt/Clk.asl")
