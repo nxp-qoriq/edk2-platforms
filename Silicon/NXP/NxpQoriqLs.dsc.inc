@@ -38,6 +38,7 @@
   DxeServicesLib|MdePkg/Library/DxeServicesLib/DxeServicesLib.inf
   UefiBootManagerLib|MdeModulePkg/Library/UefiBootManagerLib/UefiBootManagerLib.inf
   CustomizedDisplayLib|MdeModulePkg/Library/CustomizedDisplayLib/CustomizedDisplayLib.inf
+  SysEepromLib|Silicon/NXP/Library/SysEepromLib/SysEepromLib.inf
 
   # Networking Requirements
   NetLib|NetworkPkg/Library/DxeNetLib/DxeNetLib.inf
