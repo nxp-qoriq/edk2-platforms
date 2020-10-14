@@ -1,0 +1,45 @@
+## @file
+#  Instance of Base Memory Library without assembly.
+#
+#  Copyright (c) 2020, Linaro Ltd. All rights reserved.
+#  Copyright 2020 NXP
+#
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+#
+##
+
+[Defines]
+  INF_VERSION                    = 0x0001001A
+  BASE_NAME                      = FixupPcd
+  FILE_GUID                      = a827c337-a9c6-301b-aeb7-acbc95d8da22
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 0.1
+  LIBRARY_CLASS                  = RpmbPcdFixup|MM_STANDALONE
+  CONSTRUCTOR                    = FixPcdMemory
+
+[Sources]
+  FixupPcd.c
+  EepromFvb.h
+
+[Packages]
+  MdeModulePkg/MdeModulePkg.dec
+  MdePkg/MdePkg.dec
+
+[LibraryClasses]
+  BaseLib
+  DebugLib
+  MmServicesTableLib
+  PcdLib
+
+[Pcd]
+  gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageVariableBase
+  gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageVariableSize
+  gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageFtwWorkingBase
+  gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageFtwWorkingSize
+  gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageFtwSpareBase
+  gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageFtwSpareSize
+
+
+[Protocols]
+  gEfiSmmFirmwareVolumeBlockProtocolGuid          ## CONSUMES

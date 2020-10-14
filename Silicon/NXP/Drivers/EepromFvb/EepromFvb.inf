@@ -1,0 +1,57 @@
+#  @file
+#
+#  EEPROM FVB Driver Implementation
+#
+#  Copyright 2020 NXP
+#
+#  SPDX-License-Identifier: BSD-2-Clause-Patent.
+#
+#
+
+[Defines]
+  INF_VERSION                    = 0x0001001A
+  BASE_NAME                      = EepromFvb
+  FILE_GUID                      = 7243dff1-0cb8-4b48-9285-724077ba680a
+  MODULE_TYPE                    = MM_STANDALONE
+  VERSION_STRING                 = 0.1
+  PI_SPECIFICATION_VERSION       = 0x00010032
+  ENTRY_POINT                    = EepromInitialize
+
+[Sources]
+  EepromFvb.c
+
+[Packages]
+  ArmPkg/ArmPkg.dec
+  ArmPlatformPkg/ArmPlatformPkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  MdePkg/MdePkg.dec
+  Silicon/NXP/NxpQoriqLs.dec
+  StandaloneMmPkg/StandaloneMmPkg.dec
+
+[LibraryClasses]
+  ArmLib
+  BaseMemoryLib
+  MemoryAllocationLib
+  StandaloneMmDriverEntryPoint
+  TimerLib
+
+[Guids]
+  gEfiAuthenticatedVariableGuid
+  gEfiSystemNvDataFvGuid
+  gEfiVariableGuid
+
+[Pcd]
+  gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageVariableBase
+  gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageVariableSize
+  gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageFtwWorkingBase
+  gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageFtwWorkingSize
+  gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageFtwSpareBase
+  gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageFtwSpareSize
+  gNxpQoriqLsTokenSpaceGuid.PcdI2cSpeed
+
+[Protocols]
+  gEfiSmmFirmwareVolumeBlockProtocolGuid    ## PRODUCES
+  gEfiI2cMasterProtocolGuid                 ## CONSUMES
+
+[Depex]
+  TRUE
