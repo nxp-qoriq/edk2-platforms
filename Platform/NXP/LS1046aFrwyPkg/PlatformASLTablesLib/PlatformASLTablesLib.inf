@@ -30,5 +30,7 @@
   MdePkg/MdePkg.dec
   Platform/NXP/LS1046aFrwyPkg/LS1046aFrwyPkg.dec
   Silicon/NXP/NxpQoriqLs.dec
+  Silicon/NXP/LS1046A/LS1046A.dec
+  EmbeddedPkg/EmbeddedPkg.dec
 
 [FixedPcd]

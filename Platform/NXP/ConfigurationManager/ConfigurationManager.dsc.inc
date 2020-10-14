@@ -21,4 +21,5 @@
   <BuildOptions>
    *_*_*_PLATFORM_FLAGS = -I$(BIN_DIR)/Platform/NXP/$(DYNAMIC_ACPI_PLATFORM)/PlatformASLTablesLib/PlatformASLTablesLib/OUTPUT
    *_*_*_PLATFORM_FLAGS = -I$(PACKAGES_PATH)/Platform/NXP/$(DYNAMIC_ACPI_PLATFORM)
+   *_*_*_PLATFORM_FLAGS = -I$(PACKAGES_PATH)/Silicon/NXP/$(DYNAMIC_ACPI_INC)/Include
   }

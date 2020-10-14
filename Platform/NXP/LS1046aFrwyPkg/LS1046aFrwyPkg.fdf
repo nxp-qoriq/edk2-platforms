@@ -169,11 +169,6 @@ READ_LOCK_STATUS   = TRUE
   INF MdeModulePkg/Bus/Pci/NonDiscoverablePciDeviceDxe/NonDiscoverablePciDeviceDxe.inf
 
   #
-  #SMBIOS
-  #
-  INF MdeModulePkg/Universal/SmbiosDxe/SmbiosDxe.inf
-
-  #
   # USB Support
   #
   INF MdeModulePkg/Bus/Pci/UhciDxe/UhciDxe.inf
@@ -196,7 +191,9 @@ READ_LOCK_STATUS   = TRUE
   # SMBIOS
   #
   INF MdeModulePkg/Universal/SmbiosDxe/SmbiosDxe.inf
+!if $(DYNAMIC_ACPI_ENABLE) == FALSE
   INF Platform/NXP/LS1046aFrwyPkg/SmbiosPlatformDxe/SmbiosPlatformDxe.inf
+!endif
 
   # FAT filesystem + GPT/MBR partitioning
   #
