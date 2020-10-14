@@ -29,6 +29,7 @@
 [LibraryClasses.common]
   ArmPlatformLib|Platform/NXP/LS1046aRdbPkg/Library/ArmPlatformLib/ArmPlatformLib.inf
   RealTimeClockLib|Silicon/NXP/Library/Pcf2129RealTimeClockLib/Pcf2129RealTimeClockLib.inf
+  FpgaLib|Platform/NXP/LS1046aRdbPkg/Library/FpgaLib/FpgaLib.inf
 
 ################################################################################
 #
