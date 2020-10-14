@@ -116,7 +116,7 @@ EDKII_PLATFORM_REPOSITORY_INFO FslPlatformRepositoryInfo = {
     // DSDT Table
     {
       EFI_ACPI_6_2_DIFFERENTIATED_SYSTEM_DESCRIPTION_TABLE_SIGNATURE,
-      0,
+      EFI_ACPI_6_2_DIFFERENTIATED_SYSTEM_DESCRIPTION_TABLE_REVISION,
       CREATE_STD_ACPI_TABLE_GEN_ID (EStdAcpiTableIdDsdt),
       (EFI_ACPI_DESCRIPTION_HEADER *) &AmlCode,
       CFG_MGR_TABLE_ID
@@ -125,7 +125,7 @@ EDKII_PLATFORM_REPOSITORY_INFO FslPlatformRepositoryInfo = {
     // SSDT Table
     {
       EFI_ACPI_6_2_SECONDARY_SYSTEM_DESCRIPTION_TABLE_SIGNATURE,
-      0,
+      EFI_ACPI_6_2_SECONDARY_SYSTEM_DESCRIPTION_TABLE_REVISION,
       CREATE_STD_ACPI_TABLE_GEN_ID (EStdAcpiTableIdSsdtFixup),
       (EFI_ACPI_DESCRIPTION_HEADER *) &AmlCode,
       CFG_MGR_TABLE_ID
@@ -191,7 +191,7 @@ EDKII_PLATFORM_REPOSITORY_INFO FslPlatformRepositoryInfo = {
   { EFI_ACPI_6_2_ARM_PSCI_COMPLIANT },        // BootArchFlags
 
   // Power management profile information
-  { EFI_ACPI_6_2_PM_PROFILE_MOBILE },         // PowerManagement Profile
+  { EFI_ACPI_6_2_PM_PROFILE_ENTERPRISE_SERVER }, // PowerManagement Profile
 
   // Generic Timer Info
   {
@@ -218,439 +218,58 @@ EDKII_PLATFORM_REPOSITORY_INFO FslPlatformRepositoryInfo = {
   },
 
   // Generic Timer Block Information
-  {
-    {
-      // The physical base address for the GT Block Timer structure
-      TIMER_GT_BLOCK_0_ADDRESS,
-      // The number of timer frames implemented in the GT Block
-      PLAT_GTFRAME_COUNT,
-      // Reference token for the GT Block timer frame list
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo +
-          OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, GTBlock0TimerInfo))
-    }
-  },
+  PLAT_TIMER_BLOCK_INFO,
 
   // GTDT Frames
-  {
-    {
-      0,                                    // UINT8 GTFrameNumber
-      TIMER_GT_BASE_0_ADDRESS,              // UINT64 CntBaseX
-      TIMER_GT_BASE_0_EL0_ADDRESS,          // UINT64 CntEL0BaseX
-      TIMER_FRAME0_IT,                      // UINT32 GTxPhysicalTimerGSIV
-      GTDT_FRAME_FLAGS,                     // UINT32 GTxPhysicalTimerFlags
-      TIMER_FRAME0_IT,                      // UINT32 GTxVirtualTimerGSIV
-      GTDT_FRAME_FLAGS,                     // UINT32 GTxVirtualTimerFlags
-      0                                     // UINT32 GTxCommonFlags
-    }, //Gtdt.Frames[0]
-    {
-      1,                                    // UINT8 GTFrameNumber
-      TIMER_GT_BASE_1_ADDRESS,              // UINT64 CntBaseX
-      GT_BLOCK_FRAME_RES_BASE,              // UINT64 CntEL0BaseX
-      TIMER_FRAME1_IT,                      // UINT32 GTxPhysicalTimerGSIV
-      GTDT_FRAME_FLAGS,                     // UINT32 GTxPhysicalTimerFlags
-      0,                                    // UINT32 GTxVirtualTimerGSIV
-      0,                                    // UINT32 GTxVirtualTimerFlags
-      GTDT_FRAME_COMMON_FLAGS               // UINT32 GTxCommonFlags
-    }, //Gtdt.Frames[1]
-    {
-      2,                                     // UINT8 GTFrameNumber
-      TIMER_GT_BASE_2_ADDRESS,               // UINT64 CntBaseX
-      TIMER_GT_BASE_2_EL0_ADDRESS,           // UINT64 CntEL0BaseX
-      TIMER_FRAME2_IT,                       // UINT32 GTxPhysicalTimerGSIV
-      GTDT_FRAME_FLAGS,                      // UINT32 GTxPhysicalTimerFlags
-      0,                                     // UINT32 GTxVirtualTimerGSIV
-      0,                                     // UINT32 GTxVirtualTimerFlags
-      GTDT_FRAME_COMMON_FLAGS                // UINT32 GTxCommonFlags
-    },//Gtdt.Frames[2]
-    {
-      3,                                     // UINT8 GTFrameNumber
-      TIMER_GT_BASE_3_ADDRESS,               // UINT64 CntBaseX
-      GT_BLOCK_FRAME_RES_BASE,               // UINT64 CntEL0BaseX
-      TIMER_FRAME3_IT,                       // UINT32 GTxPhysicalTimerGSIV
-      GTDT_FRAME_FLAGS,                      // UINT32 GTxPhysicalTimerFlags
-      0,                                     // UINT32 GTxVirtualTimerGSIV
-      0,                                     // UINT32 GTxVirtualTimerFlags
-      GTDT_FRAME_COMMON_FLAGS                // UINT32 GTxCommonFlags
-    }, //Gtdt.Frames[3]
-  }, // End of frames and timer blocks
+  PLAT_TIMER_FRAME_INFO,
 
-  // watchdogs
-  {
-      TIMER_WDT0_CONTROL_BASE,                // UINT64 WatchdogControlFramePhysicalAddress
-      TIMER_WDT0_REFRESH_BASE,                // UINT64 RefreshFramePhysicalAddress
-      TIMER_WDT0_IT,                          // UINT32 WatchdogTimerGSIV
-      SBSA_WATCHDOG_FLAGS                     // UINT32 WatchdogTimerFlags
-  },
+  // Watchdog info
+  PLAT_WATCHDOG_INFO,
 
-  /* GIC CPU Interface information
-     GIC_ENTRY (CPUInterfaceNumber, Mpidr, PmuIrq, VGicIrq, EnergyEfficiency)
-   */
-  {
-    GICC_ENTRY (0,  GET_MPID (0, 0), 23, 0x19, 0),
-    GICC_ENTRY (1,  GET_MPID (0, 1), 23, 0x19, 0),
-    GICC_ENTRY (2,  GET_MPID (1, 0), 23, 0x19, 0),
-    GICC_ENTRY (3,  GET_MPID (1, 1), 23, 0x19, 0),
-    GICC_ENTRY (4,  GET_MPID (2, 0), 23, 0x19, 0),
-    GICC_ENTRY (5,  GET_MPID (2, 1), 23, 0x19, 0),
-    GICC_ENTRY (6,  GET_MPID (3, 0), 23, 0x19, 0),
-    GICC_ENTRY (7,  GET_MPID (3, 1), 23, 0x19, 0),
-    GICC_ENTRY (8,  GET_MPID (4, 0), 23, 0x19, 0),
-    GICC_ENTRY (9,  GET_MPID (4, 1), 23, 0x19, 0),
-    GICC_ENTRY (10, GET_MPID (5, 0), 23, 0x19, 0),
-    GICC_ENTRY (11, GET_MPID (5, 1), 23, 0x19, 0),
-    GICC_ENTRY (12, GET_MPID (6, 0), 23, 0x19, 0),
-    GICC_ENTRY (13, GET_MPID (6, 1), 23, 0x19, 0),
-    GICC_ENTRY (14, GET_MPID (7, 0), 23, 0x19, 0),
-    GICC_ENTRY (15, GET_MPID (7, 1), 23, 0x19, 0)
-  },
+  // GIC CPU Interface information
+  PLAT_GIC_CPU_INTERFACE,
 
   // GIC Distributor Info
-  {
-    GICD_BASE,                                // UINT64  PhysicalBaseAddress
-    0,                                        // UINT32  SystemVectorBase
-    GIC_VERSION                               // UINT8   GicVersion
-  },
+  PLAT_GIC_DISTRIBUTOR_INFO,
 
-  /* GIC Redistributor */
-  {
-    GICR_BASE,                                // UINT64 DiscoveryRangeBaseAddress
-    GICR_LEN                                  // UINT32 DiscoveryRangeLength
-  },
+  // GIC Redistributor
+  PLAT_GIC_REDISTRIBUTOR_INFO,
 
-  /* GIC ITS */
-  {
-    0,                                        // UINT32 GIC ITS ID
-    GICI_BASE,                                // UINT64 The 64-bit physical address for ITS
-    0                                         // UINT32 Populate the GIC ITS affinity in SRAT table.
-  },
+  // GIC ITS
+  PLAT_GIC_ITS_INFO,
 
-  /* MCFG */
-  {
-    {
-      LX2160A_PCI_SEG0_CONFIG_BASE,
-      LX2160A_PCI_SEG0,
-      LX2160A_PCI_SEG_BUSNUM_MIN,
-      LX2160A_PCI_SEG_BUSNUM_MAX,
-    },
-    {
-      LX2160A_PCI_SEG1_CONFIG_BASE,
-      LX2160A_PCI_SEG1,
-      LX2160A_PCI_SEG_BUSNUM_MIN,
-      LX2160A_PCI_SEG_BUSNUM_MAX,
-    }
-  },
+  // MCFG Info
+  PLAT_MCFG_INFO,
 
-  /* SPCR */
-  {
-    UART0_BASE,
-    UART0_IT,
-    115200,
-    0,
-    EFI_ACPI_SERIAL_PORT_CONSOLE_REDIRECTION_TABLE_INTERFACE_TYPE_ARM_PL011_UART
-  },
+  // SPCR Info
+  PLAT_SPCR_INFO,
 
-  /* DBG2 */
-  {
-    UART1_BASE,
-    UART1_IT,
-    115200,
-    175000000,
-    EFI_ACPI_DBG2_PORT_SUBTYPE_SERIAL_ARM_SBSA_GENERIC_UART
-  },
+  // DBG2 Info
+  PLAT_DBG2_INFO,
 
   // ITS group node
-  {
-    {
-      // Reference token for this Iort node
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, ItsGroupInfo[0])),
-      // The number of ITS identifiers in the ITS node.
-      1,
-      // Reference token for the ITS identifier array
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, ItsIdentifierArray[0])),
-    }
-  },
+  PLAT_ITS_GROUP_NODE_INFO,
 
   // ITS identifier array
-  {
-    {
-      // The ITS Identifier
-      0
-    }
-  },
+  PLAT_ITS_IDENTIFIER_ARRAY_INFO,
 
   // Named Components in IORT table
-  {
-    {
-      // Reference token for this named component
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[0])),
-      1,
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[0])),
-      0,
-      EFI_ACPI_IORT_MEM_ACCESS_PROP_CCA,
-      0,
-      EFI_ACPI_IORT_MEM_ACCESS_FLAGS_CPM | EFI_ACPI_IORT_MEM_ACCESS_FLAGS_DACS,
-      48,
-      "\\_SB_.MCE0" // refer MC.asl
-    },
-    {
-      // Reference token for this named component
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[1])),
-      1,
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[1])),
-      0,
-      0,
-      0,
-      0,
-      40,
-      "\\_SB_.USB0" // refer USB.asl
-    },
-    {
-      // Reference token for this named component
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[2])),
-      1,
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[2])),
-      0,
-      0,
-      0,
-      0,
-      40,
-      "\\_SB_.USB1" // refer USB.asl
-    },
-    {
-      // Reference token for this named component
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[3])),
-      1,
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[3])),
-      0,
-      EFI_ACPI_IORT_MEM_ACCESS_PROP_CCA,
-      0,
-      EFI_ACPI_IORT_MEM_ACCESS_FLAGS_CPM | EFI_ACPI_IORT_MEM_ACCESS_FLAGS_DACS,
-      48,
-      "\\_SB_.SDC0", // refer Esdhc.asl
-    },
-    {
-      // Reference token for this named component
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[4])),
-      1,
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[4])),
-      0,
-      EFI_ACPI_IORT_MEM_ACCESS_PROP_CCA,
-      0,
-      EFI_ACPI_IORT_MEM_ACCESS_FLAGS_CPM | EFI_ACPI_IORT_MEM_ACCESS_FLAGS_DACS,
-      48,
-      "\\_SB_.SDC0", // refer Esdhc.asl
-    },
-    {
-      // Reference token for this named component
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[5])),
-      1,
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[5])),
-      0,
-      EFI_ACPI_IORT_MEM_ACCESS_PROP_CCA,
-      0,
-      EFI_ACPI_IORT_MEM_ACCESS_FLAGS_CPM | EFI_ACPI_IORT_MEM_ACCESS_FLAGS_DACS,
-      48,
-      "\\_SB_.SAT0", // refer Sata.asl
-    },
-    {
-      // Reference token for this named component
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[6])),
-      1,
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[6])),
-      0,
-      EFI_ACPI_IORT_MEM_ACCESS_PROP_CCA,
-      0,
-      EFI_ACPI_IORT_MEM_ACCESS_FLAGS_CPM | EFI_ACPI_IORT_MEM_ACCESS_FLAGS_DACS,
-      48,
-      "\\_SB_.SAT1", // refer Sata.asl
-    },
-    {
-      // Reference token for this named component
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[7])),
-      1,
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[7])),
-      0,
-      EFI_ACPI_IORT_MEM_ACCESS_PROP_CCA,
-      0,
-      EFI_ACPI_IORT_MEM_ACCESS_FLAGS_CPM | EFI_ACPI_IORT_MEM_ACCESS_FLAGS_DACS,
-      48,
-      "\\_SB_.SAT2", // refer Sata.asl
-    },
-    {
-      // Reference token for this named component
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[8])),
-      1,
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[8])),
-      0,
-      EFI_ACPI_IORT_MEM_ACCESS_PROP_CCA,
-      0,
-      EFI_ACPI_IORT_MEM_ACCESS_FLAGS_CPM | EFI_ACPI_IORT_MEM_ACCESS_FLAGS_DACS,
-      48,
-      "\\_SB_.SAT3", // refer Sata.asl
-    }
-  },
+  PLAT_IORT_NAMED_COMPONENT_INFO,
 
-  // ID Mappings
-  {
-    {
-      NXP_MC_LX2160A_STREAM_ID,
-      0,
-      NXP_MC_LX2160A_STREAM_ID,
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
-      0
-    },
-    {
-      NXP_USB0_STREAM_ID,
-      0,
-      NXP_USB0_STREAM_ID,
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
-      EFI_ACPI_IORT_ID_MAPPING_FLAGS_SINGLE
-    },
-    {
-      NXP_USB1_STREAM_ID,
-      0,
-      NXP_USB1_STREAM_ID,
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
-      EFI_ACPI_IORT_ID_MAPPING_FLAGS_SINGLE
-    },
-    {
-      NXP_SDMMC0_STREAM_ID,
-      0,
-      NXP_SDMMC0_STREAM_ID,
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
-      EFI_ACPI_IORT_ID_MAPPING_FLAGS_SINGLE
-    },
-    {
-      NXP_SDMMC1_STREAM_ID,
-      0,
-      NXP_SDMMC1_STREAM_ID,
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
-      EFI_ACPI_IORT_ID_MAPPING_FLAGS_SINGLE
-    },
-    {
-      NXP_SATA0_STREAM_ID,
-      0,
-      NXP_SATA0_STREAM_ID,
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
-      EFI_ACPI_IORT_ID_MAPPING_FLAGS_SINGLE
-    },
-    {
-      NXP_SATA1_STREAM_ID,
-      0,
-      NXP_SATA1_STREAM_ID,
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
-      EFI_ACPI_IORT_ID_MAPPING_FLAGS_SINGLE
-    },
-    {
-      NXP_SATA2_STREAM_ID,
-      0,
-      NXP_SATA2_STREAM_ID,
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
-      EFI_ACPI_IORT_ID_MAPPING_FLAGS_SINGLE
-    },
-    {
-      NXP_SATA3_STREAM_ID,
-      0,
-      NXP_SATA3_STREAM_ID,
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
-      EFI_ACPI_IORT_ID_MAPPING_FLAGS_SINGLE
-    },
-    {
-      0,
-      0,
-      0x1800,
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
-      0
-    },
-    {
-      0,
-      0,
-      0x2800,
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
-      0
-    },
-    {
-      NXP_MC_LX2160A_STREAM_ID,
-      0,
-      NXP_MC_LX2160A_STREAM_ID,
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, ItsIdentifierArray[0])),
-      0
-    },
-    {
-      NXP_DPAA2_STREAM_ID_START,
-      NXP_DPAA2_STREAM_ID_COUNT - 1,
-      NXP_DPAA2_STREAM_ID_START,
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, ItsIdentifierArray[0])),
-      0
-    },
-    {
-      0x1800,
-      0,
-      0x1800,
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, ItsIdentifierArray[0])),
-      0
-    },
-    {
-      0x2800,
-      0,
-      0x2800,
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, ItsIdentifierArray[0])),
-      0
-    }
-  },
+  // ID Mappings Info
+  PLAT_IORT_ID_MAPPING_INFO,
 
   // Root Complex node info
-  {
-    // node 1 info
-    {
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, RootComplexInfo[0])),
-      0,
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[9])),
-      EFI_ACPI_IORT_MEM_ACCESS_PROP_CCA,
-      0,
-      EFI_ACPI_IORT_MEM_ACCESS_FLAGS_CPM | EFI_ACPI_IORT_MEM_ACCESS_FLAGS_DACS,
-      EFI_ACPI_IORT_ROOT_COMPLEX_ATS_UNSUPPORTED,
-      LX2160A_PCI_SEG0,  // refer to Pci.asl
-    },
-    // node 2 info
-    {
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, RootComplexInfo[1])),
-      0,
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[10])),
-      EFI_ACPI_IORT_MEM_ACCESS_PROP_CCA,
-      0,
-      EFI_ACPI_IORT_MEM_ACCESS_FLAGS_CPM | EFI_ACPI_IORT_MEM_ACCESS_FLAGS_DACS,
-      EFI_ACPI_IORT_ROOT_COMPLEX_ATS_UNSUPPORTED,
-      LX2160A_PCI_SEG1,  // refer to Pci.asl
-    }
-  },
+  PLAT_IORT_ROOT_COMPLEX_INFO,
 
   // SMMU V1/V2 nodes
-  {
-    {
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),
-      4,
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[11])),
-      0x5000000,
-      0x800000,
-      EFI_ACPI_IORT_SMMUv1v2_MODEL_MMU500,
-      EFI_ACPI_IORT_SMMUv1v2_FLAG_DVM | EFI_ACPI_IORT_SMMUv1v2_FLAG_COH_WALK,
-      64, // Actual for lx2 64 interupts available
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, InterruptContextArray[0])),
-      10,
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PmuInterruptArray[0])),
-      47,
-      EFI_ACPI_IORT_SMMUv1v2_INT_FLAG_LEVEL,
-      48,
-      EFI_ACPI_IORT_SMMUv1v2_INT_FLAG_LEVEL
-    }
-  },
+  PLAT_IORT_SMMU_NODE_INFO,
 
   // SMMU Interupt Context
-  SMMU_INTERRUPT_CONTEXT_ARRAY
+  SMMU_INTERRUPT_CONTEXT_ARRAY,
 
   // PMU Interupt Context
-  PMU_INTERRUPT_CONTEXT_ARRAY
+  PMU_INTERRUPT_CONTEXT_ARRAY,
 
   // SMBIOS system bios info
   {
@@ -828,12 +447,7 @@ EDKII_PLATFORM_REPOSITORY_INFO FslPlatformRepositoryInfo = {
   },
 
   // SSDT fixup info
-  {
-    0x00,
-    0x00,
-    0x00,
-    AQR_PHY4_IT
-  },
+  PLAT_SSDT_FIXUP_INFO,
 
   2.0                                         // fsl board revision
 };
@@ -1506,7 +1120,7 @@ GetArmNameSpaceObject (
         EArmObjPlatformGenericWatchdogInfo,
         CmObjectId,
         PlatformRepo->Watchdog,
-        1
+        PLAT_WATCHDOG_COUNT
         );
     HANDLE_CM_OBJECT (
         EArmObjPlatformGTBlockInfo,
@@ -1542,13 +1156,13 @@ GetArmNameSpaceObject (
         EArmObjGicRedistributorInfo,
         CmObjectId,
         PlatformRepo->GicRedistInfo,
-        1
+        PLAT_GIC_REDISTRIBUTOR_COUNT
         );
     HANDLE_CM_OBJECT (
         EArmObjGicItsInfo,
         CmObjectId,
         PlatformRepo->GicItsInfo,
-        1
+        PLAT_GIC_ITS_COUNT
         );
     HANDLE_CM_OBJECT_REF_BY_TOKEN (
         EArmObjPciConfigSpaceInfo,
@@ -1575,8 +1189,7 @@ GetArmNameSpaceObject (
         EArmObjItsGroup,
         CmObjectId,
         PlatformRepo->ItsGroupInfo,
-        (sizeof (PlatformRepo->ItsGroupInfo) /
-         sizeof (PlatformRepo->ItsGroupInfo[0])),
+        PLAT_ITS_GROUP_COUNT,
         Token,
         GetItsGroupInfo
         );
@@ -1593,8 +1206,7 @@ GetArmNameSpaceObject (
         EArmObjGicItsIdentifierArray,
         CmObjectId,
         PlatformRepo->ItsIdentifierArray,
-        (sizeof (PlatformRepo->ItsIdentifierArray) /
-         sizeof (PlatformRepo->ItsIdentifierArray[0])),
+        PLAT_ITS_IDENTIFIER_COUNT,
         Token,
         GetItsIdentifierArray
         );

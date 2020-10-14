@@ -14,13 +14,11 @@
 
 /** The configuration manager version
 */
-#define CONFIGURATION_MANAGER_REVISION CREATE_REVISION (1, 0)
+#define CONFIGURATION_MANAGER_REVISION CREATE_REVISION (0, 0)
 
 /** The OEM ID
 */
-#define CFG_MGR_OEM_ID    { 'N', 'X', 'P', 'L', 'T', 'D' }
-
-#define CFG_MGR_TABLE_ID  SIGNATURE_64 ('L','X','2','1','6','0','A',' ')
+#define CFG_MGR_OEM_ID    { 'N', 'X', 'P', ' ', ' ', ' ' }
 
 /** A helper macro for populating the GIC CPU information
  */
@@ -135,36 +133,9 @@
     break;                                                                  \
   }
 
-/** The number of CPUs
-*/
-#define PLAT_CPU_COUNT          16
-
 /** The number of ACPI tables to install
 */
 #define PLAT_ACPI_TABLE_COUNT   10
-
-/** The number of platform generic timer blocks
-*/
-#define PLAT_GTBLOCK_COUNT      1
-
-/** The number of timer frames per generic timer block
-*/
-#define PLAT_GTFRAME_COUNT      4
-
-/** The number of platform PCI blocks
-*/
-#define PLAT_PCI_CONFG_COUNT    2
-
-/** The platforms IORT block defines
-*/
-#define PLAT_ITS_GROUP_COUNT        2
-#define PLAT_ITS_IDENTIFIER_COUNT   2
-#define PLAT_NAMED_COMPONENT_COUNT  9
-#define PLAT_ID_MAPPING_COUNT       15
-#define PLAT_ROOT_COMPLEX_COUNT     2
-#define PLAT_SMMUV1_SMMUV2_COUNT    2
-#define PLAT_SMMU_INTERRUPT_COUNT   64
-#define PLAT_PMU_INTERRUPT_COUNT    10
 
 /** The number of SMBIOS tables to install
 */
@@ -223,10 +194,10 @@ typedef struct PlatformRepositoryInfo {
   CM_ARM_SERIAL_PORT_INFO                   DbgSerialPort;
 
   /// ITS Group node
-  CM_ARM_ITS_GROUP_NODE                     ItsGroupInfo[PLAT_ITS_GROUP_COUNT];
+  CM_ARM_ITS_GROUP_NODE                     ItsGroupInfo[PLAT_ITS_GROUP_MIN];
 
   /// ITS Identifier array
-  CM_ARM_ITS_IDENTIFIER                     ItsIdentifierArray[PLAT_ITS_IDENTIFIER_COUNT];
+  CM_ARM_ITS_IDENTIFIER                     ItsIdentifierArray[PLAT_ITS_IDENTIFIER_MIN];
 
   /// Named component node array
   CM_ARM_NAMED_COMPONENT_NODE               NamedComponentInfo[PLAT_NAMED_COMPONENT_COUNT];

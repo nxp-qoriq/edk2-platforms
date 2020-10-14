@@ -323,6 +323,90 @@
 #define NXP_SATA3_STREAM_ID             8
 #define NXP_MC_LX2160A_STREAM_ID        0x4000
 
+// Platform specific info needed by Configuration Manager
+
+#define CFG_MGR_TABLE_ID  SIGNATURE_64 ('L','X','2','1','6','0',' ',' ')
+
+#define PLAT_ITS_IDENTIFIER_MIN     1
+#define PLAT_ITS_GROUP_MIN          1
+#define PLAT_ITS_GROUP_COUNT        PLAT_ITS_GROUP_MIN
+#define PLAT_ITS_IDENTIFIER_COUNT   PLAT_ITS_IDENTIFIER_MIN
+
+#define PLAT_NAMED_COMPONENT_COUNT  9
+#define PLAT_ID_MAPPING_COUNT       16
+#define PLAT_ROOT_COMPLEX_COUNT     2
+#define PLAT_SMMUV1_SMMUV2_COUNT    1
+#define PLAT_SMMU_INTERRUPT_COUNT   64
+#define PLAT_PMU_INTERRUPT_COUNT    10
+
+#define PLAT_PCI_SEG0_CONFIG_BASE   LX2160A_PCI_SEG0_CONFIG_BASE
+#define PLAT_PCI_SEG0               LX2160A_PCI_SEG0
+#define PLAT_PCI_SEG_BUSNUM_MIN     LX2160A_PCI_SEG_BUSNUM_MIN
+#define PLAT_PCI_SEG_BUSNUM_MAX     LX2160A_PCI_SEG_BUSNUM_MAX
+#define PLAT_PCI_SEG1_CONFIG_BASE   LX2160A_PCI_SEG1_CONFIG_BASE
+#define PLAT_PCI_SEG1               LX2160A_PCI_SEG1
+
+#define PLAT_GIC_VERSION            GIC_VERSION
+#define PLAT_GICD_BASE              GICD_BASE
+#define PLAT_GICI_BASE              GICI_BASE
+#define PLAT_GICR_BASE              GICR_BASE
+#define PLAT_GICR_LEN               GICR_LEN
+#define PLAT_GICC_BASE              GICC_BASE
+#define PLAT_GICH_BASE              GICH_BASE
+#define PLAT_GICV_BASE              GICV_BASE
+
+#define PLAT_CPU_COUNT          16
+#define PLAT_GTBLOCK_COUNT      1
+#define PLAT_GTFRAME_COUNT      4
+#define PLAT_PCI_CONFG_COUNT    2
+
+#define PLAT_WATCHDOG_COUNT           1
+#define PLAT_GIC_REDISTRIBUTOR_COUNT  1
+#define PLAT_GIC_ITS_COUNT            1
+
+/* GIC CPU Interface information
+   GIC_ENTRY (CPUInterfaceNumber, Mpidr, PmuIrq, VGicIrq, EnergyEfficiency)
+ */
+#define PLAT_GIC_CPU_INTERFACE    {                         \
+             GICC_ENTRY (0,  GET_MPID (0, 0), 23, 0x19, 0), \
+             GICC_ENTRY (1,  GET_MPID (0, 1), 23, 0x19, 0), \
+             GICC_ENTRY (2,  GET_MPID (1, 0), 23, 0x19, 0), \
+             GICC_ENTRY (3,  GET_MPID (1, 1), 23, 0x19, 0), \
+             GICC_ENTRY (4,  GET_MPID (2, 0), 23, 0x19, 0), \
+             GICC_ENTRY (5,  GET_MPID (2, 1), 23, 0x19, 0), \
+             GICC_ENTRY (6,  GET_MPID (3, 0), 23, 0x19, 0), \
+             GICC_ENTRY (7,  GET_MPID (3, 1), 23, 0x19, 0), \
+             GICC_ENTRY (8,  GET_MPID (4, 0), 23, 0x19, 0), \
+             GICC_ENTRY (9,  GET_MPID (4, 1), 23, 0x19, 0), \
+             GICC_ENTRY (10, GET_MPID (5, 0), 23, 0x19, 0), \
+             GICC_ENTRY (11, GET_MPID (5, 1), 23, 0x19, 0), \
+             GICC_ENTRY (12, GET_MPID (6, 0), 23, 0x19, 0), \
+             GICC_ENTRY (13, GET_MPID (6, 1), 23, 0x19, 0), \
+             GICC_ENTRY (14, GET_MPID (7, 0), 23, 0x19, 0), \
+             GICC_ENTRY (15, GET_MPID (7, 1), 23, 0x19, 0)  \
+}
+
+#define PLAT_ITS_GROUP_NODE_INFO                                                                                                \
+{                                                                                                                               \
+  {                                                                                                                             \
+    /* Reference token for this Iort node */                                                                                    \
+    (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, ItsGroupInfo[0])),        \
+    /* The number of ITS identifiers in the ITS node.*/                                                                         \
+    PLAT_ITS_IDENTIFIER_COUNT,                                                                                                  \
+    /* Reference token for the ITS identifier array */                                                                          \
+    (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, ItsIdentifierArray[0])),  \
+  }                                                                                                                             \
+}                                                                                                                               \
+
+#define PLAT_ITS_IDENTIFIER_ARRAY_INFO        \
+  {                                           \
+    {                                         \
+      /* The ITS Identifier */                \
+      0                                       \
+    }                                         \
+  }                                           \
+
+
 // Interrupt Context Array
 #define SMMU_INTERRUPT_CONTEXT_ARRAY          \
   {                                           \
@@ -582,7 +666,7 @@
       241,                                    \
       EFI_ACPI_IORT_SMMUv1v2_INT_FLAG_LEVEL   \
     }                                         \
-  },                                          \
+  }                                           \
 
 #define PMU_INTERRUPT_CONTEXT_ARRAY           \
   {                                           \
@@ -626,6 +710,397 @@
       252,                                    \
       EFI_ACPI_IORT_SMMUv1v2_INT_FLAG_LEVEL   \
     }                                         \
-  },                                          \
+  }                                           \
+
+// watchdogs
+#define PLAT_WATCHDOG_INFO                    \
+  {                                           \
+      TIMER_WDT0_CONTROL_BASE,                \
+      TIMER_WDT0_REFRESH_BASE,                \
+      TIMER_WDT0_IT,                          \
+      SBSA_WATCHDOG_FLAGS                     \
+  }                                           \
+
+#define PLAT_TIMER_BLOCK_INFO                                           \
+  {                                                                     \
+    {                                                                   \
+      TIMER_GT_BLOCK_0_ADDRESS,                                         \
+      PLAT_GTFRAME_COUNT,                                               \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo +            \
+        OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, GTBlock0TimerInfo))  \
+    }                                                                   \
+  }                                                                     \
+
+#define PLAT_TIMER_FRAME_INFO                                            \
+  {                                                                      \
+    {                                                                    \
+      0,                             /* UINT8 GTFrameNumber */           \
+      TIMER_GT_BASE_0_ADDRESS,       /* UINT64 CntBaseX */               \
+      TIMER_GT_BASE_0_EL0_ADDRESS,   /* UINT64 CntEL0BaseX */            \
+      TIMER_FRAME0_IT,               /* UINT32 GTxPhysicalTimerGSIV */   \
+      GTDT_FRAME_FLAGS,              /* UINT32 GTxPhysicalTimerFlags */  \
+      TIMER_FRAME0_IT,               /* UINT32 GTxVirtualTimerGSIV */    \
+      GTDT_FRAME_FLAGS,              /* UINT32 GTxVirtualTimerFlags */   \
+      0                              /* UINT32 GTxCommonFlags */         \
+    }, /* Gtdt.Frames[0] */                                              \
+    {                                                                    \
+      1,                             /* UINT8 GTFrameNumber */           \
+      TIMER_GT_BASE_1_ADDRESS,       /* UINT64 CntBaseX */               \
+      GT_BLOCK_FRAME_RES_BASE,       /* UINT64 CntEL0BaseX */            \
+      TIMER_FRAME1_IT,               /* UINT32 GTxPhysicalTimerGSIV */   \
+      GTDT_FRAME_FLAGS,              /* UINT32 GTxPhysicalTimerFlags */  \
+      0,                             /* UINT32 GTxVirtualTimerGSIV */    \
+      0,                             /* UINT32 GTxVirtualTimerFlags */   \
+      GTDT_FRAME_COMMON_FLAGS        /* UINT32 GTxCommonFlags */         \
+    }, /* Gtdt.Frames[1] */                                              \
+    {                                                                    \
+      2,                              /* UINT8 GTFrameNumber */          \
+      TIMER_GT_BASE_2_ADDRESS,        /* UINT64 CntBaseX */              \
+      TIMER_GT_BASE_2_EL0_ADDRESS,    /* UINT64 CntEL0BaseX */           \
+      TIMER_FRAME2_IT,                /* UINT32 GTxPhysicalTimerGSIV */  \
+      GTDT_FRAME_FLAGS,               /* UINT32 GTxPhysicalTimerFlags */ \
+      0,                              /* UINT32 GTxVirtualTimerGSIV */   \
+      0,                              /* UINT32 GTxVirtualTimerFlags */  \
+      GTDT_FRAME_COMMON_FLAGS         /* UINT32 GTxCommonFlags */        \
+    },/* Gtdt.Frames[2] */                                               \
+    {                                                                   \
+      3,                             /* UINT8 GTFrameNumber */          \
+      TIMER_GT_BASE_3_ADDRESS,       /* UINT64 CntBaseX */              \
+      GT_BLOCK_FRAME_RES_BASE,       /* UINT64 CntEL0BaseX */           \
+      TIMER_FRAME3_IT,               /* UINT32 GTxPhysicalTimerGSIV */  \
+      GTDT_FRAME_FLAGS,              /* UINT32 GTxPhysicalTimerFlags */ \
+      0,                             /* UINT32 GTxVirtualTimerGSIV */   \
+      0,                             /* UINT32 GTxVirtualTimerFlags */  \
+      GTDT_FRAME_COMMON_FLAGS        /* UINT32 GTxCommonFlags */        \
+    }, /* Gtdt.Frames[3] */                                             \
+  }                                                                     \
+
+#define PLAT_GIC_DISTRIBUTOR_INFO                                      \
+  {                                                                    \
+    PLAT_GICD_BASE,                  /* UINT64  PhysicalBaseAddress */ \
+    0,                               /* UINT32  SystemVectorBase */    \
+    PLAT_GIC_VERSION                 /* UINT8   GicVersion */          \
+  }                                                                    \
+
+#define PLAT_GIC_REDISTRIBUTOR_INFO                                    \
+  {                                                                    \
+    PLAT_GICR_BASE,      /* UINT64 DiscoveryRangeBaseAddress */        \
+    PLAT_GICR_LEN        /* UINT32 DiscoveryRangeLength */             \
+  }                                                                    \
+
+#define PLAT_GIC_ITS_INFO                                                    \
+  {                                                                          \
+    0,                   /* UINT32 GIC ITS ID */                             \
+    PLAT_GICI_BASE,      /* UINT64 The 64-bit physical address for ITS */    \
+    0                    /* UINT32 Populate the GIC ITS affinity in SRAT. */ \
+  }                                                                          \
+
+#define PLAT_MCFG_INFO                \
+  {                                   \
+    {                                 \
+      PLAT_PCI_SEG0_CONFIG_BASE,      \
+      PLAT_PCI_SEG0,                  \
+      PLAT_PCI_SEG_BUSNUM_MIN,        \
+      PLAT_PCI_SEG_BUSNUM_MAX,        \
+    },                                \
+    {                                 \
+      PLAT_PCI_SEG1_CONFIG_BASE,      \
+      PLAT_PCI_SEG1,                  \
+      PLAT_PCI_SEG_BUSNUM_MIN,        \
+      PLAT_PCI_SEG_BUSNUM_MAX,        \
+    }                                 \
+  }                                   \
+
+#define PLAT_SPCR_INFO                                                            \
+  {                                                                               \
+    UART0_BASE,                                                                   \
+    UART0_IT,                                                                     \
+    115200,                                                                       \
+    0,                                                                            \
+    EFI_ACPI_SERIAL_PORT_CONSOLE_REDIRECTION_TABLE_INTERFACE_TYPE_ARM_PL011_UART  \
+  }                                                                               \
+
+#define PLAT_DBG2_INFO                                                            \
+  {                                                                               \
+    UART1_BASE,                                                                   \
+    UART1_IT,                                                                     \
+    115200,                                                                       \
+    175000000,                                                                    \
+    EFI_ACPI_DBG2_PORT_SUBTYPE_SERIAL_ARM_SBSA_GENERIC_UART                       \
+  }                                                                               \
+
+#define PLAT_SSDT_FIXUP_INFO                                                      \
+  {                                                                               \
+    0x00,                                                                         \
+    0x00,                                                                         \
+    0x00,                                                                         \
+    AQR_PHY4_IT                                                                   \
+  }                                                                               \
+
+#define PLAT_IORT_NAMED_COMPONENT_INFO                                                                                            \
+  {                                                                                                                               \
+    {                                                                                                                             \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[0])),  \
+      2,                                                                                                                          \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[0])),      \
+      0,                                                                                                                          \
+      EFI_ACPI_IORT_MEM_ACCESS_PROP_CCA,                                                                                          \
+      0,                                                                                                                          \
+      EFI_ACPI_IORT_MEM_ACCESS_FLAGS_CPM | EFI_ACPI_IORT_MEM_ACCESS_FLAGS_DACS,                                                   \
+      48,                                                                                                                         \
+      "\\_SB_.MCE0"                                                                                                               \
+    },                                                                                                                            \
+    {                                                                                                                             \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[1])),  \
+      1,                                                                                                                          \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[2])),      \
+      0,                                                                                                                          \
+      0,                                                                                                                          \
+      0,                                                                                                                          \
+      0,                                                                                                                          \
+      40,                                                                                                                         \
+      "\\_SB_.USB0"                                                                                                               \
+    },                                                                                                                            \
+    {                                                                                                                             \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[2])),  \
+      1,                                                                                                                          \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[3])),      \
+      0,                                                                                                                          \
+      0,                                                                                                                          \
+      0,                                                                                                                          \
+      0,                                                                                                                          \
+      40,                                                                                                                         \
+      "\\_SB_.USB1"                                                                                                               \
+    },                                                                                                                            \
+    {                                                                                                                             \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[3])),  \
+      1,                                                                                                                          \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[4])),      \
+      0,                                                                                                                          \
+      EFI_ACPI_IORT_MEM_ACCESS_PROP_CCA,                                                                                          \
+      0,                                                                                                                          \
+      EFI_ACPI_IORT_MEM_ACCESS_FLAGS_CPM | EFI_ACPI_IORT_MEM_ACCESS_FLAGS_DACS,                                                   \
+      48,                                                                                                                         \
+      "\\_SB_.SDC0",                                                                                                              \
+    },                                                                                                                            \
+    {                                                                                                                             \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[4])),  \
+      1,                                                                                                                          \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[5])),      \
+      0,                                                                                                                          \
+      EFI_ACPI_IORT_MEM_ACCESS_PROP_CCA,                                                                                          \
+      0,                                                                                                                          \
+      EFI_ACPI_IORT_MEM_ACCESS_FLAGS_CPM | EFI_ACPI_IORT_MEM_ACCESS_FLAGS_DACS,                                                   \
+      48,                                                                                                                         \
+      "\\_SB_.SDC1",                                                                                                              \
+    },                                                                                                                            \
+    {                                                                                                                             \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[5])),  \
+      1,                                                                                                                          \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[6])),      \
+      0,                                                                                                                          \
+      EFI_ACPI_IORT_MEM_ACCESS_PROP_CCA,                                                                                          \
+      0,                                                                                                                          \
+      EFI_ACPI_IORT_MEM_ACCESS_FLAGS_CPM | EFI_ACPI_IORT_MEM_ACCESS_FLAGS_DACS,                                                   \
+      48,                                                                                                                         \
+      "\\_SB_.SAT0",                                                                                                              \
+    },                                                                                                                            \
+    {                                                                                                                             \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[6])),  \
+      1,                                                                                                                          \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[7])),      \
+      0,                                                                                                                          \
+      EFI_ACPI_IORT_MEM_ACCESS_PROP_CCA,                                                                                          \
+      0,                                                                                                                          \
+      EFI_ACPI_IORT_MEM_ACCESS_FLAGS_CPM | EFI_ACPI_IORT_MEM_ACCESS_FLAGS_DACS,                                                   \
+      48,                                                                                                                         \
+      "\\_SB_.SAT1",                                                                                                              \
+    },                                                                                                                            \
+    {                                                                                                                             \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[7])),  \
+      1,                                                                                                                          \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[8])),      \
+      0,                                                                                                                          \
+      EFI_ACPI_IORT_MEM_ACCESS_PROP_CCA,                                                                                          \
+      0,                                                                                                                          \
+      EFI_ACPI_IORT_MEM_ACCESS_FLAGS_CPM | EFI_ACPI_IORT_MEM_ACCESS_FLAGS_DACS,                                                   \
+      48,                                                                                                                         \
+      "\\_SB_.SAT2",                                                                                                              \
+    },                                                                                                                            \
+    {                                                                                                                             \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[8])),  \
+      1,                                                                                                                          \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[9])),      \
+      0,                                                                                                                          \
+      EFI_ACPI_IORT_MEM_ACCESS_PROP_CCA,                                                                                          \
+      0,                                                                                                                          \
+      EFI_ACPI_IORT_MEM_ACCESS_FLAGS_CPM | EFI_ACPI_IORT_MEM_ACCESS_FLAGS_DACS,                                                   \
+      48,                                                                                                                         \
+      "\\_SB_.SAT3",                                                                                                              \
+    }                                                                                                                             \
+  }                                                                                                                               \
+
+#define PLAT_IORT_ID_MAPPING_INFO                                                                                               \
+  {                                                                                                                             \
+    {                                                                                                                           \
+      NXP_MC_LX2160A_STREAM_ID,                                                                                                 \
+      0,                                                                                                                        \
+      NXP_MC_LX2160A_STREAM_ID,                                                                                                 \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),  \
+      0                                                                                                                         \
+    },                                                                                                                          \
+    {                                                                                                                           \
+      NXP_DPAA2_STREAM_ID_START,                                                                                                \
+      NXP_DPAA2_STREAM_ID_COUNT - 1,                                                                                            \
+      NXP_DPAA2_STREAM_ID_START,                                                                                                \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),  \
+      0                                                                                                                         \
+    },                                                                                                                          \
+    {                                                                                                                           \
+      NXP_USB0_STREAM_ID,                                                                                                       \
+      0,                                                                                                                        \
+      NXP_USB0_STREAM_ID,                                                                                                       \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),  \
+      EFI_ACPI_IORT_ID_MAPPING_FLAGS_SINGLE                                                                                     \
+    },                                                                                                                          \
+    {                                                                                                                           \
+      NXP_USB1_STREAM_ID,                                                                                                       \
+      0,                                                                                                                        \
+      NXP_USB1_STREAM_ID,                                                                                                       \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),  \
+      EFI_ACPI_IORT_ID_MAPPING_FLAGS_SINGLE                                                                                     \
+    },                                                                                                                          \
+    {                                                                                                                           \
+      NXP_SDMMC0_STREAM_ID,                                                                                                     \
+      0,                                                                                                                        \
+      NXP_SDMMC0_STREAM_ID,                                                                                                     \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),  \
+      EFI_ACPI_IORT_ID_MAPPING_FLAGS_SINGLE                                                                                     \
+    },                                                                                                                          \
+    {                                                                                                                           \
+      NXP_SDMMC1_STREAM_ID,                                                                                                     \
+      0,                                                                                                                        \
+      NXP_SDMMC1_STREAM_ID,                                                                                                     \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),  \
+      EFI_ACPI_IORT_ID_MAPPING_FLAGS_SINGLE                                                                                     \
+    },                                                                                                                          \
+    {                                                                                                                           \
+      NXP_SATA0_STREAM_ID,                                                                                                      \
+      0,                                                                                                                        \
+      NXP_SATA0_STREAM_ID,                                                                                                      \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),  \
+      EFI_ACPI_IORT_ID_MAPPING_FLAGS_SINGLE                                                                                     \
+    },                                                                                                                          \
+    {                                                                                                                           \
+      NXP_SATA1_STREAM_ID,                                                                                                      \
+      0,                                                                                                                        \
+      NXP_SATA1_STREAM_ID,                                                                                                      \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),  \
+      EFI_ACPI_IORT_ID_MAPPING_FLAGS_SINGLE                                                                                     \
+    },                                                                                                                          \
+    {                                                                                                                           \
+      NXP_SATA2_STREAM_ID,                                                                                                      \
+      0,                                                                                                                        \
+      NXP_SATA2_STREAM_ID,                                                                                                      \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),  \
+      EFI_ACPI_IORT_ID_MAPPING_FLAGS_SINGLE                                                                                     \
+    },                                                                                                                          \
+    {                                                                                                                           \
+      NXP_SATA3_STREAM_ID,                                                                                                      \
+      0,                                                                                                                        \
+      NXP_SATA3_STREAM_ID,                                                                                                      \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),  \
+      EFI_ACPI_IORT_ID_MAPPING_FLAGS_SINGLE                                                                                     \
+    },                                                                                                                          \
+    {                                                                                                                           \
+      0,                                                                                                                        \
+      0,                                                                                                                        \
+      0x1800,                                                                                                                   \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),  \
+      0                                                                                                                         \
+    },                                                                                                                          \
+    {                                                                                                                           \
+      0,                                                                                                                        \
+      0,                                                                                                                        \
+      0x2800,                                                                                                                   \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),  \
+      0                                                                                                                         \
+    },                                                                                                                          \
+    {                                                                                                                           \
+      NXP_MC_LX2160A_STREAM_ID,                                                                                                 \
+      0,                                                                                                                        \
+      NXP_MC_LX2160A_STREAM_ID,                                                                                                 \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, ItsGroupInfo[0])),      \
+      0                                                                                                                         \
+    },                                                                                                                          \
+    {                                                                                                                           \
+      NXP_DPAA2_STREAM_ID_START,                                                                                                \
+      NXP_DPAA2_STREAM_ID_COUNT - 1,                                                                                            \
+      NXP_DPAA2_STREAM_ID_START,                                                                                                \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, ItsGroupInfo[0])),      \
+      0                                                                                                                         \
+    },                                                                                                                          \
+    {                                                                                                                           \
+      0x1800,                                                                                                                   \
+      0,                                                                                                                        \
+      0x1800,                                                                                                                   \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, ItsGroupInfo[0])),      \
+      0                                                                                                                         \
+    },                                                                                                                          \
+    {                                                                                                                           \
+      0x2800,                                                                                                                   \
+      0,                                                                                                                        \
+      0x2800,                                                                                                                   \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, ItsGroupInfo[0])),      \
+      0                                                                                                                         \
+    }                                                                                                                           \
+  }                                                                                                                             \
+
+#define PLAT_IORT_ROOT_COMPLEX_INFO                                                                                             \
+{                                                                                                                               \
+  /* node 1 info */                                                                                                             \
+  {                                                                                                                             \
+    (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, RootComplexInfo[0])),     \
+      1,                                                                                                                        \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[10])),   \
+      EFI_ACPI_IORT_MEM_ACCESS_PROP_CCA,                                                                                        \
+      0,                                                                                                                        \
+      EFI_ACPI_IORT_MEM_ACCESS_FLAGS_CPM | EFI_ACPI_IORT_MEM_ACCESS_FLAGS_DACS,                                                 \
+      EFI_ACPI_IORT_ROOT_COMPLEX_ATS_UNSUPPORTED,                                                                               \
+      PLAT_PCI_SEG0,  /* refer to Pci.asl */                                                                                    \
+  },                                                                                                                            \
+    /* node 2 info */                                                                                                           \
+  {                                                                                                                             \
+    (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, RootComplexInfo[1])),     \
+    1,                                                                                                                          \
+    (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[11])),     \
+    EFI_ACPI_IORT_MEM_ACCESS_PROP_CCA,                                                                                          \
+    0,                                                                                                                          \
+    EFI_ACPI_IORT_MEM_ACCESS_FLAGS_CPM | EFI_ACPI_IORT_MEM_ACCESS_FLAGS_DACS,                                                   \
+    EFI_ACPI_IORT_ROOT_COMPLEX_ATS_UNSUPPORTED,                                                                                 \
+    PLAT_PCI_SEG1,  /* refer to Pci.asl */                                                                                      \
+  }                                                                                                                             \
+}                                                                                                                               \
+
+#define PLAT_IORT_SMMU_NODE_INFO                                                                                                    \
+{                                                                                                                                   \
+  {                                                                                                                                 \
+    (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),        \
+      4,                                                                                                                            \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[12])),       \
+      0x5000000,                                                                                                                    \
+      0x800000,                                                                                                                     \
+      EFI_ACPI_IORT_SMMUv1v2_MODEL_MMU500,                                                                                          \
+      EFI_ACPI_IORT_SMMUv1v2_FLAG_DVM | EFI_ACPI_IORT_SMMUv1v2_FLAG_COH_WALK,                                                       \
+      64,                                                                                                                           \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, InterruptContextArray[0])), \
+      10,                                                                                                                           \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PmuInterruptArray[0])),     \
+      47,                                                                                                                           \
+      EFI_ACPI_IORT_SMMUv1v2_INT_FLAG_LEVEL,                                                                                        \
+      48,                                                                                                                           \
+      EFI_ACPI_IORT_SMMUv1v2_INT_FLAG_LEVEL                                                                                         \
+  }                                                                                                                                 \
+}                                                                                                                                   \
 
 #endif
