@@ -1159,11 +1159,12 @@ IortPcieSetUp (
     return Status;
   }
 
-  Status = IortPcieSetItsIdMapping (CurrentTable, OutputId, OutputId);
-  if (EFI_ERROR (Status)) {
-    return Status;
+  if (PcdGetBool (PcdNoITS) == 0) {
+    Status = IortPcieSetItsIdMapping (CurrentTable, OutputId, OutputId);
+    if (EFI_ERROR (Status)) {
+      return Status;
+    }
   }
-
   return EFI_SUCCESS;
 }
 
