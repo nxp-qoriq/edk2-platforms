@@ -253,8 +253,8 @@
   #
 !if $(DYNAMIC_ACPI_ENABLE) == FALSE
   Platform/NXP/LX2160aRdbPkg/AcpiTables/AcpiTables.inf
-  Platform/NXP/LX2160aRdbPkg/AcpiTables/Icid.inf
 !endif
+  Platform/NXP/LX2160aRdbPkg/AcpiTables/Icid.inf
 
  #
  #SMBIOS

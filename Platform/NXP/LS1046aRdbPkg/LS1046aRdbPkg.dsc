@@ -234,6 +234,7 @@
   #
 !if $(DYNAMIC_ACPI_ENABLE) == FALSE
   Platform/NXP/LS1046aRdbPkg/AcpiTables/AcpiTables.inf
+!endif
   Platform/NXP/LS1046aRdbPkg/AcpiTables/Icid.inf
 
   #
