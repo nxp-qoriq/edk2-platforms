@@ -664,8 +664,8 @@ GetIdMappingArrayInfo (
     {
       CmObject->ObjectId = CmObjectId;
       CmObject->Size = sizeof (PlatformRepo->IdMappingArray);
-      CmObject->Data = (VOID*)&PlatformRepo->IdMappingArray;
-      CmObject->Count = TotalObjCount;
+      CmObject->Data = (VOID*)&PlatformRepo->IdMappingArray[ObjIndex];
+      CmObject->Count = (TotalObjCount - ObjIndex);;
       return EFI_SUCCESS;
     }
   }
