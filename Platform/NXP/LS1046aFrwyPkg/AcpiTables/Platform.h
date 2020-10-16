@@ -87,7 +87,7 @@
 #define PLAT_ITS_IDENTIFIER_COUNT   0
 
 #define PLAT_NAMED_COMPONENT_COUNT  3
-#define PLAT_ID_MAPPING_COUNT       6
+#define PLAT_ID_MAPPING_COUNT       (6+1) // HACK: 1 additional mapping (0x040d) is created
 #define PLAT_ROOT_COMPLEX_COUNT     3
 #define PLAT_SMMUV1_SMMUV2_COUNT    1
 #define PLAT_SMMU_INTERRUPT_COUNT   32
@@ -339,7 +339,7 @@
     {                                                                                                                             \
       (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[0])),  \
       1,                                                                                                                          \
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[3])),      \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[3+1])),    \
       0,  /* Flags */                                                                                                             \
       EFI_ACPI_IORT_MEM_ACCESS_PROP_CCA,  /* Cache Coherent */                                                                    \
       0,  /* Alloc Hint */                                                                                                        \
@@ -350,7 +350,7 @@
     {                                                                                                                             \
       (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[1])),  \
       1,                                                                                                                          \
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[4])),      \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[4+1])),    \
       0,                                                                                                                          \
       EFI_ACPI_IORT_MEM_ACCESS_PROP_CCA,  /* Cache Coherent */                                                                    \
       0,                                                                                                                          \
@@ -361,7 +361,7 @@
     {                                                                                                                             \
       (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, NamedComponentInfo[2])),  \
       1,                                                                                                                          \
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[5])),      \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[5+1])),    \
       0,                                                                                                                          \
       EFI_ACPI_IORT_MEM_ACCESS_PROP_CCA,                                                                                          \
       0,                                                                                                                          \
@@ -391,6 +391,13 @@
       0,                                                                                                                        \
       0,                                                                                                                        \
       0x040f,                                                                                                                   \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),  \
+      0                                                                                                                         \
+    },                                                                                                                          \
+    { /* Additional Mapping */                                                                                                  \
+      0x100,                                                                                                                    \
+      0,                                                                                                                        \
+      0x040d,                                                                                                                   \
       (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),  \
       0                                                                                                                         \
     },                                                                                                                          \
@@ -444,7 +451,7 @@
     /* node 3 info */                                                                                                           \
     {                                                                                                                           \
       (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, RootComplexInfo[2])),   \
-      1,                                                                                                                        \
+      1+1,                                                                                                                      \
       (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[2])),    \
       EFI_ACPI_IORT_MEM_ACCESS_PROP_CCA,                                                                                        \
       0,                                                                                                                        \

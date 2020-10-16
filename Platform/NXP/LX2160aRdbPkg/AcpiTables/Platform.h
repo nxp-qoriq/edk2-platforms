@@ -333,7 +333,7 @@
 #define PLAT_ITS_IDENTIFIER_COUNT   PLAT_ITS_IDENTIFIER_MIN
 
 #define PLAT_NAMED_COMPONENT_COUNT  9
-#define PLAT_ID_MAPPING_COUNT       16
+#define PLAT_ID_MAPPING_COUNT       (16+2) //Hack: 2 additional device mapping with baseaddr:0x1801 created intentionally
 #define PLAT_ROOT_COMPLEX_COUNT     2
 #define PLAT_SMMUV1_SMMUV2_COUNT    1
 #define PLAT_SMMU_INTERRUPT_COUNT   64
@@ -1019,6 +1019,13 @@
       (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),  \
       0                                                                                                                         \
     },                                                                                                                          \
+    { /* Additional Mapping */                                                                                                  \
+      0x100,                                                                                                                    \
+      0,                                                                                                                        \
+      0x1801,                                                                                                                   \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),  \
+      0                                                                                                                         \
+    },                                                                                                                          \
     {                                                                                                                           \
       0,                                                                                                                        \
       0,                                                                                                                        \
@@ -1053,6 +1060,13 @@
       0x2800,                                                                                                                   \
       (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, ItsGroupInfo[0])),      \
       0                                                                                                                         \
+    },                                                                                                                          \
+    { /* Additional Mapping */                                                                                                  \
+      0x1801,                                                                                                                   \
+      0,                                                                                                                        \
+      0x1801,                                                                                                                   \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, ItsGroupInfo[0])),      \
+      0                                                                                                                         \
     }                                                                                                                           \
   }                                                                                                                             \
 
@@ -1061,7 +1075,7 @@
   /* node 1 info */                                                                                                             \
   {                                                                                                                             \
     (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, RootComplexInfo[0])),     \
-      1,                                                                                                                        \
+      1+1,                                                                                                                      \
       (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[10])),   \
       EFI_ACPI_IORT_MEM_ACCESS_PROP_CCA,                                                                                        \
       0,                                                                                                                        \
@@ -1073,7 +1087,7 @@
   {                                                                                                                             \
     (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, RootComplexInfo[1])),     \
     1,                                                                                                                          \
-    (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[11])),     \
+    (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[11+1])),   \
     EFI_ACPI_IORT_MEM_ACCESS_PROP_CCA,                                                                                          \
     0,                                                                                                                          \
     EFI_ACPI_IORT_MEM_ACCESS_FLAGS_CPM | EFI_ACPI_IORT_MEM_ACCESS_FLAGS_DACS,                                                   \
@@ -1086,8 +1100,8 @@
 {                                                                                                                                   \
   {                                                                                                                                 \
     (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, SmmuV1SmmuV2Info[0])),        \
-      4,                                                                                                                            \
-      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[12])),       \
+      4+1,                                                                                                                          \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, IdMappingArray[12+1])),     \
       0x5000000,                                                                                                                    \
       0x800000,                                                                                                                     \
       EFI_ACPI_IORT_SMMUv1v2_MODEL_MMU500,                                                                                          \
