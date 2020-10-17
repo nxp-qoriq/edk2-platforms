@@ -27,7 +27,14 @@
   Platform/NXP/LX2160aRdbPkg/LX2160aRdbPkg.dec
   Silicon/NXP/NxpQoriqLs.dec
   Silicon/NXP/LX2160A/LX2160A.dec
+  DynamicTablesPkg/DynamicTablesPkg.dec
+  MdeModulePkg/MdeModulePkg.dec
 
 [LibraryClasses]
   DebugLib
 
+[Pcd]
+  gEfiMdeModulePkgTokenSpaceGuid.PcdDynamicIortTable
+  gEfiMdeModulePkgTokenSpaceGuid.PcdDynamicIortTablePtr
+  gEfiMdeModulePkgTokenSpaceGuid.PcdDynamicIortTblRcNodeOffset
+  gEfiMdeModulePkgTokenSpaceGuid.PcdDynamicIortTblSmmuNodeOffset

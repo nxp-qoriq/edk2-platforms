@@ -77,6 +77,12 @@ AcpiPlatformFixup (
 {
   EFI_STATUS   Status;
 
+  if (PcdGetBool (PcdDynamicIortTable))
+  {
+      Status = UpdateDsdtPcie ((EFI_ACPI_DESCRIPTION_HEADER*)PcdGet64 (PcdDynamicDsdtTablePtr));
+      return Status;
+  }
+
   switch (TableHeader->Signature) {
     case EFI_ACPI_6_0_DIFFERENTIATED_SYSTEM_DESCRIPTION_TABLE_SIGNATURE:
       Status = UpdateDsdtPcie (TableHeader);

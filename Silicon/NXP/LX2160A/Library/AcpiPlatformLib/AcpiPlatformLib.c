@@ -77,11 +77,31 @@ UpdateMcfg (
   UINTN Index;
 
   if (PcdGetBool (PcdPciHideRootPort)) {
-    Mcfg = (NXP_EFI_PCI_EXPRESS_MEMORY_MAPPED_CONFIGURATION_SPACE_TABLE *)Table;
-    Index = 0;
-    while (Index < ARRAY_SIZE(Mcfg->Config_Structure)) {
-      McfgNode = &(Mcfg->Config_Structure[Index++]);
+
+    if (PcdGetBool (PcdDynamicIortTable)) {
+      EFI_ACPI_MEMORY_MAPPED_CONFIGURATION_BASE_ADDRESS_TABLE_HEADER  *McfgTblPtr;
+      UINT32  McfgNodeSize;
+
+      McfgTblPtr = (EFI_ACPI_MEMORY_MAPPED_CONFIGURATION_BASE_ADDRESS_TABLE_HEADER*)Table;
+      if (McfgTblPtr->Header.Signature != EFI_ACPI_6_0_PCI_EXPRESS_MEMORY_MAPPED_CONFIGURATION_SPACE_BASE_ADDRESS_DESCRIPTION_TABLE_SIGNATURE) {
+        DEBUG ((DEBUG_ERROR, "UpdateMcfg : MCFG table not found\n"));
+        return EFI_NOT_FOUND;
+      }
+      McfgNode = (EFI_ACPI_MEMORY_MAPPED_ENHANCED_CONFIGURATION_SPACE_BASE_ADDRESS_ALLOCATION_STRUCTURE*)((UINT8*)McfgTblPtr +
+                    sizeof(EFI_ACPI_MEMORY_MAPPED_CONFIGURATION_BASE_ADDRESS_TABLE_HEADER));
+      McfgNodeSize = (McfgTblPtr->Header.Length - sizeof(EFI_ACPI_MEMORY_MAPPED_CONFIGURATION_BASE_ADDRESS_TABLE_HEADER));
+      while (McfgNodeSize) {
       McfgNode->StartBusNumber = 0x1;
+      McfgNodeSize = (McfgNodeSize - sizeof(EFI_ACPI_MEMORY_MAPPED_ENHANCED_CONFIGURATION_SPACE_BASE_ADDRESS_ALLOCATION_STRUCTURE));
+      McfgNode = (EFI_ACPI_MEMORY_MAPPED_ENHANCED_CONFIGURATION_SPACE_BASE_ADDRESS_ALLOCATION_STRUCTURE*)((UINT8*)McfgNode + McfgNodeSize);
+      }
+    } else {
+      Mcfg = (NXP_EFI_PCI_EXPRESS_MEMORY_MAPPED_CONFIGURATION_SPACE_TABLE *)Table;
+      Index = 0;
+      while (Index < ARRAY_SIZE(Mcfg->Config_Structure)) {
+        McfgNode = &(Mcfg->Config_Structure[Index++]);
+        McfgNode->StartBusNumber = 0x1;
+      }
     }
     Table->OemRevision = 0xff;
   } else {
@@ -108,6 +128,13 @@ AcpiPlatformFixup (
   )
 {
   EFI_STATUS   Status;
+
+  if (PcdGetBool (PcdDynamicIortTable))
+  {
+      Status = UpdateMcfg ((EFI_ACPI_DESCRIPTION_HEADER*)PcdGet64 (PcdDynamicMcfgTablePtr));
+      Status |= UpdateDsdtPcie ((EFI_ACPI_DESCRIPTION_HEADER*)PcdGet64 (PcdDynamicDsdtTablePtr));
+      return Status;
+  }
 
   switch (TableHeader->Signature) {
     case EFI_ACPI_6_0_PCI_EXPRESS_MEMORY_MAPPED_CONFIGURATION_SPACE_BASE_ADDRESS_DESCRIPTION_TABLE_SIGNATURE:

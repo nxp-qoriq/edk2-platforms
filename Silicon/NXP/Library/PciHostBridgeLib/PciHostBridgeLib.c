@@ -1289,6 +1289,11 @@ OnPlatformHasPciIo (
       break;
     }
 
+    if (PcdGetBool (PcdDynamicIortTable)) {
+      DEBUG ((DEBUG_INFO, "Dynamic Iort Table is Enabled.\n"));
+      PcdSet64 (PcdIortTablePtr, PcdGet64 (PcdDynamicIortTablePtr));
+    }
+
     if (PcdGet64 (PcdIortTablePtr) != 0) {
       Status = IortPcieSetUp ((VOID *)PcdGet64 (PcdIortTablePtr), SegmentNumber,
                               BusDevFuc, StreamId);

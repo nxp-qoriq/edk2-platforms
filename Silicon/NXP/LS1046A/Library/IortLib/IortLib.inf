@@ -26,6 +26,8 @@
   EmbeddedPkg/EmbeddedPkg.dec
   Silicon/NXP/NxpQoriqLs.dec
   Silicon/NXP/LS1046A/LS1046A.dec
+  DynamicTablesPkg/DynamicTablesPkg.dec
+  MdeModulePkg/MdeModulePkg.dec
 
 [LibraryClasses]
   DebugLib
@@ -33,4 +35,10 @@
 [FixedPcd]
   gNxpQoriqLsTokenSpaceGuid.PcdPcieTbuMask
   gNxpQoriqLsTokenSpaceGuid.PcdNoITS
+
+[Pcd]
+  gEfiMdeModulePkgTokenSpaceGuid.PcdDynamicIortTable
+  gEfiMdeModulePkgTokenSpaceGuid.PcdDynamicIortTablePtr
+  gEfiMdeModulePkgTokenSpaceGuid.PcdDynamicIortTblRcNodeOffset
+  gEfiMdeModulePkgTokenSpaceGuid.PcdDynamicIortTblSmmuNodeOffset
 

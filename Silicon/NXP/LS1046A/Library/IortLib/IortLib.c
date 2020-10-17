@@ -92,6 +92,46 @@ SetIommuIdMapping (
   EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE     *IdMapping;
   UINTN                                  Index;
 
+  if (PcdGetBool (PcdDynamicIortTable)) {
+    EFI_ACPI_DESCRIPTION_HEADER         * TableHeader;
+    EFI_ACPI_6_0_IO_REMAPPING_RC_NODE   * RcNode;
+    EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE  * IdMappingPtr;
+    UINT32                                NumIdMappings;
+    UINT32                                OutPutRef;
+
+    TableHeader = (EFI_ACPI_DESCRIPTION_HEADER*) (CurrentTable);
+
+    if (TableHeader->Signature != EFI_ACPI_6_2_IO_REMAPPING_TABLE_SIGNATURE) {
+      DEBUG ((DEBUG_ERROR, "INFO : IORT Table not Found\n"));
+      return IORT_NODE_NOT_FOUND;
+    }
+
+    RcNode = (EFI_ACPI_6_0_IO_REMAPPING_RC_NODE *)((UINT8*)CurrentTable + PcdGet64 (PcdDynamicIortTblRcNodeOffset));
+
+    while (RcNode->PciSegmentNumber != SegmentNumber)
+    {
+        RcNode = (EFI_ACPI_6_0_IO_REMAPPING_RC_NODE *)((UINT8*)RcNode + RcNode->Node.Length);
+        if (RcNode->Node.Type != EFI_ACPI_IORT_TYPE_ROOT_COMPLEX) {
+          DEBUG ((DEBUG_INFO, "Root Complex node not found in IORT table\n", SegmentNumber));
+          return IORT_NODE_NOT_FOUND;
+        }
+    }
+    // Segment found
+    IdMappingPtr = (EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE*)((UINT8*)RcNode + RcNode->Node.IdReference);
+    OutPutRef = IdMappingPtr->OutputReference;
+    NumIdMappings = RcNode->Node.NumIdMappings;
+
+    IdMappingPtr = (EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE*)((UINT8*)IdMappingPtr + ((NumIdMappings - 1) * sizeof(EFI_ACPI_6_0_IO_REMAPPING_ID_TABLE)));
+
+    // Fix the IdMapping
+    IdMappingPtr->InputBase = InputId;
+    IdMappingPtr->NumIds = 0;
+    IdMappingPtr->OutputBase = FixedPcdGet16 (PcdPcieTbuMask) | OutputId;
+    IdMappingPtr->OutputReference = OutPutRef;
+
+    return IORT_SUCCESS;
+  }
+
   Iort = (NXP_EFI_ACPI_6_0_IO_REMAPPING_TABLE *)CurrentTable;
 
   // find Pcie Rc Node

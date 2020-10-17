@@ -24,6 +24,8 @@
   EmbeddedPkg/EmbeddedPkg.dec
   Silicon/NXP/NxpQoriqLs.dec
   Silicon/NXP/Chassis/Chassis3V2/Chassis3V2.dec
+  DynamicTablesPkg/DynamicTablesPkg.dec
+  MdeModulePkg/MdeModulePkg.dec
 
 [LibraryClasses]
   BaseLib
@@ -33,4 +35,6 @@
 [Pcd]
   gNxpQoriqLsTokenSpaceGuid.PcdSocSvr
   gNxpQoriqLsTokenSpaceGuid.PcdPciHideRootPort
-
+  gEfiMdeModulePkgTokenSpaceGuid.PcdDynamicIortTable
+  gEfiMdeModulePkgTokenSpaceGuid.PcdDynamicMcfgTablePtr
+  gEfiMdeModulePkgTokenSpaceGuid.PcdDynamicDsdtTablePtr

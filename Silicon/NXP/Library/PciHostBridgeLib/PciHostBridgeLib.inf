@@ -23,6 +23,7 @@
   EmbeddedPkg/EmbeddedPkg.dec
   Silicon/NXP/NxpQoriqLs.dec
   Silicon/NXP/Chassis/Chassis2/Chassis2.dec
+  DynamicTablesPkg/DynamicTablesPkg.dec
 
 [LibraryClasses]
   DebugLib
@@ -68,3 +69,5 @@
   gNxpQoriqLsTokenSpaceGuid.PcdPciCfgShiftEnable
   gNxpQoriqLsTokenSpaceGuid.PcdPciStreamIdPerCtrl
   gNxpQoriqLsTokenSpaceGuid.PcdPciHideRootPort
+  gEfiMdeModulePkgTokenSpaceGuid.PcdDynamicIortTable
+  gEfiMdeModulePkgTokenSpaceGuid.PcdDynamicIortTablePtr

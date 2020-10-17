@@ -163,9 +163,11 @@ OnRootBridgesConnected (
   )
 {
   EFI_STATUS                     Status;
+  INT32                          TableCnt;
+  INT32                          TableItr;
   EFI_ACPI_TABLE_PROTOCOL        *AcpiTable;
-  EFI_ACPI_COMMON_HEADER         *CurrentTable;
-  UINTN                          TableHandle;
+  EFI_ACPI_COMMON_HEADER         *CurrentTable[5];
+  UINTN                          TableHandle[5];
   UINTN                          TableSize;
 
   //
@@ -176,31 +178,46 @@ OnRootBridgesConnected (
     DEBUG ((DEBUG_ERROR, "AcpiPlatformDxe: Failed to get ACPI Table Protocol\n"));
   }
 
-  CurrentTable = (EFI_ACPI_COMMON_HEADER *)PcdGet64 (PcdIortTablePtr);
+  if (PcdGetBool (PcdDynamicIortTable)) {
+    CurrentTable[0] = (EFI_ACPI_COMMON_HEADER *)PcdGet64 (PcdDynamicIortTablePtr);
+    CurrentTable[1] = (EFI_ACPI_COMMON_HEADER *)PcdGet64 (PcdDynamicMcfgTablePtr);
+    CurrentTable[2] = (EFI_ACPI_COMMON_HEADER *)PcdGet64 (PcdDynamicDsdtTablePtr);
+    TableCnt = 3;
+  } else {
+    CurrentTable[0] = (EFI_ACPI_COMMON_HEADER *)PcdGet64 (PcdDynamicIortTablePtr);
+    TableCnt = 1;
+  }
 
-  TableSize = ((EFI_ACPI_DESCRIPTION_HEADER *) CurrentTable)->Length;
-  //
-  // Checksum ACPI table
-  //
-  AcpiPlatformChecksum ((UINT8*)CurrentTable, TableSize);
+  for (TableItr = 0; TableItr < TableCnt; TableItr++) {
 
-  //
-  // Install ACPI table
-  //
-  Status = AcpiTable->InstallAcpiTable (
-                        AcpiTable,
-                        CurrentTable,
-                        TableSize,
-                        &TableHandle
-                        );
+    TableSize = ((EFI_ACPI_DESCRIPTION_HEADER *) CurrentTable[TableItr])->Length;
+    //
+    // Checksum ACPI table
+    //
+    AcpiPlatformChecksum ((UINT8*)CurrentTable[TableItr], TableSize);
 
-  //
-  // Free memory allocated by ReadSection
-  //
-  gBS->FreePool (CurrentTable);
+    //
+    // Install ACPI table
+    //
+    Status = AcpiTable->InstallAcpiTable (
+        AcpiTable,
+        CurrentTable[TableItr],
+        TableSize,
+        &TableHandle[TableItr]
+        );
 
-  if (EFI_ERROR(Status)) {
-    DEBUG ((DEBUG_ERROR, "AcpiPlatformDxe: Failed to install IORT Table\n"));
+    if (EFI_ERROR(Status) && (TableItr == 0)) {
+      DEBUG ((DEBUG_ERROR, "AcpiPlatformDxe: Install IORT Table - Failed.\n"));
+    } else if (EFI_ERROR(Status) && (TableItr == 1)) {
+      DEBUG ((DEBUG_ERROR, "AcpiPlatformDxe: Install MCFG Table - Failed.\n"));
+    } else if (EFI_ERROR(Status) && (TableItr == 2)) {
+      DEBUG ((DEBUG_ERROR, "AcpiPlatformDxe: Install DSDT Table - Failed.\n"));
+    }
+
+    //
+    // Free memory allocated by ReadSection
+    //
+    //gBS->FreePool ((UINT8*)CurrentTable[TableItr]);
   }
 }
 
@@ -237,6 +254,24 @@ AcpiPlatformEntryPoint (
   Instance     = 0;
   CurrentTable = NULL;
   TableHandle  = 0;
+
+  if (PcdGetBool (PcdDynamicIortTable)) {
+    Status = AcpiPlatformFixup (NULL);
+    Status |= gBS->CreateEventEx (
+                   EVT_NOTIFY_SIGNAL,
+                   TPL_CALLBACK,
+                   OnRootBridgesConnected,
+                   NULL,
+                   &gRootBridgesConnectedEventGroupGuid,
+                   &RootBridgesConnected
+                   );
+
+    if (EFI_ERROR(Status)) {
+      return EFI_ABORTED;
+    }
+
+    return EFI_SUCCESS;
+  }
 
   //
   // Find the AcpiTable protocol
