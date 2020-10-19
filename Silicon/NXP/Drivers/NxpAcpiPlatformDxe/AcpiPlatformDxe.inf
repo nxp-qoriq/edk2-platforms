@@ -62,6 +62,7 @@
   gEfiMdeModulePkgTokenSpaceGuid.PcdDynamicIortTablePtr
   gEfiMdeModulePkgTokenSpaceGuid.PcdDynamicMcfgTablePtr
   gEfiMdeModulePkgTokenSpaceGuid.PcdDynamicDsdtTablePtr
+  gNxpQoriqLsTokenSpaceGuid.PcdSocSvr
 
 [Depex]
   gEfiAcpiTableProtocolGuid

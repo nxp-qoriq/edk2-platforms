@@ -218,7 +218,10 @@
   Platform/NXP/LS1046aFrwyPkg/DeviceTree/DeviceTree.inf
   Silicon/NXP/Drivers/MmcHostDxe/MmcHostDxe.inf
   Silicon/NXP/Drivers/RngDxe/RngDxe.inf
+
+!if $(DYNAMIC_ACPI_ENABLE) == FALSE
   Silicon/NXP/Drivers/Dpaa1EthernetDxe/Dpaa1EthernetDxe.inf
+!endif
 
  ##
   #

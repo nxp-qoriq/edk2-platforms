@@ -15,6 +15,17 @@
 #define AML_BUFFER_OP                0x11
 #define AML_RESOURCE_BUS             0x2
 
+EFI_STATUS
+PlatformProcessDSDT (
+    EFI_ACPI_SDT_PROTOCOL *AcpiTableProtocol,
+    EFI_ACPI_HANDLE TableHandle
+    ) { return EFI_SUCCESS; }
+
+void
+PlatformAcpiCheckSum (
+    IN OUT  EFI_ACPI_SDT_HEADER *Table
+    ) { /* Do Nothing */ }
+
 /**
   Fixup the DSDT Table based on running SOC's properties.
 

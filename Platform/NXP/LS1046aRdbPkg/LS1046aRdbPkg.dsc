@@ -222,7 +222,10 @@
   Silicon/NXP/Drivers/MmcHostDxe/MmcHostDxe.inf
   Silicon/NXP/Drivers/NandFlashDxe/NandFlashDxe.inf
   Silicon/NXP/Drivers/RngDxe/RngDxe.inf
+
+!if $(DYNAMIC_ACPI_ENABLE) == FALSE
   Silicon/NXP/Drivers/Dpaa1EthernetDxe/Dpaa1EthernetDxe.inf
+!endif
 
   #
   # Acpi Support

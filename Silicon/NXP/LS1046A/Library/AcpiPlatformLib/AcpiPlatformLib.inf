@@ -30,6 +30,7 @@
   BaseLib
   BaseMemoryLib
   DebugLib
+  SysEepromLib
 
 [Pcd]
   gNxpQoriqLsTokenSpaceGuid.PcdSocSvr
@@ -37,3 +38,6 @@
   gEfiMdeModulePkgTokenSpaceGuid.PcdDynamicIortTable
   gEfiMdeModulePkgTokenSpaceGuid.PcdDynamicMcfgTablePtr
   gEfiMdeModulePkgTokenSpaceGuid.PcdDynamicDsdtTablePtr
+
+[Protocols]
+  gEfiAcpiSdtProtocolGuid

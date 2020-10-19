@@ -83,5 +83,8 @@ SocGetSvr (
   GurBase = (VOID *)PcdGet64 (PcdGutsBaseAddr);
   ASSERT (GurBase != NULL);
 
+  /* Store the SVR value */
+  PcdSet32(PcdSocSvr, (UINT32)GurRead ((UINTN)&GurBase->Svr));
+
   return GurRead ( (UINTN)&GurBase->Svr);
 }

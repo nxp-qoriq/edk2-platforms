@@ -38,3 +38,6 @@
   gEfiMdeModulePkgTokenSpaceGuid.PcdDynamicIortTable
   gEfiMdeModulePkgTokenSpaceGuid.PcdDynamicMcfgTablePtr
   gEfiMdeModulePkgTokenSpaceGuid.PcdDynamicDsdtTablePtr
+
+[Protocols]
+  gEfiAcpiSdtProtocolGuid
