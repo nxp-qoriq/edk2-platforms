@@ -302,10 +302,10 @@ EDKII_PLATFORM_REPOSITORY_INFO FslPlatformRepositoryInfo = {
   // SMBIOS System Info
   {
     1,     /* Manufacturer */
-    2,     /* Product Name */
+    PLAT_SMBIOS_PROD_NAME,     /* Product Name */
     3,     /* Version */
     4,     /* Serial */
-    { 0x8a95d198, 0x7f46, 0x11e5, { 0xbf,0x8b,0x08,0x00,0x27,0x04,0xd4,0x8e }},    /* UUID */
+    PLAT_SMBIOS_UUID,
     6,     /* Wakeup type */
     0,     /* SKU */
     0,     /* Family */
@@ -314,7 +314,7 @@ EDKII_PLATFORM_REPOSITORY_INFO FslPlatformRepositoryInfo = {
   // SMBIOS system Enclosure/Chassis info
   {
     1,   /* Manufacturer */
-    9,   /* enclosure type (laptop) */
+    PLAT_SMBIOS_ENCLOSURE_TYPE,
     2,   /* version */
     3,   /* serial */
     0,   /* asset tag */
@@ -338,8 +338,8 @@ EDKII_PLATFORM_REPOSITORY_INFO FslPlatformRepositoryInfo = {
     5,                                       /* version */
     {0,0,0,0,0,1},                           /* voltage */
     100,                                     /* external clock */
-    2200,                                    /* max speed */
-    2000,                                    /* current speed */
+    PLAT_SMBIOS_CPU_MAX_SPEED,               /* max speed */
+    PLAT_SMBIOS_CPU_CUR_SPEED,               /* current speed */
     0x41,                                    /* status */
     ProcessorUpgradeOther,
     SMBIOS_HANDLE_A57_L1I,                   /* l1 cache handle */
@@ -348,8 +348,8 @@ EDKII_PLATFORM_REPOSITORY_INFO FslPlatformRepositoryInfo = {
     0,                                       /* serial not set */
     0,                                       /* asset not set */
     8,                                       /* part number */
-    16,                                      /* core count in socket */
-    16,                                      /* enabled core count in socket */
+    PLAT_SMBIOS_CPU_MAX_COUNT,               /* core count in socket */
+    PLAT_SMBIOS_CPU_ENABLE_COUNT,            /* enabled core count in socket */
     0,                                       /* threads per socket */
     0xEC,                                    /* processor characteristics */
     ProcessorFamilyARM,                      /* ARM core */
@@ -367,46 +367,19 @@ EDKII_PLATFORM_REPOSITORY_INFO FslPlatformRepositoryInfo = {
     CacheErrorParity,                      /* parity checking */
     CacheTypeInstruction,                  /* instruction cache */
     CacheAssociativityOther,               /* three way */
-    0x400,                                 /* 1 MB max L2 cache */
-    0x400,                                 /* 1 MB installed L2 Cache */
+    PLAT_SMBIOS_MAX_L2_CACHE,              /* 1 MB max L2 cache */
+    PLAT_SMBIOS_INSTALLED_L2_CACHE,        /* 1 MB installed L2 Cache */
   },
 
   // SMBIOS System slots
-  {
-    {
-      1,
-      SlotTypePciExpressGen3X4,
-      SlotDataBusWidth4X,
-      SlotUsageAvailable,
-      SlotLengthShort,
-      0,                 // SlotId
-      {1},               // unknown
-      {1,0,0},           // PME and SMBUS
-      0x0,               // Segment
-      0x0,               // Bus
-      0x0                // DevFunc
-    },
-    {
-      2,
-      SlotTypePciExpressGen3X8,
-      SlotDataBusWidth8X,
-      SlotUsageAvailable,
-      SlotLengthShort,
-      0,                // SlotId
-      {1},              // unknown
-      {1,0,0},          // PME and SMBUS
-      0x1,              // Segment
-      0x0,              // Bus
-      0x0               // DevFunc
-    }
-  },
+  PLAT_SMBIOS_SYSTEM_SLOT_INFO,
 
   // SMBIOS Memory Array for Type16 Table
   {
     MemoryArrayLocationSystemBoard,             // MemoryArrayLocation
     MemoryArrayUseSystemMemory,                 // MemoryArrayUse
     MemoryErrorCorrectionSingleBitEcc,          // MemoryErrorCorrection
-    0x800000,                                   // 8GB
+    PLAT_SMBIOS_MEMORY_SIZE,                    // 8GB
     0xFFFE,                                     // No error information structure
     0x1,                                        // soldered memory
   },
@@ -418,17 +391,24 @@ EDKII_PLATFORM_REPOSITORY_INFO FslPlatformRepositoryInfo = {
     72, /* single DIMM, no ECC is 64bits (for ecc this would be 72) */
     64, /* data width of this device (64-bits) */
     0x7FFF, /* for size 32GB -1MB or greater*/
-    0x09,   /* DIMM */
-    0,      /* not part of a set */
+    PLAT_SMBIOS_MEMORY_FORM,  /* DIMM */
+    PLAT_SMBIOS_MEMORY_SET,   /* not part of a set */
     1,      /* right side of board */
     2,      /* bank 0 */
-    MemoryTypeDdr4,                  /* LP DDR4 */
-    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,1}, /* unbuffered */
-    2900,                            /* 2900Mhz DDR */
+    PLAT_SMBIOS_MEMORY_TYPE,  /* LP DDR4 */
+    PLAT_SMBIOS_MEMOPRY_TYPE_DETAIL, /* unbuffered */
+    PLATFORM_SMBIOS_MEMORY_SPEED,    /* 2900Mhz DDR */
     0, /* varies between diffrent production runs */
     0, /* serial */
     0, /* asset tag */
-    0  /* part number */
+    0, /* part number */
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    MemoryTechnologyDram,
   },
 
   // Memory array mapped address
@@ -437,7 +417,7 @@ EDKII_PLATFORM_REPOSITORY_INFO FslPlatformRepositoryInfo = {
     0xFFFFFFFF,
     SMBIOS_HANDLE_DIMM, /* handle */
     1,
-    0x000000000,        /* starting addr of first 32GB */
+    PLAT_SMBIOS_MEMORY_START, /* starting addr of first 32GB */
     0x7FFFFFFFE,        /* ending addr of first 32GB */
   },
 

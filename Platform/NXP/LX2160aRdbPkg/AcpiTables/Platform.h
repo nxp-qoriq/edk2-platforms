@@ -1117,4 +1117,60 @@
   }                                                                                                                                 \
 }                                                                                                                                   \
 
+// Platform specific smbios defines for Dynamic consumed by Configuration Manager
+
+#define PLAT_SMBIOS_UUID  \
+  { 0x8a95d198, 0x7f46, 0x11e5, { 0xbf,0x8b,0x08,0x00,0x27,0x04,0xd4,0x8e } } /* UUID */
+#define PLAT_SMBIOS_ENCLOSURE_TYPE      9     /* enclosure type (laptop) */
+#define PLAT_SMBIOS_CPU_MAX_SPEED       2200  /* max speed */
+#define PLAT_SMBIOS_CPU_CUR_SPEED       2000  /* current speed */
+#define PLAT_SMBIOS_CPU_MAX_COUNT       16    /* core count in socket */
+#define PLAT_SMBIOS_CPU_ENABLE_COUNT    16    /* enabled core count in socket */
+#define PLAT_SMBIOS_MAX_L2_CACHE        0x400 /* 1 MB max L2 cache */
+#define PLAT_SMBIOS_INSTALLED_L2_CACHE  0x400 /* 1 MB installed L2 Cache */
+#define PLAT_SYSTEM_SLOT_SIZE           2
+#define PLAT_SMBIOS_PCI_1_EXP_GEN_TYPE  SlotTypePciExpressGen3X4
+#define PLAT_SMBIOS_PCI_1_BUS_WIDTH     SlotDataBusWidth4X
+#define PLAT_SMBIOS_PCI_2_EXP_GEN_TYPE  SlotTypePciExpressGen3X8
+#define PLAT_SMBIOS_PCI_2_BUS_WIDTH     SlotDataBusWidth8X
+#define PLAT_SMBIOS_PCI_1_BUS_NUM       0x0
+#define PLAT_SMBIOS_PCI_2_BUS_NUM       0x0
+#define PLAT_SMBIOS_MEMORY_SIZE         0x800000  /* 8GB */
+#define PLAT_SMBIOS_MEMORY_FORM         0x09      /* DIMM */
+#define PLAT_SMBIOS_MEMORY_SET          0         /* not part of a set */
+#define PLAT_SMBIOS_MEMORY_TYPE         MemoryTypeDdr4  /* LP DDR4 */
+#define PLAT_SMBIOS_MEMOPRY_TYPE_DETAIL {0,0,0,0,0,0,0,0,0,0,0,0,0,0,1} /* unbuffered */
+#define PLATFORM_SMBIOS_MEMORY_SPEED    2900  /* 2900Mhz DDR */
+#define PLAT_SMBIOS_MEMORY_START        0x000000000 /* starting addr of first 32GB */
+#define PLAT_SMBIOS_PROD_NAME           3
+#define PLAT_SMBIOS_SYSTEM_SLOT_INFO        \
+  {                                         \
+    {                                       \
+      2,                                    \
+      PLAT_SMBIOS_PCI_1_EXP_GEN_TYPE,       \
+      PLAT_SMBIOS_PCI_1_BUS_WIDTH,          \
+      SlotUsageAvailable,                   \
+      SlotLengthShort,                      \
+      0,                 /* SlotId */       \
+      {1},               /* unknown */      \
+      {1,0,0},           /* PME and SMBUS */\
+      0x0,               /* Segment */      \
+      PLAT_SMBIOS_PCI_1_BUS_NUM,            \
+      0x0                /* DevFunc */      \
+    },                                      \
+    {                                       \
+      3,                                    \
+      PLAT_SMBIOS_PCI_2_EXP_GEN_TYPE,       \
+      PLAT_SMBIOS_PCI_2_BUS_WIDTH,          \
+      SlotUsageAvailable,                   \
+      SlotLengthShort,                      \
+      0,                                    \
+      {1},                                  \
+      {1,0,0},                              \
+      0x1,                                  \
+      PLAT_SMBIOS_PCI_2_BUS_NUM,            \
+      0x0                                   \
+    }                                       \
+  }                                         \
+
 #endif

@@ -233,7 +233,7 @@ typedef struct PlatformRepositoryInfo {
   CM_ARM_CPU_CACHE_DEVICE_TYPE7_INFO        Type7CpuCacheDeviceInfo;
 
   /// Type 9 Table System slot info
-  CM_ARM_SYSTEM_SLOT_TYPE9_INFO             Type9SystemSlotInfo[2];
+  CM_ARM_SYSTEM_SLOT_TYPE9_INFO             Type9SystemSlotInfo[PLAT_SYSTEM_SLOT_SIZE];
 
   /// Type16 Table memory array info
   CM_ARM_MEMORY_ARRAY_TYPE16_INFO           Type16MemoryArray;
