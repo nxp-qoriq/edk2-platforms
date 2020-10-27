@@ -223,6 +223,26 @@ STATIC CONST ARM_TYPE17 mArmDefaultType17 = {
     0,                               /* Maximum operating voltage  */
     0,                               /* Configured voltage */
     3,                               /* Memory Technology */
+    {{                    // MemoryOperatingModeCapability
+      0,  // Reserved                        :1;
+      0,  // Other                           :1;
+      0,  // Unknown                         :1;
+      1,  // VolatileMemory                  :1;
+      0,  // ByteAccessiblePersistentMemory  :1;
+      0,  // BlockAccessiblePersistentMemory :1;
+      0   // Reserved                        :10;
+    }},
+    0,                    // FirwareVersion
+    0,                    // ModuleManufacturerID (unknown)
+    0,                    // ModuleProductID (unknown)
+    0,                    // MemorySubsystemControllerManufacturerID (unknown)
+    0,                    // MemorySubsystemControllerProductID (unknown)
+    0,                    // NonVolatileSize
+    0xFFFFFFFFFFFFFFFFULL,// VolatileSize // initialized at runtime, refer to PhyMemArrayInfoUpdateSmbiosType16()
+    0,                    // CacheSize
+    0,                    // LogicalSize (since MemoryType is not MemoryTypeLogicalNonVolatileDevice)
+    0,                    // ExtendedSpeed,
+    0                     // ExtendedConfiguredMemorySpeed
   },
   TYPE17_STRINGS
 };
