@@ -26,9 +26,15 @@
   SocPlatformLib|Silicon/NXP/LS2088A/Library/SocPlatformLib/SocPlatformLib.inf
 
 [PcdsFixedAtBuild.common]
+  # watchdog clock frq = Plat frq in rcw / Timebase clock divider(tbclkdiv)
+  #                                                     **************
+  # so watchdog clk frq = 700 / 16                      * 0x00: 1/16 *
+  #                     = 43.75Mhz     where tbclkdiv = * 0x01: 1/4  *
+  #                                                     * 0x02: 1/8  *
+  #                                                     **************
 
   gArmPlatformTokenSpaceGuid.PcdSP805WatchdogBase|0x0C000000
-  gArmPlatformTokenSpaceGuid.PcdSP805WatchdogClockFrequencyInHz|266666666 #266MHz
+  gArmPlatformTokenSpaceGuid.PcdSP805WatchdogClockFrequencyInHz|43750000 #43.75MHz
 
   #
   # ARM L2x0 PCDs
