@@ -39,6 +39,7 @@
   IfcLib|Silicon/NXP/Library/IfcLib/IfcLib.inf
   BoardLib|Platform/NXP/LS2088aRdbPkg/Library/BoardLib/BoardLib.inf
   FpgaLib|Platform/NXP/LS2088aRdbPkg/Library/FpgaLib/FpgaLib.inf
+  IortLib|Silicon/NXP/Library/IortNullLib/IortNullLib.inf
   NorFlashLib|Silicon/NXP/Library/NorFlashLib/NorFlashLib.inf
   PciSegmentLib|Silicon/NXP/Library/PciSegmentLib/PciSegmentLib.inf
   PciHostBridgeLib|Silicon/NXP/Library/PciHostBridgeLib/PciHostBridgeLib.inf
