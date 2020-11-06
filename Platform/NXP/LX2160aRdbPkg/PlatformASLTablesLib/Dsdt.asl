@@ -9,10 +9,11 @@
 
 #include <AcpiTables/Platform.h>
 
-DefinitionBlock("DsdtTable.aml", "DSDT", 1, "NXP   ", "LX2160  ", EFI_ACPI_ARM_OEM_REVISION) {
+DefinitionBlock("DsdtTable.aml", "DSDT", 2, "NXP   ", "LX2160  ", EFI_ACPI_ARM_OEM_REVISION) {
+  /* Platform clk will be calculated in Clk.asl dynamically and will be used by all other IP's */
+  include ("AcpiTables/Dsdt/Clk.asl")
   include ("AcpiTables/Dsdt/Com.asl")
   include ("AcpiTables/Dsdt/CPU.asl")
-  include ("AcpiTables/Dsdt/Clk.asl")
   include ("AcpiTables/Dsdt/Esdhc.asl")
   include ("AcpiTables/Dsdt/FSPI.asl")
   include ("AcpiTables/Dsdt/Guts.asl")
