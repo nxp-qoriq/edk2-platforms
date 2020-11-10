@@ -43,3 +43,6 @@
 [FixedPcd]
   gPcf85263RtcLibTokenSpaceGuid.PcdI2cSlaveAddress
   gPcf85263RtcLibTokenSpaceGuid.PcdI2cBusFrequency
+
+[Depex]
+  gEfiI2cMasterProtocolGuid
