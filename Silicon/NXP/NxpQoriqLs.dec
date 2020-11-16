@@ -12,6 +12,7 @@
 
 [Includes]
   Include
+  Chassis2
 
 [LibraryClasses]
   ##  @libraryclass  Provides Chassis specific functions to other modules
@@ -19,6 +20,7 @@
 
   ##  @libraryclass  Provides services to read/write to I2c devices
   I2cLib|Include/Library/I2cLib.h
+  IoAccessLib|Silicon/NXP/Include/Library/IoAccessLib.h
 
 [Guids.common]
   gNxpQoriqLsTokenSpaceGuid      = {0x98657342, 0x4aee, 0x4fc6, {0xbc, 0xb5, 0xff, 0x45, 0xb7, 0xa8, 0x71, 0xf2}}
@@ -42,6 +44,138 @@
   gNxpQoriqLsTokenSpaceGuid.PcdPcieLutDbg|0x0|UINT32|0x00000503
   gNxpQoriqLsTokenSpaceGuid.PcdSerDesLanes|0x0|UINT8|0x00000504
 
+  #
+  # Pcds for I2C Controller
+  #
+  gNxpQoriqLsTokenSpaceGuid.PcdI2cBus|0|UINT32|0x00000001
+  gNxpQoriqLsTokenSpaceGuid.PcdI2cSpeed|0|UINT32|0x00000002
+  gNxpQoriqLsTokenSpaceGuid.PcdNumI2cController|0|UINT32|0x00000003
+  gNxpQoriqLsTokenSpaceGuid.PcdI2cSlaveAddress|0|UINT32|0x00000004
+  # The I2cDivisor is determined like this
+  # I2cDivisor = (I2cClock + I2cSpeed - 1) / I2cSpeed
+  # I2cClock is the input clock to I2c controller, I2cSpeed is the I2c bus speed
+  # In early init phase when we don't know the I2cClock, we need to setup the
+  # I2c controller to be able to read SysClock (and hence I2cClock) from the
+  # clock generator or FPGA connected to I2c bus.
+  # Therefore, this Pcd selects the Divisor to use in early init phase.
+  gNxpQoriqLsTokenSpaceGuid.PcdI2cEarlyDivisor|6144|UINT16|0x00000362
+
+  #
+  # Pcds for Pcf2129 I2C MUX
+  #
+  gNxpQoriqLsTokenSpaceGuid.PcdIsRtcDeviceMuxed|FALSE|BOOLEAN|0x00000005
+  gNxpQoriqLsTokenSpaceGuid.PcdMuxDeviceAddress|0|UINT32|0x00000006
+  gNxpQoriqLsTokenSpaceGuid.PcdMuxControlRegOffset|0|UINT32|0x00000007
+  gNxpQoriqLsTokenSpaceGuid.PcdMuxRtcChannelValue|0|UINT32|0x00000008
+  gNxpQoriqLsTokenSpaceGuid.PcdMuxDefaultChannelValue|0|UINT32|0x00000009
+
+  #
+  # Pcd for I2c based devices
+  #
+  gNxpQoriqLsTokenSpaceGuid.PcdSysEepromI2cBus|0|UINT32|0x0000000A
+  gNxpQoriqLsTokenSpaceGuid.PcdSysEepromI2cAddress|0|UINT32|0x0000000B
+
+  #
+  # Pcds for base address and size
+  #
+  gNxpQoriqLsTokenSpaceGuid.PcdGutsBaseAddr|0x0|UINT64|0x00000100
+  gNxpQoriqLsTokenSpaceGuid.PcdPiFdSize|0x0|UINT32|0x00000101
+  gNxpQoriqLsTokenSpaceGuid.PcdPiFdBaseAddress|0x0|UINT64|0x00000102
+  gNxpQoriqLsTokenSpaceGuid.PcdClkBaseAddr|0x0|UINT64|0x00000103
+  gNxpQoriqLsTokenSpaceGuid.PcdWdog1BaseAddr|0x0|UINT64|0x00000104
+  gNxpQoriqLsTokenSpaceGuid.PcdDdrBaseAddr|0x0|UINT64|0x00000105
+  gNxpQoriqLsTokenSpaceGuid.PcdSdxcBaseAddr|0x0|UINT64|0x00000106
+  gNxpQoriqLsTokenSpaceGuid.PcdScfgBaseAddr|0x0|UINT64|0x00000107
+  gNxpQoriqLsTokenSpaceGuid.PcdI2c0BaseAddr|0x0|UINT64|0x00000108
+  gNxpQoriqLsTokenSpaceGuid.PcdI2c5BaseAddr|0x0|UINT64|0x0000012F
+  gNxpQoriqLsTokenSpaceGuid.PcdI2cSize|0x0|UINT32|0x00000109
+  gNxpQoriqLsTokenSpaceGuid.PcdDcsrBaseAddr|0x0|UINT64|0x0000010A
+  gNxpQoriqLsTokenSpaceGuid.PcdDcsrSize|0x0|UINT64|0x0000010B
+
+  gNxpQoriqLsTokenSpaceGuid.PcdQmanSwpBaseAddr|0x0|UINT64|0x0000010E
+  gNxpQoriqLsTokenSpaceGuid.PcdQmanSwpSize|0x0|UINT64|0x0000010F
+  gNxpQoriqLsTokenSpaceGuid.PcdBmanSwpBaseAddr|0x0|UINT64|0x00000110
+  gNxpQoriqLsTokenSpaceGuid.PcdBmanSwpSize|0x0|UINT64|0x00000111
+
+#  gNxpQoriqLsTokenSpaceGuid.PcdQmanSwpBaseAddr|0x0|UINT64|0x500000000
+#  gNxpQoriqLsTokenSpaceGuid.PcdQmanSwpSize|0x0|UINT64|0x0080000000
+#  gNxpQoriqLsTokenSpaceGuid.PcdBmanSwpBaseAddr|0x0|UINT64|0x508000000
+#  gNxpQoriqLsTokenSpaceGuid.PcdBmanSwpSize|0x0|UINT64|0x0080000000
+
+  gNxpQoriqLsTokenSpaceGuid.PcdPciExp1BaseSize|0x0|UINT64|0x00000113
+  gNxpQoriqLsTokenSpaceGuid.PcdPciExp2BaseAddr|0x0|UINT64|0x00000114
+  gNxpQoriqLsTokenSpaceGuid.PcdPciExp2BaseSize|0x0|UINT64|0x00000115
+  gNxpQoriqLsTokenSpaceGuid.PcdPciExp3BaseAddr|0x0|UINT64|0x00000116
+  gNxpQoriqLsTokenSpaceGuid.PcdPciExp3BaseSize|0x0|UINT64|0x00000117
+  gNxpQoriqLsTokenSpaceGuid.PcdPciExp4BaseAddr|0x0|UINT64|0x0000118
+  gNxpQoriqLsTokenSpaceGuid.PcdPciExp4BaseSize|0x0|UINT64|0x0000119
+  gNxpQoriqLsTokenSpaceGuid.PcdPciExp5BaseAddr|0x0|UINT64|0x0000011A
+  gNxpQoriqLsTokenSpaceGuid.PcdPciExp6BaseAddr|0x0|UINT64|0x0000011B
+  gNxpQoriqLsTokenSpaceGuid.PcdEMmcBaseAddr|0x0|UINT64|0x0000011C
+  gNxpQoriqLsTokenSpaceGuid.PcdScfgIntPol|0|UINT32|0x0000011D
+
+  gNxpQoriqLsTokenSpaceGuid.PcdQspiRegionBaseAddr|0x0|UINT64|0x00000120
+  gNxpQoriqLsTokenSpaceGuid.PcdQspiRegionSize|0x0|UINT64|0x00000121
+  gNxpQoriqLsTokenSpaceGuid.PcdQspiRegion2BaseAddr|0x0|UINT64|0x00000122
+  gNxpQoriqLsTokenSpaceGuid.PcdQspiRegion2Size|0x0|UINT64|0x00000123
+
+  gNxpQoriqLsTokenSpaceGuid.PcdCcsrBaseAddr|0x0|UINT64|0x00000128
+  gNxpQoriqLsTokenSpaceGuid.PcdCcsrSize|0x0|UINT64|0x00000129
+  gNxpQoriqLsTokenSpaceGuid.PcdIfcBaseAddr|0x0|UINT64|0x0000012A
+  gNxpQoriqLsTokenSpaceGuid.PcdRomBaseAddr|0x0|UINT64|0x0000012B
+  gNxpQoriqLsTokenSpaceGuid.PcdRomSize|0x0|UINT64|0x0000012C
+
+  gNxpQoriqLsTokenSpaceGuid.PcdIn112525FwNorBaseAddr|0x0|UINT64|0x0000012D
+  gNxpQoriqLsTokenSpaceGuid.PcdIn112525FwSize|0x0|UINT64|0x0000012E
+
+  # SoC specific DPAA1 PCDs
+  #
+  # Valid values for PcdDpaa1DebugFlags:
+  # - 0x1      Enable DPAA1 debugging messages
+  # - 0x2      Dump values of RAM words or registers
+  # - 0x4      Perform extra checks
+  # - 0x8      Trace sent/received network packets
+  #
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa1Initialize|FALSE|BOOLEAN|0x000001C0
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa1DebugFlags|0x0|UINT32|0x000001C1
+  gNxpQoriqLsTokenSpaceGuid.PcdFManFwFlashAddr|0x0|UINT32|0x000001C2
+
+  #
+  # Bit mask to indicate the DPAA1 MEMACs to be used.
+  # MeMaci is selected to be used, if bit 'i - 1' is set in the bit mask,
+  # where i is the range '1 .. #Memacs'. For example, if we want MEMAC5
+  # to be used, the value of the mask needs to be 0x10 (bit 4 set)
+  #
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa1UsedMemacsMask|0x0|UINT64|0x000001C3
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa1FmanMdio1Addr|0x0|UINT64|0x000001C4
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa1FmanMdio2Addr|0x0|UINT64|0x000001C5
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa1FmanAddr|0x0|UINT64|0x000001C6
+  gNxpQoriqLsTokenSpaceGuid.PcdSgmiiPrtclInit|FALSE|BOOLEAN|0x000001C7
+
+  #
+  # Platform PCDs
+  #
+  gNxpQoriqLsTokenSpaceGuid.PcdPlatformFreqDiv|0x0|UINT32|0x00000250
+  gNxpQoriqLsTokenSpaceGuid.PcdSerdes2Enabled|FALSE|BOOLEAN|0x00000251
+
+ #
+  # Clock PCDs
+  #
+  gNxpQoriqLsTokenSpaceGuid.PcdSysClk|0x0|UINT64|0x000002A0
+  gNxpQoriqLsTokenSpaceGuid.PcdDdrClk|0x0|UINT64|0x000002A1
+  gNxpQoriqLsTokenSpaceGuid.PcdNumCcPlls|0x0|UINT8|0x000002A2
+
+  #
+  # Pcds to support Big Endian IPs
+  #
+  gNxpQoriqLsTokenSpaceGuid.PcdGurBigEndian|FALSE|BOOLEAN|0x0000311
+
+  #
+  # Spi Controllers' Pcds
+  #
+  gNxpQoriqLsTokenSpaceGuid.PcdQspiFdtCompatible|""|VOID*|0x00000366
+
+
   # Pcds for USB
   gNxpQoriqLsTokenSpaceGuid.PcdUsbBaseAddr|0x0|UINT64|0x00000510
   gNxpQoriqLsTokenSpaceGuid.PcdUsbSize|0x0|UINT32|0x00000511
@@ -55,15 +189,24 @@
   #
   # Pcds for Gpio
   #
-  gNxpQoriqLsTokenSpaceGuid.PcdNumGpioController|0|UINT32|0x00000355
-  gNxpQoriqLsTokenSpaceGuid.PcdGpioModuleBaseAddress|0|UINT64|0x00000356
+  gNxpQoriqLsTokenSpaceGuid.PcdNumGpioController|0|UINT32|0x00000325
+  gNxpQoriqLsTokenSpaceGuid.PcdGpioModuleBaseAddress|0|UINT64|0x00000326
   gNxpQoriqLsTokenSpaceGuid.PcdGpioControllerOffset|0|UINT64|0x00000357
 
   #
-  # Pcds for SDXC
+  # DPAA1 Pcds
   #
-  gNxpQoriqLsTokenSpaceGuid.PcdSdxcBaseAddr|0x0|UINT64|0x00000360
-  gNxpQoriqLsTokenSpaceGuid.PcdEMmcBaseAddr|0x0|UINT64|0x00000361
+  gNxpQoriqLsTokenSpaceGuid.PcdFmanFwFlashAddr|0x00|UINT64|0x00000354
+
+  #
+  # IO MMU Pcds
+  #
+  gNxpQoriqLsTokenSpaceGuid.PcdPcieStreamIdStart|0x00|UINT32|0x00000355
+  gNxpQoriqLsTokenSpaceGuid.PcdPcieStreamIdEnd|0x00|UINT32|0x00000356
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa2StreamIdStart|0x0|UINT32|0x000001F2
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa2StreamIdEnd|0x0|UINT32|0x000001F3
+
+  gNxpQoriqLsTokenSpaceGuid.PcdFdtAddress|0|UINT64|0x000000365
 
 [PcdsDynamic.common]
   gNxpQoriqLsTokenSpaceGuid.PcdPciCfgShiftEnable|FALSE|BOOLEAN|0x00000600

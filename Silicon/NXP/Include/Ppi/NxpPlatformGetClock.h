@@ -50,4 +50,11 @@ typedef struct {
 
 extern NXP_PLATFORM_GET_CLOCK_PPI gPlatformGetClockPpi;
 
+UINT64
+EFIAPI
+NxpPlatformGetClock(
+  IN  UINT32  ClockType,
+  ...
+  );
+
 #endif // NXP_PLATFORM_PPI_H__

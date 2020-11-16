@@ -12,6 +12,7 @@
 [LibraryClasses.common]
   SocLib|Silicon/NXP/LS1046A/Library/SocLib/SocLib.inf
   SerialPortLib|Silicon/NXP/Library/DUartPortLib/DUartPortLib.inf
+  IoAccessLib|Silicon/NXP/Library/IoAccessLib/IoAccessLib.inf
 
 ################################################################################
 #
