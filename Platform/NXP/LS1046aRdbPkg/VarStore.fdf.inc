@@ -29,8 +29,8 @@ DEFINE FTW_SPARE_BASE                          = $(FTW_WORKING_BASE) + $(FTW_WOR
 DEFINE FTW_SPARE_SIZE                          = 0x00040000
 
 #############################################################################
-# LS1046AFRWY NVRAM Area
-# LS1046AFRWY NVRAM Area contains: Variable + FTW Working + FTW Spare
+# LS1046ARDB NVRAM Area
+# LS1046ARDB NVRAM Area contains: Variable + FTW Working + FTW Spare
 #############################################################################
 
 

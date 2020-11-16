@@ -128,6 +128,12 @@ READ_LOCK_STATUS   = TRUE
   INF MdeModulePkg/Bus/Pci/NonDiscoverablePciDeviceDxe/NonDiscoverablePciDeviceDxe.inf
 
   #
+  # Networking stack
+  #
+!include NetworkPkg/Network.fdf.inc
+
+
+  #
   # AHCI Support
   #
   INF MdeModulePkg/Bus/Ata/AtaAtapiPassThru/AtaAtapiPassThru.inf
