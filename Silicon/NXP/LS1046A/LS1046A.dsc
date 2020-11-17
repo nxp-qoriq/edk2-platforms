@@ -22,6 +22,7 @@
 [LibraryClasses.common]
   #AcpiPlatformLib|Silicon/NXP/LS1046A/Library/AcpiPlatformLib/AcpiPlatformLib.inf
   SocPlatformLib|Silicon/NXP/LS1046A/Library/SocPlatformLib/SocPlatformLib.inf
+  SocFixupLib|Silicon/NXP/LS1046A/Library/SocFixupLib/SocFixupLib.inf
 
 [PcdsFixedAtBuild.common]
 

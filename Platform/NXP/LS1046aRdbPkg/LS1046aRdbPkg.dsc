@@ -29,6 +29,8 @@
 [LibraryClasses.common]
   ArmPlatformLib|Platform/NXP/LS1046aRdbPkg/Library/ArmPlatformLib/ArmPlatformLib.inf
   RealTimeClockLib|Silicon/NXP/Library/Pcf2129RealTimeClockLib/Pcf2129RealTimeClockLib.inf
+  SocFixupLib|Silicon/NXP/LS1046A/Library/SocFixupLib/SocFixupLib.inf
+  ItbParseLib|Silicon/NXP/Library/ItbParseLib/ItbParse.inf
   FpgaLib|Platform/NXP/LS1046aRdbPkg/Library/FpgaLib/FpgaLib.inf
 
 ################################################################################
@@ -46,6 +48,24 @@
   }
 
   Platform/NXP/LS1046aFrwyPkg/Drivers/PlatformDxe/PlatformDxe.inf
+
+  #
+  # DT support
+  #
+
+  Silicon/NXP/Drivers/DtInitDxe/DtInitDxe.inf {
+    <LibraryClasses>
+      FdtLib|EmbeddedPkg/Library/FdtLib/FdtLib.inf
+      DtPlatformDtbLoaderLib|Silicon/NXP/Library/DtbLoaderLib/DtbLoaderLib.inf
+  }
+
+  EmbeddedPkg/Drivers/DtPlatformDxe/DtPlatformDxe.inf {
+    <LibraryClasses>
+      FdtLib|EmbeddedPkg/Library/FdtLib/FdtLib.inf
+      DtPlatformDtbLoaderLib|Silicon/NXP/Library/DtbLoaderLib/DtbLoaderLib.inf
+  }
+
+  Platform/NXP/LS1046aRdbPkg/DeviceTree/DeviceTree.inf
 
   Silicon/NXP/Drivers/SataInitDxe/SataInitDxe.inf
   Silicon/NXP/Drivers/UsbHcdInitDxe/UsbHcd.inf

@@ -66,7 +66,6 @@ Bit(s) | Field Name  | Description                  | Notes/comments
 typedef NXP_LAYERSCAPE_CHASSIS2_DEVICE_CONFIG LS1046A_DEVICE_CONFIG;
 typedef NXP_LAYERSCAPE_CHASSIS2_SUPPLEMENTAL_CONFIG LS1046A_SUPPLEMENTAL_CONFIG;
 
-/* Makarand */
 #define HWA_CGA_M1_CLK_SEL         0xe0000000
 #define HWA_CGA_M1_CLK_SHIFT       29
 
