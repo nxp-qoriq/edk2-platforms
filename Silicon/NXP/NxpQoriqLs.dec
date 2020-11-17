@@ -17,6 +17,7 @@
 [LibraryClasses]
   ##  @libraryclass  Provides Chassis specific functions to other modules
   ChassisLib|Include/Library/ChassisLib.h
+  SocLib|Silicon/NXP/Include/Library/SerDes.h
 
   ##  @libraryclass  Provides services to read/write to I2c devices
   I2cLib|Include/Library/I2cLib.h

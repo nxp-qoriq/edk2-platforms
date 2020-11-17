@@ -21,9 +21,23 @@
   Silicon/NXP/NxpQoriqLs.dec
 
 [LibraryClasses]
+  BaseLib
   ChassisLib
   DebugLib
 
 [Sources.common]
   SocLib.c
+  Chassis.c
+  SerDes.c
 
+[FixedPcd]
+  gNxpQoriqLsTokenSpaceGuid.PcdGutsBaseAddr
+  gNxpQoriqLsTokenSpaceGuid.PcdPlatformFreqDiv
+  gNxpQoriqLsTokenSpaceGuid.PcdSerdes2Enabled
+  gNxpQoriqLsTokenSpaceGuid.PcdGurBigEndian
+  gNxpQoriqLsTokenSpaceGuid.PcdClkBaseAddr
+  gNxpQoriqLsTokenSpaceGuid.PcdDdrClk
+  gNxpQoriqLsTokenSpaceGuid.PcdI2c0BaseAddr
+  gNxpQoriqLsTokenSpaceGuid.PcdI2cSize
+  gNxpQoriqLsTokenSpaceGuid.PcdNumI2cController
+  gNxpQoriqLsTokenSpaceGuid.PcdNumCcPlls

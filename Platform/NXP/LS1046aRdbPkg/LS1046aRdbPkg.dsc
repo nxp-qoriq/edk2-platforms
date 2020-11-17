@@ -31,6 +31,7 @@
   RealTimeClockLib|Silicon/NXP/Library/Pcf2129RealTimeClockLib/Pcf2129RealTimeClockLib.inf
   SocFixupLib|Silicon/NXP/LS1046A/Library/SocFixupLib/SocFixupLib.inf
   ItbParseLib|Silicon/NXP/Library/ItbParseLib/ItbParse.inf
+  SocLib|Silicon/NXP/LS1046A/Library/SocLib/SocLib.inf
   FpgaLib|Platform/NXP/LS1046aRdbPkg/Library/FpgaLib/FpgaLib.inf
 
 ################################################################################

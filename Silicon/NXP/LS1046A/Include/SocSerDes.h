@@ -9,6 +9,8 @@
 #ifndef SOC_SERDES_H
 #define SOC_SERDES_H
 
+#include <Chassis2/Include/SerDes.h>
+
 typedef enum {
   NONE = 0,
   PCIE1,
@@ -28,6 +30,6 @@ typedef enum {
   SGMII_2500_FM1_DTSEC5,
   SGMII_2500_FM1_DTSEC9,
   SGMII_2500_FM1_DTSEC10,
-  SERDES_PROTOCOL_COUNT
+  SERDES_PRTCL_COUNT
 } SERDES_PROTOCOL;
 #endif
