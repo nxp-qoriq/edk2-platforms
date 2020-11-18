@@ -1,0 +1,49 @@
+## @file
+#
+#  Component description file for LS1046 DXE platform driver.
+#
+#  Copyright 2018-2020 NXP
+#
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+##
+
+[Defines]
+  INF_VERSION                    = 0x0001001A
+  BASE_NAME                      = PlatformDxe
+  FILE_GUID                      = 5a65572e-ce2a-4b36-bd9e-07483aef1ffd
+  MODULE_TYPE                    = DXE_DRIVER
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = PlatformDxeEntryPoint
+
+[Sources]
+  PlatformDxe.c
+
+[Packages]
+  ArmPkg/ArmPkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  MdePkg/MdePkg.dec
+  Silicon/NXP/Chassis2/Chassis2.dec
+  Silicon/NXP/Library/Pcf2129RealTimeClockLib/Pcf2129RealTimeClockLib.dec
+  Silicon/NXP/LS1046A/LS1046A.dec
+  Silicon/NXP/NxpQoriqLs.dec
+
+[LibraryClasses]
+  BaseLib
+  BaseMemoryLib
+  DebugLib
+  MemoryAllocationLib
+  PcdLib
+  UefiBootServicesTableLib
+  UefiDriverEntryPoint
+  UefiLib
+
+[Guids]
+  gNxpNonDiscoverableI2cMasterGuid
+
+[Protocols]
+  gEdkiiNonDiscoverableDeviceProtocolGuid        ## PRODUCES
+  gPcf2129RealTimeClockLibI2cMasterProtocolGuid   ## PRODUCES
+
+[Depex]
+  TRUE
