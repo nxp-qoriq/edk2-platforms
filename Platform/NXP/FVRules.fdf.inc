@@ -108,3 +108,8 @@
     RAW       ASL                     |.aml
     UI        STRING="$(MODULE_NAME)" Optional
   }
+
+[Rule.Common.USER_DEFINED.DTB]
+  FILE FREEFORM = $(NAMED_GUID) {
+    RAW BIN                |.dtb
+  }

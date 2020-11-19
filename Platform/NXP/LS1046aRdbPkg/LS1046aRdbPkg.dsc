@@ -22,6 +22,9 @@
   PLATFORM_GUID                  = 43920156-3f3b-4199-9b29-c6db1fb792b0
   OUTPUT_DIRECTORY               = Build/LS1046aRdbPkg
   FLASH_DEFINITION               = Platform/NXP/LS1046aRdbPkg/LS1046aRdbPkg.fdf
+  DEFINE NETWORK_TLS_ENABLE             = FALSE
+  DEFINE NETWORK_HTTP_BOOT_ENABLE       = FALSE
+  DEFINE NETWORK_ISCSI_ENABLE           = FALSE
 
 !include Silicon/NXP/NxpQoriqLs.dsc.inc
 !include Silicon/NXP/LS1046A/LS1046A.dsc.inc
@@ -32,6 +35,15 @@
   SocFixupLib|Silicon/NXP/LS1046A/Library/SocFixupLib/SocFixupLib.inf
   ItbParseLib|Silicon/NXP/Library/ItbParseLib/ItbParse.inf
   SocLib|Silicon/NXP/LS1046A/Library/SocLib/SocLib.inf
+
+  #
+  # DPAA1
+  #
+  Dpaa1Lib|Silicon/NXP/Library/Dpaa1Lib/Dpaa1Lib.inf
+  Dpaa1EthernetMacLib|Silicon/NXP/Library/Dpaa1EthernetMacLib/Dpaa1EthernetMacLib.inf
+  Dpaa1EthernetPhyLib|Silicon/NXP/Library/Dpaa1EthernetPhyLib/Dpaa1EthernetPhyLib.inf
+  Dpaa1BoardLib|Platform/NXP/LS1046aRdbPkg/Library/Dpaa1BoardLib/Dpaa1BoardLib.inf
+
   FpgaLib|Platform/NXP/LS1046aRdbPkg/Library/FpgaLib/FpgaLib.inf
 
 ################################################################################
@@ -47,6 +59,16 @@
     <PcdsFixedAtBuild>
     gEfiMdeModulePkgTokenSpaceGuid.PcdEmuVariableNvModeEnable|TRUE
   }
+
+  #
+  # Networking stack
+  #
+  !include NetworkPkg/Network.dsc.inc
+
+  #
+  # DPAA1 Ethernet driver
+  #
+  Silicon/NXP/Drivers/Dpaa1Ethernet/Dpaa1EthernetDxe.inf
 
   # Platform DXE Driver
   Platform/NXP/LS1046aRdbPkg/Drivers/PlatformDxe/PlatformDxe.inf
@@ -69,8 +91,31 @@
   }
 
   Platform/NXP/LS1046aRdbPkg/DeviceTree/DeviceTree.inf
+  Silicon/NXP/Drivers/Dpaa1EthernetDxe/Dpaa1EthernetDxe.inf
 
   Silicon/NXP/Drivers/SataInitDxe/SataInitDxe.inf
   Silicon/NXP/Drivers/UsbHcdInitDxe/UsbHcd.inf
 
+[PcdsFixedAtBuild.common]
+
+  #
+  # Big Endian IPs
+  #
+  gNxpQoriqLsTokenSpaceGuid.PcdGurBigEndian|TRUE
+
+
+ #
+ # DPAA1 Pcds
+ #
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa1Initialize|TRUE
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa1DebugFlags|0x0
+  gNxpQoriqLsTokenSpaceGuid.PcdFManFwFlashAddr|0x40900000
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa1UsedMemacsMask|0x33C
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa1FmanMdio1Addr|0x01AFC000
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa1FmanMdio2Addr|0x01AFD000
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa1FmanAddr|0x01a00000
+  gNxpQoriqLsTokenSpaceGuid.PcdFManFwFlashAddr|0x40900000
+  gNxpQoriqLsTokenSpaceGuid.PcdSgmiiPrtclInit|TRUE
+
+  gNxpQoriqLsTokenSpaceGuid.PcdFdtAddress|0x40F00000
 ##

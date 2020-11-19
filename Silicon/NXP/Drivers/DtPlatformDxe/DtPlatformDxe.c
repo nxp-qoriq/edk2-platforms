@@ -25,7 +25,6 @@
 #include <Library/IoLib.h>
 #include <Library/ItbParse.h>
 #include <Library/MemoryAllocationLib.h>
-#include <Library/SocClockLib.h>
 #include <Library/SocFixupLib.h>
 #include <Library/UefiBootServicesTableLib.h>
 #include <Library/UefiDriverEntryPoint.h>

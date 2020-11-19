@@ -28,6 +28,8 @@
   gNxpNonDiscoverableI2cMasterGuid = { 0x5f2c099c, 0x54a3, 0x4dd4, {0x9e, 0xc5, 0xe9, 0x12, 0x8c, 0x36, 0x81, 0x6a}}
 
 [PcdsFeatureFlag]
+  gNxpQoriqLsTokenSpaceGuid.PcdQmanBigEndian|TRUE|BOOLEAN|0x00000359
+  gNxpQoriqLsTokenSpaceGuid.PcdBmanBigEndian|TRUE|BOOLEAN|0x00000360
   gNxpQoriqLsTokenSpaceGuid.PcdI2cErratumA009203|FALSE|BOOLEAN|0x00000315
   gNxpQoriqLsTokenSpaceGuid.PcdDcfgBigEndian|FALSE|BOOLEAN|0x00000316
   gNxpQoriqLsTokenSpaceGuid.PcdPciLutBigEndian|FALSE|BOOLEAN|0x00000317
@@ -85,7 +87,6 @@
   gNxpQoriqLsTokenSpaceGuid.PcdClkBaseAddr|0x0|UINT64|0x00000103
   gNxpQoriqLsTokenSpaceGuid.PcdWdog1BaseAddr|0x0|UINT64|0x00000104
   gNxpQoriqLsTokenSpaceGuid.PcdDdrBaseAddr|0x0|UINT64|0x00000105
-  gNxpQoriqLsTokenSpaceGuid.PcdSdxcBaseAddr|0x0|UINT64|0x00000106
   gNxpQoriqLsTokenSpaceGuid.PcdScfgBaseAddr|0x0|UINT64|0x00000107
   gNxpQoriqLsTokenSpaceGuid.PcdI2c0BaseAddr|0x0|UINT64|0x00000108
   gNxpQoriqLsTokenSpaceGuid.PcdI2c5BaseAddr|0x0|UINT64|0x0000012F
@@ -112,7 +113,6 @@
   gNxpQoriqLsTokenSpaceGuid.PcdPciExp4BaseSize|0x0|UINT64|0x0000119
   gNxpQoriqLsTokenSpaceGuid.PcdPciExp5BaseAddr|0x0|UINT64|0x0000011A
   gNxpQoriqLsTokenSpaceGuid.PcdPciExp6BaseAddr|0x0|UINT64|0x0000011B
-  gNxpQoriqLsTokenSpaceGuid.PcdEMmcBaseAddr|0x0|UINT64|0x0000011C
   gNxpQoriqLsTokenSpaceGuid.PcdScfgIntPol|0|UINT32|0x0000011D
 
   gNxpQoriqLsTokenSpaceGuid.PcdQspiRegionBaseAddr|0x0|UINT64|0x00000120
@@ -208,6 +208,12 @@
   gNxpQoriqLsTokenSpaceGuid.PcdDpaa2StreamIdEnd|0x0|UINT32|0x000001F3
 
   gNxpQoriqLsTokenSpaceGuid.PcdFdtAddress|0|UINT64|0x000000365
+
+  #
+  # Pcds for SDXC
+  #
+  gNxpQoriqLsTokenSpaceGuid.PcdSdxcBaseAddr|0x0|UINT64|0x00000106
+  gNxpQoriqLsTokenSpaceGuid.PcdEMmcBaseAddr|0x0|UINT64|0x0000011C
 
 [PcdsDynamic.common]
   gNxpQoriqLsTokenSpaceGuid.PcdPciCfgShiftEnable|FALSE|BOOLEAN|0x00000600

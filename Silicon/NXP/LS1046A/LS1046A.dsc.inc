@@ -79,6 +79,19 @@
 
   gNxpQoriqLsTokenSpaceGuid.PcdSerdes2Enabled|TRUE
 
+ #
+ # DPAA1 Pcds
+ #
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa1Initialize|TRUE
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa1DebugFlags|0x0
+  gNxpQoriqLsTokenSpaceGuid.PcdFManFwFlashAddr|0x40900000
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa1UsedMemacsMask|0x231
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa1FmanMdio1Addr|0x01AFC000
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa1FmanMdio2Addr|0x01AFD000
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaa1FmanAddr|0x01a00000
+  gNxpQoriqLsTokenSpaceGuid.PcdFManFwFlashAddr|0x40900000
+  gNxpQoriqLsTokenSpaceGuid.PcdSgmiiPrtclInit|TRUE
+
   gNxpQoriqLsTokenSpaceGuid.PcdFdtAddress|0x40F00000
 
 [PcdsFeatureFlag]

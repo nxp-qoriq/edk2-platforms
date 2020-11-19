@@ -23,7 +23,7 @@
 #include <Library/I2cLib.h>
 #include <Library/MemoryAllocationLib.h>
 #include <Library/NetLib.h>
-#include <Library/SocClockLib.h>
+#include <Library/SocLib.h>
 #include <Library/SysEepromLib.h>
 #include <Library/PcdLib.h>
 #include <Library/UefiBootServicesTableLib.h>
@@ -71,8 +71,7 @@ EepromRead (
   CrcStored = 0;
   I2cBase = ( EFI_PHYSICAL_ADDRESS)(FixedPcdGet64 (PcdI2c0BaseAddr) +
                          (PcdGet32 (PcdSysEepromI2cBus) * FixedPcdGet32 (PcdI2cSize)));
-  //I2cClock = SocGetClock (IP_I2C, 0);
-  I2cClock = SocGetClock (100000000, NXP_I2C_CLOCK);
+  I2cClock = NxpPlatformGetClock (NXP_I2C_CLOCK);
 
   if (SystemID == NULL) {
     SystemID = (SYSTEM_ID *)AllocateZeroPool (sizeof (SYSTEM_ID));

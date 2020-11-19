@@ -12,7 +12,7 @@
 #include <Library/MemoryAllocationLib.h>
 #include <Soc.h>
 
-#define MAX_VIRTUAL_MEMORY_MAP_DESCRIPTORS          5
+#define MAX_VIRTUAL_MEMORY_MAP_DESCRIPTORS          7
 
 /**
   Return the Virtual Memory Map of your platform
@@ -65,6 +65,18 @@ ArmPlatformGetVirtualMemoryMap (
   VirtualMemoryTable[Index].VirtualBase  = LS1046A_QSPI0_PHYS_ADDRESS;
   VirtualMemoryTable[Index].Length       = LS1046A_QSPI0_SIZE;
   VirtualMemoryTable[Index++].Attributes = ARM_MEMORY_REGION_ATTRIBUTE_DEVICE;
+
+ // QMAN SWP
+  VirtualMemoryTable[Index].PhysicalBase = LS1046A_QMAN_SW_PORTAL_PHYS_ADDRESS;
+  VirtualMemoryTable[Index].VirtualBase  = LS1046A_QMAN_SW_PORTAL_PHYS_ADDRESS;
+  VirtualMemoryTable[Index].Length       = LS1046A_QMAN_SW_PORTAL_SIZE;
+  VirtualMemoryTable[Index++].Attributes   = 0 ;//ARM_MEMORY_REGION_ATTRIBUTE_UNCACHED_UNBUFFERED;
+
+  // BMAN SWP
+  VirtualMemoryTable[Index].PhysicalBase = LS1046A_BMAN_SW_PORTAL_PHYS_ADDRESS;
+  VirtualMemoryTable[Index].VirtualBase  = LS1046A_BMAN_SW_PORTAL_PHYS_ADDRESS;
+  VirtualMemoryTable[Index].Length       = LS1046A_BMAN_SW_PORTAL_SIZE;
+  VirtualMemoryTable[Index++].Attributes   = 0; //ARM_MEMORY_REGION_ATTRIBUTE_UNCACHED_UNBUFFERED;
 
   // End of Table
   ZeroMem (&VirtualMemoryTable[Index], sizeof (ARM_MEMORY_REGION_DESCRIPTOR));

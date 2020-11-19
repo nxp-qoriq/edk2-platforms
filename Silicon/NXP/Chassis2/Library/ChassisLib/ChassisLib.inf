@@ -33,3 +33,6 @@
 [FeaturePcd]
   gNxpQoriqLsTokenSpaceGuid.PcdDcfgBigEndian
   gNxpQoriqLsTokenSpaceGuid.PcdScfgBigEndian
+
+[FixedPcd]
+  gNxpQoriqLsTokenSpaceGuid.PcdGurBigEndian
