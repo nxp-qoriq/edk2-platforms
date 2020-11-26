@@ -271,7 +271,7 @@ InitializeUsbHcd (
 
     Status = RegisterNonDiscoverableMmioDevice (
                NonDiscoverableDeviceTypeXhci,
-               NonDiscoverableDeviceDmaTypeCoherent,
+               NonDiscoverableDeviceDmaTypeNonCoherent,
                NULL,
                NULL,
                1,
