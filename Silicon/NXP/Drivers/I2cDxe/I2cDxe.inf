@@ -25,15 +25,13 @@
 
 [LibraryClasses]
   ArmLib
-  ArmPlatformLib
   BaseMemoryLib
-  DevicePathLib
+  DxeServicesTableLib
   I2cLib
   IoLib
   MemoryAllocationLib
   PcdLib
   TimerLib
-  UefiBootServicesTableLib
   UefiDriverEntryPoint
   UefiLib
   UefiRuntimeLib
@@ -49,6 +47,9 @@
 [Protocols]
   gEdkiiNonDiscoverableDeviceProtocolGuid    ## TO_START
   gEfiI2cMasterProtocolGuid                  ## BY_START
+
+[Guids]
+  gEfiEventVirtualAddressChangeGuid
 
 [Depex]
   TRUE

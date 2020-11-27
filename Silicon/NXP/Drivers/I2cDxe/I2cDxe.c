@@ -10,6 +10,7 @@
 #include <Library/BaseMemoryLib.h>
 #include <Library/DebugLib.h>
 #include <Library/DevicePathLib.h>
+#include <Library/DxeServicesTableLib.h>
 #include <Library/I2cLib.h>
 #include <Library/IoLib.h>
 #include <Library/MemoryAllocationLib.h>
@@ -28,6 +29,8 @@ STATIC CONST EFI_I2C_CONTROLLER_CAPABILITIES mI2cControllerCapabilities = {
   0
 };
 
+STATIC EFI_EVENT VirtualAddressChangeEvent;
+
 /**
   Function to set i2c bus frequency
 
@@ -36,7 +39,6 @@ STATIC CONST EFI_I2C_CONTROLLER_CAPABILITIES mI2cControllerCapabilities = {
 
   @retval EFI_SUCCESS      Operation successfull
 **/
-STATIC
 EFI_STATUS
 EFIAPI
 SetBusFrequency (
@@ -66,7 +68,6 @@ SetBusFrequency (
 
   @return EFI_SUCCESS      Operation successfull
 **/
-STATIC
 EFI_STATUS
 EFIAPI
 Reset (
@@ -76,7 +77,6 @@ Reset (
   return EFI_SUCCESS;
 }
 
-STATIC
 EFI_STATUS
 EFIAPI
 StartRequest (
@@ -109,6 +109,26 @@ StartRequest (
   }
 
   return Status;
+}
+
+/**
+  Fixup controller regs data so that EFI can be call in virtual mode
+
+  @param[in]    Event   The Event that is being processed
+  @param[in]    Context Event Context
+**/
+STATIC
+VOID
+EFIAPI
+I2cVirtualNotifyEvent (
+  IN EFI_EVENT        Event,
+  IN VOID             *Context
+  )
+{
+  NXP_I2C_MASTER           *I2c;
+  I2c = (NXP_I2C_MASTER *)Context;
+
+  EfiConvertPointer (0x0, (VOID **)&I2c);
 }
 
 EFI_STATUS
@@ -144,18 +164,23 @@ NxpI2cInit (
     sizeof (I2c->DevicePath) - sizeof (I2c->DevicePath.End));
   SetDevicePathEndNode (&I2c->DevicePath.End);
 
-  RetVal = gBS->InstallMultipleProtocolInterfaces (&ControllerHandle,
-                  &gEfiI2cMasterProtocolGuid, (VOID**)&I2c->I2cMaster,
-                  &gEfiDevicePathProtocolGuid, &I2c->DevicePath,
-                  NULL);
+  // Declare the controller as EFI_MEMORY_RUNTIME
+  RetVal = gDS->SetMemorySpaceAttributes (
+                  (EFI_PHYSICAL_ADDRESS)(I2c->Dev->Resources[0].AddrRangeMin),
+                   (SIZE_64KB),
+                  EFI_MEMORY_UC | EFI_MEMORY_RUNTIME
+                );
 
-  if (EFI_ERROR (RetVal)) {
-    FreePool (I2c);
-    gBS->CloseProtocol (ControllerHandle,
-                        &gEdkiiNonDiscoverableDeviceProtocolGuid,
-                        DriverBindingHandle,
-                        ControllerHandle);
-  }
+  ASSERT_EFI_ERROR (RetVal);
+
+  //
+  // Register for the virtual address change event
+  //
+  RetVal = gBS->CreateEventEx (EVT_NOTIFY_SIGNAL, TPL_NOTIFY,
+                  I2cVirtualNotifyEvent,
+                  (VOID *)I2c,
+                  &gEfiEventVirtualAddressChangeGuid,
+                  &VirtualAddressChangeEvent);
 
   return RetVal;
 }

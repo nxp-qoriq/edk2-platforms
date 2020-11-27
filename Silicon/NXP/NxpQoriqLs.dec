@@ -22,22 +22,33 @@
   ##  @libraryclass  Provides services to read/write to I2c devices
   I2cLib|Include/Library/I2cLib.h
   IoAccessLib|Silicon/NXP/Include/Library/IoAccessLib.h
+  ItbParseLib|Silicon/NXP/Library/ItbParseLib/ItbParse.inf
 
 [Guids.common]
   gNxpQoriqLsTokenSpaceGuid      = {0x98657342, 0x4aee, 0x4fc6, {0xbc, 0xb5, 0xff, 0x45, 0xb7, 0xa8, 0x71, 0xf2}}
   gNxpNonDiscoverableI2cMasterGuid = { 0x5f2c099c, 0x54a3, 0x4dd4, {0x9e, 0xc5, 0xe9, 0x12, 0x8c, 0x36, 0x81, 0x6a}}
+  gEfiQspiDriverGuid             = {0x889788dc, 0x5fde, 0x4dd8, {0xa7, 0x7d, 0x8f, 0xff, 0x11, 0x0d, 0x53, 0xd3}}
+  gEfiSpiNorFlashDriverGuid      = {0x93E34C7E, 0xB50E, 0x11DF, {0x92, 0x23, 0x24, 0x43, 0xDF, 0xD7, 0x20, 0x85}}
+  gEfiDspiDriverGuid             = {0xde9eb0c8, 0xd66e, 0x4ea5, {0x8b, 0x7c, 0x68, 0x66, 0x69, 0xd3, 0x99, 0x30}}
+  gEfiFlexSpiDriverGuid          = {0xe248c411, 0x0043, 0x43bb, {0x85, 0x14, 0x75, 0x8c, 0x3d, 0xfc, 0x30, 0x2c}}
 
 [PcdsFeatureFlag]
+  gNxpQoriqLsTokenSpaceGuid.PcdI2cErratumA009203|FALSE|BOOLEAN|0x00000315
+  gNxpQoriqLsTokenSpaceGuid.PcdSataErratumA009185|FALSE|BOOLEAN|0x00000318
+
+  #
+  # Pcds to support Big Endian IPs
+  #
+  gNxpQoriqLsTokenSpaceGuid.PcdMmcBigEndian|FALSE|BOOLEAN|0x0000321
+  gNxpQoriqLsTokenSpaceGuid.PcdWdogBigEndian|FALSE|BOOLEAN|0x00000313
+  gNxpQoriqLsTokenSpaceGuid.PcdQspiControllerBigEndian|FALSE|BOOLEAN|0x00000380
   gNxpQoriqLsTokenSpaceGuid.PcdQmanBigEndian|TRUE|BOOLEAN|0x00000359
   gNxpQoriqLsTokenSpaceGuid.PcdBmanBigEndian|TRUE|BOOLEAN|0x00000360
-  gNxpQoriqLsTokenSpaceGuid.PcdI2cErratumA009203|FALSE|BOOLEAN|0x00000315
   gNxpQoriqLsTokenSpaceGuid.PcdDcfgBigEndian|FALSE|BOOLEAN|0x00000316
-  gNxpQoriqLsTokenSpaceGuid.PcdPciLutBigEndian|FALSE|BOOLEAN|0x00000317
-  gNxpQoriqLsTokenSpaceGuid.PcdSataErratumA009185|FALSE|BOOLEAN|0x00000318
-  gNxpQoriqLsTokenSpaceGuid.PcdGpioControllerBigEndian|FALSE|BOOLEAN|0x00000319
   gNxpQoriqLsTokenSpaceGuid.PcdScfgBigEndian|FALSE|BOOLEAN|0x00000320
-  gNxpQoriqLsTokenSpaceGuid.PcdMmcBigEndian|FALSE|BOOLEAN|0x0000321
+  gNxpQoriqLsTokenSpaceGuid.PcdGpioControllerBigEndian|FALSE|BOOLEAN|0x00000319
   gNxpQoriqLsTokenSpaceGuid.PcdSdxcIOReliabilityErratum|FALSE|BOOLEAN|0x00000322
+  gNxpQoriqLsTokenSpaceGuid.PcdPciLutBigEndian|FALSE|BOOLEAN|0x00000317
 
 [PcdsFixedAtBuild.common]
   # Pcds for PCI Express
@@ -46,6 +57,21 @@
   gNxpQoriqLsTokenSpaceGuid.PcdPcieLutBase|0x0|UINT32|0x00000502
   gNxpQoriqLsTokenSpaceGuid.PcdPcieLutDbg|0x0|UINT32|0x00000503
   gNxpQoriqLsTokenSpaceGuid.PcdSerDesLanes|0x0|UINT8|0x00000504
+
+  gNxpQoriqLsTokenSpaceGuid.PcdGurBigEndian|FALSE|BOOLEAN|0x0000311
+
+  #
+  # IFC PCDs
+  #
+  gNxpQoriqLsTokenSpaceGuid.PcdIfcRegion1BaseAddr|0x0|UINT64|0x00000190
+  gNxpQoriqLsTokenSpaceGuid.PcdIfcRegion1Size|0x0|UINT64|0x00000191
+  gNxpQoriqLsTokenSpaceGuid.PcdIfcRegion2BaseAddr|0x0|UINT64|0x00000192
+  gNxpQoriqLsTokenSpaceGuid.PcdIfcRegion2Size|0x0|UINT64|0x00000193
+  gNxpQoriqLsTokenSpaceGuid.PcdIfcNandReservedSize|0x0|UINT32|0x00000194
+  gNxpQoriqLsTokenSpaceGuid.PcdFlashDeviceBase64|0x0|UINT64|0x00000195
+  gNxpQoriqLsTokenSpaceGuid.PcdFlashReservedRegionBase64|0x0|UINT64|0x00000196
+  gNxpQoriqLsTokenSpaceGuid.PcdIfcEnabled|TRUE|BOOLEAN|0x00000197
+  gNxpQoriqLsTokenSpaceGuid.PcdIfcBigEndian|FALSE|BOOLEAN|0x00000314
 
   #
   # Pcds for I2C Controller
@@ -77,6 +103,17 @@
   #
   gNxpQoriqLsTokenSpaceGuid.PcdSysEepromI2cBus|0|UINT32|0x0000000A
   gNxpQoriqLsTokenSpaceGuid.PcdSysEepromI2cAddress|0|UINT32|0x0000000B
+
+  gNxpQoriqLsTokenSpaceGuid.PcdSpiBusCount|0x00|UINT32|0x00000415
+
+  #
+  # Spi Controllers' Pcds
+  #
+  gNxpQoriqLsTokenSpaceGuid.PcdQspiFdtCompatible|""|VOID*|0x00000366
+  gNxpQoriqLsTokenSpaceGuid.PcdDspiFdtCompatible|""|VOID*|0x00000417
+  gNxpQoriqLsTokenSpaceGuid.PcdFlexSpiFdtCompatible|""|VOID*|0x00000418
+  gNxpQoriqLsTokenSpaceGuid.PcdQspiErratumA008886|FALSE|BOOLEAN|0x00000419
+  gNxpQoriqLsTokenSpaceGuid.PcdSpiNorPageProgramToutUs|0x0|UINT64|0x00000420
 
   #
   # Pcds for base address and size
@@ -158,6 +195,7 @@
   #
   gNxpQoriqLsTokenSpaceGuid.PcdPlatformFreqDiv|0x0|UINT32|0x00000250
   gNxpQoriqLsTokenSpaceGuid.PcdSerdes2Enabled|FALSE|BOOLEAN|0x00000251
+  gNxpQoriqLsTokenSpaceGuid.PcdMuxToUsb3|FALSE|BOOLEAN|0x00000253
 
  #
   # Clock PCDs
@@ -166,21 +204,13 @@
   gNxpQoriqLsTokenSpaceGuid.PcdDdrClk|0x0|UINT64|0x000002A1
   gNxpQoriqLsTokenSpaceGuid.PcdNumCcPlls|0x0|UINT8|0x000002A2
 
-  #
-  # Pcds to support Big Endian IPs
-  #
-  gNxpQoriqLsTokenSpaceGuid.PcdGurBigEndian|FALSE|BOOLEAN|0x0000311
-
-  #
-  # Spi Controllers' Pcds
-  #
-  gNxpQoriqLsTokenSpaceGuid.PcdQspiFdtCompatible|""|VOID*|0x00000366
-
-
   # Pcds for USB
-  gNxpQoriqLsTokenSpaceGuid.PcdUsbBaseAddr|0x0|UINT64|0x00000510
+  gNxpQoriqLsTokenSpaceGuid.PcdUsbBaseAddr|0x0|UINT32|0x00000510
   gNxpQoriqLsTokenSpaceGuid.PcdUsbSize|0x0|UINT32|0x00000511
   gNxpQoriqLsTokenSpaceGuid.PcdNumUsbController|0|UINT32|0x00000512
+  gNxpQoriqLsTokenSpaceGuid.PcdUsbPhy1BaseAddress|0|UINT64|0x00000171
+  gNxpQoriqLsTokenSpaceGuid.PcdUsbPhy2BaseAddress|0|UINT64|0x00000172
+  gNxpQoriqLsTokenSpaceGuid.PcdUsbPhy3BaseAddress|0|UINT64|0x00000173
 
   # Pcds for SATA
   gNxpQoriqLsTokenSpaceGuid.PcdSataBaseAddr|0x0|UINT64|0x00000350
@@ -216,6 +246,10 @@
   gNxpQoriqLsTokenSpaceGuid.PcdEMmcBaseAddr|0x0|UINT64|0x0000011C
 
 [PcdsDynamic.common]
+  gNxpQoriqLsTokenSpaceGuid.PcdSocSvr|0xffffffff|UINT32|0x00000400
   gNxpQoriqLsTokenSpaceGuid.PcdPciCfgShiftEnable|FALSE|BOOLEAN|0x00000600
   gNxpQoriqLsTokenSpaceGuid.PcdPciLsGen4Ctrl|FALSE|BOOLEAN|0x00000601
   gNxpQoriqLsTokenSpaceGuid.PcdPciHideRootPort|FALSE|BOOLEAN|0x00000602
+  gNxpQoriqLsTokenSpaceGuid.PcdIortTablePtr|0|UINT64|0x00000401
+  gNxpQoriqLsTokenSpaceGuid.PcdPciFdtCompatible|""|VOID*|0x00000402
+

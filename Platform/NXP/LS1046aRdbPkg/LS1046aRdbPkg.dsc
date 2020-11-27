@@ -31,12 +31,23 @@
 
 [LibraryClasses.common]
   ArmPlatformLib|Platform/NXP/LS1046aRdbPkg/Library/ArmPlatformLib/ArmPlatformLib.inf
-  RealTimeClockLib|Silicon/NXP/Library/Pcf2129RealTimeClockLib/Pcf2129RealTimeClockLib.inf
+  ResetSystemLib|ArmPkg/Library/ArmSmcPsciResetSystemLib/ArmSmcPsciResetSystemLib.inf
   SocFixupLib|Silicon/NXP/LS1046A/Library/SocFixupLib/SocFixupLib.inf
   ItbParseLib|Silicon/NXP/Library/ItbParseLib/ItbParse.inf
   SocLib|Silicon/NXP/LS1046A/Library/SocLib/SocLib.inf
+  RealTimeClockLib|Silicon/NXP/Library/Pcf2129RealTimeClockLib/Pcf2129RealTimeClockLib.inf
+
+  BoardLib|Platform/NXP/LS1046aRdbPkg/Library/BoardLib/BoardLib.inf
+  FpgaLib|Platform/NXP/LS1046aRdbPkg/Library/FpgaLib/FpgaLib.inf
   PciSegmentLib|Silicon/NXP/Library/PciSegmentLib/PciSegmentLib.inf
   PciHostBridgeLib|Silicon/NXP/Library/PciHostBridgeLib/PciHostBridgeLib.inf
+  MemoryInitPeiLib|Silicon/NXP/Library/MemoryInitPeiLib/MemoryInitPeiLib.inf
+  ItbParseLib|Silicon/NXP/Library/ItbParseLib/ItbParse.inf
+
+  #
+  # USB Requirements
+  #
+  UefiUsbLib|MdePkg/Library/UefiUsbLib/UefiUsbLib.inf
 
   #
   # DPAA1
@@ -61,6 +72,16 @@
     <PcdsFixedAtBuild>
     gEfiMdeModulePkgTokenSpaceGuid.PcdEmuVariableNvModeEnable|TRUE
   }
+
+  MdeModulePkg/Universal/FaultTolerantWriteDxe/FaultTolerantWriteDxe.inf
+
+
+
+  Silicon/NXP/Drivers/I2cDxe/I2cDxe.inf
+  EmbeddedPkg/RealTimeClockRuntimeDxe/RealTimeClockRuntimeDxe.inf
+  MdeModulePkg/Bus/Usb/UsbKbDxe/UsbKbDxe.inf
+  MdeModulePkg/Bus/Usb/UsbMouseDxe/UsbMouseDxe.inf
+  Silicon/NXP/Drivers/UsbHcdInitDxe/UsbHcd.inf
 
   #
   # PCI
@@ -107,11 +128,32 @@
   Silicon/NXP/Drivers/SataInitDxe/SataInitDxe.inf
   Silicon/NXP/Drivers/UsbHcdInitDxe/UsbHcd.inf
 
+  Silicon/NXP/Drivers/NandFlashDxe/NandFlashDxe.inf
+
 [PcdsFixedAtBuild.common]
+
+  #
+  # LS1046a board Specific PCDs
+  # XX (DRAM - Region 1 2GB - 66 MB)
+  # (NOR - IFC Region 1 512MB)
+  gArmTokenSpaceGuid.PcdSystemMemoryBase|0x80000000
+  gArmTokenSpaceGuid.PcdSystemMemorySize|0x007BE00000
+  gArmPlatformTokenSpaceGuid.PcdSystemMemoryUefiRegionSize|0x02000000
+  gEfiMdeModulePkgTokenSpaceGuid.PcdAcpiExposedTableVersions|0x20
+  #gEfiSecurityPkgTokenSpaceGuid.PcdOptionRomImageVerificationPolicy|0x00000001
+
+  #
+  # Board Specific Pcds
+  #
+  gEfiMdeModulePkgTokenSpaceGuid.PcdSerialRegisterBase|0x021c0500
+  #gNxpQoriqLsTokenSpaceGuid.PcdSerdes2Enabled|TRUE
+  gNxpQoriqLsTokenSpaceGuid.PcdPlatformFreqDiv|0x2
 
   #
   # Big Endian IPs
   #
+  gNxpQoriqLsTokenSpaceGuid.PcdGurBigEndian|TRUE
+  gNxpQoriqLsTokenSpaceGuid.PcdIfcBigEndian|TRUE
   gNxpQoriqLsTokenSpaceGuid.PcdGurBigEndian|TRUE
 
 
@@ -128,5 +170,42 @@
   gNxpQoriqLsTokenSpaceGuid.PcdFManFwFlashAddr|0x40900000
   gNxpQoriqLsTokenSpaceGuid.PcdSgmiiPrtclInit|TRUE
 
+  #
+  # I2C controller Pcds
+  #
+  gNxpQoriqLsTokenSpaceGuid.PcdI2cBus|3
+  gNxpQoriqLsTokenSpaceGuid.PcdSysEepromI2cBus|0
+  gNxpQoriqLsTokenSpaceGuid.PcdSysEepromI2cAddress|0x53
+
+  #
+  # RTC Pcds
+  #
+  gNxpQoriqLsTokenSpaceGuid.PcdI2cSlaveAddress|0x51
+  gPcf2129RealTimeClockLibTokenSpaceGuid.PcdI2cBusFrequency|100000
+
   gNxpQoriqLsTokenSpaceGuid.PcdFdtAddress|0x40F00000
+
+  #DEFAULT_READY_WAIT_JIFFIES   40UL * HZ
+  gNxpQoriqLsTokenSpaceGuid.PcdSpiNorPageProgramToutUs|40000
+
+  #
+  # Optional feature to help prevent EFI memory map fragments
+  # Turned on and off via: PcdPrePiProduceMemoryTypeInformationHob
+  # Values are in EFI Pages (4K). DXE Core will make sure that
+  # at least this much of each type of memory can be allo`cated
+  # from a single memory range. This way you only end up with
+  # maximum of two fragements for each type in the memory map
+  # (the memory used, and the free memory that was prereserved
+  # but not used).
+  #
+  gEmbeddedTokenSpaceGuid.PcdMemoryTypeEfiACPIReclaimMemory|0
+  gEmbeddedTokenSpaceGuid.PcdMemoryTypeEfiACPIMemoryNVS|0
+  gEmbeddedTokenSpaceGuid.PcdMemoryTypeEfiReservedMemoryType|0
+  gEmbeddedTokenSpaceGuid.PcdMemoryTypeEfiRuntimeServicesData|816
+  gEmbeddedTokenSpaceGuid.PcdMemoryTypeEfiRuntimeServicesCode|560
+  gEmbeddedTokenSpaceGuid.PcdMemoryTypeEfiBootServicesCode|0
+  gEmbeddedTokenSpaceGuid.PcdMemoryTypeEfiBootServicesData|0
+  gEmbeddedTokenSpaceGuid.PcdMemoryTypeEfiLoaderCode|0
+  gEmbeddedTokenSpaceGuid.PcdMemoryTypeEfiLoaderData|0
+
 ##

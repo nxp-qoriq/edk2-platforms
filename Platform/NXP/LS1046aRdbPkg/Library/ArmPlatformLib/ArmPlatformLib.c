@@ -75,6 +75,7 @@ NxpPlatformGetClock(
 
   switch (ClockType) {
   case NXP_SYSTEM_CLOCK:
+  case NXP_USB_PHY_CLOCK:
     Clock = 100 * 1000 * 1000; // 100 MHz
     break;
   case NXP_I2C_CLOCK:

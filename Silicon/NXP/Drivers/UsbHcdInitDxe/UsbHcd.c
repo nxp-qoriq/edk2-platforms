@@ -32,6 +32,21 @@ XhciSetBeatBurstLength (
 
 STATIC
 VOID
+XhciEnableCacheSnoop (
+  IN  UINTN  UsbReg
+  )
+{
+  DWC3       *DWC3Reg;
+
+  DWC3Reg = (VOID *)(UsbReg + DWC3_REG_OFFSET);
+
+  MmioAndThenOr32 ((UINTN)&DWC3Reg->GSBusCfg0, ~USB3_ENABLE_CACHE_SNOOP_MASK,
+                                              USB3_ENABLE_CACHE_SNOOP);
+  return;
+}
+
+STATIC
+VOID
 Dwc3SetFladj (
   IN  DWC3   *Dwc3Reg,
   IN  UINT32 Val
@@ -175,7 +190,8 @@ XhciCoreInit (
   return Status;
 }
 
-NON_DISCOVERABLE_DEVICE_INIT
+STATIC
+EFI_STATUS
 EFIAPI
 InitializeUsbController (
   IN  UINTN  UsbReg
@@ -188,58 +204,15 @@ InitializeUsbController (
   if (EFI_ERROR (Status)) {
     DEBUG ((DEBUG_ERROR, "USB Controller init Failed for %d (0x%r)\n",
       UsbReg, Status));
-    return (VOID *)EFI_DEVICE_ERROR;
+    return Status;
   }
 
   //
   // Change beat burst and outstanding pipelined transfers requests
   //
-  XhciSetBeatBurstLength (UsbReg);
+  XhciEnableCacheSnoop (UsbReg);
 
   return EFI_SUCCESS;
-}
-
-/**
-  This function gets registered as a callback to perform USB controller intialization
-
-  @param  Event         Event whose notification function is being invoked.
-  @param  Context       Pointer to the notification function's context.
-
-**/
-VOID
-EFIAPI
-UsbEndOfDxeCallback (
-  IN EFI_EVENT  Event,
-  IN VOID       *Context
-  )
-{
-  EFI_STATUS    Status;
-  UINT32        NumUsbController;
-  UINT32        ControllerAddr;
-  UINT32        Index;
-
-  gBS->CloseEvent (Event);
-
-  NumUsbController = PcdGet32 (PcdNumUsbController);
-
-  for (Index = 0; Index < NumUsbController; Index++) {
-    ControllerAddr = PcdGet64 (PcdUsbBaseAddr) +
-                      (Index * PcdGet32 (PcdUsbSize));
-
-    Status = RegisterNonDiscoverableMmioDevice (
-               NonDiscoverableDeviceTypeXhci,
-               NonDiscoverableDeviceDmaTypeNonCoherent,
-               InitializeUsbController (ControllerAddr),
-               NULL,
-               1,
-               ControllerAddr, PcdGet32 (PcdUsbSize)
-             );
-
-    if (EFI_ERROR (Status)) {
-      DEBUG ((DEBUG_ERROR, "Failed to register USB device 0x%x, error 0x%r \n",
-        ControllerAddr, Status));
-    }
-  }
 }
 
 /**
@@ -250,7 +223,6 @@ UsbEndOfDxeCallback (
 
   @retval EFI_SUCCESS      The entry point is executed successfully.
   @retval other            Some error occurs when executing this entry point.
-
 **/
 EFI_STATUS
 EFIAPI
@@ -260,16 +232,38 @@ InitializeUsbHcd (
   )
 {
   EFI_STATUS               Status;
-  EFI_EVENT                EndOfDxeEvent;
+  UINT32                   NumUsbController;
+  UINT32                   ControllerAddr;
 
-  Status = gBS->CreateEventEx (
-                  EVT_NOTIFY_SIGNAL,
-                  TPL_CALLBACK,
-                  UsbEndOfDxeCallback,
-                  NULL,
-                  &gEfiEndOfDxeEventGroupGuid,
-                  &EndOfDxeEvent
-                  );
+  Status = EFI_SUCCESS;
+  NumUsbController = PcdGet32 (PcdNumUsbController);
+
+  while (NumUsbController) {
+    NumUsbController--;
+    ControllerAddr = PcdGet32 (PcdUsbBaseAddr) +
+                     (NumUsbController * PcdGet32 (PcdUsbSize));
+
+    Status = InitializeUsbController (ControllerAddr);
+    if (EFI_ERROR (Status)) {
+      DEBUG ((DEBUG_ERROR, "USB Controller initialization Failed for %d (0x%x)\n",
+                            ControllerAddr, Status));
+      continue;
+    }
+
+    Status = RegisterNonDiscoverableMmioDevice (
+               NonDiscoverableDeviceTypeXhci,
+               NonDiscoverableDeviceDmaTypeCoherent,
+               NULL,
+               NULL,
+               1,
+               ControllerAddr, PcdGet32 (PcdUsbSize)
+             );
+
+    if (EFI_ERROR (Status)) {
+      DEBUG ((DEBUG_ERROR, "Failed to register USB device (0x%x) with error 0x%x \n",
+                           ControllerAddr, Status));
+    }
+  }
 
   return Status;
 }

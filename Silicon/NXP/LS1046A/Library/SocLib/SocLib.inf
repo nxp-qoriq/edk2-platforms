@@ -35,9 +35,14 @@
   gNxpQoriqLsTokenSpaceGuid.PcdPlatformFreqDiv
   gNxpQoriqLsTokenSpaceGuid.PcdSerdes2Enabled
   gNxpQoriqLsTokenSpaceGuid.PcdGurBigEndian
+  gNxpQoriqLsTokenSpaceGuid.PcdScfgBaseAddr
+  gNxpQoriqLsTokenSpaceGuid.PcdMuxToUsb3
   gNxpQoriqLsTokenSpaceGuid.PcdClkBaseAddr
   gNxpQoriqLsTokenSpaceGuid.PcdDdrClk
   gNxpQoriqLsTokenSpaceGuid.PcdI2c0BaseAddr
   gNxpQoriqLsTokenSpaceGuid.PcdI2cSize
   gNxpQoriqLsTokenSpaceGuid.PcdNumI2cController
   gNxpQoriqLsTokenSpaceGuid.PcdNumCcPlls
+
+[FeaturePcd]
+  gNxpQoriqLsTokenSpaceGuid.PcdScfgBigEndian

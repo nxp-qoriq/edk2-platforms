@@ -25,6 +25,8 @@
 #include <Library/ItbParse.h>
 #include <Library/MemoryAllocationLib.h>
 #include <Library/SocLib.h>
+#include <Ppi/NxpPlatformGetClock.h>
+#include <Library/ArmPlatformLib.h>
 #include <Library/SocFixupLib.h>
 #include <Library/UefiBootServicesTableLib.h>
 #include <Library/UefiDriverEntryPoint.h>
@@ -129,7 +131,7 @@ FdtSysClockFixup (
   INTN    NodeOffset;
   INTN    FdtStatus;
 
-  SysClk = NxpPlatformGetClock (NXP_SYSTEM_CLOCK);
+  SysClk = NxpPlatformGetClock(NXP_SYSTEM_CLOCK, 0);
   if (SysClk == 0) {
     DEBUG ((DEBUG_ERROR, "Invalid System Clock\n"));
     return EFI_NOT_FOUND;
@@ -310,7 +312,7 @@ FdtFixupDuart (
   INTN     FdtStatus;
   UINT32   DuartClk;
 
-  DuartClk = NxpPlatformGetClock (NXP_UART_CLOCK);
+  DuartClk = NxpPlatformGetClock(NXP_UART_CLOCK, 0);
   if (DuartClk == 0) {
     DEBUG ((DEBUG_WARN, "Invalid Duart Clock\n"));
     return EFI_SUCCESS;

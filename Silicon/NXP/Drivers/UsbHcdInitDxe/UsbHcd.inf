@@ -19,8 +19,9 @@
   UsbHcd.h
 
 [Packages]
-  MdePkg/MdePkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
   MdeModulePkg/MdeModulePkg.dec
+  MdePkg/MdePkg.dec
   Silicon/NXP/NxpQoriqLs.dec
 
 [LibraryClasses]
@@ -28,10 +29,12 @@
   BaseMemoryLib
   DebugLib
   IoLib
+  FdtLib
   MemoryAllocationLib
   NonDiscoverableDeviceRegistrationLib
   UefiBootServicesTableLib
   UefiDriverEntryPoint
+  UefiLib
 
 [FixedPcd]
   gNxpQoriqLsTokenSpaceGuid.PcdNumUsbController
@@ -40,6 +43,7 @@
 
 [Guids]
   gEfiEndOfDxeEventGroupGuid
+  gFdtTableGuid
 
 [Depex]
   TRUE

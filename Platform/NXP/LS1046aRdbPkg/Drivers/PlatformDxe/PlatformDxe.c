@@ -99,7 +99,7 @@ PlatformDxeEntryPoint (
   PopulateI2cInformation ();
 
   Status = RegisterDevice (&gNxpNonDiscoverableI2cMasterGuid,
-             &mI2cDesc[0], &Handle);
+             &mI2cDesc[3], &Handle);
   ASSERT_EFI_ERROR (Status);
 
   //

@@ -11,9 +11,12 @@
 #include <Library/ChassisLib.h>
 #include <Library/DebugLib.h>
 #include <Library/SocLib.h>
-
-#include <Library/SocLib.h>
 #include <Soc.h>
+#include <Library/SerialPortLib.h>
+#include <Library/DebugLib.h>
+#include <Library/PrintLib.h>
+#include <Library/PcdLib.h>
+#include <Library/IoAccessLib.h>
 
 /**
   Return the input clock frequency to an IP Module.
@@ -76,21 +79,37 @@ STATIC
 VOID
 ConfigScfgMux (VOID)
 {
-  LS1046A_SUPPLEMENTAL_CONFIG  *Scfg;
+  CCSR_SCFG *Scfg;
   UINT32 UsbPwrFault;
+  MMIO_OPERATIONS  *mScfgOps;
 
-  Scfg = (LS1046A_SUPPLEMENTAL_CONFIG *)LS1046A_SCFG_ADDRESS;
+  mScfgOps = GetMmioOperations (FeaturePcdGet (PcdScfgBigEndian));
+  Scfg = (VOID *)PcdGet64 (PcdScfgBaseAddr);
   // Configures functionality of the IIC3_SCL to USB2_DRVVBUS
   // Configures functionality of the IIC3_SDA to USB2_PWRFAULT
-  // USB3 is not used, configure mux to IIC4_SCL/IIC4_SDA
-  ScfgWrite32 ((UINTN)&Scfg->RcwPMuxCr0, SCFG_RCWPMUXCRO_NOT_SELCR_USB);
 
-  ScfgWrite32 ((UINTN)&Scfg->UsbDrvVBusSelCr, SCFG_USBDRVVBUS_SELCR_USB1);
-  UsbPwrFault = (SCFG_USBPWRFAULT_DEDICATED << SCFG_USBPWRFAULT_USB3_SHIFT) |
-                (SCFG_USBPWRFAULT_DEDICATED << SCFG_USBPWRFAULT_USB2_SHIFT) |
-                (SCFG_USBPWRFAULT_SHARED << SCFG_USBPWRFAULT_USB1_SHIFT);
-  ScfgWrite32 ((UINTN)&Scfg->UsbPwrFaultSelCr, UsbPwrFault);
-  ScfgWrite32 ((UINTN)&Scfg->UsbPwrFaultSelCr, UsbPwrFault);
+  // LS1043A
+  // Configures functionality of the IIC4_SCL to USB3_DRVVBUS
+  // Configures functionality of the IIC4_SDA to USB3_PWRFAULT
+
+  // LS1046A
+
+  // USB3 is not used, configure mux to IIC4_SCL/IIC4_SDA
+  if (PcdGetBool (PcdMuxToUsb3)) {
+    mScfgOps->Write32 ((UINTN)&Scfg->RcwPMuxCr0, CCSR_SCFG_RCWPMUXCRO_SELCR_USB);
+  } else {
+    mScfgOps->Write32 ((UINTN)&Scfg->RcwPMuxCr0, CCSR_SCFG_RCWPMUXCRO_NOT_SELCR_USB);
+  }
+  mScfgOps->Write32 ((UINTN)&Scfg->UsbDrvVBusSelCr, CCSR_SCFG_USBDRVVBUS_SELCR_USB1);
+  UsbPwrFault = (CCSR_SCFG_USBPWRFAULT_DEDICATED <<
+                CCSR_SCFG_USBPWRFAULT_USB3_SHIFT) |
+                (CCSR_SCFG_USBPWRFAULT_DEDICATED <<
+                CCSR_SCFG_USBPWRFAULT_USB2_SHIFT) |
+                (CCSR_SCFG_USBPWRFAULT_SHARED <<
+                CCSR_SCFG_USBPWRFAULT_USB1_SHIFT);
+  mScfgOps->Write32 ((UINTN)&Scfg->UsbPwrFaultSelCr, UsbPwrFault);
+  mScfgOps->Write32 ((UINTN)&Scfg->UsbPwrFaultSelCr, UsbPwrFault);
+
 }
 
 STATIC
