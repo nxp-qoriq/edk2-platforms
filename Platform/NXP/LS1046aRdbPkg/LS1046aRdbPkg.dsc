@@ -146,15 +146,14 @@
   # Board Specific Pcds
   #
   gEfiMdeModulePkgTokenSpaceGuid.PcdSerialRegisterBase|0x021c0500
-  #gNxpQoriqLsTokenSpaceGuid.PcdSerdes2Enabled|TRUE
   gNxpQoriqLsTokenSpaceGuid.PcdPlatformFreqDiv|0x2
 
   #
   # Big Endian IPs
   #
   gNxpQoriqLsTokenSpaceGuid.PcdGurBigEndian|TRUE
+  gNxpQoriqLsTokenSpaceGuid.PcdWdogBigEndian|TRUE
   gNxpQoriqLsTokenSpaceGuid.PcdIfcBigEndian|TRUE
-  gNxpQoriqLsTokenSpaceGuid.PcdGurBigEndian|TRUE
 
 
  #
@@ -192,7 +191,7 @@
   # Optional feature to help prevent EFI memory map fragments
   # Turned on and off via: PcdPrePiProduceMemoryTypeInformationHob
   # Values are in EFI Pages (4K). DXE Core will make sure that
-  # at least this much of each type of memory can be allo`cated
+  # at least this much of each type of memory can be allocated
   # from a single memory range. This way you only end up with
   # maximum of two fragements for each type in the memory map
   # (the memory used, and the free memory that was prereserved

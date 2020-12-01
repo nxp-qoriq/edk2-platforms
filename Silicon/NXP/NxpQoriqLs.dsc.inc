@@ -264,27 +264,7 @@
 
   gEmbeddedTokenSpaceGuid.PcdPrePiCpuIoSize|20
 
-  #
-  # Optional feature to help prevent EFI memory map fragments
-  # Turned on and off via: PcdPrePiProduceMemoryTypeInformationHob
-  # Values are in EFI Pages (4K). DXE Core will make sure that
-  # at least this much of each type of memory can be allocated
-  # from a single memory range. This way you only end up with
-  # maximum of two fragements for each type in the memory map
-  # (the memory used, and the free memory that was prereserved
-  # but not used).
-  #
-  gEmbeddedTokenSpaceGuid.PcdMemoryTypeEfiACPIReclaimMemory|0
-  gEmbeddedTokenSpaceGuid.PcdMemoryTypeEfiACPIMemoryNVS|0
-  gEmbeddedTokenSpaceGuid.PcdMemoryTypeEfiReservedMemoryType|0
-  gEmbeddedTokenSpaceGuid.PcdMemoryTypeEfiRuntimeServicesData|80
-  gEmbeddedTokenSpaceGuid.PcdMemoryTypeEfiRuntimeServicesCode|40
-  gEmbeddedTokenSpaceGuid.PcdMemoryTypeEfiBootServicesCode|400
-  gEmbeddedTokenSpaceGuid.PcdMemoryTypeEfiBootServicesData|3000
-  gEmbeddedTokenSpaceGuid.PcdMemoryTypeEfiLoaderCode|10
-  gEmbeddedTokenSpaceGuid.PcdMemoryTypeEfiLoaderData|0
-
-  # Serial Terminal
+    # Serial Terminal
   gEfiMdePkgTokenSpaceGuid.PcdUartDefaultBaudRate|115200
   gEfiMdePkgTokenSpaceGuid.PcdDefaultTerminalType|4
 

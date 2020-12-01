@@ -16,22 +16,6 @@
 
 STATIC
 VOID
-XhciSetBeatBurstLength (
-  IN  UINTN  UsbReg
-  )
-{
-  DWC3       *Dwc3Reg;
-
-  Dwc3Reg = (VOID *)(UsbReg + DWC3_REG_OFFSET);
-
-  MmioAndThenOr32 ((UINTN)&Dwc3Reg->GSBusCfg0, ~USB3_ENABLE_BEAT_BURST_MASK,
-    USB3_ENABLE_BEAT_BURST);
-
-  MmioOr32 ((UINTN)&Dwc3Reg->GSBusCfg1, USB3_SET_BEAT_BURST_LIMIT);
-}
-
-STATIC
-VOID
 XhciEnableCacheSnoop (
   IN  UINTN  UsbReg
   )

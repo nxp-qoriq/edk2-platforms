@@ -34,20 +34,16 @@
 
 [PcdsFeatureFlag]
   gNxpQoriqLsTokenSpaceGuid.PcdI2cErratumA009203|FALSE|BOOLEAN|0x00000315
+  gNxpQoriqLsTokenSpaceGuid.PcdDcfgBigEndian|FALSE|BOOLEAN|0x00000316
   gNxpQoriqLsTokenSpaceGuid.PcdSataErratumA009185|FALSE|BOOLEAN|0x00000318
+  gNxpQoriqLsTokenSpaceGuid.PcdGpioControllerBigEndian|FALSE|BOOLEAN|0x00000319
+  gNxpQoriqLsTokenSpaceGuid.PcdScfgBigEndian|FALSE|BOOLEAN|0x00000320
+  gNxpQoriqLsTokenSpaceGuid.PcdSdxcIOReliabilityErratum|FALSE|BOOLEAN|0x00000322
 
-  #
-  # Pcds to support Big Endian IPs
-  #
   gNxpQoriqLsTokenSpaceGuid.PcdMmcBigEndian|FALSE|BOOLEAN|0x0000321
-  gNxpQoriqLsTokenSpaceGuid.PcdWdogBigEndian|FALSE|BOOLEAN|0x00000313
   gNxpQoriqLsTokenSpaceGuid.PcdQspiControllerBigEndian|FALSE|BOOLEAN|0x00000380
   gNxpQoriqLsTokenSpaceGuid.PcdQmanBigEndian|TRUE|BOOLEAN|0x00000359
   gNxpQoriqLsTokenSpaceGuid.PcdBmanBigEndian|TRUE|BOOLEAN|0x00000360
-  gNxpQoriqLsTokenSpaceGuid.PcdDcfgBigEndian|FALSE|BOOLEAN|0x00000316
-  gNxpQoriqLsTokenSpaceGuid.PcdScfgBigEndian|FALSE|BOOLEAN|0x00000320
-  gNxpQoriqLsTokenSpaceGuid.PcdGpioControllerBigEndian|FALSE|BOOLEAN|0x00000319
-  gNxpQoriqLsTokenSpaceGuid.PcdSdxcIOReliabilityErratum|FALSE|BOOLEAN|0x00000322
   gNxpQoriqLsTokenSpaceGuid.PcdPciLutBigEndian|FALSE|BOOLEAN|0x00000317
 
 [PcdsFixedAtBuild.common]
@@ -244,6 +240,11 @@
   #
   gNxpQoriqLsTokenSpaceGuid.PcdSdxcBaseAddr|0x0|UINT64|0x00000106
   gNxpQoriqLsTokenSpaceGuid.PcdEMmcBaseAddr|0x0|UINT64|0x0000011C
+
+  #
+  # Pcds to support Big Endian IPs
+  #
+  gNxpQoriqLsTokenSpaceGuid.PcdWdogBigEndian|FALSE|BOOLEAN|0x00000313
 
 [PcdsDynamic.common]
   gNxpQoriqLsTokenSpaceGuid.PcdSocSvr|0xffffffff|UINT32|0x00000400
