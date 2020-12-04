@@ -84,6 +84,14 @@
   Silicon/NXP/Drivers/UsbHcdInitDxe/UsbHcd.inf
 
   #
+  # SPI
+  #
+  Silicon/NXP/Drivers/QspiDxe/QspiDxe.inf
+  Silicon/NXP/Drivers/SpiBusDxe/SpiBusDxe.inf
+  Silicon/NXP/Drivers/SpiNorFlashDxe/SpiNorFlashDxe.inf
+  Silicon/NXP/Drivers/SpiConfigurationDxe/SpiConfigurationDxe.inf
+
+  #
   # PCI
   #
   Silicon/NXP/Drivers/PciCpuIo2Dxe/PciCpuIo2Dxe.inf

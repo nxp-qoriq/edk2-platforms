@@ -28,9 +28,9 @@ FdtSocFixup (
   )
 {
   INTN        NodeOffset;
-  //INTN        SubNodeOffset;
-  //UINT64      ChipSelect;
-  //EFI_STATUS  Status;
+  INTN        SubNodeOffset;
+  UINT64      ChipSelect;
+  EFI_STATUS  Status;
   INT32       FdtStatus;
 
   // Add uefi-runtime property in first Qspi node and the Chip Select 0 (if not already present)
@@ -46,7 +46,7 @@ FdtSocFixup (
     DEBUG ((DEBUG_ERROR, "Error: can't set uefi-runtime %a\n", fdt_strerror (FdtStatus)));
     return EFI_DEVICE_ERROR;
   }
-#if 0
+
   fdt_for_each_subnode (SubNodeOffset, Dtb, NodeOffset) {
     Status = FdtGetAddressSize (Dtb, SubNodeOffset, "reg", 0, &ChipSelect, NULL);
     if (EFI_ERROR (Status)) {
@@ -64,7 +64,7 @@ FdtSocFixup (
       break;
     }
   }
-#endif
+
   return EFI_SUCCESS;
 }
 

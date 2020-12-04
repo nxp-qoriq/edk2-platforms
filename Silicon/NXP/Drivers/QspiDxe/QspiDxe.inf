@@ -1,0 +1,72 @@
+#/** @QspiDxe.inf
+#  Component description file for QSPI Dxe driver
+#
+#  Copyright 2017, 2020 NXP
+#
+#  This Program And The Accompanying Materials
+#  Are Licensed And Made Available Under The Terms And Conditions Of The BSD
+#  License Which Accompanies This Distribution. The Full Text Of The License
+#  May Be Found At
+#  http://Opensource.Org/Licenses/Bsd-License.Php
+#
+#  THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
+#
+#**/
+
+[Defines]
+  INF_VERSION                    = 0x0001000A
+  BASE_NAME                      = Qspi
+  FILE_GUID                      = 889788dc-5fde-4dd8-a77d-8fff110d53d3
+  MODULE_TYPE                    = DXE_RUNTIME_DRIVER
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = QspiInitialise
+
+[Sources.common]
+  QspiDxe.c
+  QspiDxeOps.c
+  QspiDxeParseDt.c
+  QspiDxeParseRequest.c
+
+[Packages]
+  Silicon/NXP/NxpQoriqLs.dec
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  ArmPkg/ArmPkg.dec
+
+[LibraryClasses]
+  ArmLib
+  IoAccessLib
+  DxeServicesLib
+  DxeServicesTableLib
+  FdtLib
+  IoLib
+  ItbParseLib
+  MemoryAllocationLib
+  TimerLib
+  UefiBootServicesTableLib
+  UefiDriverEntryPoint
+  UefiLib
+  UefiRuntimeLib
+  UefiRuntimeServicesTableLib
+  ArmPlatformLib
+
+[Pcd]
+  gNxpQoriqLsTokenSpaceGuid.PcdQspiFdtCompatible
+  gNxpQoriqLsTokenSpaceGuid.PcdQspiErratumA008886
+  gNxpQoriqLsTokenSpaceGuid.PcdQspiControllerBigEndian
+
+[Protocols]
+  gEfiDevicePathProtocolGuid
+  gEfiSpiHcProtocolGuid
+
+[Guids]
+  gFdtTableGuid
+  gEfiEventVirtualAddressChangeGuid
+
+[Depex]
+  gEdkiiPlatformHasDeviceTreeGuid
+
+[Depex.common.DXE_RUNTIME_DRIVER]
+  gEfiCpuArchProtocolGuid

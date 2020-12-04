@@ -29,9 +29,9 @@
   SocLib
 
 [Sources.common]
-  AArch64/ArmPlatformHelper.S    | GCC
-  ArmPlatformLibMem.c
   ArmPlatformLib.c
+  ArmPlatformLibMem.c
+  AArch64/ArmPlatformHelper.S    | GCC
 
 [Sources.AArch64]
   AArch64/ArmPlatformHelper.S
@@ -40,10 +40,14 @@
   gArmTokenSpaceGuid.PcdArmPrimaryCore
   gArmTokenSpaceGuid.PcdArmPrimaryCoreMask
   gNxpQoriqLsTokenSpaceGuid.PcdGutsBaseAddr
+  gNxpQoriqLsTokenSpaceGuid.PcdScfgBaseAddr
   gNxpQoriqLsTokenSpaceGuid.PcdQspiRegionBaseAddr
   gNxpQoriqLsTokenSpaceGuid.PcdQspiRegionSize
   gNxpQoriqLsTokenSpaceGuid.PcdNumPciController
   gNxpQoriqLsTokenSpaceGuid.PcdPciExp1BaseAddr
+
+[FeaturePcd]
+  gNxpQoriqLsTokenSpaceGuid.PcdScfgBigEndian
 
 [Ppis]
   gArmMpCoreInfoPpiGuid

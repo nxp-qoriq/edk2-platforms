@@ -8,8 +8,12 @@
 
 #include <Library/ArmLib.h>
 #include <Library/ArmPlatformLib.h>
+#include <Library/DebugLib.h>
+#include <Library/IoAccessLib.h>
 #include <Library/GpioLib.h>
 #include <Library/SocLib.h>
+#include <Include/Soc.h>
+#include <Include/SocClockInternalLib.h>
 
 #include <Ppi/ArmMpCoreInfo.h>
 #include <Ppi/NxpPlatformGetClock.h>
@@ -68,10 +72,23 @@ NxpPlatformGetClock(
 {
   UINT64      Clock;
   VA_LIST     Args;
+  MMIO_OPERATIONS  *mScfgOps;
+  CCSR_SCFG    *Scfg;
+  UINT32       ConfigRegister; // device configuration register. can be used for any device
+  RCW_FIELDS   *Rcw;
+  UINT64       ClusterGroupA;
+  CCSR_GUR     *GurBase;
 
   Clock = 0;
 
+  GurBase = (VOID *)PcdGet64 (PcdGutsBaseAddr);
+  Scfg    = (VOID *)PcdGet64 (PcdScfgBaseAddr);
+  ASSERT ((GurBase != NULL) && (Scfg != NULL));
+
+  mScfgOps = GetMmioOperations (FeaturePcdGet (PcdScfgBigEndian));
+
   VA_START (Args, ClockType);
+  Rcw = (RCW_FIELDS *)GurBase->RcwSr;
 
   switch (ClockType) {
   case NXP_SYSTEM_CLOCK:
@@ -83,6 +100,59 @@ NxpPlatformGetClock(
     Clock = NxpPlatformGetClock (NXP_SYSTEM_CLOCK);
     Clock = SocGetClock (Clock, ClockType, Args);
     break;
+   case NXP_QSPI_CLOCK:
+    Clock = NxpPlatformGetClock (NXP_SYSTEM_CLOCK);
+    ConfigRegister = mScfgOps->Read32 ( (UINTN)&Scfg->QspiCfg);
+    if (ConfigRegister & QSPI_CLOCK_DISABLE) {
+      break;
+    }
+
+    switch (Rcw->HwaCgaM2ClkSel) {
+      case 1:
+      case 2:
+      case 3:
+        ClusterGroupA = ((UINT64)Rcw->CgaPll2Rat * Clock) / Rcw->HwaCgaM2ClkSel;
+        break;
+      case 6:
+        ClusterGroupA = ((UINT64)Rcw->CgaPll1Rat * Clock) >> 1;
+        break;
+      default:
+        ClusterGroupA = 0;
+        break;
+    }
+
+    if (ClusterGroupA) {
+      switch ((ConfigRegister & 0xF0000000) >> 28) { // CLK_SEL bits in SCFG_QSPI_CFG
+        case 0:
+          Clock = ClusterGroupA >> 8; // Divide by 256
+          break;
+        case 1:
+          Clock = ClusterGroupA >> 6; // Divide by 64
+          break;
+        case 2:
+          Clock = ClusterGroupA >> 5; // Divide by 32
+          break;
+        case 3:
+          Clock = (UINT64)ClusterGroupA / 24; // Divide by 24
+          break;
+        case 4:
+          Clock = (UINT64)ClusterGroupA / 20; // Divide by 20
+          break;
+        case 5:
+          Clock = ClusterGroupA >> 4; // Divide by 16
+          break;
+        case 6:
+          Clock = (UINT64)ClusterGroupA / 12; // Divide by 12
+          break;
+        case 7:
+          Clock = ClusterGroupA >> 3; // Divide by 8
+          break;
+        default:
+          break;
+      }
+    }
+    break;
+
   default:
     break;
   }
