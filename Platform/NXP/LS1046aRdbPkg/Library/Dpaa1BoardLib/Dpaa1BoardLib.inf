@@ -25,7 +25,6 @@
 
 [Sources.common]
  Dpaa1Rdb.c
-# Dpaa1Fixup.c
 
 [Packages]
   EmbeddedPkg/EmbeddedPkg.dec

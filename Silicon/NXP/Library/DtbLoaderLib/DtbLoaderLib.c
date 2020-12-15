@@ -414,7 +414,7 @@ DtPlatformLoadDtb (
   // Allocate space for the DTB: add a page of slack space to make some room
   // for our modifications.
   //
-  CopyDtbSize = OrigDtbSize + EFI_PAGE_SIZE;
+  CopyDtbSize = OrigDtbSize +( EFI_PAGE_SIZE*32);
   CopyDtb = AllocatePool (CopyDtbSize);
   if (CopyDtb == NULL) {
     return EFI_OUT_OF_RESOURCES;

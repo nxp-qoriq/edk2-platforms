@@ -60,7 +60,7 @@
   gFdtTableGuid
 
 [FixedPcd]
-  gNxpQoriqLsTokenSpaceGuid.PcdFmanFwFlashAddr
+  gNxpQoriqLsTokenSpaceGuid.PcdFManFwFlashAddr
 
 [FeaturePcd]
   gNxpQoriqLsTokenSpaceGuid.PcdQmanBigEndian

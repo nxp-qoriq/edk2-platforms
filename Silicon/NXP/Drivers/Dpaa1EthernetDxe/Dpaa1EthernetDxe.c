@@ -701,7 +701,7 @@ GetFmanFirmware (
   EFI_STATUS  Status;
 
   FmanFw = NULL;
-  FmanFwFlash = (QeFirmware *)FixedPcdGet64 (PcdFmanFwFlashAddr);
+  FmanFwFlash = (QeFirmware *)FixedPcdGet64 (PcdFManFwFlashAddr);
 
   // If firmware not found, then exit silently
   if (FmanFwFlash == NULL) {

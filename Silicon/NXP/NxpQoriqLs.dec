@@ -221,11 +221,6 @@
   gNxpQoriqLsTokenSpaceGuid.PcdGpioControllerOffset|0|UINT64|0x00000357
 
   #
-  # DPAA1 Pcds
-  #
-  gNxpQoriqLsTokenSpaceGuid.PcdFmanFwFlashAddr|0x00|UINT64|0x00000354
-
-  #
   # IO MMU Pcds
   #
   gNxpQoriqLsTokenSpaceGuid.PcdPcieStreamIdStart|0x00|UINT32|0x00000355
