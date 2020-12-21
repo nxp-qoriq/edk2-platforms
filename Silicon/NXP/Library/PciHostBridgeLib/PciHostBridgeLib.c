@@ -15,7 +15,8 @@
 #include <Library/MemoryAllocationLib.h>
 #include <Library/PcdLib.h>
 #include <Library/PciHostBridgeLib.h>
-#include <Library/SerDes.h>
+#include <LS1046A/Include/SocSerDes.h>
+#include <Chassis2/Include/SerDes.h>
 #include <Pcie.h>
 #include <Protocol/PciHostBridgeResourceAllocation.h>
 #include <Protocol/PciRootBridgeIo.h>
@@ -264,7 +265,7 @@ PcieLinkUp (
     LtssmMask = 0x3f;
   }
 
-  PcieOps = GetMmioOperations (FeaturePcdGet (PcdPciLutBigEndian));
+  PcieOps = GetMmioOperations (1);
   State = PcieOps->Read32 ((UINTN)Pcie + PCI_LUT_BASE + PCI_LUT_DBG) & LtssmMask;
 
   if (State < LTSSM_PCIE_L0) {

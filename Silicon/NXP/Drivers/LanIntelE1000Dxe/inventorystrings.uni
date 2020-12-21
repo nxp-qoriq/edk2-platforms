@@ -1,0 +1,338 @@
+﻿// *++
+//
+// Copyright (c) 2007-2008, Intel Corporation
+// All rights reserved. This program and the accompanying materials
+// are licensed and made available under the terms and conditions of the BSD License
+// which accompanies this distribution.  The full text of the license may be found at
+// http://opensource.org/licenses/bsd-license.php
+//
+// THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "AS IS" BASIS,
+// WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
+//
+// Module Name:
+//
+//   InventoryStrings.uni
+//
+// Abstract:
+//
+//   String definitions for Inventory file.
+//
+// Revision History:
+//
+// --*/
+
+
+/=#
+
+#langdef  en-US "English"
+#langdef  de-DE "Deutsch"  // German
+#langdef  es-ES "Español"  // Spanish
+#langdef  fr-FR "Français" // French
+#langdef  ja-JP "日本語"     // Japanese
+#langdef  zh-Hans "简体中文"  // Simplified Chinese
+#langdef  x-UEFI "Configuration Mapping Language"  // UEFI Configuration Mapping Language
+
+#string STR_INV_FORM_SET_TITLE      #language en-US         "Intel PRO/1000 Network Connection"
+                                    #language de-DE         "Intel PRO/1000 Netzwerkverbindung"
+                                    #language es-ES         "Conexión de red de Intel PRO/1000"
+                                    #language fr-FR         "Connexion réseau Intel PRO/1000"
+                                    #language ja-JP         "Intel PRO/1000 ネットワーク接続"
+                                    #language zh-Hans       "Intel PRO/1000 网络连接"
+                                    #language x-UEFI    "FormSet"
+
+#string STR_INV_FORM1_TITLE         #language en-US         "Main Configuration Page"
+                                    #language de-DE         "Hauptkonfigurationsseite"
+                                    #language es-ES         "Página principal de la configuración"
+                                    #language fr-FR         "Page de configuration principale"
+                                    #language ja-JP         "メイン 設定ページ"
+                                    #language zh-Hans       "主配置页面"
+                                    #language x-UEFI    "ConfigPage"
+
+#string STR_PORT_CONFIGURATION_INFO #language en-US         "Port Configuration Information"
+                                    #language de-DE         "Anschluss-Konfigurationsinformationen"
+                                    #language es-ES         "Información de la configuración de los puertos"
+                                    #language fr-FR         "Information de configuration du port"
+                                    #language ja-JP         "ポートの設定情報"
+                                    #language zh-Hans       "端口配置信息"
+                                    #language x-UEFI    ""
+
+#string STR_MAC_ADDR_PROMPT         #language en-US         "Factory MAC Address:"
+                                    #language de-DE         "Werkseigene MAC-Adresse:"
+                                    #language es-ES         "Dirección MAC de fábrica:"
+                                    #language fr-FR         "Adresse MAC d'origine :"
+                                    #language ja-JP         "出荷時のMAC アドレス"
+                                    #language zh-Hans       "出厂 MAC 地址："
+                                    #language x-UEFI    "MacAddr"
+
+#string STR_MAC_ADDR_TEXT           #language en-US         "%02x:%02x:%02x:%02x:%02x:%02x"
+                                    #language de-DE         "%02x:%02x:%02x:%02x:%02x:%02x"
+                                    #language es-ES         "%02x:%02x:%02x:%02x:%02x:%02x"
+                                    #language fr-FR         "%02x:%02x:%02x:%02x:%02x:%02x"
+                                    #language ja-JP         "%02x:%02x:%02x:%02x:%02x:%02x"
+                                    #language zh-Hans       "%02x:%02x:%02x:%02x:%02x:%02x"
+                                    #language x-UEFI    ""
+
+#string STR_MAC_ADDR_HELP           #language en-US         "Factory default MAC address of Ethernet port."
+                                    #language de-DE         "Standard-Werkeinstellungs-MAC-Adresse der Ethernet-Schnittstelle."
+                                    #language es-ES         "Dirección MAC predeterminada de fábrica del puerto Ethernet."
+                                    #language fr-FR         "Adresse MAC par défaut du fabricant du port Ethernet."
+                                    #language ja-JP         "Ethernet ポートの工場出荷時のデフォルト MAC アドレス。"
+                                    #language zh-Hans       "以太网端口的出厂默认 MAC 地址。"
+                                    #language x-UEFI    ""
+
+#string STR_ALT_MAC_ADDR_PROMPT     #language en-US         "Alternate MAC Address:"
+                                    #language de-DE         "MAC-Adresse abwechseln lassen:"
+                                    #language es-ES         "Dirección MAC alternativa:"
+                                    #language fr-FR         "Adresse MAC auxiliaire :"
+                                    #language ja-JP         "代替 MAC"
+                                    #language zh-Hans       "备用 MAC"
+                                    #language x-UEFI    "AltMacAddr"
+
+#string STR_ALT_MAC_ADDR_TEXT       #language en-US         "%02x:%02x:%02x:%02x:%02x:%02x"
+                                    #language de-DE         "%02x:%02x:%02x:%02x:%02x:%02x"
+                                    #language es-ES         "%02x:%02x:%02x:%02x:%02x:%02x"
+                                    #language fr-FR         "%02x:%02x:%02x:%02x:%02x:%02x"
+                                    #language ja-JP         "%02x:%02x:%02x:%02x:%02x:%02x"
+                                    #language zh-Hans       "%02x:%02x:%02x:%02x:%02x:%02x"
+                                    #language x-UEFI    ""
+
+#string STR_ALT_MAC_ADDR_HELP       #language en-US         "Alternate assigned MAC address of Ethernet port."
+                                    #language de-DE         "Zugewiesene MAC-Adresse der Ethernet-Schnittstelle abwechseln lassen."
+                                    #language es-ES         "Dirección MAC asignada alternativa del puerto Ethernet."
+                                    #language fr-FR         "Change l'adresse MAC attribuée au port Ethernet."
+                                    #language ja-JP         "Ethernet ポートに割り当てられた代替 MAC アドレス"
+                                    #language zh-Hans       "以太网端口的备用分配 MAC 地址。"
+                                    #language x-UEFI    ""
+
+#string STR_PCI_BUS_DEV_FUNC_PROMPT #language en-US         "PCI Bus:Device:Function:"
+                                    #language de-DE         "PCI-Bus:Gerät:Funktion:"
+                                    #language es-ES         "Bus PCI:Dispositivo:Función:"
+                                    #language fr-FR         "Bus PCI:Périphérique:Fonction:"
+                                    #language ja-JP         "PCI バス： デバイス： 関数："
+                                    #language zh-Hans       "PCI 总线:设备:功能:"
+                                    #language x-UEFI    "BusDeviceFunction"
+
+#string STR_PCI_BUS_DEV_FUNC_TEXT   #language en-US         "%02d:%02d:%02d"
+                                    #language de-DE         "%02d:%02d:%02d"
+                                    #language es-ES         "%02d:%02d:%02d"
+                                    #language fr-FR         "%02d:%02d:%02d"
+                                    #language ja-JP         "%02d:%02d:%02d"
+                                    #language zh-Hans       "%02d:%02d:%02d"
+                                    #language x-UEFI    ""
+
+#string STR_PCI_BUS_DEV_FUNC_HELP   #language en-US         "PCI device location."
+                                    #language de-DE         "PCI-Gerätestandort."
+                                    #language es-ES         "Ubicación del dispositivo PCI."
+                                    #language fr-FR         "Emplacement du périphérique PCI."
+                                    #language ja-JP         "PCI デバイスの場所。"
+                                    #language zh-Hans       "PCI 设备位置。"
+                                    #language x-UEFI    ""
+
+#string STR_ADAPTER_PBA_PROMPT      #language en-US         "Adapter PBA:"
+                                    #language de-DE         "Adapter PBA:"
+                                    #language es-ES         "PBA del adaptador:"
+                                    #language fr-FR         "Carte PBA :"
+                                    #language ja-JP         "アダプタ PBA："
+                                    #language zh-Hans       "适配器 PBA："
+                                    #language x-UEFI    ""
+
+#string STR_ADAPTER_PBA_TEXT        #language en-US         "%s"
+                                    #language de-DE         "%s"
+                                    #language es-ES         "%s"
+                                    #language fr-FR         "%s"
+                                    #language ja-JP         "%s"
+                                    #language zh-Hans       "%s"
+                                    #language x-UEFI    ""
+
+#string STR_CONTROLER_ID_PROMPT     #language en-US         "Chip Type:"
+                                    #language de-DE         "Chip-Typ:"
+                                    #language es-ES         "Tipo de chip:"
+                                    #language fr-FR         "Type de puce :"
+                                    #language ja-JP         "チップタイプ"
+                                    #language zh-Hans       "芯片类型"
+                                    #language x-UEFI    "ChipMdl"
+
+#string STR_CONTROLER_ID_TEXT       #language en-US         "Unknown Controller"
+                                    #language de-DE         "Unbekannter Controller"
+                                    #language es-ES         "Controlador desconocido"
+                                    #language fr-FR         "Contrôleur inconnu"
+                                    #language ja-JP         "不明なコントローラ"
+                                    #language zh-Hans       "未知控制器"
+                                    #language x-UEFI    ""
+
+#string STR_CONTROLER_ID_HELP       #language en-US         "Network controller part number."
+                                    #language de-DE         "Netzwerk-Controller-Teilenummer."
+                                    #language es-ES         "Número de parte del controlador de red."
+                                    #language fr-FR         "Numéro de pièce du contrôleur réseau."
+                                    #language ja-JP         "ネットワークコントローラのパーツ番号。"
+                                    #language zh-Hans       "网络控制器部件号。"
+                                    #language x-UEFI    ""
+
+#string STR_EFI_DRIVER_VER_PROMPT   #language en-US         "UEFI Driver:"
+                                    #language de-DE         "UEFI-Treiber:"
+                                    #language es-ES         "Controlador UEFI:"
+                                    #language fr-FR         "Pilote UEFI :"
+                                    #language ja-JP         "UEFI ドライバ："
+                                    #language zh-Hans       "UEFI 驱动程序："
+                                    #language x-UEFI    ""
+
+#string STR_EFI_DRIVER_VER_TEXT    #language en-US         "%s"
+                                    #language de-DE         "%s"
+                                    #language es-ES         "%s"
+                                    #language fr-FR         "%s"
+                                    #language ja-JP         "%s"
+                                    #language zh-Hans       "%s"
+                                    #language x-UEFI    ""
+
+#string STR_PORT_CONFIG_MENU_REF  #language en-US         "Port Configuration Menu"
+                                    #language de-DE         "Menü zur Anschlusskonfiguration"
+                                    #language es-ES         "Menú de configuración de los puertos"
+                                    #language fr-FR         "Menu de configuration du port"
+                                    #language ja-JP         "ポート設定のメニュー"
+                                    #language zh-Hans       "端口配置菜单"
+                                    #language x-UEFI    "PortConfigPageRef"
+
+#string STR_PORT_CONFIG_MENU    #language en-US         "Port Configuration Menu"
+                                    #language de-DE         "Menü zur Anschlusskonfiguration"
+                                    #language es-ES         "Menú de configuración de los puertos"
+                                    #language fr-FR         "Menu de configuration du port"
+                                    #language ja-JP         "ポート設定のメニュー"
+                                    #language zh-Hans       "端口配置菜单"
+                                    #language x-UEFI    "PortConfigPage"
+
+#string STR_OPTION_ROM_EN_PROMPT  #language en-US         "Preboot Option ROM"
+                                    #language de-DE         "Vorabstart-Erweiterungs-ROM"
+                                    #language es-ES         "Iniciar con la opción ROM"
+                                    #language fr-FR         "Option ROM d'amorçage"
+                                    #language ja-JP         "プリブートオプション ROM"
+                                    #language zh-Hans       "预引导选项 ROM"
+                                    #language x-UEFI    "PrebootOptRom"
+
+#string STR_OPTION_ROM_EN_HELP    #language en-US         "Enable or disable Option ROM for current port. When disabled no proboot driver can be loaded from this port location."
+                                    #language de-DE         "Erweiterungs-ROM für den aktuellen Anschluss aktivieren oder deaktivieren. Wenn deaktiviert, kann von diesem Anschluss kein Vorabstarttreiber geladen werden."
+                                    #language es-ES         "Activar o desactivar la opción ROM en el puerto actual. Si se desactiva, no se podrá cargar ningún controlador a través de este puerto."
+                                    #language fr-FR         "Active ou désactive l'Option ROM pour le port actuel. Si désactivée, il est impossible de charger un pilote d'amorçage depuis l'emplacement de ce port."
+                                    #language ja-JP         "現在のポートのオプションROM を有効または無効にします。無効の場合、このポートからプリブートドライバーをロードする事はできません。"
+                                    #language zh-Hans       "启用或禁用当前端口的选项 ROM。当禁用时，没有预引导驱动程序可以从此端口位置加载。"
+                                    #language x-UEFI    ""
+
+#string STR_LINK_SPEED_PROMPT    #language en-US         "Link Speed"
+                                    #language de-DE         "Verbindungsgeschwindigkeit"
+                                    #language es-ES         "Velocidad del enlace"
+                                    #language fr-FR         "Vitesse de liaison"
+                                    #language ja-JP         "リンク速度"
+                                    #language zh-Hans       "链接速度"
+                                    #language x-UEFI    "LnkSpeed"
+
+#string STR_LINK_SPEED_HELP      #language en-US         "Change link speed and duplex for current port."
+                                    #language de-DE         "Die Verbindungsgeschwindigkeit und Duplexeinstellung des aktuellen Anschlusses ändern."
+                                    #language es-ES         "Cambiar la velocidad y el tipo de dúplex del puerto actual."
+                                    #language fr-FR         "Changer la vitesse de liaison et le duplex pour le port actuel."
+                                    #language ja-JP         "現在のポートのリンク速度及びデュプレックスの変更"
+                                    #language zh-Hans       "更改当前端口的链接速度和双工。"
+                                    #language x-UEFI    ""
+
+#string STR_AUTONEG_TEXT      #language en-US         "AutoNeg"
+                                    #language de-DE         "AutoNeg"
+                                    #language es-ES         "AutoNeg"
+                                    #language fr-FR         "AutoNeg"
+                                    #language ja-JP         "AutoNeg"
+                                    #language zh-Hans       "AutoNeg"
+                                    #language x-UEFI    "AutoNeg"
+
+#string STR_10HALF_TEXT        #language en-US         "10 Mbps Half"
+                                    #language de-DE         "10 Mbit/s Halbduplex"
+                                    #language es-ES         "10 Mbps semi"
+                                    #language fr-FR         "10 Mbit/s Half"
+                                    #language ja-JP         "10 Mbps 半二重"
+                                    #language zh-Hans       "10 Mbps 半双工"
+                                    #language x-UEFI    "10MbpsHalf"
+
+#string STR_10FULL_TEXT        #language en-US         "10 Mbps Full"
+                                    #language de-DE         "10 Mbit/s Vollduplex"
+                                    #language es-ES         "10 Mbps completo"
+                                    #language fr-FR         "10 Mbit/s Full"
+                                    #language ja-JP         "10 Mbps 全二重"
+                                    #language zh-Hans       "10 Mbps 全双工"
+                                    #language x-UEFI    "10MbpsFull"
+
+#string STR_100HALF_TEXT      #language en-US         "100 Mbps Half"
+                                    #language de-DE         "100 Mbit/s Halbduplex"
+                                    #language es-ES         "100 Mbps semi"
+                                    #language fr-FR         "100 Mbit/s Half"
+                                    #language ja-JP         "100 Mbps 半二重"
+                                    #language zh-Hans       "100 Mbps 半双工"
+                                    #language x-UEFI    "100MbpsHalf"
+
+#string STR_100FULL_TEXT            #language en-US         "100 Mbps Full"
+                                    #language de-DE         "100 Mbit/s Vollduplex"
+                                    #language es-ES         "100 Mbps completo"
+                                    #language fr-FR         "100 Mbit/s Full"
+                                    #language ja-JP         "100 Mbps 全二重"
+                                    #language zh-Hans       "100 Mbps 全双工"
+                                    #language x-UEFI    "100MbpsFull"
+
+#string STR_WOL_TEXT                #language en-US         "Wake On LAN"
+                                    #language de-DE         "Remote-Aktivierung über LAN"
+                                    #language es-ES         "Encendido en LAN"
+                                    #language fr-FR         "Réveil sur LAN"
+                                    #language ja-JP         "Wake On LAN"
+                                    #language zh-Hans       "LAN 唤醒"
+                                    #language x-UEFI    "WakeOnLan"
+
+#string STR_WOL_HELP                #language en-US         "Enable this option to wake the system with a magic packet."
+                                    #language de-DE         "Aktivieren Sie diese Option um das System mit einem Magic Packet zu reaktivieren."
+                                    #language es-ES         "Active esta opción para reactivar el sistema con un paquete mágico."
+                                    #language fr-FR         "Activez cette option pour réveiller le système avec un paquet magique."
+                                    #language ja-JP         "このオプションを有効にし、マジックパケットを使用してシステムを起動させる。"
+                                    #language zh-Hans       "启用此选项可以使用 Magic 数据包唤醒系统。"
+                                    #language x-UEFI    ""
+
+#string STR_ENABLED_TEXT            #language en-US         "Enabled"
+                                    #language de-DE         "Aktiviert"
+                                    #language es-ES         "Activado"
+                                    #language fr-FR         "ACTIVÉ"
+                                    #language ja-JP         "有効"
+                                    #language zh-Hans       "已启用"
+                                    #language x-UEFI    "Enabled"
+
+#string STR_DISABLED_TEXT           #language en-US         "Disabled"
+                                    #language de-DE         "Deaktivert"
+                                    #language es-ES         "Desactivado"
+                                    #language fr-FR         "DÉSACTIVÉ"
+                                    #language ja-JP         "無効"
+                                    #language zh-Hans       "已禁用"
+                                    #language x-UEFI    "Disabled"
+
+#string STR_NA_TEXT                 #language en-US         "N/A"
+                                    #language de-DE         "-"
+                                    #language es-ES         "N/A"
+                                    #language fr-FR         "-"
+                                    #language ja-JP         "なし"
+                                    #language zh-Hans       "暂无"
+                                    #language x-UEFI    "NA"
+
+#string STR_SAVE_HELP_TEXT          #language en-US         "Save changes to NVRAM"
+                                    #language de-DE         "Speichern Sie die Änderungen unter NVRAM"
+                                    #language es-ES         "Guarde los cambios en NVRAM"
+                                    #language fr-FR         "Enregistre les modifications apportées à la NVRAM"
+                                    #language ja-JP         "変更を NVRAM に保存する"
+                                    #language zh-Hans       "将更改保存到 NVRAM"
+                                    #language x-UEFI    ""
+
+#string STR_INV_EMPTY_STRING        #language en-US         " "
+                                    #language de-DE         " "
+                                    #language es-ES         " "
+                                    #language fr-FR         " "
+                                    #language ja-JP         " "
+                                    #language zh-Hans       " "
+                                    #language x-UEFI    ""
+
+#string STR_TERMINATION_STRING      #language en-US         "x-UEFI Termination String"
+                                    #language de-DE         "x-UEFI Termination String"
+                                    #language es-ES         "x-UEFI Termination String"
+                                    #language fr-FR         "x-UEFI Termination String"
+                                    #language ja-JP         "x-UEFI Termination String"
+                                    #language zh-Hans       "x-UEFI Termination String"
+                                    #language x-UEFI    "x-UEFI Termination String"
+

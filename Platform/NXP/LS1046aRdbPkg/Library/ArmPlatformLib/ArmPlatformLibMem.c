@@ -12,7 +12,7 @@
 #include <Library/MemoryAllocationLib.h>
 #include <Soc.h>
 
-#define MAX_VIRTUAL_MEMORY_MAP_DESCRIPTORS          7
+#define MAX_VIRTUAL_MEMORY_MAP_DESCRIPTORS          (7 + FixedPcdGet32 (PcdNumPciController))
 
 /**
   Return the Virtual Memory Map of your platform
@@ -30,6 +30,7 @@ ArmPlatformGetVirtualMemoryMap (
   )
 {
   UINTN                            Index;
+  UINT32                           I;
   ARM_MEMORY_REGION_DESCRIPTOR     *VirtualMemoryTable;
 
   Index = 0;
@@ -77,6 +78,14 @@ ArmPlatformGetVirtualMemoryMap (
   VirtualMemoryTable[Index].VirtualBase  = LS1046A_BMAN_SW_PORTAL_PHYS_ADDRESS;
   VirtualMemoryTable[Index].Length       = LS1046A_BMAN_SW_PORTAL_SIZE;
   VirtualMemoryTable[Index++].Attributes   = 0; //ARM_MEMORY_REGION_ATTRIBUTE_UNCACHED_UNBUFFERED;
+
+  // PCIe Space
+  for (I = 0; I < FixedPcdGet32 (PcdNumPciController); I++) {
+    VirtualMemoryTable[Index].PhysicalBase = LS1046A_PCI1_PHYS_ADDRESS + I * LS1046A_PCI_SIZE;
+    VirtualMemoryTable[Index].VirtualBase  = LS1046A_PCI1_PHYS_ADDRESS + I * LS1046A_PCI_SIZE;
+    VirtualMemoryTable[Index].Length       = LS1046A_PCI_SIZE;
+    VirtualMemoryTable[Index++].Attributes   = ARM_MEMORY_REGION_ATTRIBUTE_DEVICE;
+  }
 
   // End of Table
   ZeroMem (&VirtualMemoryTable[Index], sizeof (ARM_MEMORY_REGION_DESCRIPTOR));

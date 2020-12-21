@@ -37,6 +37,9 @@
 #define LS1046A_BMAN_SW_PORTAL_PHYS_ADDRESS    0x508000000
 #define LS1046A_BMAN_SW_PORTAL_SIZE            SIZE_128MB
 
+#define LS1046A_PCI1_PHYS_ADDRESS    FixedPcdGet64 (PcdPciExp1BaseAddr)
+#define LS1046A_PCI_SIZE             SIZE_32GB
+
 /**
   Reset Control Word (RCW) Bits
 

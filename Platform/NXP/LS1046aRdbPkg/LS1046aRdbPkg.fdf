@@ -126,6 +126,8 @@ READ_LOCK_STATUS   = TRUE
   INF MdeModulePkg/Universal/Console/TerminalDxe/TerminalDxe.inf
   INF MdeModulePkg/Universal/SerialDxe/SerialDxe.inf
 
+  INF Silicon/NXP/Drivers/LanIntelE1000Dxe/LanIntelE1000Dxe.inf
+
   #
   # FAT filesystem + GPT/MBR partitioning
   #
@@ -145,6 +147,13 @@ READ_LOCK_STATUS   = TRUE
   # DPAA1 Ethernet driver
   #
   INF Silicon/NXP/Drivers/Dpaa1Ethernet/Dpaa1EthernetDxe.inf
+
+  #
+  # pci
+  #
+  INF Silicon/NXP/Drivers/PciCpuIo2Dxe/PciCpuIo2Dxe.inf
+  INF MdeModulePkg/Bus/Pci/PciBusDxe/PciBusDxe.inf
+  INF MdeModulePkg/Bus/Pci/PciHostBridgeDxe/PciHostBridgeDxe.inf
 
   #
   # AHCI Support

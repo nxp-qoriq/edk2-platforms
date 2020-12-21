@@ -35,6 +35,8 @@
   SocFixupLib|Silicon/NXP/LS1046A/Library/SocFixupLib/SocFixupLib.inf
   ItbParseLib|Silicon/NXP/Library/ItbParseLib/ItbParse.inf
   SocLib|Silicon/NXP/LS1046A/Library/SocLib/SocLib.inf
+  PciSegmentLib|Silicon/NXP/Library/PciSegmentLib/PciSegmentLib.inf
+  PciHostBridgeLib|Silicon/NXP/Library/PciHostBridgeLib/PciHostBridgeLib.inf
 
   #
   # DPAA1
@@ -59,6 +61,15 @@
     <PcdsFixedAtBuild>
     gEfiMdeModulePkgTokenSpaceGuid.PcdEmuVariableNvModeEnable|TRUE
   }
+
+  #
+  # PCI
+  #
+  Silicon/NXP/Drivers/PciCpuIo2Dxe/PciCpuIo2Dxe.inf
+  MdeModulePkg/Bus/Pci/PciHostBridgeDxe/PciHostBridgeDxe.inf
+  MdeModulePkg/Bus/Pci/PciBusDxe/PciBusDxe.inf
+
+  Silicon/NXP/Drivers/LanIntelE1000Dxe/LanIntelE1000Dxe.inf
 
   #
   # Networking stack

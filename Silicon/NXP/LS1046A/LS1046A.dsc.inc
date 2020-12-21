@@ -79,6 +79,10 @@
 
   gNxpQoriqLsTokenSpaceGuid.PcdSerdes2Enabled|TRUE
 
+
+  gNxpQoriqLsTokenSpaceGuid.PcdPcieLutBase|0x80000
+  gNxpQoriqLsTokenSpaceGuid.PcdPcieLutDbg|0x407FC
+
  #
  # DPAA1 Pcds
  #
