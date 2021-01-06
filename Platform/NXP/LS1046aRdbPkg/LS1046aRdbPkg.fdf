@@ -3,7 +3,7 @@
 #  FLASH layout file for LS1046a board.
 #
 #  Copyright (c) 2016, Freescale Ltd. All rights reserved.
-#  Copyright 2017, 2020 NXP
+#  Copyright 2017-2021 NXP
 #
 #  SPDX-License-Identifier: BSD-2-Clause-Patent
 #
@@ -159,6 +159,8 @@ READ_LOCK_STATUS   = TRUE
   INF Silicon/NXP/Drivers/PciCpuIo2Dxe/PciCpuIo2Dxe.inf
   INF MdeModulePkg/Bus/Pci/PciBusDxe/PciBusDxe.inf
   INF MdeModulePkg/Bus/Pci/PciHostBridgeDxe/PciHostBridgeDxe.inf
+
+  INF ShellPkg/DynamicCommand/TftpDynamicCommand/TftpDynamicCommand.inf
 
   #
   # AHCI Support

@@ -2,7 +2,7 @@
 #
 #  LS1046ARDB Board package.
 #
-#  Copyright 2017, 2020 NXP
+#  Copyright 2017-2021 NXP
 #  Copyright 2020 Puresoftware Ltd.
 #
 #  SPDX-License-Identifier: BSD-2-Clause-Patent
@@ -104,6 +104,11 @@
   # Networking stack
   #
   !include NetworkPkg/Network.dsc.inc
+
+  #
+  # TFTP Shell Command
+  #
+  ShellPkg/DynamicCommand/TftpDynamicCommand/TftpDynamicCommand.inf
 
   #
   # DPAA1 Ethernet driver
