@@ -2,7 +2,7 @@
   DPAA Frame manager implementation
 
   Copyright (c) 2016, Freescale Semiconductor, Inc. All rights reserved.
-  Copyright 2020 NXP
+  Copyright 2020, 2021 NXP
 
   This Program And The Accompanying Materials
   Are Licensed And Made Available Under The Terms And Conditions Of The BSD
@@ -144,7 +144,7 @@ UINT16 MemReadMasked (
   UINT32 Val;
   INT32 Pos;
   UINT16 Ret;
-  mMemoryOpsDpaa1 = GetMmioOperations (1);
+  mMemoryOpsDpaa1 = GetMmioOperations (FeaturePcdGet (PcdDpaaBigEndian));
 
   Base = (UINTN)Addr & ~0x3UL;
   Val = mMemoryOpsDpaa1->Read32(Base);
@@ -167,7 +167,7 @@ VOID MemWriteMasked (
   UINT32 Org;
   UINT32 Val;
   INT32 Pos;
-  mMemoryOpsDpaa1 = GetMmioOperations (1);
+  mMemoryOpsDpaa1 = GetMmioOperations (FeaturePcdGet (PcdDpaaBigEndian));
 
   Org = mMemoryOpsDpaa1->Read32(Base);
 
@@ -189,7 +189,7 @@ DumpFmanCfg (
   FMAN_CCSR *FmanRegs = (FMAN_CCSR *)PcdGet64(PcdDpaa1FmanAddr);
   FMAN_CONTROLLER_CONFIG *Cfg = &FmanRegs->FmanControllerCfg;
 #endif
-  mMemoryOpsDpaa1 = GetMmioOperations (1);
+  mMemoryOpsDpaa1 = GetMmioOperations (FeaturePcdGet (PcdDpaaBigEndian));
 
   DPAA1_DEBUG_MSG(" ------------- DUMP CFG 0x%x -------------\n", Cfg);
   DPAA1_DEBUG_MSG("Address      : 0x%x \n", mMemoryOpsDpaa1->Read32((UINTN)&Cfg->Address      ));
@@ -208,7 +208,7 @@ DumpFmanFpm (
   FMAN_FPM *Fpm = &FmanRegs->FmanFpm;
 #endif
   UINT32 I = 0;
-  mMemoryOpsDpaa1 = GetMmioOperations (1);
+  mMemoryOpsDpaa1 = GetMmioOperations (FeaturePcdGet (PcdDpaaBigEndian));
 
   DPAA1_DEBUG_MSG(" ------------- DUMP FPM 0x%x -------------\n", Fpm);
   DPAA1_DEBUG_MSG("Tnc  : 0x%x \n", mMemoryOpsDpaa1->Read32((UINTN)&Fpm->Tnc  ));
@@ -260,7 +260,7 @@ DumpFmanQmi (
   FMAN_CCSR *FmanRegs = (FMAN_CCSR *)PcdGet64(PcdDpaa1FmanAddr);
   FMAN_QMI_COMMON *Qmi = &FmanRegs->QmiCommon;
 #endif
-  mMemoryOpsDpaa1 = GetMmioOperations (1);
+  mMemoryOpsDpaa1 = GetMmioOperations (FeaturePcdGet (PcdDpaaBigEndian));
 
   DPAA1_DEBUG_MSG(" ------------- DUMP QMI COMMON 0x%x -------------\n", Qmi);
   DPAA1_DEBUG_MSG(" Gc    : 0x%x \n", mMemoryOpsDpaa1->Read32((UINTN)&Qmi->Gc   ));
@@ -296,7 +296,7 @@ DumpFmanBmi (
   FMAN_BMI_COMMON *Bmi = &FmanRegs->BmiCommon;
 #endif
   UINT32 I = 0;
-  mMemoryOpsDpaa1 = GetMmioOperations (1);
+  mMemoryOpsDpaa1 = GetMmioOperations (FeaturePcdGet (PcdDpaaBigEndian));
 
   DPAA1_DEBUG_MSG(" ------------- DUMP BMI COMMON 0x%x -------------\n", Bmi);
   DPAA1_DEBUG_MSG(" Init;           : 0x%x \n", mMemoryOpsDpaa1->Read32((UINTN)&Bmi->Init));
@@ -326,7 +326,7 @@ DumpFmanDma (
   FMAN_DMA *Dma = &FmanRegs->FmanDma;
 #endif
   UINT32 I = 0;
-  mMemoryOpsDpaa1 = GetMmioOperations (1);
+  mMemoryOpsDpaa1 = GetMmioOperations (FeaturePcdGet (PcdDpaaBigEndian));
 
   DPAA1_INFO_MSG(" ------------- DUMP FMAN DMA 0x%x -------------\n", Dma);
   DPAA1_INFO_MSG(" Sr   : 0x%x \n", mMemoryOpsDpaa1->Read32((UINTN)&Dma->Sr  ));
@@ -350,7 +350,7 @@ DumpEthDev (
   IN  ETH_DEVICE *FmanEthDevice
   )
 {
-  mMemoryOpsDpaa1 = GetMmioOperations (1);
+  mMemoryOpsDpaa1 = GetMmioOperations (FeaturePcdGet (PcdDpaaBigEndian));
   DPAA1_DEBUG_MSG(" ------------- DUMPING BMI PORTS -------------\n");
   DPAA1_DEBUG_MSG("  FmIndex   :   0x%x \n", FmanEthDevice->FmIndex);
   DPAA1_DEBUG_MSG("  Num      :   0x%x \n", FmanEthDevice->Num    );
@@ -447,7 +447,7 @@ DumpBD (
   )
 {
    UINT32 I =0;
-  mMemoryOpsDpaa1 = GetMmioOperations (1);
+  mMemoryOpsDpaa1 = GetMmioOperations (FeaturePcdGet (PcdDpaaBigEndian));
 
    DPAA1_DEBUG_MSG(" ------------- DUMPING BD -------------\n");
    for (I = 0; I< 8; I++) {
@@ -464,7 +464,7 @@ DumpQD (
   IN  FMAN_QUEUE_DESC *Qd
   )
 {
-  mMemoryOpsDpaa1 = GetMmioOperations (1);
+  mMemoryOpsDpaa1 = GetMmioOperations (FeaturePcdGet (PcdDpaaBigEndian));
    DPAA1_DEBUG_MSG(" ------------- DUMPING QD -------------\n");
    DPAA1_DEBUG_MSG("  Gen               : 0x%x \n", MemReadMasked(&Qd->Gen));
    DPAA1_DEBUG_MSG("  BdRingBaseHi   :   0x%x \n", MemReadMasked(&Qd->BdRingBaseHi));
@@ -586,7 +586,7 @@ EFI_STATUS FmRxPortParamInit (
   UINT32 BdRingBaseLo, BdRingBaseHi;
   UINT32 BufLo, BufHi;
   INT32 I;
-  mMemoryOpsDpaa1 = GetMmioOperations (1);
+  mMemoryOpsDpaa1 = GetMmioOperations (FeaturePcdGet (PcdDpaaBigEndian));
 
   /* alloc global parameter from MURAM */
   Pram = (FMAN_GLOBAL_PARAM *)FmanMemAlloc(
@@ -676,7 +676,7 @@ EFI_STATUS FmTxPortParamInit (
   UINT32 BdRingBaseLo, BdRingBaseHi;
   BMI_TX_PORT *BmiTxPort = FmanEthDevice->TxPort;
   INT32 I;
-  mMemoryOpsDpaa1 = GetMmioOperations (1);
+  mMemoryOpsDpaa1 = GetMmioOperations (FeaturePcdGet (PcdDpaaBigEndian));
 
   /* alloc global parameter ram from MURAM */
   Pram = (FMAN_GLOBAL_PARAM *)FmanMemAlloc(
@@ -764,7 +764,7 @@ FmanLoadMicrocode (
 
   ASSERT(CodeSize % sizeof(UINT32) == 0);
 
-  mMemoryOpsDpaa1 = GetMmioOperations (1);
+  mMemoryOpsDpaa1 = GetMmioOperations (FeaturePcdGet (PcdDpaaBigEndian));
 
   DPAA1_DEBUG_MSG("FmanLoadMicrocode:Start 0x%x, size 0x%x \n",
     CodeStart, CodeSize);
@@ -939,7 +939,7 @@ STATIC
 VOID
 FmanInitQmanInterface(FMAN_QMI_COMMON *Qmi)
 {
-  mMemoryOpsDpaa1 = GetMmioOperations (1);
+  mMemoryOpsDpaa1 = GetMmioOperations (FeaturePcdGet (PcdDpaaBigEndian));
 
   // Disable enqueue and dequeue of Qman interface
   mMemoryOpsDpaa1->And32((UINTN)&Qmi->Gc, ~(QMI_GC_ENQ_EN | QMI_GC_DEQ_EN));
@@ -988,7 +988,7 @@ FmanInitFPM(FMAN_FPM *Fpm)
   UINTN Index;
   UINT32 Port;
   UINT32 RegValue;
-  mMemoryOpsDpaa1 = GetMmioOperations (1);
+  mMemoryOpsDpaa1 = GetMmioOperations (FeaturePcdGet (PcdDpaaBigEndian));
 
   //
   // Initialize FPM event and enable register:
@@ -1073,7 +1073,7 @@ FmanInitBmanInterface(
   UINT32 PortIndex;
   UINT32 Index;
   UINT32 RegValue;
-  mMemoryOpsDpaa1 = GetMmioOperations (1);
+  mMemoryOpsDpaa1 = GetMmioOperations (FeaturePcdGet (PcdDpaaBigEndian));
 
   Base = FmanMemAlloc(FmanIndex, FMAN_FREE_POOL_SIZE,
                       FMAN_FREE_POOL_ALIGNMENT);
@@ -1194,7 +1194,7 @@ ReceiveFrame(
   UINT16 OffsetOut;
   UINT8 *Buffer;
   UINT32 BufLo, BufHi;
-  mMemoryOpsDpaa1 = GetMmioOperations (1);
+  mMemoryOpsDpaa1 = GetMmioOperations (FeaturePcdGet (PcdDpaaBigEndian));
 
   Pram = FmanEthDevice->RxPram;
   Rxbd = FmanEthDevice->CurRxbd;
@@ -1267,7 +1267,7 @@ TransmitFrame (
   BD *Txbd;
   UINT16 Offset;
 
-  mMemoryOpsDpaa1 = GetMmioOperations (1);
+  mMemoryOpsDpaa1 = GetMmioOperations (FeaturePcdGet (PcdDpaaBigEndian));
 
   Pram = FmanEthDevice->TxPram;
 
@@ -1323,7 +1323,7 @@ GetTransmitStatus (
 {
   BD *Txbd;
   UINT32 BufLo, BufHi;
-  mMemoryOpsDpaa1 = GetMmioOperations (1);
+  mMemoryOpsDpaa1 = GetMmioOperations (FeaturePcdGet (PcdDpaaBigEndian));
 
   Txbd = &(((BD *)FmanEthDevice->TxBdRing)[FmanEthDevice->CurUsedTxbdId]);
 

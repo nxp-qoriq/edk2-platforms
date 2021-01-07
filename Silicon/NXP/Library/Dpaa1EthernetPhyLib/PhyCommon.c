@@ -2,7 +2,7 @@
   DPAA1 Ethernet PHY common services implementation
 
   Copyright (c) 2016, Freescale Semiconductor, Inc. All rights reserved.
-  Copyright 2020 NXP
+  Copyright 2020, 2021 NXP
 
   This program and the accompanying materials
   are licensed and made available under the terms and conditions of the BSD License
@@ -42,7 +42,7 @@ Dpaa1PhyMdioBusInit (
   )
 {
   MEMAC_MDIO_BUS_REGS *CONST MdioBusRegs = MdioBus->IoRegs;
-  mMemoryOpsDpaa1PhyC = GetMmioOperations (1);
+  mMemoryOpsDpaa1PhyC = GetMmioOperations (FeaturePcdGet (PcdPhyBigEndian));
 
   UINT32 RegValue;
 
@@ -105,7 +105,7 @@ Dpaa1PhyMdioBusWrite (
 
   ASSERT(MdioBus->Signature == DPAA1_PHY_MDIO_BUS_SIGNATURE);
 
-  mMemoryOpsDpaa1PhyC = GetMmioOperations (1);
+  mMemoryOpsDpaa1PhyC = GetMmioOperations (FeaturePcdGet (PcdPhyBigEndian));
 
   RegValue = mMemoryOpsDpaa1PhyC->Read32((UINTN)&MdioBusRegs->MdioStat);
   if (MDIO_CTL_DEV_NONE == MdioCtlDevAddr) {
@@ -206,7 +206,7 @@ Dpaa1PhyMdioBusRead (
 
   ASSERT(MdioBus->Signature == DPAA1_PHY_MDIO_BUS_SIGNATURE);
 
-  mMemoryOpsDpaa1PhyC = GetMmioOperations (1);
+  mMemoryOpsDpaa1PhyC = GetMmioOperations (FeaturePcdGet (PcdPhyBigEndian));
 
   RegValue = mMemoryOpsDpaa1PhyC->Read32((UINTN)&MdioBusRegs->MdioStat);
   if (MDIO_CTL_DEV_NONE == MdioCtlDevAddr) {

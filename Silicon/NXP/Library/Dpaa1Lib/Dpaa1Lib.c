@@ -2,7 +2,7 @@
   DPAA library implementation
 
   Copyright (c) 2016, Freescale Semiconductor, Inc. All rights Reserved.
-  Copyright 2020 NXP
+  Copyright 2020, 2021 NXP
 
   This Program And The Accompanying Materials
   Are Licensed And Made Available Under The Terms And Conditions Of The BSD
@@ -39,7 +39,7 @@ VOID BmiRxPortInit (
   IN  BMI_RX_PORT *Port
   )
 {
-       mMemoryOpsDpaa1Lib = GetMmioOperations (1);
+       mMemoryOpsDpaa1Lib = GetMmioOperations (FeaturePcdGet (PcdDpaaBigEndian));
 
        /* set BMI to independent mode, Rx port disable */
        mMemoryOpsDpaa1Lib->Write32((UINTN)&Port->FmanBmRcfg, FMAN_BM_RCFG_IM);
@@ -60,7 +60,7 @@ VOID BmiTxPortInit (
   IN  BMI_TX_PORT *Port
   )
 {
-       mMemoryOpsDpaa1Lib = GetMmioOperations (1);
+       mMemoryOpsDpaa1Lib = GetMmioOperations (FeaturePcdGet (PcdDpaaBigEndian));
 
        /* set BMI to independent mode, Tx port disable */
        mMemoryOpsDpaa1Lib->Write32((UINTN)&Port->FmanBmTcfg, FMAN_BM_TCFG_IM);

@@ -1,7 +1,7 @@
 /** @file
 *
 *  Copyright (c) 2017, Linaro, Ltd. All rights reserved.
-*  Copyright 2018-2020 NXP
+*  Copyright 2018-2021 NXP
 *  Copyright 2020 Puresoftware Ltd.
 *
 *  This program and the accompanying materials
@@ -178,7 +178,7 @@ GetCryptoEra (
   UINT8 Era;
   UINT32 Index;
 
-  mSecOps = GetMmioOperations (1);
+  mSecOps = GetMmioOperations (FeaturePcdGet (PcdDtbBigEndian));
 
   if (BigEndian) {
     SecVidMs = mSecOps->Read32 (CryptoAddress + VIDMS_OFFSET);
@@ -233,7 +233,7 @@ FdtFixupCrypto (
   UINT8      Era;
   EFI_STATUS Status;
 
-  mSecOps = GetMmioOperations (1);
+  mSecOps = GetMmioOperations (FeaturePcdGet (PcdDtbBigEndian));
 
   NodeOffset = fdt_path_offset (Dtb, "crypto");
   if (NodeOffset < 0) {

@@ -1,6 +1,6 @@
 #  @file.
 #
-#  Copyright 2017-2020 NXP
+#  Copyright 2017-2021 NXP
 #
 #  SPDX-License-Identifier: BSD-2-Clause-Patent
 #
@@ -45,6 +45,10 @@
   gNxpQoriqLsTokenSpaceGuid.PcdQmanBigEndian|TRUE|BOOLEAN|0x00000359
   gNxpQoriqLsTokenSpaceGuid.PcdBmanBigEndian|TRUE|BOOLEAN|0x00000360
   gNxpQoriqLsTokenSpaceGuid.PcdPciLutBigEndian|FALSE|BOOLEAN|0x00000317
+
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaaBigEndian|TRUE|BOOLEAN|0x00000390
+  gNxpQoriqLsTokenSpaceGuid.PcdPhyBigEndian|TRUE|BOOLEAN|0x00000391
+  gNxpQoriqLsTokenSpaceGuid.PcdDtbBigEndian|TRUE|BOOLEAN|0x00000392
 
 [PcdsFixedAtBuild.common]
   # Pcds for PCI Express

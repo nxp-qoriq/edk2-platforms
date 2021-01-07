@@ -2,7 +2,7 @@
   DPAA1 FMAN MAC services implementation
 
   Copyright (c) 2016, Freescale Semiconductor, Inc. All rights Reserved.
-  Copyright 2020 NXP
+  Copyright 2020, 2021 NXP
 
   This program and the accompanying materials
   are licensed and made available under the terms and conditions of the BSD License
@@ -71,7 +71,7 @@ DumpMac (
   IN Memac *regs
  )
 {
-  mMemoryOpsDpaa1MacLib = GetMmioOperations (1);
+  mMemoryOpsDpaa1MacLib = GetMmioOperations (FeaturePcdGet (PcdDpaaBigEndian));
 
   DPAA1_DEBUG_MSG(" ======= DUMPING MAC REGISTERS ======= \n");
   DPAA1_DEBUG_MSG(" CommandConfig    : 0x%x \n", mMemoryOpsDpaa1MacLib->Read32((UINTN)&regs->CommandConfig   ));
@@ -109,7 +109,7 @@ DumpMacStats (
 #if 0 //Fix Makarand : New Flag to be defined
   Memac *Regs = Mac->Base;
 #endif
-  mMemoryOpsDpaa1MacLib = GetMmioOperations (1);
+  mMemoryOpsDpaa1MacLib = GetMmioOperations (FeaturePcdGet (PcdDpaaBigEndian));
 
   DPAA1_DEBUG_MSG(" ------------- DUMPING MAC STATISTICS -------------\n");
   DPAA1_DEBUG_MSG(" ------------- DUMPING RX STATISTICS -------------\n");
@@ -329,7 +329,7 @@ VOID InitializeMac (
   )
 {
   Memac *Regs = Mac->Base;
-  mMemoryOpsDpaa1MacLib = GetMmioOperations (1);
+  mMemoryOpsDpaa1MacLib = GetMmioOperations (FeaturePcdGet (PcdDpaaBigEndian));
 
   /* mask all interrupt */
   mMemoryOpsDpaa1MacLib->Write32((UINTN)&Regs->Imask, IMASK_MASK_ALL);
@@ -352,7 +352,7 @@ VOID SetInterface (
 {
   Memac *Regs = Mac->Base;
   UINT32 Mode, Status;
-  mMemoryOpsDpaa1MacLib = GetMmioOperations (1);
+  mMemoryOpsDpaa1MacLib = GetMmioOperations (FeaturePcdGet (PcdDpaaBigEndian));
 
   /* clear all bits relative with interface mode */
   Mode = mMemoryOpsDpaa1MacLib->Read32((UINTN)&Regs->IfMode);
@@ -409,7 +409,7 @@ TxGracefulStopEnable (
   )
 {
   FMAN_GLOBAL_PARAM *Pram;
-  mMemoryOpsDpaa1MacLib = GetMmioOperations (1);
+  mMemoryOpsDpaa1MacLib = GetMmioOperations (FeaturePcdGet (PcdDpaaBigEndian));
 
   Pram = FmanEthDevice->TxPram;
   /* Enable graceful stop for TX */
@@ -436,7 +436,7 @@ DisableMac (
 )
 {
   Memac *Regs = Mac->Base;
-  mMemoryOpsDpaa1MacLib = GetMmioOperations (1);
+  mMemoryOpsDpaa1MacLib = GetMmioOperations (FeaturePcdGet (PcdDpaaBigEndian));
 
   mMemoryOpsDpaa1MacLib->And32((UINTN)&Regs->CommandConfig, ~MEMAC_CMD_CFG_RXTX_EN);
   mMemoryOpsDpaa1MacLib->Or32((UINTN)&Regs->CommandConfig, MEMAC_CMD_CFG_SWR);
@@ -448,7 +448,7 @@ EnableMac (
 )
 {
   Memac *Regs = Mac->Base;
-  mMemoryOpsDpaa1MacLib = GetMmioOperations (1);
+  mMemoryOpsDpaa1MacLib = GetMmioOperations (FeaturePcdGet (PcdDpaaBigEndian));
 
   mMemoryOpsDpaa1MacLib->Or32((UINTN)&Regs->CommandConfig, MEMAC_CMD_CFG_SWR);
   mMemoryOpsDpaa1MacLib->Or32((UINTN)&Regs->StatnConfig, MEMAC_CMD_CFG_CLR_STATS);
@@ -463,7 +463,7 @@ DisablePorts (
   )
 {
   UINT32 Timeout = 1000000;
-  mMemoryOpsDpaa1MacLib = GetMmioOperations (1);
+  mMemoryOpsDpaa1MacLib = GetMmioOperations (FeaturePcdGet (PcdDpaaBigEndian));
 
   /* disable bmi Tx port */
   mMemoryOpsDpaa1MacLib->And32((UINTN)&FmanEthDevice->TxPort->FmanBmTcfg, ~FMAN_BM_TCFG_EN);
@@ -492,7 +492,7 @@ EnablePorts (
   IN  ETH_DEVICE *FmanEthDevice
   )
 {
-  mMemoryOpsDpaa1MacLib = GetMmioOperations (1);
+  mMemoryOpsDpaa1MacLib = GetMmioOperations (FeaturePcdGet (PcdDpaaBigEndian));
 
   /* enable bmi Rx port */
   mMemoryOpsDpaa1MacLib->Or32((UINTN)&FmanEthDevice->RxPort->FmanBmRcfg, FMAN_BM_RCFG_EN);
@@ -510,7 +510,7 @@ SetMacAddr (
 {
   Memac *Regs = Mac->Base;
   UINT32 Addr0, Addr1;
-  mMemoryOpsDpaa1MacLib = GetMmioOperations (1);
+  mMemoryOpsDpaa1MacLib = GetMmioOperations (FeaturePcdGet (PcdDpaaBigEndian));
 
   /*
    * if a MAC addRess is 0x12345678ABCD, perform a write to

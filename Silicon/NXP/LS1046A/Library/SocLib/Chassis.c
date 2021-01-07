@@ -1,7 +1,7 @@
 /** @file
   SoC specific Library containg functions to initialize various SoC components
 
-  Copyright 2017-2020 NXP
+  Copyright 2017-2021 NXP
 
   This program and the accompanying materials
   are licensed and made available under the terms and conditions of the BSD License
@@ -39,7 +39,7 @@ GurRead (
   IN  UINTN     Address
   )
 {
-  mMemoryOpsChassis = GetMmioOperations (1);
+  mMemoryOpsChassis = GetMmioOperations (FeaturePcdGet (PcdScfgBigEndian));
 
   if (FixedPcdGetBool (PcdGurBigEndian)) {
     return mMemoryOpsChassis->Read32 (Address);
@@ -55,7 +55,7 @@ GurWrite (
   IN  UINT32   Value
   )
 {
-  mMemoryOpsChassis = GetMmioOperations (1);
+  mMemoryOpsChassis = GetMmioOperations (FeaturePcdGet (PcdScfgBigEndian));
 
   if (FixedPcdGetBool (PcdGurBigEndian)) {
     mMemoryOpsChassis->Write32 (Address, Value);
@@ -355,7 +355,7 @@ PrintRCW (
   CHAR8    Buffer[100];
   UINTN    CharCount;
 
-  mMemoryOpsChassis = GetMmioOperations (1);
+  mMemoryOpsChassis = GetMmioOperations (FeaturePcdGet (PcdScfgBigEndian));
 
   Base = (VOID *)PcdGet64 (PcdGutsBaseAddr);
 

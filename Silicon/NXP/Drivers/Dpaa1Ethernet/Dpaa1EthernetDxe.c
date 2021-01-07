@@ -3,7 +3,7 @@
   DPAA1 Ethernet DXE driver
 
   Copyright (c) 2016, Freescale Semiconductor, Inc. All rights reserved.
-  Copyright 2020 NXP
+  Copyright 2020, 2021 NXP
 
   This program and the accompanying materials
   are licensed and made available under the terms and conditions of the BSD License
@@ -1559,7 +1559,7 @@ InhibitPs (
   UINT32     Value;
   UINT32     Index;;
 
-  mMemoryOps = GetMmioOperations (1);
+  mMemoryOps = GetMmioOperations (FeaturePcdGet (PcdDpaaBigEndian));
 
   //
   // MaxArchPortals is the maximum based on memory size. This includes

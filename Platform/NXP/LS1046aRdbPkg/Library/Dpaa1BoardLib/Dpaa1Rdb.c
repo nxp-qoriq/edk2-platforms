@@ -2,7 +2,7 @@
   DPAA1 definitions specific for the RDB board
 
   Copyright (c) 2016, Freescale Semiconductor, Inc. All rights reserved.
-  Copyright 2020 NXP
+  Copyright 2020, 2021 NXP
 
   This program and the accompanying materials
   are licensed and made available under the terms and conditions of the BSD License
@@ -147,7 +147,7 @@ IsMemacEnabled (
 {
   UINT32 RegValue;
   CCSR_GUR *Gur = (VOID *)PcdGet64(PcdGutsBaseAddr);
-  mMemoryOpsDpaa1Rdb = GetMmioOperations (1);
+  mMemoryOpsDpaa1Rdb = GetMmioOperations (FeaturePcdGet (PcdDpaaBigEndian));
 
   RegValue = mMemoryOpsDpaa1Rdb->Read32((UINTN)&Gur->DevDisr2);
   DPAA1_DEBUG_MSG(" IsMemacEnabled [%d] = 0x%x \n", MemacId, RegValue);

@@ -3,7 +3,7 @@
 #  Component description file for Dpaa1EthernetPhyLib module
 #
 #  Copyright (c) 2016, Freescale Semiconductor, Inc. All rights reserved.
-#  Copyright 2020 NXP
+#  Copyright 2020, 2021 NXP
 #
 #  This program and the accompanying materials
 #  are licensed and made available under the terms and conditions of the BSD License
@@ -36,3 +36,6 @@
 [Packages]
   MdePkg/MdePkg.dec
   Silicon/NXP/NxpQoriqLs.dec
+
+[FeaturePcd]
+  gNxpQoriqLsTokenSpaceGuid.PcdPhyBigEndian

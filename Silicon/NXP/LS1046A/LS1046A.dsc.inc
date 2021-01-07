@@ -1,7 +1,7 @@
 #  LS1046A.dsc
 #  LS1046A Soc package.
 #
-#  Copyright 2017-2020 NXP
+#  Copyright 2017-2021 NXP
 #
 #  SPDX-License-Identifier: BSD-2-Clause-Patent
 #
@@ -116,6 +116,10 @@
   gNxpQoriqLsTokenSpaceGuid.PcdGpioControllerBigEndian|TRUE
   gNxpQoriqLsTokenSpaceGuid.PcdQspiControllerBigEndian|TRUE
   gNxpQoriqLsTokenSpaceGuid.PcdSataErratumA009185|TRUE
+
+  gNxpQoriqLsTokenSpaceGuid.PcdDpaaBigEndian|TRUE
+  gNxpQoriqLsTokenSpaceGuid.PcdPhyBigEndian|TRUE
+  gNxpQoriqLsTokenSpaceGuid.PcdDtbBigEndian|TRUE
 
 ################################################################################
 #

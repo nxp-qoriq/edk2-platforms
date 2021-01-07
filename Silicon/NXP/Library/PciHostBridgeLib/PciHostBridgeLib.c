@@ -1,7 +1,7 @@
 /** @file
   PCI Host Bridge Library instance for NXP SoCs
 
-  Copyright 2018-2020 NXP
+  Copyright 2018-2021 NXP
 
   SPDX-License-Identifier: BSD-2-Clause-Patent
 **/
@@ -265,7 +265,7 @@ PcieLinkUp (
     LtssmMask = 0x3f;
   }
 
-  PcieOps = GetMmioOperations (1);
+  PcieOps = GetMmioOperations (FeaturePcdGet (PcdPciLutBigEndian));
   State = PcieOps->Read32 ((UINTN)Pcie + PCI_LUT_BASE + PCI_LUT_DBG) & LtssmMask;
 
   if (State < LTSSM_PCIE_L0) {

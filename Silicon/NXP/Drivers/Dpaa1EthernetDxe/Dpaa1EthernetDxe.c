@@ -1,6 +1,6 @@
 /** @file
 *
-*  Copyright 2018, 2020 NXP
+*  Copyright 2018-2021 NXP
 *  Copyright 2020 Puresoftware Ltd.
 *
 *  This program and the accompanying materials
@@ -912,7 +912,7 @@ FdtFixupQman (
     return EFI_SUCCESS;
   }
 
-  mMemoryOpsDxe = GetMmioOperations(1);
+  mMemoryOpsDxe = GetMmioOperations(FeaturePcdGet (PcdDpaaBigEndian));
 
   if ((fdt_getprop (Dtb, NodeOffset, "big-endian", NULL) != NULL) ||
       (FeaturePcdGet (PcdQmanBigEndian) == TRUE)) {
@@ -982,7 +982,7 @@ FdtFixupBmanVersion (
     DEBUG ((DEBUG_ERROR, "Error: can't get regs base address(Status = %r)!\n", Status));
     return EFI_SUCCESS;
   }
-  mMemoryOpsDxe = GetMmioOperations(1);
+  mMemoryOpsDxe = GetMmioOperations(FeaturePcdGet (PcdDpaaBigEndian));
 
   if ((fdt_getprop (Dtb, NodeOffset, "big-endian", NULL) != NULL) ||
       (FeaturePcdGet (PcdBmanBigEndian) == TRUE)) {
