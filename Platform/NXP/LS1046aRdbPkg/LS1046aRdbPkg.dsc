@@ -117,7 +117,6 @@
 
   # Platform DXE Driver
   Platform/NXP/LS1046aRdbPkg/Drivers/PlatformDxe/PlatformDxe.inf
-  Platform/NXP/LS1046aFrwyPkg/Drivers/PlatformDxe/PlatformDxe.inf
 
   #
   # DT support

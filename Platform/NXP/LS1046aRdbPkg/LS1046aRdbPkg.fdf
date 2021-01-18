@@ -91,7 +91,6 @@ READ_LOCK_STATUS   = TRUE
   INF ArmPkg/Drivers/CpuDxe/CpuDxe.inf
 
   # Platform DXE Driver
-  INF Platform/NXP/LS1046aFrwyPkg/Drivers/PlatformDxe/PlatformDxe.inf
   INF Platform/NXP/LS1046aRdbPkg/Drivers/PlatformDxe/PlatformDxe.inf
 
   #
