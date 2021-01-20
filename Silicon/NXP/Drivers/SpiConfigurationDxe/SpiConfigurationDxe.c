@@ -16,17 +16,9 @@
     -Whether the SPI controller or a GPIO pin is used for the chip select
     -The data sampling edge for the SPI part
 
- Copyright 2018-2020 NXP
+ Copyright 2018-2021 NXP
 
- This program and the accompanying materials
- are licensed and made available under the terms and conditions of
- the BSD License which accompanies this distribution. The full
- text of the license may be found at
- http://opensource.org/licenses/bsd-license.php
-
- THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "AS IS"
- BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER
- EXPRESS OR IMPLIED.
+ SPDX-License-Identifier: BSD-2-Clause-Patent
 
  @par Specification Reference:
    - PI 1.6, Chapter 18, Spi Protocol Stack
@@ -329,7 +321,7 @@ FreeSpiBus (
     return;
   }
 
-  SpiPeripheral = SpiBus->Peripherallist;
+  SpiPeripheral = SpiBus->RuntimePeripherallist;
   while (SpiPeripheral != NULL) {
     NextSpiPeripheral = SpiPeripheral->NextSpiPeripheral;
     FreeSpiPeripheral (SpiPeripheral);
@@ -467,8 +459,8 @@ SpiConfigurationDxeEntryPoint (
 
         SpiPeripheral->SpiBus = SpiBus;
         if (Runtime == TRUE) {
-          SpiPeripheral->NextSpiPeripheral = SpiBus->Peripherallist;
-          SpiBus->Peripherallist = SpiPeripheral;
+          SpiPeripheral->NextSpiPeripheral = SpiBus->RuntimePeripherallist;
+          SpiBus->RuntimePeripherallist = SpiPeripheral;
         } else {
           SpiPeripheral->NextSpiPeripheral = SpiBus->Peripherallist;
           SpiBus->Peripherallist = SpiPeripheral;
