@@ -1653,8 +1653,8 @@ Dpaa1EthernetInitialize (
    * SERDES protocol, we have to rely on Refrence Manual and
    * give appropriate DTSEC ids to RGMII interfaces.
   */
-  Dpaa1DiscoverFmanMemac(FM1_DTSEC_3, PHY_INTERFACE_RGMII, &gDpaa1Driver.MemacsList);
-  Dpaa1DiscoverFmanMemac(FM1_DTSEC_4, PHY_INTERFACE_RGMII, &gDpaa1Driver.MemacsList);
+  Dpaa1DiscoverFmanMemac(FM1_DTSEC_3, PHY_INTERFACE_RGMII_ID, &gDpaa1Driver.MemacsList);
+  Dpaa1DiscoverFmanMemac(FM1_DTSEC_4, PHY_INTERFACE_RGMII_ID, &gDpaa1Driver.MemacsList);
   ASSERT(!IsListEmpty(&gDpaa1Driver.MemacsList));
   /*
    * Load and boot DPAA1 FMAN firmware:

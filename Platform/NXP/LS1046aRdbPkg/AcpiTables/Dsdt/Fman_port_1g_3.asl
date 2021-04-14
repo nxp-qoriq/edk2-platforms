@@ -23,7 +23,7 @@ Scope(\_SB.FMN0)
         Package () {"mac-address", Package (6) {11, 22, 33, 44, 55, 66}},
         Package () {"cell-index", 0x3},
         Package () {"phy-handle", \_SB.FMN0.MDI0.PHY2},
-        Package () {"phy-connection-type", "rgmii-txid"},
+        Package () {"phy-connection-type", "rgmii-id"},
         Package () {"compatible", "fman-memac"},
         Package () {"fsl,fman-ports", Package () {\_SB.FMN0.PRX3, \_SB.FMN0.PTX3}},
         Package () {"pcsphy-handle", \_SB.FMN0.MDI3.PCS3}
