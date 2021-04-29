@@ -1,16 +1,10 @@
 /** @file
 *
 *  Copyright (c) 2017, Linaro, Ltd. All rights reserved.
-*  Copyright 2018-2019 NXP
+*  Copyright 2018-2019, 2021 NXP
 *  Copyright 2020 Puresoftware Ltd.
 *
-*  This program and the accompanying materials
-*  are licensed and made available under the terms and conditions of the BSD License
-*  which accompanies this distribution.  The full text of the license may be found at
-*  http://opensource.org/licenses/bsd-license.php
-*
-*  THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "AS IS" BASIS,
-*  WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
+*  SPDX-License-Identifier: BSD-2-Clause-Patent
 *
 **/
 
@@ -28,8 +22,9 @@
 #include <Library/SocFixupLib.h>
 #include <Library/UefiBootServicesTableLib.h>
 #include <Library/UefiDriverEntryPoint.h>
+#include <Library/UefiLib.h>
 
-#include "DtbLoaderLib.h"
+#include <DtbLoaderLib.h>
 
 /**
   The functions fixes the cpu nodes present under cpus node in device tree with the
@@ -374,12 +369,34 @@ PrepareFdt (
   return EFI_SUCCESS;
 }
 
+EFI_STATUS
+EFIAPI
+DtPlatformLoadDtb (
+  OUT   VOID              **Dtb,
+  OUT   UINTN             *DtbSize
+  )
+{
+  EFI_STATUS                      Status;
+  VOID                            *Fdt;
+
+  Status = EfiGetSystemConfigurationTable (&gFdtTableGuid, &Fdt);
+  if (EFI_ERROR (Status)) {
+    DEBUG ((DEBUG_ERROR, "%a : Did not find the Dtb Blob.\n",__FUNCTION__));
+    return EFI_NOT_FOUND;
+  } else {
+    *Dtb = Fdt;
+    *DtbSize = fdt_totalsize (Fdt);
+  }
+
+  return EFI_SUCCESS;
+}
+
 /**
   The entry point for DtbLoaderLib driver.
 **/
 EFI_STATUS
 EFIAPI
-DtPlatformLoadDtb (
+DtPlatformPrepareDtb (
   OUT   VOID              **Dtb,
   OUT   UINTN             *DtbSize
   )
@@ -390,6 +407,14 @@ DtPlatformLoadDtb (
   UINTN                           OrigDtbSize;
   UINTN                           CopyDtbSize;
 
+  if (PcdGet64 (PcdFdtAddress)) {
+    OrigDtb = (VOID *)PcdGet64 (PcdFdtAddress);
+
+    if (!fdt_check_header (OrigDtb)) {
+      goto FdtLoadedFromAddress;
+    }
+  }
+
   Status = GetSectionFromAnyFv (
              &gDtPlatformDefaultDtbFileGuid,
              EFI_SECTION_RAW,
@@ -397,17 +422,24 @@ DtPlatformLoadDtb (
              &OrigDtb,
              &OrigDtbSize
              );
+
   if (EFI_ERROR (Status)) {
     DEBUG ((DEBUG_ERROR, "Failed to get device tree\n"));
     return EFI_NOT_FOUND;
   }
 
+  if (fdt_check_header (OrigDtb)) {
+    DEBUG ((DEBUG_ERROR, "Invalid Device tree Header\n"));
+    return EFI_NOT_FOUND;
+  }
+
+FdtLoadedFromAddress:
   //
   // Allocate space for the DTB: add a page of slack space to make some room
   // for our modifications.
   //
-  CopyDtbSize = OrigDtbSize + EFI_PAGE_SIZE;
-  CopyDtb = AllocatePool (CopyDtbSize);
+  CopyDtbSize = fdt_totalsize (OrigDtb) + SIZE_512KB;
+  CopyDtb = AllocateCopyPool (CopyDtbSize, OrigDtb);
   if (CopyDtb == NULL) {
     return EFI_OUT_OF_RESOURCES;
   }
@@ -429,6 +461,15 @@ DtPlatformLoadDtb (
   *Dtb = CopyDtb;
   *DtbSize = CopyDtbSize;
 
+  //
+  // install a reference to it as the FDT configuration table.
+  //
+  Status = gBS->InstallConfigurationTable (&gFdtTableGuid, Dtb);
+  if (EFI_ERROR (Status)) {
+    DEBUG ((DEBUG_ERROR, "%a: failed to install FDT configuration table %r\n",
+      __FUNCTION__, Status));
+    return EFI_NOT_FOUND;
+  }
+
   return EFI_SUCCESS;
 }
-

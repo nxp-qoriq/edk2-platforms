@@ -1,6 +1,6 @@
 /** @file
 *
-*  Copyright 2018 NXP
+*  Copyright 2018, 2021 NXP
 *  Copyright 2020 Puresoftware Ltd.
 *
 *  This program and the accompanying materials
@@ -53,5 +53,12 @@ STATIC CONST ERA_MAP Eras[] = {
   {0x0A13, 1, 5},
   {0x0A1C, 1, 5}
 };
+
+EFI_STATUS
+EFIAPI
+DtPlatformPrepareDtb (
+  OUT   VOID        **Dtb,
+  OUT   UINTN       *DtbSize
+  );
 
 #endif // __DTB_LOADER_LIB_H__

@@ -1,16 +1,10 @@
 /** @file
 *
 *  Copyright (c) 2017, Linaro, Ltd. All rights reserved.
-*  Copyright 2018-2019 NXP
+*  Copyright 2018-2019, 2021 NXP
 *  Copyright 2020 Puresoftware Ltd.
 *
-*  This program and the accompanying materials
-*  are licensed and made available under the terms and conditions of the BSD License
-*  which accompanies this distribution.  The full text of the license may be found at
-*  http://opensource.org/licenses/bsd-license.php
-*
-*  THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "AS IS" BASIS,
-*  WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
+*  SPDX-License-Identifier: BSD-2-Clause-Patent
 *
 **/
 
@@ -24,6 +18,7 @@
 #include <Library/UefiDriverEntryPoint.h>
 #include <Library/UefiRuntimeServicesTableLib.h>
 
+#include <DtbLoaderLib.h>
 #include "DtInitDxe.h"
 
 STATIC EFI_EVENT mDtInitDxeBootEvent;
@@ -84,7 +79,7 @@ DtInitDxeEntryPoint (
   UINTN                           DtbSize;
 
   Dtb = NULL;
-  Status = DtPlatformLoadDtb (&Dtb, &DtbSize);
+  Status = DtPlatformPrepareDtb (&Dtb, &DtbSize);
   if (EFI_ERROR (Status)) {
     goto Error;
   }
@@ -135,4 +130,3 @@ Error:
 
   return Status;
 }
-
