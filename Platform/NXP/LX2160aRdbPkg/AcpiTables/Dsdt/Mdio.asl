@@ -26,6 +26,12 @@ Scope(\_SB.MDI0)
       AQR_PHY4_IT
     }
     }) // end of _CRS for PHY4
+    Name (_DSD, Package () {
+      ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
+        Package () {
+          Package () {"compatible", "ethernet-phy-ieee802.3-c45"}
+       }
+    })
   } // end of PHY4
 
   Device(PHY5) {
@@ -36,5 +42,11 @@ Scope(\_SB.MDI0)
       AQR_PHY5_IT
     }
     }) // end of _CRS for PHY5
+    Name (_DSD, Package () {
+      ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
+        Package () {
+          Package () {"compatible", "ethernet-phy-ieee802.3-c45"}
+       }
+    })
   } // end of PHY5
 } // end of MDI0
