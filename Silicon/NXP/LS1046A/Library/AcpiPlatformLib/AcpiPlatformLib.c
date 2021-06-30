@@ -24,7 +24,7 @@
 #define AML_RESOURCE_BUS             0x2
 
 typedef PACKED struct {
-  UINT16                        BusNum;
+  UINT8                        BusNum;
 } BBN_DESCRIPTOR;
 
 /**
@@ -627,7 +627,7 @@ UpdateDsdtPcie (
       if (CompareMem(DataPtr, "_BBN", 4) == 0) {
         DataPtr += 4; // Skip _BBN
         BusDescriptor = (BBN_DESCRIPTOR *)DataPtr;
-        BusDescriptor->BusNum = SwapBytes16 (0x1);
+        BusDescriptor->BusNum = 0x1;
         DataPtr = DataPtr + sizeof (BBN_DESCRIPTOR);
       }
       if (CompareMem(DataPtr, "RBUF", 4) == 0) {
