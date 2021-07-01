@@ -103,4 +103,15 @@
 
 [PcdsFeatureFlag]
   gNxpQoriqLsTokenSpaceGuid.PcdI2cErratumA009203|TRUE
+
+[Components.common]
+  #
+  # Configuration Manager
+!if $(DYNAMIC_ACPI_ENABLE) == TRUE
+  Platform/NXP/ConfigurationManager/ConfigurationManagerDxe/ConfigurationManagerDxe.inf {
+    <BuildOptions>
+      *_*_*_PLATFORM_FLAGS = -I$(BIN_DIR)/Platform/NXP/$(DYNAMIC_ACPI_PKG)/PlatformASLTablesLib/PlatformASLTablesLib/OUTPUT
+      *_*_*_PLATFORM_FLAGS = -I$(WORKSPACE)/Platform/NXP/$(DYNAMIC_ACPI_PKG)
+  }
+!endif
 ##

@@ -29,7 +29,6 @@
   DEFINE CAPSULE_ENABLE                 = TRUE
   DEFINE X64EMU_ENABLE                  = FALSE
   DEFINE AARCH64_GOP_ENABLE             = FALSE
-  DEFINE DYNAMIC_ACPI_ENABLE            = TRUE
 
 !include Platform/NXP/NxpQoriqLs.dsc
 !include Silicon/NXP/Chassis/Chassis2/Chassis2.dsc
@@ -37,7 +36,6 @@
 
 !if $(DYNAMIC_ACPI_ENABLE) == TRUE
   !include DynamicTablesPkg/DynamicTables.dsc.inc
-  !include Platform/NXP/ConfigurationManager/ConfigurationManager.dsc.inc
 !endif
 
 [LibraryClasses.common]

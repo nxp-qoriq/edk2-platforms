@@ -27,11 +27,6 @@
   DEFINE AARCH64_GOP_ENABLE      = FALSE
 
   #
-  # This flag controls the dynamic acpi generation
-  #
-  DEFINE DYNAMIC_ACPI_ENABLE     = TRUE
-
-  #
   # Network definition
   #
   DEFINE NETWORK_TLS_ENABLE             = FALSE
@@ -45,7 +40,6 @@
 
 !if $(DYNAMIC_ACPI_ENABLE) == TRUE
   !include DynamicTablesPkg/DynamicTables.dsc.inc
-  !include Platform/NXP/ConfigurationManager/ConfigurationManager.dsc.inc
 !endif
 
 [LibraryClasses.common]
