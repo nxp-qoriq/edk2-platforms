@@ -105,6 +105,8 @@ READ_LOCK_STATUS   = TRUE
 !if $(DYNAMIC_ACPI_ENABLE) == FALSE
   INF RuleOverride=ACPITABLE Platform/NXP/LX2160aRdbPkg/AcpiTables/AcpiTables.inf
 !else
+  INF Platform/NXP/ConfigurationManager/ConfigurationManagerDxe/ConfigurationManagerDxe.inf
+  INF DynamicTablesPkg/Drivers/DynamicTableManagerDxe/DynamicTableManagerDxe.inf
   INF DynamicTablesPkg/Drivers/DynamicTableFactoryDxe/DynamicTableFactoryDxe.inf
 !endif
   INF Platform/NXP/LX2160aRdbPkg/AcpiTables/Icid.inf
