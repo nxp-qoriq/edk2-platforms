@@ -260,4 +260,46 @@
   # X86 Emulation Support
   #
   edk2-non-osi/Emulator/X86EmulatorDxe/X86EmulatorDxe.inf
+
+!if $(DYNAMIC_ACPI_ENABLE) == TRUE
+  #
+  # Dynamic Table Factory Dxe
+  #
+  DynamicTablesPkg/Drivers/DynamicTableFactoryDxe/DynamicTableFactoryDxe.inf {
+  <LibraryClasses>
+    NULL|DynamicTablesPkg/Library/Acpi/Arm/AcpiDbg2LibArm/AcpiDbg2LibArm.inf
+    NULL|DynamicTablesPkg/Library/Acpi/Arm/AcpiFadtLibArm/AcpiFadtLibArm.inf
+    NULL|DynamicTablesPkg/Library/Acpi/Arm/AcpiGtdtLibArm/AcpiGtdtLibArm.inf
+    NULL|DynamicTablesPkg/Library/Acpi/Arm/AcpiIortLibArm/AcpiIortLibArm.inf
+    NULL|DynamicTablesPkg/Library/Acpi/Arm/AcpiMadtLibArm/AcpiMadtLibArm.inf
+    NULL|DynamicTablesPkg/Library/Acpi/Arm/AcpiMcfgLibArm/AcpiMcfgLibArm.inf
+    NULL|DynamicTablesPkg/Library/Acpi/Arm/AcpiRawLibArm/AcpiRawLibArm.inf
+    NULL|DynamicTablesPkg/Library/Acpi/Arm/AcpiSpcrLibArm/AcpiSpcrLibArm.inf
+
+    #
+    # SSDT fixup
+    #
+    NULL|DynamicTablesPkg/Library/Acpi/Nxp/AcpiSsdtLib/AcpiSsdtLib.inf
+
+    #
+    # SMBIOS
+    #
+    #
+    # OEM Specific Generator for Smbios Type0 Table
+    #
+    NULL|Platform/NXP/LS1046aRdbPkg/PlatformSmbiosTablesLib/SmbiosType0GeneratorLib/PlatformSmbiosType0Lib.inf
+    #
+    # Default ARM Generators for other Smbios Tables
+    #
+    NULL|DynamicTablesPkg/Library/Smbios/Arm/DefaultType1LibArm/DefaultType1LibArm.inf
+    NULL|DynamicTablesPkg/Library/Smbios/Arm/DefaultType3LibArm/DefaultType3LibArm.inf
+    NULL|DynamicTablesPkg/Library/Smbios/Arm/DefaultType4LibArm/DefaultType4LibArm.inf
+    NULL|DynamicTablesPkg/Library/Smbios/Arm/DefaultType7LibArm/DefaultType7LibArm.inf
+    NULL|DynamicTablesPkg/Library/Smbios/Arm/DefaultType9LibArm/DefaultType9LibArm.inf
+    NULL|DynamicTablesPkg/Library/Smbios/Arm/DefaultType16LibArm/DefaultType16LibArm.inf
+    NULL|DynamicTablesPkg/Library/Smbios/Arm/DefaultType17LibArm/DefaultType17LibArm.inf
+    NULL|DynamicTablesPkg/Library/Smbios/Arm/DefaultType19LibArm/DefaultType19LibArm.inf
+    NULL|DynamicTablesPkg/Library/Smbios/Arm/DefaultType32LibArm/DefaultType32LibArm.inf
+  }
+!endif
  ##
