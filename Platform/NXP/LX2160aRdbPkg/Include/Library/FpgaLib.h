@@ -147,6 +147,14 @@ PrintBoardPersonality (
   VOID
   );
 
+/**
+   Function to get board revision.
+**/
+UINT8
+GetBoardRevision (
+  VOID
+  );
+
 #define QIXIS_BASE_I2C_BUS            0
 #define QIXIS_BASE_I2C_ADR            0x66
 
