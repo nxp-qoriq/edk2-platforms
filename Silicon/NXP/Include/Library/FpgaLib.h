@@ -32,4 +32,12 @@ PrintBoardPersonality (
   VOID
   );
 
+/**
+   Function to get board revision.
+**/
+UINT8
+GetBoardRevision (
+  VOID
+  );
+
 #endif
