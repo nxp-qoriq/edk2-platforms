@@ -17,7 +17,7 @@
 #include <Library/Dpaa2EthernetMacLib.h>
 #include <Library/Dpaa2EthernetPhyLib.h>
 #include <Library/DpaaDebugLib.h>
-
+#include <Library/FpgaLib.h>
 
 /**
  * Mapping of WRIOP DPMACs to Ethernet PHYs
@@ -178,13 +178,27 @@ Dpaa2DiscoverWriopDpmac (
     ASSERT (DpmacId < ARRAY_SIZE (gDpmacToPhyMap));
 
     if (DpmacId == WRIOP_DPMAC3 || DpmacId == WRIOP_DPMAC4) {
-      WriopDpmacInit (DpmacId,
-                     PHY_INTERFACE_XGMII,
-                     gDpmacToPhyMap[DpmacId].MdioBus,
-                     gDpmacToPhyMap[DpmacId].PhyAddress,
-                     gDpmacToPhyMap[DpmacId].PhyMediaType,
-                     gDpmacToPhyMap[DpmacId].PhyId,
-                     Arg);
+      if (GetBoardRevision() == 'C') {
+        UINT8 PhyAddress;
+
+        PhyAddress = (DpmacId == WRIOP_DPMAC3) ? AQUANTIA_PHY_ADDR1_REVC :
+                     AQUANTIA_PHY_ADDR2_REVC;
+        WriopDpmacInit (DpmacId,
+                       PHY_INTERFACE_XGMII,
+                       gDpmacToPhyMap[DpmacId].MdioBus,
+                       PhyAddress,
+                       gDpmacToPhyMap[DpmacId].PhyMediaType,
+                       gDpmacToPhyMap[DpmacId].PhyId,
+                       Arg);
+      } else {
+        WriopDpmacInit (DpmacId,
+                       PHY_INTERFACE_XGMII,
+                       gDpmacToPhyMap[DpmacId].MdioBus,
+                       gDpmacToPhyMap[DpmacId].PhyAddress,
+                       gDpmacToPhyMap[DpmacId].PhyMediaType,
+                       gDpmacToPhyMap[DpmacId].PhyId,
+                       Arg);
+      }
     }
   }
  
