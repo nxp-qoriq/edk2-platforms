@@ -85,62 +85,6 @@ FixupMacAddresses (void)
 }
 
 /**
-  Get hold of sdt protocol and fetch all acpi tables in loop
-  Checks the signature for each acpi table and invoke dsdt parsing
-  once signature match found.
-
-  @retval EFI_SUCCESS DSDT found and processed successfully.
- **/
-static
-EFI_STATUS
-FixupPhyAddresses (void)
-{
-  EFI_STATUS              Status;
-  EFI_ACPI_SDT_PROTOCOL   *AcpiTableProtocol;
-  EFI_ACPI_SDT_HEADER     *Table;
-  EFI_ACPI_TABLE_VERSION  TableVersion;
-  UINTN                   TableKey;
-  EFI_ACPI_HANDLE         TableHandle;
-  UINTN                   i;
-
-  DEBUG ((DEBUG_ERROR, "Updating DPAA2 ACPI DSDT...\n"));
-
-  //
-  // Find the AcpiTable protocol
-  Status = gBS->LocateProtocol(&gEfiAcpiSdtProtocolGuid, NULL, (VOID**) &AcpiTableProtocol);
-  if (EFI_ERROR(Status)) {
-    DBG ("Unable to locate ACPI table protocol\n");
-    return EFI_SUCCESS;
-  }
-
-  //
-  // Search for DSDT Table
-  for (i = 0; i < EFI_ACPI_MAX_NUM_TABLES; i++) {
-    DBG ("Found Table at index [%d]\n", (i+1));
-    Status = AcpiTableProtocol->GetAcpiTable(i, &Table, &TableVersion, &TableKey);
-    if (EFI_ERROR(Status)) {
-      break;
-    }
-    if (Table->Signature != DSDT_SIGNATURE) {
-      continue;
-    }
-    DBG ("Found ACPI DSDT at index [%d]", (i+1));
-
-    Status = AcpiTableProtocol->OpenSdt(TableKey, &TableHandle);
-    if (EFI_ERROR(Status)) {
-      break;
-    }
-
-    PlatformProcessDSDT(AcpiTableProtocol, TableHandle);
-
-    AcpiTableProtocol->Close(TableHandle);
-    PlatformAcpiCheckSum (Table);
-  }
-
-  return EFI_SUCCESS;
-}
-
-/**
   Locate the first instance of a protocol.  If the protocol requested is an
   FV protocol, then it will return the first FV that contains the ACPI table
   storage file.
@@ -333,12 +277,8 @@ OnRootBridgesConnected (
     //gBS->FreePool ((UINT8*)CurrentTable[TableItr]);
   }
 
-  if (SVR_SOC_VER(PcdGet32(PcdSocSvr)) == SVR_LS1046A) {
+  if (SVR_SOC_VER(PcdGet32(PcdSocSvr)) == SVR_LS1046A)
     FixupMacAddresses();
-  } else if (SVR_SOC_VER(PcdGet32(PcdSocSvr)) == SVR_LX2160A &&
-            GetBoardRevision() == 'C') {
-    FixupPhyAddresses();
-  }
 }
 
 /**
