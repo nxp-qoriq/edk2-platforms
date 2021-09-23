@@ -153,3 +153,15 @@ IsX2Board (
 
   return FALSE;
 }
+
+/**
+   Function to get board revision.
+**/
+UINT8
+GetBoardRevision (
+  VOID
+  )
+{
+  // TODO
+  return 0;
+}

@@ -154,3 +154,15 @@ GetBoardSysClk (
   // TODO : read SYSCLK from clock generator using i2c bus
   return 100000000;
 }
+
+/**
+   Function to get board revision.
+**/
+UINT8
+GetBoardRevision (
+  VOID
+  )
+{
+  // TODO
+  return 0;
+}

@@ -115,3 +115,15 @@ PrintBoardPersonality (
   DEBUG ((DEBUG_INFO, "FPGA: v%d.%d\n", FPGA_READ (Ver),
         FPGA_READ (Minor)));
 }
+
+/**
+   Function to get board revision.
+**/
+UINT8
+GetBoardRevision (
+  VOID
+  )
+{
+  // TODO
+  return 0;
+}
