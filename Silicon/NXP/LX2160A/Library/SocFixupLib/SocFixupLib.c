@@ -11,6 +11,8 @@
 #include <Library/DebugLib.h>
 #include <Library/ItbParse.h>
 #include <Library/SocFixupLib.h>
+#include <Library/FpgaLib.h>
+#include <Library/PrintLib.h>
 
 /**
   Fixup PCIe nodes in device tree based on running SoC's version.
@@ -90,6 +92,98 @@ PcieFdtFixup (
   return;
 }
 
+INT32
+FdtGetDpmacNode (
+  IN  VOID      *Fdt,
+  IN  INT32     DpmacId
+  )
+{
+  CHAR8 MacName[15];
+  INT32 Off, DpmacsOff;
+
+  DpmacsOff = fdt_path_offset(Fdt, "/soc/fsl-mc/dpmacs");
+  if (DpmacsOff < 0) {
+    DpmacsOff = fdt_path_offset(Fdt, "/fsl-mc/dpmacs");
+  }
+  if (DpmacsOff < 0) {
+    DEBUG ((DEBUG_ERROR, "dpmacs node not found in device tree\n"));
+    return DpmacsOff;
+  }
+
+  AsciiSPrint (MacName, sizeof (MacName), "dpmac@%x", DpmacId);
+  Off = fdt_subnode_offset(Fdt, DpmacsOff, (CONST CHAR8 *)MacName);
+  if (Off < 0) {
+    AsciiSPrint (MacName, sizeof (MacName), "ethernet@%x", DpmacId);
+    Off = fdt_subnode_offset(Fdt, DpmacsOff, (CONST CHAR8 *)MacName);
+    if (Off < 0) {
+      DEBUG ((DEBUG_ERROR, "dpmac@%x/ethernet@%x node not found in device tree\n",
+              DpmacId, DpmacId));
+      return Off;
+    }
+  }
+
+  return Off;
+}
+
+VOID
+FdtUpdatePhyAddress (
+  IN  VOID      *Fdt,
+  IN  INT32     DpmacId,
+  IN  INT32     PhyAddr
+  )
+{
+  CHAR8 MacName[15];
+  CONST fdt32_t *PhyHandle;
+  INT32 Off, FdtStatus;
+
+  Off = FdtGetDpmacNode(Fdt, DpmacId);
+  if (Off < 0) {
+    return;
+  }
+
+  AsciiSPrint (MacName, sizeof(MacName), "dpmac@%x", DpmacId);
+  PhyHandle = fdt_getprop(Fdt, Off, "phy-handle", NULL);
+  if (PhyHandle == NULL) {
+    DEBUG ((DEBUG_ERROR, "%s node not found in device tree\n", MacName));
+    return;
+  }
+
+  Off = fdt_node_offset_by_phandle(Fdt, fdt32_to_cpu(*PhyHandle));
+  if (Off < 0) {
+    DEBUG ((DEBUG_ERROR, "Could not get the ph node offset for dpmac %d\n", DpmacId));
+    return;
+  }
+
+  PhyAddr = cpu_to_fdt32(PhyAddr);
+  FdtStatus = fdt_setprop(Fdt, Off, "reg", &PhyAddr, sizeof(PhyAddr));
+  if (FdtStatus < 0) {
+    DEBUG ((DEBUG_ERROR, "Could not set phy node's reg for dpmac %d: %s\n",
+            DpmacId, fdt_strerror(FdtStatus)));
+    return;
+  }
+
+  return;
+}
+
+/**
+  Fixup Aquantia 10G PHYs nodes in device tree based on running board version.
+
+**/
+VOID
+PhyFdtFixup (
+  IN  VOID      *Fdt
+  )
+{
+  if (GetBoardRevision() != 'C') {
+      return;
+  }
+
+  FdtUpdatePhyAddress(Fdt, 3, AQR113C_PHY_ADDR1); 
+  FdtUpdatePhyAddress(Fdt, 4, AQR113C_PHY_ADDR2);
+
+  return;
+}
+
 /**
   Fixup the device tree based on running SOC's properties.
 
@@ -148,6 +242,8 @@ FdtSocFixup (
    */
   PcieFdtFixup (Dtb);
 
+  PhyFdtFixup (Dtb);
+  
   return EFI_SUCCESS;
 }
 

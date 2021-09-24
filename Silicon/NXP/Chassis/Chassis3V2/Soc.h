@@ -51,6 +51,10 @@
 #define SCR0_USFCFG_MASK             0x00000400
 
 #define DDR_GEN2_PHY_MULTIPLIER      4
+
+#define AQR113C_PHY_ADDR1            0x0
+#define AQR113C_PHY_ADDR2            0x8
+
 typedef struct {
   UINTN FreqProcessor[MAX_CPUS];
   UINTN FreqSystemBus;
