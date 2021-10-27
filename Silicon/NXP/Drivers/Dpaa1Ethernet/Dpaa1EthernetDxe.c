@@ -871,7 +871,6 @@ Dpaa1SnpTransmit (
   SnpMode = Snp->Mode;
   FmanMemac = Dpaa1EthDev->FmanMemac;
 
-  ASSERT(HdrSize <= BuffSize);
 
   if (Data == NULL) {
     DPAA1_ERROR_MSG("%a() called with invalid Data parameter\n", __func__);

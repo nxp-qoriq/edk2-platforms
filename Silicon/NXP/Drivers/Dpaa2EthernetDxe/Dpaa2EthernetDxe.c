@@ -1019,7 +1019,6 @@ Dpaa2SnpTransmit (
     return Status;
   }
 
-  ASSERT (HdrSize <= BuffSize);
   Dpaa2EthDev = SNP_TO_DPAA2_DEV (Snp);
 
   SnpMode = Snp->Mode;
