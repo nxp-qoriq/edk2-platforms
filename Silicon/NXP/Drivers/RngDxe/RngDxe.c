@@ -22,7 +22,6 @@
 
 #include <Protocol/Rng.h>
 
-#define MAX_RNG_BYTES           8   // max number of bytes in a returned rng
 #define NUMBER_SUPPORTED_ALGO   1   // max number of rng algorithms supported by driver
 
 // Array of supported rng algorithms
@@ -104,8 +103,7 @@ GetRNG (
 
   DEBUG ((DEBUG_INFO, "RNGValueLength (in bytes) %d\n", RNGValueLength));
 
-  if ((NULL != RNGValue) && (0 < RNGValueLength) &&
-      (MAX_RNG_BYTES >= RNGValueLength)) {
+  if ((NULL != RNGValue) && (0 < RNGValueLength)) {
     if ((NULL == RNGAlgorithm) ||
         (CompareGuid (RNGAlgorithm, &gEfiRngAlgorithmRaw))) {
       Status = getRawRng (RNGValueLength, RNGValue);
