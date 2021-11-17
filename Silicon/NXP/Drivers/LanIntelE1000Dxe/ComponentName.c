@@ -249,7 +249,6 @@ GigUndiComponentNameGetDriverName (
   VersionNumber[31] = '\0';
 
   if (This == (EFI_COMPONENT_NAME_PROTOCOL *)&gGigUndiComponentName2) {
-    Language = "en-US";
     Status = LookupUnicodeString (
              Language,
              gGigUndiComponentName2.SupportedLanguages,
@@ -262,7 +261,6 @@ GigUndiComponentNameGetDriverName (
     return Status;
   }
 
-  Language = "eng";
   Status = LookupUnicodeString (
              Language,
              gGigUndiComponentName.SupportedLanguages,
