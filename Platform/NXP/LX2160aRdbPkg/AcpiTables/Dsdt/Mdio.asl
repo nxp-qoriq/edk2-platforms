@@ -50,3 +50,17 @@ Scope(\_SB.MDI0)
     })
   } // end of PHY5
 } // end of MDI0
+
+Scope(\_SB.MDI1)
+{
+  Device(PHY0) {
+    Name (_ADR, 0x0)
+    Name (_DSD, Package () {
+      ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
+        Package () {
+          Package () {"compatible", "ethernet-phy-id0210.7440"}
+       }
+    })
+  } // end of PHY0 Inphi
+
+} // end of MDI1
