@@ -100,6 +100,7 @@ DumpMac (
   DPAA1_DEBUG_MSG(" IfStatus	   : 0x%x \n", SwapMmioRead32((UINTN)&regs->IfStatus         ));
 }
 
+#ifndef MDEPKG_NDEBUG
 VOID
 DumpMacStats (
   IN  ENET_MAC *Mac
@@ -164,6 +165,7 @@ DumpMacStats (
   DPAA1_DEBUG_MSG(" TxUndszU %d \n", 
 	SwapMmioRead32((UINTN)&Regs->TxUndszU));   /* Tx undersized packet upper */
 }
+#endif
 
 /**
    Initializes a given FMAN DPAA1 MAC. If the MEMAC is enabled,

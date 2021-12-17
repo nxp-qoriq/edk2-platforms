@@ -174,6 +174,7 @@ VOID MemWriteMasked (
   SwapMmioWrite32(Base, Val);
 }
 
+#ifndef MDEPKG_NDEBUG
 VOID
 DumpFmanCfg (
   IN VOID
@@ -323,6 +324,7 @@ DumpFmanDma (
   for (I =0; I < 32; I++)
     DPAA1_INFO_MSG("Plr[%d] : 0x%x \n", I, SwapMmioRead32((UINTN)&Dma->Plr[I]));
 }
+#endif
 
 VOID
 DumpEthDev (
