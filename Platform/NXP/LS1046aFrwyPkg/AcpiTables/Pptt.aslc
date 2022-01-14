@@ -1,0 +1,13 @@
+/** @file
+
+  Copyright (c) 2018, Linaro Ltd. All rights reserved.<BR>
+  Copyright (c) 2018, Marvell International Ltd. All rights reserved.<BR>
+
+  SPDX-License-Identifier: BSD-2-Clause-Patent
+
+**/
+
+#include "Platform.h"
+
+#include <AcpiTableInclude/Pptt.aslc>
+

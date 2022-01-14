@@ -24,8 +24,9 @@
   Iort.aslc
   Madt.aslc
   Mcfg.aslc
-  Spcr.aslc
+  Pptt.aslc
   Dbg2.aslc
+  Spcr.aslc
 /*  SASSSDT.ASL
   SATASSDT.ASL*/
 

@@ -18,11 +18,12 @@
   Fadt.aslc
   Madt.aslc
   Dsdt/Dsdt.asl
-  Spcr.aslc
   Gtdt.aslc
   Mcfg.aslc
+  Pptt.aslc
   Oem.aslc
   Iort.aslc
+  Spcr.aslc
   Platform.h
 
 [Packages]
