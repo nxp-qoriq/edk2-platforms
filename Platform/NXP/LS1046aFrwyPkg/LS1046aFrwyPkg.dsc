@@ -238,6 +238,9 @@
   #
   #SMBIOS
   #
+!if $(DYNAMIC_ACPI_ENABLE) == FALSE 
+  Platform/NXP/LS1046aFrwyPkg/SmbiosPlatformDxe/SmbiosPlatformDxe.inf 
+!endif 
   MdeModulePkg/Universal/SmbiosDxe/SmbiosDxe.inf
 !if $(CAPSULE_ENABLE)
   Platform/NXP/LS1046aFrwyPkg/SystemFirmwareDescriptor/SystemFirmwareDescriptor.inf

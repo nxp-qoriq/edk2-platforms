@@ -298,7 +298,7 @@ OnRootBridgesConnected (
     CurrentTable[2] = (EFI_ACPI_COMMON_HEADER *)PcdGet64 (PcdDynamicDsdtTablePtr);
     TableCnt = 3;
   } else {
-    CurrentTable[0] = (EFI_ACPI_COMMON_HEADER *)PcdGet64 (PcdDynamicIortTablePtr);
+    CurrentTable[0] = (EFI_ACPI_COMMON_HEADER *)PcdGet64 (PcdIortTablePtr);
     TableCnt = 1;
   }
 
