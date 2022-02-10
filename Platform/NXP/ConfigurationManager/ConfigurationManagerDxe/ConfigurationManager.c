@@ -86,6 +86,15 @@ EDKII_PLATFORM_REPOSITORY_INFO FslPlatformRepositoryInfo = {
       CFG_MGR_TABLE_ID
     },
 
+    // PPTT Table
+    {
+      EFI_ACPI_6_3_PROCESSOR_PROPERTIES_TOPOLOGY_TABLE_STRUCTURE_SIGNATURE,
+      EFI_ACPI_6_3_PROCESSOR_PROPERTIES_TOPOLOGY_TABLE_REVISION,
+      CREATE_STD_ACPI_TABLE_GEN_ID (EStdAcpiTableIdPptt),
+      NULL,
+      CFG_MGR_TABLE_ID
+    },
+
     // SPCR Table
     {
       EFI_ACPI_6_2_SERIAL_PORT_CONSOLE_REDIRECTION_TABLE_SIGNATURE,
@@ -428,6 +437,15 @@ EDKII_PLATFORM_REPOSITORY_INFO FslPlatformRepositoryInfo = {
 
   // SSDT fixup info
   PLAT_SSDT_FIXUP_INFO,
+
+  // PPTT Proc Hierarchy Info
+  PLAT_PROC_HIERARCHY_INFO,
+
+  // PPTT ARM Cache Info
+  PLAT_ARM_CACHE_INFO,
+
+  // PPTT ARM Object CM Reference Token
+  PLAT_REF_NODES_INFO,
 
   2.0                                         // fsl board revision
 };
@@ -846,15 +864,167 @@ GetGicCInfo (
 
   PlatformRepo = This->PlatRepoInfo;
 
-  if (Token != (CM_OBJECT_TOKEN)&PlatformRepo->GicCInfo) {
+  if (Token == (CM_OBJECT_TOKEN)&PlatformRepo->GicCInfo[0]) {
+     CmObject->Data = (VOID*)&PlatformRepo->GicCInfo[0];
+  } else if (Token == (CM_OBJECT_TOKEN)&PlatformRepo->GicCInfo[1]) {
+     CmObject->Data = (VOID*)&PlatformRepo->GicCInfo[1];
+  } else if (Token == (CM_OBJECT_TOKEN)&PlatformRepo->GicCInfo[2]) {
+     CmObject->Data = (VOID*)&PlatformRepo->GicCInfo[2];
+  } else if (Token == (CM_OBJECT_TOKEN)&PlatformRepo->GicCInfo[3]) {
+     CmObject->Data = (VOID*)&PlatformRepo->GicCInfo[3];
+  } else {
+     return EFI_NOT_FOUND;
+  }
+
+  CmObject->ObjectId = CmObjectId;
+  CmObject->Size = sizeof (PlatformRepo->GicCInfo[0]);
+  CmObject->Count = 1;
+
+  return EFI_SUCCESS;
+}
+
+/** Return  Pptt Processor Heirarchy  Info.
+  @param [in]      This           Pointer to the Configuration Manager Protocol.
+  @param [in]      CmObjectId     The Object ID of the CM object requested
+  @param [in]      Token          A unique token for identifying the requested
+  CM_ARM_PROC_HIERARCHY_INFO object.
+  @param [in, out] CmObject       Pointer to the Configuration Manager Object
+  descriptor describing the requested Object.
+  @retval EFI_SUCCESS             Success.
+  @retval EFI_INVALID_PARAMETER   A parameter is invalid.
+  @retval EFI_NOT_FOUND           The required object information is
+  not found.
+ **/
+EFI_STATUS
+EFIAPI
+GetPpttProcHeirInfo (
+    IN  CONST EDKII_CONFIGURATION_MANAGER_PROTOCOL  * CONST This,
+    IN  CONST CM_OBJECT_ID                                  CmObjectId,
+    IN  CONST CM_OBJECT_TOKEN                               Token,
+    IN  OUT   CM_OBJ_DESCRIPTOR                     * CONST CmObject
+    )
+{
+  EDKII_PLATFORM_REPOSITORY_INFO  * PlatformRepo;
+
+  if ((This == NULL) || (CmObject == NULL)) {
+    ASSERT (This != NULL);
+    ASSERT (CmObject != NULL);
+    return EFI_INVALID_PARAMETER;
+  }
+
+  PlatformRepo = This->PlatRepoInfo;
+
+  if (Token != (CM_OBJECT_TOKEN)&PlatformRepo->PpttProcHeirInfo) {
     return EFI_NOT_FOUND;
   }
 
   CmObject->ObjectId = CmObjectId;
-  CmObject->Size = sizeof (PlatformRepo->GicCInfo);
-  CmObject->Data = (VOID*)&PlatformRepo->GicCInfo;
-  CmObject->Count = sizeof (PlatformRepo->GicCInfo) /
-                      sizeof (PlatformRepo->GicCInfo[0]);
+  CmObject->Size = sizeof (PlatformRepo->PpttProcHeirInfo);
+  CmObject->Data = (VOID*)&PlatformRepo->PpttProcHeirInfo;
+  CmObject->Count = sizeof (PlatformRepo->PpttProcHeirInfo) /
+                      sizeof (PlatformRepo->PpttProcHeirInfo[0]);
+  return EFI_SUCCESS;
+}
+
+/** Return  Pptt Cache  Info.
+  @param [in]      This           Pointer to the Configuration Manager Protocol.
+  @param [in]      CmObjectId     The Object ID of the CM object requested
+  @param [in]      Token          A unique token for identifying the requested
+  CM_ARM_PROC_HIERARCHY_INFO object.
+  @param [in, out] CmObject       Pointer to the Configuration Manager Object
+  descriptor describing the requested Object.
+  @retval EFI_SUCCESS             Success.
+  @retval EFI_INVALID_PARAMETER   A parameter is invalid.
+  @retval EFI_NOT_FOUND           The required object information is
+  not found.
+ **/
+EFI_STATUS
+EFIAPI
+GetPpttCacheInfo (
+    IN  CONST EDKII_CONFIGURATION_MANAGER_PROTOCOL  * CONST This,
+    IN  CONST CM_OBJECT_ID                                  CmObjectId,
+    IN  CONST CM_OBJECT_TOKEN                               Token,
+    IN  OUT   CM_OBJ_DESCRIPTOR                     * CONST CmObject
+    )
+{
+  EDKII_PLATFORM_REPOSITORY_INFO  * PlatformRepo;
+
+  if ((This == NULL) || (CmObject == NULL)) {
+    ASSERT (This != NULL);
+    ASSERT (CmObject != NULL);
+    return EFI_INVALID_PARAMETER;
+  }
+
+  PlatformRepo = This->PlatRepoInfo;
+
+  if (Token != (CM_OBJECT_TOKEN)&PlatformRepo->PpttCacheInfo) {
+    return EFI_NOT_FOUND;
+  }
+
+  CmObject->ObjectId = CmObjectId;
+  CmObject->Size = sizeof (PlatformRepo->PpttCacheInfo);
+  CmObject->Data = (VOID*)&PlatformRepo->PpttCacheInfo;
+  CmObject->Count = sizeof (PlatformRepo->PpttCacheInfo) /
+                      sizeof (PlatformRepo->PpttCacheInfo[0]);
+  return EFI_SUCCESS;
+}
+
+/** Return Object Reference Node Info.
+  @param [in]      This           Pointer to the Configuration Manager Protocol.
+  @param [in]      CmObjectId     The Object ID of the CM object requested
+  @param [in]      Token          A unique token for identifying the requested
+  CM_ARM_PROC_HIERARCHY_INFO object.
+  @param [in, out] CmObject       Pointer to the Configuration Manager Object
+  descriptor describing the requested Object.
+  @retval EFI_SUCCESS             Success.
+  @retval EFI_INVALID_PARAMETER   A parameter is invalid.
+  @retval EFI_NOT_FOUND           The required object information is
+  not found.
+ **/
+EFI_STATUS
+EFIAPI
+GetObjCmRef (
+    IN  CONST EDKII_CONFIGURATION_MANAGER_PROTOCOL  * CONST This,
+    IN  CONST CM_OBJECT_ID                                  CmObjectId,
+    IN  CONST CM_OBJECT_TOKEN                               Token,
+    IN  OUT   CM_OBJ_DESCRIPTOR                     * CONST CmObject
+    )
+{
+  EDKII_PLATFORM_REPOSITORY_INFO  * PlatformRepo;
+
+  if ((This == NULL) || (CmObject == NULL)) {
+    ASSERT (This != NULL);
+    ASSERT (CmObject != NULL);
+    return EFI_INVALID_PARAMETER;
+  }
+
+  PlatformRepo = This->PlatRepoInfo;
+
+  if (Token == (CM_OBJECT_TOKEN)&PlatformRepo->PpttCacheInfo[0]) {
+    CmObject->Size = sizeof (PlatformRepo->PpttObjRefToken[0]);
+    CmObject->Data = (VOID*)&PlatformRepo->PpttObjRefToken[0];
+    CmObject->Count = 1;
+  } else if (Token == (CM_OBJECT_TOKEN)&PlatformRepo->PpttCacheInfo[1]) {
+    CmObject->Size = 2*sizeof (PlatformRepo->PpttObjRefToken[1]);
+    CmObject->Data = (VOID*)&PlatformRepo->PpttObjRefToken[1];
+    CmObject->Count = 2;
+  } else if (Token == (CM_OBJECT_TOKEN)&PlatformRepo->PpttCacheInfo[3]) {
+    CmObject->Size = 2*sizeof (PlatformRepo->PpttObjRefToken[3]);
+    CmObject->Data = (VOID*)&PlatformRepo->PpttObjRefToken[3];
+    CmObject->Count = 2;
+  } else if (Token == (CM_OBJECT_TOKEN)&PlatformRepo->PpttCacheInfo[5]) {
+    CmObject->Size = 2*sizeof (PlatformRepo->PpttObjRefToken[5]);
+    CmObject->Data = (VOID*)&PlatformRepo->PpttObjRefToken[5];
+    CmObject->Count = 2;
+  } else if (Token == (CM_OBJECT_TOKEN)&PlatformRepo->PpttCacheInfo[7]) {
+    CmObject->Size = 2*sizeof (PlatformRepo->PpttObjRefToken[7]);
+    CmObject->Data = (VOID*)&PlatformRepo->PpttObjRefToken[7];
+    CmObject->Count = 2;
+  } else {
+    return EFI_NOT_FOUND;
+  }
+  CmObject->ObjectId = CmObjectId;
+
   return EFI_SUCCESS;
 }
 
@@ -1125,6 +1295,33 @@ GetArmNameSpaceObject (
         ARRAY_SIZE (PlatformRepo->GicCInfo),
         Token,
         GetGicCInfo
+    );
+    HANDLE_CM_OBJECT_REF_BY_TOKEN (
+        EArmObjProcHierarchyInfo,
+        CmObjectId,
+        PlatformRepo->PpttProcHeirInfo,
+        (sizeof (PlatformRepo->PpttProcHeirInfo) /
+        sizeof (PlatformRepo->PpttProcHeirInfo[0])),
+        Token,
+        GetPpttProcHeirInfo
+        );
+    HANDLE_CM_OBJECT_REF_BY_TOKEN (
+        EArmObjCacheInfo,
+        CmObjectId,
+        PlatformRepo->PpttCacheInfo,
+        (sizeof (PlatformRepo->PpttCacheInfo) /
+        sizeof (PlatformRepo->PpttCacheInfo[0])),
+        Token,
+        GetPpttCacheInfo
+        );
+    HANDLE_CM_OBJECT_REF_BY_TOKEN (
+        EArmObjCmRef,
+        CmObjectId,
+        PlatformRepo->PpttObjRefToken,
+        (sizeof (PlatformRepo->PpttObjRefToken) /
+        sizeof (PlatformRepo->PpttObjRefToken[0])),
+        Token,
+        GetObjCmRef
         );
     HANDLE_CM_OBJECT (
         EArmObjGicDInfo,

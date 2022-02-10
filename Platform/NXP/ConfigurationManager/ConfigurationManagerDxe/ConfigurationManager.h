@@ -250,6 +250,15 @@ typedef struct PlatformRepositoryInfo {
   /// SSDT FixUp information
   CM_ARM_SSDT_FIXUP_INFO                    SsdtFixupInfo;
 
+  /// PPTT Proc Hierarchy Info
+  CM_ARM_PROC_HIERARCHY_INFO                PpttProcHeirInfo[PLAT_PROC_HEIR_NODES];
+
+  /// PPTT ARM Cache Info
+  CM_ARM_CACHE_INFO                         PpttCacheInfo[PLAT_CACHE_NODES];
+
+  /// CM Object Reference
+  CM_ARM_OBJ_REF                            PpttObjRefToken[PLAT_REF_TOKENS];
+
   /// Fsl Board Revision
   UINT32                                    FslBoardRevision;
 } EDKII_PLATFORM_REPOSITORY_INFO;
