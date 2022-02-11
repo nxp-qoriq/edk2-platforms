@@ -364,6 +364,46 @@
 #define PLAT_GIC_REDISTRIBUTOR_COUNT  1
 #define PLAT_GIC_ITS_COUNT            1
 
+//PPTT Table Info
+
+#define PLAT_PROC_HEIR_NODES     25
+#define PLAT_CACHE_NODES         41
+#define PLAT_REF_TOKENS          41
+
+#define L3CACHE_ATRRIBUTES  (EFI_ACPI_6_3_CACHE_ATTRIBUTES_ALLOCATION_READ |               \
+                             (EFI_ACPI_6_3_CACHE_ATTRIBUTES_CACHE_TYPE_UNIFIED << 2) |     \
+                             (EFI_ACPI_6_3_CACHE_ATTRIBUTES_WRITE_POLICY_WRITE_BACK << 4))
+
+#define L2CACHE_ATRRIBUTES  (EFI_ACPI_6_3_CACHE_ATTRIBUTES_ALLOCATION_READ_WRITE |         \
+                             (EFI_ACPI_6_3_CACHE_ATTRIBUTES_CACHE_TYPE_UNIFIED << 2) |     \
+                             (EFI_ACPI_6_3_CACHE_ATTRIBUTES_WRITE_POLICY_WRITE_BACK << 4))
+
+#define DCACHE_ATRRIBUTES   (EFI_ACPI_6_3_CACHE_ATTRIBUTES_ALLOCATION_READ_WRITE |         \
+                             (EFI_ACPI_6_3_CACHE_ATTRIBUTES_CACHE_TYPE_DATA << 2) |        \
+                             (EFI_ACPI_6_3_CACHE_ATTRIBUTES_WRITE_POLICY_WRITE_BACK << 4))
+
+#define ICACHE_ATRRIBUTES   (EFI_ACPI_6_3_CACHE_ATTRIBUTES_ALLOCATION_READ |               \
+                             (EFI_ACPI_6_3_CACHE_ATTRIBUTES_CACHE_TYPE_INSTRUCTION << 2) | \
+                             (EFI_ACPI_6_3_CACHE_ATTRIBUTES_WRITE_POLICY_WRITE_BACK << 4))
+
+#define  PPTT_STRUCTURE_PROCESSOR_FLAGS_PACKAGE    (EFI_ACPI_6_3_PPTT_PACKAGE_PHYSICAL |                \
+                                                    (EFI_ACPI_6_3_PPTT_PROCESSOR_ID_INVALID << 1) |     \
+                                                    (EFI_ACPI_6_3_PPTT_PROCESSOR_IS_NOT_THREAD << 2) |  \
+                                                    (EFI_ACPI_6_3_PPTT_NODE_IS_NOT_LEAF << 3) |         \
+                                                    (EFI_ACPI_6_3_PPTT_IMPLEMENTATION_IDENTICAL << 4))
+
+#define PPTT_STRUCTURE_PROCESSOR_FLAGS_CLUSTER     (EFI_ACPI_6_3_PPTT_PACKAGE_NOT_PHYSICAL |            \
+                                                    (EFI_ACPI_6_3_PPTT_PROCESSOR_ID_INVALID << 1) |     \
+                                                    (EFI_ACPI_6_3_PPTT_PROCESSOR_IS_NOT_THREAD << 2) |  \
+                                                    (EFI_ACPI_6_3_PPTT_NODE_IS_NOT_LEAF << 3) |         \
+                                                    (EFI_ACPI_6_3_PPTT_IMPLEMENTATION_IDENTICAL << 4))
+
+#define  PPTT_STRUCTURE_PROCESSOR_FLAGS_CORE     (EFI_ACPI_6_3_PPTT_PACKAGE_NOT_PHYSICAL |            \
+                                                  (EFI_ACPI_6_3_PPTT_PROCESSOR_ID_VALID << 1) |       \
+                                                  (EFI_ACPI_6_3_PPTT_PROCESSOR_IS_NOT_THREAD << 2) |  \
+                                                  (EFI_ACPI_6_3_PPTT_NODE_IS_LEAF << 3) |             \
+                                                  (EFI_ACPI_6_3_PPTT_IMPLEMENTATION_IDENTICAL << 4))
+
 /* GIC CPU Interface information
    GIC_ENTRY (CPUInterfaceNumber, Mpidr, PmuIrq, VGicIrq, EnergyEfficiency)
  */
@@ -836,6 +876,193 @@
     0x00,                                                                         \
     AQR_PHY4_IT                                                                   \
   }                                                                               \
+
+#define PLAT_REF_NODES_INFO                                                                                                    \
+  {                                                                                                                            \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[0]))},    \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[1]))},    \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[2]))},    \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[3]))},    \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[4]))},    \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[5]))},    \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[6]))},    \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[7]))},    \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[8]))},    \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[9]))},    \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[10]))},   \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[11]))},   \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[12]))},   \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[13]))},   \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[14]))},   \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[15]))},   \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[16]))},   \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[17]))},   \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[18]))},   \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[19]))},   \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[20]))},   \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[21]))},   \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[22]))},   \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[23]))},   \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[24]))},   \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[25]))},   \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[26]))},   \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[27]))},   \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[28]))},   \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[29]))},   \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[30]))},   \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[31]))},   \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[32]))},   \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[33]))},   \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[34]))},   \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[35]))},   \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[36]))},   \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[37]))},   \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[38]))},   \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[39]))},   \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[40]))}    \
+  }
+
+#define PLAT_CLUSTER_L2CACHE_INFO(cid)                                                                                            \
+  {                                                                                                                               \
+    (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[5*cid + 1])), \
+    CM_NULL_TOKEN,                                                                                                                \
+    SIZE_1MB,                                                                                                                     \
+    1024,                                                                                                                         \
+    16,                                                                                                                           \
+    (UINT8)L2CACHE_ATRRIBUTES,                                                                                                    \
+    64                                                                                                                            \
+  }
+
+#define PLAT_CORE_DCACHE_INFO(cid,id)                                                                                                      \
+  {                                                                                                                                        \
+    (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[5*cid + 2 + (2*id)])), \
+    (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[5*cid + 3 + (2*id)])), \
+    SIZE_32KB,                                                                                                                             \
+    128,                                                                                                                                   \
+    2,                                                                                                                                     \
+    (UINT8)DCACHE_ATRRIBUTES,                                                                                                              \
+    64                                                                                                                                     \
+  }
+
+#define PLAT_CORE_ICACHE_INFO(cid,id)                                                                                                      \
+  {                                                                                                                                        \
+    (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[5*cid + 3 + (2*id)])), \
+    CM_NULL_TOKEN,                                                                                                                         \
+    3*SIZE_16KB,                                                                                                                           \
+    192,                                                                                                                                   \
+    3,                                                                                                                                     \
+    (UINT8)ICACHE_ATRRIBUTES,                                                                                                              \
+    64                                                                                                                                     \
+  }
+
+#define PLAT_ARM_CACHE_INFO                                                                                                 \
+  {                                                                                                                         \
+    {                                                                                                                       \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[0])), \
+      CM_NULL_TOKEN,                                                                                                        \
+      SIZE_8MB,                                                                                                             \
+      8192,                                                                                                                 \
+      16,                                                                                                                   \
+      (UINT8)L3CACHE_ATRRIBUTES,                                                                                            \
+      64                                                                                                                    \
+    },                                                                                                                      \
+    PLAT_CLUSTER_L2CACHE_INFO(0),                                                                                           \
+    PLAT_CORE_DCACHE_INFO(0,0),                                                                                             \
+    PLAT_CORE_ICACHE_INFO(0,0),                                                                                             \
+    PLAT_CORE_DCACHE_INFO(0,1),                                                                                             \
+    PLAT_CORE_ICACHE_INFO(0,1),                                                                                             \
+    PLAT_CLUSTER_L2CACHE_INFO(1),                                                                                           \
+    PLAT_CORE_DCACHE_INFO(1,0),                                                                                             \
+    PLAT_CORE_ICACHE_INFO(1,0),                                                                                             \
+    PLAT_CORE_DCACHE_INFO(1,1),                                                                                             \
+    PLAT_CORE_ICACHE_INFO(1,1),                                                                                             \
+    PLAT_CLUSTER_L2CACHE_INFO(2),                                                                                           \
+    PLAT_CORE_DCACHE_INFO(2,0),                                                                                             \
+    PLAT_CORE_ICACHE_INFO(2,0),                                                                                             \
+    PLAT_CORE_DCACHE_INFO(2,1),                                                                                             \
+    PLAT_CORE_ICACHE_INFO(2,1),                                                                                             \
+    PLAT_CLUSTER_L2CACHE_INFO(3),                                                                                           \
+    PLAT_CORE_DCACHE_INFO(3,0),                                                                                             \
+    PLAT_CORE_ICACHE_INFO(3,0),                                                                                             \
+    PLAT_CORE_DCACHE_INFO(3,1),                                                                                             \
+    PLAT_CORE_ICACHE_INFO(3,1),                                                                                             \
+    PLAT_CLUSTER_L2CACHE_INFO(4),                                                                                           \
+    PLAT_CORE_DCACHE_INFO(4,0),                                                                                             \
+    PLAT_CORE_ICACHE_INFO(4,0),                                                                                             \
+    PLAT_CORE_DCACHE_INFO(4,1),                                                                                             \
+    PLAT_CORE_ICACHE_INFO(4,1),                                                                                             \
+    PLAT_CLUSTER_L2CACHE_INFO(5),                                                                                           \
+    PLAT_CORE_DCACHE_INFO(5,0),                                                                                             \
+    PLAT_CORE_ICACHE_INFO(5,0),                                                                                             \
+    PLAT_CORE_DCACHE_INFO(5,1),                                                                                             \
+    PLAT_CORE_ICACHE_INFO(5,1),                                                                                             \
+    PLAT_CLUSTER_L2CACHE_INFO(6),                                                                                           \
+    PLAT_CORE_DCACHE_INFO(6,0),                                                                                             \
+    PLAT_CORE_ICACHE_INFO(6,0),                                                                                             \
+    PLAT_CORE_DCACHE_INFO(6,1),                                                                                             \
+    PLAT_CORE_ICACHE_INFO(6,1),                                                                                             \
+    PLAT_CLUSTER_L2CACHE_INFO(7),                                                                                           \
+    PLAT_CORE_DCACHE_INFO(7,0),                                                                                             \
+    PLAT_CORE_ICACHE_INFO(7,0),                                                                                             \
+    PLAT_CORE_DCACHE_INFO(7,1),                                                                                             \
+    PLAT_CORE_ICACHE_INFO(7,1),                                                                                             \
+  }
+
+#define PLAT_CLUSTER_INFO(cid)                                                                                                            \
+  {                                                                                                                                       \
+    (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttProcHeirInfo[(3*cid) + 1])),    \
+    (UINT32) PPTT_STRUCTURE_PROCESSOR_FLAGS_CLUSTER,                                                                                      \
+    (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttProcHeirInfo[0])),              \
+    CM_NULL_TOKEN,                                                                                                                        \
+    1,                                                                                                                                    \
+    (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[(5*cid) + 1]))        \
+  }
+
+#define PLAT_CORE_INFO(cid, id)                                                                                                                \
+  {                                                                                                                                            \
+    (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttProcHeirInfo[(3*cid) + 2 + id])),    \
+    (UINT32) PPTT_STRUCTURE_PROCESSOR_FLAGS_CORE,                                                                                              \
+    (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttProcHeirInfo[(3*cid) + 1])),         \
+    (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, GicCInfo[2*cid +id])),                   \
+    2,                                                                                                                                         \
+    (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[(5*cid) + 2 + (2*id)]))    \
+  }
+
+#define PLAT_PROC_HIERARCHY_INFO                                                                                                  \
+  {                                                                                                                               \
+    {                                                                                                                             \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttProcHeirInfo[0])),    \
+      (UINT32)PPTT_STRUCTURE_PROCESSOR_FLAGS_PACKAGE,                                                                             \
+      CM_NULL_TOKEN,                                                                                                              \
+      CM_NULL_TOKEN,                                                                                                              \
+      1,                                                                                                                          \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[0]))        \
+    },                                                                                                                            \
+    PLAT_CLUSTER_INFO(0),                                                                                                         \
+    PLAT_CORE_INFO(0,0),                                                                                                          \
+    PLAT_CORE_INFO(0,1),                                                                                                          \
+    PLAT_CLUSTER_INFO(1),                                                                                                         \
+    PLAT_CORE_INFO(1,0),                                                                                                          \
+    PLAT_CORE_INFO(1,1),                                                                                                          \
+    PLAT_CLUSTER_INFO(2),                                                                                                         \
+    PLAT_CORE_INFO(2,0),                                                                                                          \
+    PLAT_CORE_INFO(2,1),                                                                                                          \
+    PLAT_CLUSTER_INFO(3),                                                                                                         \
+    PLAT_CORE_INFO(3,0),                                                                                                          \
+    PLAT_CORE_INFO(3,1),                                                                                                          \
+    PLAT_CLUSTER_INFO(4),                                                                                                         \
+    PLAT_CORE_INFO(4,0),                                                                                                          \
+    PLAT_CORE_INFO(4,1),                                                                                                          \
+    PLAT_CLUSTER_INFO(5),                                                                                                         \
+    PLAT_CORE_INFO(5,0),                                                                                                          \
+    PLAT_CORE_INFO(5,1),                                                                                                          \
+    PLAT_CLUSTER_INFO(6),                                                                                                         \
+    PLAT_CORE_INFO(6,0),                                                                                                          \
+    PLAT_CORE_INFO(6,1),                                                                                                          \
+    PLAT_CLUSTER_INFO(7),                                                                                                         \
+    PLAT_CORE_INFO(7,0),                                                                                                          \
+    PLAT_CORE_INFO(7,1),                                                                                                          \
+  }
 
 #define PLAT_IORT_NAMED_COMPONENT_INFO                                                                                            \
   {                                                                                                                               \

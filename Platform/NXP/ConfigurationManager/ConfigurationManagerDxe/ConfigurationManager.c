@@ -855,6 +855,7 @@ GetGicCInfo (
     )
 {
   EDKII_PLATFORM_REPOSITORY_INFO  * PlatformRepo;
+  UINT8 I;
 
   if ((This == NULL) || (CmObject == NULL)) {
     ASSERT (This != NULL);
@@ -864,23 +865,20 @@ GetGicCInfo (
 
   PlatformRepo = This->PlatRepoInfo;
 
-  if (Token == (CM_OBJECT_TOKEN)&PlatformRepo->GicCInfo[0]) {
-     CmObject->Data = (VOID*)&PlatformRepo->GicCInfo[0];
-  } else if (Token == (CM_OBJECT_TOKEN)&PlatformRepo->GicCInfo[1]) {
-     CmObject->Data = (VOID*)&PlatformRepo->GicCInfo[1];
-  } else if (Token == (CM_OBJECT_TOKEN)&PlatformRepo->GicCInfo[2]) {
-     CmObject->Data = (VOID*)&PlatformRepo->GicCInfo[2];
-  } else if (Token == (CM_OBJECT_TOKEN)&PlatformRepo->GicCInfo[3]) {
-     CmObject->Data = (VOID*)&PlatformRepo->GicCInfo[3];
-  } else {
-     return EFI_NOT_FOUND;
+  for(I=0; I<PLAT_CPU_COUNT; I++) {
+    if (Token == (CM_OBJECT_TOKEN)&PlatformRepo->GicCInfo[I]) {
+      CmObject->Data = (VOID*)&PlatformRepo->GicCInfo[I];
+      break;
+    }
   }
-
-  CmObject->ObjectId = CmObjectId;
-  CmObject->Size = sizeof (PlatformRepo->GicCInfo[0]);
-  CmObject->Count = 1;
-
-  return EFI_SUCCESS;
+  if(I == PLAT_CPU_COUNT) {
+    return EFI_NOT_FOUND;
+  } else {
+    CmObject->ObjectId = CmObjectId;
+    CmObject->Size = sizeof (PlatformRepo->GicCInfo[0]);
+    CmObject->Count = 1;
+    return EFI_SUCCESS;
+  }
 }
 
 /** Return  Pptt Processor Heirarchy  Info.
@@ -991,6 +989,7 @@ GetObjCmRef (
     )
 {
   EDKII_PLATFORM_REPOSITORY_INFO  * PlatformRepo;
+  UINT8 I;
 
   if ((This == NULL) || (CmObject == NULL)) {
     ASSERT (This != NULL);
@@ -1000,32 +999,33 @@ GetObjCmRef (
 
   PlatformRepo = This->PlatRepoInfo;
 
-  if (Token == (CM_OBJECT_TOKEN)&PlatformRepo->PpttCacheInfo[0]) {
-    CmObject->Size = sizeof (PlatformRepo->PpttObjRefToken[0]);
-    CmObject->Data = (VOID*)&PlatformRepo->PpttObjRefToken[0];
-    CmObject->Count = 1;
-  } else if (Token == (CM_OBJECT_TOKEN)&PlatformRepo->PpttCacheInfo[1]) {
-    CmObject->Size = 2*sizeof (PlatformRepo->PpttObjRefToken[1]);
-    CmObject->Data = (VOID*)&PlatformRepo->PpttObjRefToken[1];
-    CmObject->Count = 2;
-  } else if (Token == (CM_OBJECT_TOKEN)&PlatformRepo->PpttCacheInfo[3]) {
-    CmObject->Size = 2*sizeof (PlatformRepo->PpttObjRefToken[3]);
-    CmObject->Data = (VOID*)&PlatformRepo->PpttObjRefToken[3];
-    CmObject->Count = 2;
-  } else if (Token == (CM_OBJECT_TOKEN)&PlatformRepo->PpttCacheInfo[5]) {
-    CmObject->Size = 2*sizeof (PlatformRepo->PpttObjRefToken[5]);
-    CmObject->Data = (VOID*)&PlatformRepo->PpttObjRefToken[5];
-    CmObject->Count = 2;
-  } else if (Token == (CM_OBJECT_TOKEN)&PlatformRepo->PpttCacheInfo[7]) {
-    CmObject->Size = 2*sizeof (PlatformRepo->PpttObjRefToken[7]);
-    CmObject->Data = (VOID*)&PlatformRepo->PpttObjRefToken[7];
-    CmObject->Count = 2;
+  for(I=0; I<PLAT_CACHE_NODES; I++) {
+    if (Token == (CM_OBJECT_TOKEN)&PlatformRepo->PpttCacheInfo[I]) {
+      CmObject->Data = (VOID*)&PlatformRepo->PpttObjRefToken[I];
+      break;
+    }
+  }
+
+  if(I != PLAT_CACHE_NODES) {
+    for(I=0; I<PLAT_PROC_HEIR_NODES; I++) {
+      if (Token == (CM_OBJECT_TOKEN)PlatformRepo->PpttProcHeirInfo[I].PrivateResourcesArrayToken) {
+        CmObject->Count = PlatformRepo->PpttProcHeirInfo[I].NoOfPrivateResources;
+        CmObject->Size = (PlatformRepo->PpttProcHeirInfo[I].NoOfPrivateResources) * (sizeof (PlatformRepo->PpttObjRefToken[0]));
+        CmObject->ObjectId = CmObjectId;
+        break;
+      }
+    }
+
+    if(I != PLAT_PROC_HEIR_NODES) {
+      return EFI_SUCCESS;
+    } else {
+      DEBUG ((DEBUG_ERROR, "Proc_Heir node not found \n"));
+      return EFI_NOT_FOUND;
+    }
   } else {
+    DEBUG ((DEBUG_ERROR, "Cache node not found\n"));
     return EFI_NOT_FOUND;
   }
-  CmObject->ObjectId = CmObjectId;
-
-  return EFI_SUCCESS;
 }
 
 /** Return a GT Block timer frame info list.
