@@ -97,6 +97,60 @@
 #define PLAT_GIC_REDISTRIBUTOR_COUNT  0
 #define PLAT_GIC_ITS_COUNT            0
 
+//PPTT Table Info
+
+#define PLAT_PROC_HEIR_NODES     6
+#define PLAT_CACHE_NODES         9
+#define PLAT_REF_TOKENS          9
+
+#define L2CACHE_ATRRIBUTES  (EFI_ACPI_6_3_CACHE_ATTRIBUTES_ALLOCATION_READ_WRITE |         \
+                             (EFI_ACPI_6_3_CACHE_ATTRIBUTES_CACHE_TYPE_UNIFIED << 2) |     \
+                             (EFI_ACPI_6_3_CACHE_ATTRIBUTES_WRITE_POLICY_WRITE_BACK << 4))
+
+#define DCACHE_ATRRIBUTES   (EFI_ACPI_6_3_CACHE_ATTRIBUTES_ALLOCATION_READ_WRITE |         \
+                             (EFI_ACPI_6_3_CACHE_ATTRIBUTES_CACHE_TYPE_DATA << 2) |        \
+                             (EFI_ACPI_6_3_CACHE_ATTRIBUTES_WRITE_POLICY_WRITE_BACK << 4))
+
+#define ICACHE_ATRRIBUTES   (EFI_ACPI_6_3_CACHE_ATTRIBUTES_ALLOCATION_READ |               \
+                             (EFI_ACPI_6_3_CACHE_ATTRIBUTES_CACHE_TYPE_INSTRUCTION << 2) | \
+                             (EFI_ACPI_6_3_CACHE_ATTRIBUTES_WRITE_POLICY_WRITE_BACK << 4))
+
+#define  PPTT_STRUCTURE_PROCESSOR_FLAGS_NODE0    (EFI_ACPI_6_3_PPTT_PACKAGE_PHYSICAL |                \
+                                                  (EFI_ACPI_6_3_PPTT_PROCESSOR_ID_INVALID << 1) |     \
+                                                  (EFI_ACPI_6_3_PPTT_PROCESSOR_IS_NOT_THREAD << 2) |  \
+                                                  (EFI_ACPI_6_3_PPTT_NODE_IS_NOT_LEAF << 3) |         \
+                                                  (EFI_ACPI_6_3_PPTT_IMPLEMENTATION_IDENTICAL << 4))
+
+#define PPTT_STRUCTURE_PROCESSOR_FLAGS_NODE1     (EFI_ACPI_6_3_PPTT_PACKAGE_NOT_PHYSICAL |            \
+                                                  (EFI_ACPI_6_3_PPTT_PROCESSOR_ID_INVALID << 1) |     \
+                                                  (EFI_ACPI_6_3_PPTT_PROCESSOR_IS_NOT_THREAD << 2) |  \
+                                                  (EFI_ACPI_6_3_PPTT_NODE_IS_NOT_LEAF << 3) |         \
+                                                  (EFI_ACPI_6_3_PPTT_IMPLEMENTATION_IDENTICAL << 4))
+
+#define  PPTT_STRUCTURE_PROCESSOR_FLAGS_NODE2    (EFI_ACPI_6_3_PPTT_PACKAGE_NOT_PHYSICAL |            \
+                                                  (EFI_ACPI_6_3_PPTT_PROCESSOR_ID_VALID << 1) |       \
+                                                  (EFI_ACPI_6_3_PPTT_PROCESSOR_IS_NOT_THREAD << 2) |  \
+                                                  (EFI_ACPI_6_3_PPTT_NODE_IS_LEAF << 3) |             \
+                                                  (EFI_ACPI_6_3_PPTT_IMPLEMENTATION_IDENTICAL << 4))
+
+#define PPTT_STRUCTURE_PROCESSOR_FLAGS_NODE3     (EFI_ACPI_6_3_PPTT_PACKAGE_NOT_PHYSICAL |            \
+                                                  (EFI_ACPI_6_3_PPTT_PROCESSOR_ID_VALID << 1) |       \
+                                                  (EFI_ACPI_6_3_PPTT_PROCESSOR_IS_NOT_THREAD << 2) |  \
+                                                  (EFI_ACPI_6_3_PPTT_NODE_IS_LEAF << 3) |             \
+                                                  (EFI_ACPI_6_3_PPTT_IMPLEMENTATION_IDENTICAL << 4))
+
+#define PPTT_STRUCTURE_PROCESSOR_FLAGS_NODE4     (EFI_ACPI_6_3_PPTT_PACKAGE_NOT_PHYSICAL |            \
+                                                  (EFI_ACPI_6_3_PPTT_PROCESSOR_ID_VALID << 1) |       \
+                                                  (EFI_ACPI_6_3_PPTT_PROCESSOR_IS_NOT_THREAD << 2) |  \
+                                                  (EFI_ACPI_6_3_PPTT_NODE_IS_LEAF << 3) |             \
+                                                  (EFI_ACPI_6_3_PPTT_IMPLEMENTATION_IDENTICAL << 4))
+
+#define PPTT_STRUCTURE_PROCESSOR_FLAGS_NODE5     (EFI_ACPI_6_3_PPTT_PACKAGE_NOT_PHYSICAL |            \
+                                                  (EFI_ACPI_6_3_PPTT_PROCESSOR_ID_VALID << 1) |       \
+                                                  (EFI_ACPI_6_3_PPTT_PROCESSOR_IS_NOT_THREAD << 2) |  \
+                                                  (EFI_ACPI_6_3_PPTT_NODE_IS_LEAF << 3) |             \
+                                                  (EFI_ACPI_6_3_PPTT_IMPLEMENTATION_IDENTICAL << 4))
+
 /* GIC CPU Interface information
    GIC_ENTRY (CPUInterfaceNumber, Mpidr, PmuIrq, VGicIrq, EnergyEfficiency)
  */
@@ -333,6 +387,156 @@
 #define PMU_INTERRUPT_CONTEXT_ARRAY           \
   {                                           \
   }                                           \
+
+#define PLAT_REF_NODES_INFO                                                                                                   \
+  {                                                                                                                           \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[0]))},   \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[1]))},   \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[2]))},   \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[3]))},   \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[4]))},   \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[5]))},   \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[6]))},   \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[7]))},   \
+    {(CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[8]))}    \
+  }
+
+#define PLAT_ARM_CACHE_INFO                                                                                                 \
+  {                                                                                                                         \
+    {                                                                                                                       \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[0])), \
+      CM_NULL_TOKEN,                                                                                                        \
+      SIZE_2MB,                                                                                                             \
+      1024,                                                                                                                 \
+      16,                                                                                                                   \
+      (UINT8)L2CACHE_ATRRIBUTES,                                                                                            \
+      64                                                                                                                    \
+    },                                                                                                                      \
+    {                                                                                                                       \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[1])), \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[2])), \
+      SIZE_32KB,                                                                                                            \
+      128,                                                                                                                  \
+      2,                                                                                                                    \
+      (UINT8)DCACHE_ATRRIBUTES,                                                                                             \
+      64                                                                                                                    \
+    },                                                                                                                      \
+    {                                                                                                                       \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[2])), \
+      CM_NULL_TOKEN,                                                                                                        \
+      3*SIZE_16KB,                                                                                                          \
+      192,                                                                                                                  \
+      3,                                                                                                                    \
+      (UINT8)ICACHE_ATRRIBUTES,                                                                                             \
+      64                                                                                                                    \
+    },                                                                                                                      \
+    {                                                                                                                       \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[3])), \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[4])), \
+      SIZE_32KB,                                                                                                            \
+      128,                                                                                                                  \
+      2,                                                                                                                    \
+      (UINT8)DCACHE_ATRRIBUTES,                                                                                             \
+      64                                                                                                                    \
+    },                                                                                                                      \
+    {                                                                                                                       \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[4])), \
+      CM_NULL_TOKEN,                                                                                                        \
+      3*SIZE_16KB,                                                                                                          \
+      192,                                                                                                                  \
+      3,                                                                                                                    \
+      (UINT8)ICACHE_ATRRIBUTES,                                                                                             \
+      64                                                                                                                    \
+    },                                                                                                                      \
+    {                                                                                                                       \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[5])), \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[6])), \
+      SIZE_32KB,                                                                                                            \
+      128,                                                                                                                  \
+      2,                                                                                                                    \
+      (UINT8)DCACHE_ATRRIBUTES,                                                                                             \
+      64                                                                                                                    \
+    },                                                                                                                      \
+    {                                                                                                                       \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[6])), \
+      CM_NULL_TOKEN,                                                                                                        \
+      3*SIZE_16KB,                                                                                                          \
+      192,                                                                                                                  \
+      3,                                                                                                                    \
+      (UINT8)ICACHE_ATRRIBUTES,                                                                                             \
+      64                                                                                                                    \
+    },                                                                                                                      \
+    {                                                                                                                       \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[7])), \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[8])), \
+      SIZE_32KB,                                                                                                            \
+      128,                                                                                                                  \
+      2,                                                                                                                    \
+      (UINT8)DCACHE_ATRRIBUTES,                                                                                             \
+      64                                                                                                                    \
+    },                                                                                                                      \
+    {                                                                                                                       \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[8])), \
+      CM_NULL_TOKEN,                                                                                                        \
+      3*SIZE_16KB,                                                                                                          \
+      192,                                                                                                                  \
+      3,                                                                                                                    \
+      (UINT8)ICACHE_ATRRIBUTES,                                                                                             \
+      64                                                                                                                    \
+    }                                                                                                                       \
+  }                                                                                                                         \
+
+#define PLAT_PROC_HIERARCHY_INFO                                                                                                  \
+  {                                                                                                                               \
+    {                                                                                                                             \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttProcHeirInfo[0])),    \
+      (UINT32)PPTT_STRUCTURE_PROCESSOR_FLAGS_NODE0,                                                                               \
+      CM_NULL_TOKEN,                                                                                                              \
+      CM_NULL_TOKEN,                                                                                                              \
+      0,                                                                                                                          \
+      CM_NULL_TOKEN                                                                                                               \
+    },                                                                                                                            \
+    {                                                                                                                             \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttProcHeirInfo[1])),    \
+      (UINT32) PPTT_STRUCTURE_PROCESSOR_FLAGS_NODE1,                                                                              \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttProcHeirInfo[0])),    \
+      CM_NULL_TOKEN,                                                                                                              \
+      1,                                                                                                                          \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[0]))        \
+    },                                                                                                                            \
+    {                                                                                                                             \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttProcHeirInfo[2])),    \
+      (UINT32) PPTT_STRUCTURE_PROCESSOR_FLAGS_NODE2,                                                                              \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttProcHeirInfo[1])),    \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, GicCInfo[0])),            \
+      2,                                                                                                                          \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[1]))        \
+    },                                                                                                                            \
+    {                                                                                                                             \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttProcHeirInfo[3])),    \
+      (UINT32) PPTT_STRUCTURE_PROCESSOR_FLAGS_NODE3,                                                                              \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttProcHeirInfo[1])),    \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, GicCInfo[1])),            \
+      2,                                                                                                                          \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[3]))        \
+    },                                                                                                                            \
+    {                                                                                                                             \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttProcHeirInfo[4])),    \
+      (UINT32) PPTT_STRUCTURE_PROCESSOR_FLAGS_NODE4,                                                                              \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttProcHeirInfo[1])),    \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, GicCInfo[2])),            \
+      2,                                                                                                                          \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[5]))        \
+    },                                                                                                                            \
+    {                                                                                                                             \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttProcHeirInfo[5])),    \
+      (UINT32) PPTT_STRUCTURE_PROCESSOR_FLAGS_NODE5,                                                                              \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttProcHeirInfo[1])),    \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, GicCInfo[3])),            \
+      2,                                                                                                                          \
+      (CM_OBJECT_TOKEN)((UINT8*)&FslPlatformRepositoryInfo + OFFSET_OF (EDKII_PLATFORM_REPOSITORY_INFO, PpttCacheInfo[7]))        \
+    }                                                                                                                             \
+  }
 
 #define PLAT_IORT_NAMED_COMPONENT_INFO                                                                                            \
   {                                                                                                                               \
