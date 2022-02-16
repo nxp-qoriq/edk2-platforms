@@ -268,8 +268,7 @@ typedef struct PlatformRepositoryInfo {
  * IT trigger (Level/Edge- Bit 0) and Polarity (Low/High) Bit 1
  * Set bit-0 is 0 (Level trigger), Bit 1 1 (Active low)
  */
-#define GTDT_GTIMER_FLAGS           (EFI_ACPI_6_1_GTDT_TIMER_FLAG_TIMER_INTERRUPT_POLARITY)
-
+#define GTDT_GTIMER_FLAGS           (EFI_ACPI_6_1_GTDT_TIMER_FLAG_TIMER_INTERRUPT_POLARITY | EFI_ACPI_6_1_GTDT_TIMER_FLAG_ALWAYS_ON_CAPABILITY)
 /*
  * Timer Frame IT High Level triggered
  * IT trigger (Level/Edge- Bit 0) and Polarity (Low/High) Bit 1
