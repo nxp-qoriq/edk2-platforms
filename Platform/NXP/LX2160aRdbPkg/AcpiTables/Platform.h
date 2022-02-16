@@ -3,7 +3,7 @@
 *  Copyright (c) 2011-2015, ARM Limited. All rights reserved.
 *  Copyright (c) 2015, Linaro Limited. All rights reserved.
 *  Copyright 2018-2020 NXP
-*  Copyright 2020 Puresoftware Ltd
+*  Copyright (c) 2020 - 2022, PureSoftware Ltd. All rights reserved.
 *
 *  SPDX-License-Identifier: BSD-2-Clause-Patent
 *

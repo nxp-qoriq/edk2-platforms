@@ -1,7 +1,7 @@
 /** @file
   Configuration Manager Dxe
 
-  Copyright (c) 2020 Puresoftware Ltd. All rights reserved.
+  Copyright (c) 2020 - 2022, PureSoftware Ltd. All rights reserved.
 
   SPDX-License-Identifier: BSD-2-Clause-Patent
 

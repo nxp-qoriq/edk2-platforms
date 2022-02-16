@@ -2,7 +2,7 @@
 *  LS1046 defines used by ACPI tables
 *
 *  Copyright 2020 NXP
-*  Copyright 2020 Puresoftware Ltd
+*  Copyright (c) 2020 - 2022, PureSoftware Ltd. All rights reserved.
 *
 *  SPDX-License-Identifier: BSD-2-Clause-Patent
 *

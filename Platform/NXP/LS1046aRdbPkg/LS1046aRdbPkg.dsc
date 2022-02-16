@@ -3,7 +3,7 @@
 #  LS1046ARDB Board package.
 #
 #  Copyright 2017, 2020 NXP
-#  Copyright 2020 Puresoftware Ltd.
+#  Copyright (c) 2020 - 2022, PureSoftware Ltd. All rights reserved.
 #
 #  SPDX-License-Identifier: BSD-2-Clause-Patent
 #
