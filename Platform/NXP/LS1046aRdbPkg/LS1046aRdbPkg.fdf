@@ -239,9 +239,7 @@ READ_LOCK_STATUS   = TRUE
   INF MdeModulePkg/Universal/BdsDxe/BdsDxe.inf
   INF MdeModulePkg/Application/UiApp/UiApp.inf
 
-!if $(DYNAMIC_ACPI_ENABLE) == FALSE
   INF Silicon/NXP/Drivers/Dpaa1EthernetDxe/Dpaa1EthernetDxe.inf
-!endif
 
 !if $(CAPSULE_ENABLE)
   INF MdeModulePkg/Universal/EsrtDxe/EsrtDxe.inf
